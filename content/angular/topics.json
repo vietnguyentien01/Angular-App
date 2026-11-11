@@ -63,5 +63,30 @@
     "id": "security",
     "title": "Security",
     "description": "XSS và sanitization, CSP, Trusted Types, token và XSRF, OIDC/PKCE cho SPA."
+  },
+  {
+    "id": "architecture",
+    "title": "Kiến trúc & Micro Frontend",
+    "description": "Cấu trúc theo feature, facade, ranh giới module, Nx monorepo, single-spa vs Module Federation."
+  },
+  {
+    "id": "ssr",
+    "title": "SSR & Hydration",
+    "description": "CSR/SSR/SSG, hydration, incremental hydration, event replay, render mode theo route."
+  },
+  {
+    "id": "a11y-i18n",
+    "title": "Accessibility & i18n",
+    "description": "WCAG AA, focus management, CDK a11y, kiểm thử axe, $localize và thư viện dịch runtime."
+  },
+  {
+    "id": "system-design",
+    "title": "Frontend System Design",
+    "description": "Khung trả lời phỏng vấn system design và các case study frontend."
+  },
+  {
+    "id": "senior-skills",
+    "title": "Kỹ năng Senior",
+    "description": "Thuật ngữ & mẫu câu tiếng Anh, code review, ADR, phỏng vấn hành vi."
   }
 ]

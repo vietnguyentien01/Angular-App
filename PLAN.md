@@ -278,7 +278,7 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ **Đợt 1 mở rộng Angular** (ưu tiên theo khoảng trống CV): Dependency Injection, Performance, Testing, Security — mỗi chủ đề đủ 3 phần + bài tập.
 - ✅ **Mở rộng Ôn lại Core**: TypeScript, Components & Templates, Directives & Pipes, Routing, Forms (kể cả Signal Forms), HttpClient, CLI.
 - ✅ **Đợt 2**: Forms (CVA + FormValueControl, validator tự viết, dynamic form engine), Routing (state trên URL, lỗi hay gặp, kiến trúc route lớn), HTTP (interceptor, upload/download, cache & dedupe).
-- Tiếp theo — **Đợt 3** (đề xuất): Kiến trúc & Micro Frontend (Nx, Module Federation vs single-spa), SSR/Hydration, Accessibility & i18n, Frontend System Design, kỹ năng Senior & phỏng vấn.
+- ✅ **Đợt 3**: Kiến trúc & Micro Frontend (feature structure, facade, Nx, single-spa vs Module Federation), SSR & Hydration (mặc định v22), Accessibility & i18n, Frontend System Design (RADIO, dashboard realtime), Kỹ năng Senior (thuật ngữ tiếng Anh, code review, ADR, phỏng vấn STAR, CV).
 
 ## 9. Đã chốt & còn cần xác nhận
 
