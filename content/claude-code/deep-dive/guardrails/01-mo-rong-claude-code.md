@@ -1,0 +1,85 @@
+---
+title: Mở rộng Claude Code — CLAUDE.md, skill, subagent, hook, MCP, plugin
+summary: Mỗi cơ chế mở rộng giải bài toán gì, nạp vào context lúc nào và tốn bao nhiêu, và thứ tự thêm dần theo "tín hiệu" thực tế thay vì cấu hình mọi thứ từ đầu.
+level: advanced
+lastReviewed: 2026-11-11
+tags: [claude-code, skills, subagents, hooks, mcp, plugins]
+related: [claude-code/review/memory/claude-md-ngan-gon, claude-code/consolidate/guardrails/hook-permission-sandbox]
+---
+
+## Mỗi thứ để làm gì
+
+| Tính năng | Làm gì | Ví dụ |
+|---|---|---|
+| `CLAUDE.md` | Context nạp vào mọi phiên | "Dùng npm ci. Chạy test trước khi xong." |
+| Skill | Kiến thức, quy trình dùng lại được; gọi bằng `/<tên>` hoặc Claude tự nạp khi phù hợp | `/release`, hướng dẫn viết API |
+| Subagent | Một vòng làm việc tách biệt, chỉ trả về tóm tắt | Nghiên cứu đọc nhiều file, reviewer chỉ có quyền đọc |
+| Hook | Script/HTTP/MCP tool chạy tại sự kiện vòng đời | Chạy ESLint sau mỗi lần sửa file |
+| MCP | Kết nối dịch vụ bên ngoài | Issue tracker, database, trình duyệt |
+| Plugin | Đóng gói skill + hook + subagent + MCP để dùng lại/chia sẻ | Bộ cấu hình chuẩn cho mọi repo Angular của team |
+
+## Thêm dần theo tín hiệu
+
+| Khi… | Thêm |
+|---|---|
+| Claude sai một quy ước/lệnh **hai lần** | Một dòng `CLAUDE.md` |
+| Bạn gõ đi gõ lại cùng một prompt để bắt đầu task | Skill gọi bằng `/<tên>` |
+| Dán cùng một quy trình nhiều bước lần thứ ba | Skill |
+| Cứ phải chép dữ liệu từ hệ thống Claude không thấy | MCP server (hoặc CLI có sẵn như `gh`) |
+| Một việc phụ làm ngập hội thoại bằng output không dùng lại | Subagent |
+| Muốn điều gì đó xảy ra **mọi lần** mà không phải nhắc | Hook |
+| Repo thứ hai cần đúng bộ cấu hình đó | Plugin |
+
+## Chi phí context
+
+| Tính năng | Nạp khi | Chi phí |
+|---|---|---|
+| `CLAUDE.md` | Đầu phiên, toàn bộ nội dung | Mọi request |
+| Skill | Mô tả ở đầu phiên, nội dung khi dùng | Thấp (mô tả mọi request); `disable-model-invocation: true` → 0 cho tới khi gọi |
+| MCP | Tên tool ở đầu phiên, schema khi cần | Thấp cho tới khi dùng |
+| Subagent | Khi được tạo | Context riêng, tách khỏi phiên chính |
+| Hook | Khi sự kiện xảy ra | 0, trừ khi hook trả output |
+
+## Ví dụ: reviewer chỉ được đọc
+
+```markdown title=".claude/agents/reviewer.md"
+---
+name: reviewer
+description: Review file đã thay đổi so với spec. Dùng sau khi làm xong tính năng, trước khi mở PR.
+tools: Read, Grep, Glob
+---
+Bạn review code mình không viết. So các file thay đổi với spec được đưa,
+kiểm tra mọi yêu cầu đã được làm và các trường hợp biên có test,
+chỉ báo lỗ hổng ảnh hưởng tính đúng đắn. Bỏ qua style.
+```
+
+Giới hạn `tools` được Claude Code thực thi — reviewer này **không thể** sửa file, kể cả khi bị yêu cầu.
+
+:::quiz Một quy trình release dài 40 bước nên đặt ở `CLAUDE.md` hay skill?
+- [ ] `CLAUDE.md`, để Claude luôn nhớ
+- [x] Skill — chỉ nạp khi cần, không đè nặng lên mọi task không liên quan; thêm `disable-model-invocation: true` vì có tác dụng phụ
+- [ ] Hook
+- [ ] MCP
+
+Skill nhẹ hơn `CLAUDE.md` cho loại nội dung chỉ thỉnh thoảng mới cần.
+:::
+
+:::quiz Khác biệt cốt lõi giữa hook và skill?
+- [ ] Không khác
+- [x] Hook do Claude Code chạy khi sự kiện xảy ra (xác định); skill là chỉ dẫn Claude đọc và quyết định cách áp dụng
+- [ ] Skill chạy nhanh hơn
+- [ ] Hook chỉ dùng cho MCP
+
+Rào chắn → hook; quy trình cần suy luận → skill.
+:::
+
+:::quiz Giao cùng một task cho subagent có cho câu trả lời "thông minh hơn" không?
+- [ ] Có
+- [x] Không — mặc định là cùng model (hoặc nhỏ hơn) làm cùng việc; lợi ích là song song, tách output ồn, hoặc có reviewer chưa thấy lập luận ban đầu
+- [ ] Có nếu dùng Haiku
+- [ ] Chỉ khi effort là `max`
+
+Và subagent tốn thêm token vì có context riêng.
+:::
+
+> Nguồn: *Extend Claude Code* và *Best practices for Claude Code* — code.claude.com/docs (truy cập 11/11/2026).

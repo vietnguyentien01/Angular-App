@@ -1,0 +1,70 @@
+---
+title: Viết prompt cụ thể và đưa đúng bối cảnh
+summary: Nêu file, triệu chứng và thế nào là "đã sửa"; đưa thẳng file/ảnh/log; nhờ Claude phỏng vấn để viết SPEC.md; effort thay cho "think harder".
+type: card
+level: core
+lastReviewed: 2026-11-11
+tags: [claude-code, prompting]
+related: [claude-code/review/principles/ai-la-cong-cu, claude-code/consolidate/memory/quy-trinh-task-angular]
+---
+
+## Cụ thể hoá yêu cầu
+
+Prompt cụ thể giúp vì nó **cho Claude thông tin chưa có**: nêu file, mô tả triệu chứng, nói rõ thế nào là đã sửa.
+
+| Thay vì | Thử |
+|---|---|
+| *"sửa lỗi lọc hồ sơ"* | *"Đổi trạng thái ở bộ lọc danh sách hồ sơ thì danh sách không cập nhật khi đang ở trang 2. Xem `features/cases/data-access/case-list.facade.ts`, viết test tái hiện lỗi trước, rồi sửa. Chạy `npm test -- --watch=false` tới khi pass."* |
+| *"thêm ô nhập tiền"* | *"Làm theo mẫu `shared/ui/date-input`, tạo `money-input` hỗ trợ cả Reactive Forms (CVA) và Signal Forms, định dạng vi-VN. Không thêm thư viện mới."* |
+
+Nếu có hai cách hợp lý và bạn quan tâm cách nào — **nói trước**, Claude không đọc được ý đó từ code.
+
+## Đưa thẳng thứ Claude cần
+
+- File: gõ `@` và đường dẫn để đính kèm nội dung.
+- Ảnh: dán ảnh thiết kế hoặc ảnh lỗi vào prompt.
+- Output lệnh: `cat error.log | claude -p "chuyện gì đang xảy ra"`.
+
+## Chưa rõ mình muốn gì? Nhờ Claude phỏng vấn
+
+```text
+Tôi muốn thêm tính năng lưu nháp tự động cho form hồ sơ nhưng chưa nghĩ kỹ.
+Hãy phỏng vấn tôi cho tới khi đủ để viết spec, rồi ghi vào SPEC.md.
+```
+
+Có `SPEC.md` rồi thì **mở phiên mới** để làm, bắt đầu với context sạch và một định nghĩa "xong" bằng văn bản.
+
+## Effort, không phải câu thần chú
+
+- `think step by step`, `be thorough` chỉ là chữ thường, **không** nâng mức suy nghĩ vượt quá effort hiện tại.
+- Điều chỉnh bằng `/effort` (`low` / `medium` mặc định / `high` / `xhigh` / `max`), hoặc `ultrathink` cho riêng một tin nhắn.
+- `be ambitious` có ích khi bạn muốn bản đầy đủ (trạng thái rỗng/lỗi, bàn phím…), vì Claude có xu hướng làm phiên bản nhỏ nhất thoả yêu cầu.
+
+:::quiz Theo hướng dẫn của Anthropic, viết "think harder" trong prompt có tác dụng gì?
+- [ ] Nâng effort lên `high`
+- [x] Chỉ là chữ thường, có thể "đẩy nhẹ" trong phạm vi effort hiện tại nhưng không vượt qua nó
+- [ ] Bật chế độ plan
+- [ ] Không có tác dụng gì và gây lỗi
+
+Muốn Claude suy nghĩ sâu hơn: `/effort high` / `xhigh`, hoặc `ultrathink` cho một tin nhắn.
+:::
+
+:::quiz Sau khi Claude phỏng vấn và viết xong `SPEC.md`, nên làm gì tiếp?
+- [ ] Bảo Claude làm luôn trong cùng phiên
+- [x] Mở phiên mới để bắt đầu triển khai từ `SPEC.md`, với context sạch và định nghĩa "xong" bằng văn bản
+- [ ] Xoá `SPEC.md`
+- [ ] Gửi `SPEC.md` cho subagent đọc lại
+
+`SPEC.md` cũng là thứ bạn đưa cho reviewer so sánh sau này.
+:::
+
+:::quiz Khi nào prompt mơ hồ như "bạn sẽ cải thiện gì ở file này?" là chấp nhận được?
+- [ ] Không bao giờ
+- [x] Khi bạn đang khám phá chứ không sửa một việc cụ thể — đánh đổi là sẽ phải chỉnh nhiều hơn
+- [ ] Khi effort là `max`
+- [ ] Khi dùng subagent
+
+Prompt cụ thể cho việc cụ thể; prompt mở cho việc khám phá.
+:::
+
+> Nguồn: *Best practices for Claude Code* — code.claude.com/docs/en/best-practices (truy cập 11/11/2026). Ví dụ được chuyển sang ngữ cảnh dự án Angular.

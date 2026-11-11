@@ -209,14 +209,15 @@
     },
     {
       "id": "senior-ngoai-code",
-      "title": "Senior ngoài code: thiết kế, dẫn dắt, phỏng vấn",
+      "title": "Senior ngoài code: thiết kế, dẫn dắt, làm việc với AI, phỏng vấn",
       "duration": "2–3 tuần (và duy trì liên tục)",
       "goal": "Tư duy system design, review và ra quyết định có ghi chép, giao tiếp bằng tiếng Anh, sẵn sàng phỏng vấn Senior.",
       "outcomes": [
         "Đi hết một bài system design theo RADIO trong 45 phút",
         "Review code theo thứ tự ưu tiên, viết ADR",
         "Ước lượng có khoảng + giả định, nói về technical debt bằng chi phí – lợi ích",
-        "Có 5–6 câu chuyện STAR và CV có số liệu"
+        "Có 5–6 câu chuyện STAR và CV có số liệu",
+        "Dùng Claude Code theo hướng dẫn của Anthropic: prompt cụ thể, CLAUDE.md ngắn, phép kiểm tra, hook cho quy tắc cứng — và review được mọi thay đổi"
       ],
       "items": [
         "angular/review/system-design/checklist-yeu-cau-phi-chuc-nang",
@@ -226,12 +227,20 @@
         "angular/review/senior-skills/thuat-ngu-va-mau-cau-tieng-anh",
         "angular/deep-dive/senior-skills/code-review-va-adr",
         "angular/consolidate/senior-skills/uoc-luong-va-tech-debt",
-        "angular/deep-dive/senior-skills/phong-van-senior"
+        "angular/deep-dive/senior-skills/phong-van-senior",
+        "claude-code/review/principles/ai-la-cong-cu",
+        "claude-code/review/prompting/viet-prompt-cu-the",
+        "claude-code/review/memory/claude-md-ngan-gon",
+        "claude-code/consolidate/verification/cho-claude-phep-kiem-tra",
+        "claude-code/consolidate/guardrails/hook-permission-sandbox",
+        "claude-code/consolidate/memory/quy-trinh-task-angular",
+        "claude-code/consolidate/principles/hoc-cung-ai-khong-phu-thuoc"
       ],
       "practice": [
         "Viết 1 ADR thật cho một quyết định trong dự án và đưa team review",
         "Luyện 2 đề system design (tự bấm giờ 45 phút, ghi âm để nghe lại)",
         "Viết 5 câu chuyện STAR, luyện kể bằng tiếng Anh",
+        "Viết CLAUDE.md (≤ 20 dòng) và một Stop hook typecheck cho dự án thật; dùng thử một tuần và ghi lại khác biệt",
         "Viết lại 3 dòng kinh nghiệm trong CV theo kiểu có số liệu",
         "Hướng dẫn (mentor) một đồng nghiệp một chủ đề trong lộ trình này"
       ],

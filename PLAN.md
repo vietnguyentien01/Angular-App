@@ -300,3 +300,8 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ Trang **Lộ trình** (`/angular/roadmap`): 7 chặng cá nhân hoá theo hồ sơ — mục tiêu, thời lượng, kết quả đầu ra, bài học liên kết, bài thực hành trên dự án thật (checkbox lưu IndexedDB), cột mốc kiểm chứng.
 - ✅ Tiến độ tự tính từ bài đã học + bài thực hành; thẻ "Học tiếp" trên dashboard.
 
+## 11. TypeScript & Claude Code (11/11/2026)
+
+- ✅ Môn **TypeScript** riêng: 25 bài, 64 câu — mọi phát biểu kiểm chứng bằng tsc 6.0.3.
+- ✅ Môn **Làm việc với Claude Code**: 12 bài bám *Best practices for Claude Code* và *Extend Claude Code* (code.claude.com/docs) — kiến thức nền là chính, AI là công cụ; có case study lỗi AI bị bắt khi xây chính app này.
+

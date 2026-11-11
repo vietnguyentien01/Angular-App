@@ -1,0 +1,9 @@
+[
+  { "id": "principles", "title": "Nguyên tắc & tư duy", "description": "AI là công cụ; chỉ dẫn mềm và chỉ dẫn bắt buộc; bốn nguyên nhân khi phiên làm việc không như ý." },
+  { "id": "prompting", "title": "Prompt & bối cảnh", "description": "Prompt cụ thể, đưa file/ảnh/log, brainstorm thành SPEC.md, effort." },
+  { "id": "memory", "title": "CLAUDE.md, rules & skills", "description": "Ghi những gì Claude không tự thấy được; rules theo đường dẫn; skill cho quy trình team." },
+  { "id": "verification", "title": "Kiểm chứng", "description": "Cho Claude một phép kiểm tra pass/fail, đòi bằng chứng, review độc lập theo spec." },
+  { "id": "guardrails", "title": "Hook, permission & sandbox", "description": "Quy tắc không có ngoại lệ phải nằm ở cấu hình, không nằm trong prompt." },
+  { "id": "sessions", "title": "Phiên làm việc & chi phí", "description": "Esc, /rewind, /clear, /compact, effort, subagent và chi phí context." },
+  { "id": "automation", "title": "Tự động hoá & làm song song", "description": "claude -p, scheduled task, worktree, và năm câu hỏi trước khi để Claude chạy một mình." }
+]
