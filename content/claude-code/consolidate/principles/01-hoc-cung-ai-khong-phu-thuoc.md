@@ -26,6 +26,18 @@ related: [claude-code/review/principles/ai-la-cong-cu, angular/deep-dive/senior-
 4. **Đọc diff như người review**: mỗi thay đổi Claude làm, tự hỏi "vì sao chỗ này như vậy?" — không trả lời được thì hỏi, hoặc tra bài tương ứng trong app.
 5. **Giữ "cơ bắp"**: định kỳ làm một task nhỏ không dùng AI (vd một bài tập `:::exercise`), vì phỏng vấn live coding thường không cho dùng AI.
 
+## Output style Learning và Explanatory
+
+Claude Code có sẵn output style hỗ trợ học — đổi bằng `/output-style` (hoặc `/config`):
+
+| Style | Thay đổi | Dùng khi |
+|---|---|---|
+| **Explanatory** | Thêm các khối `Insight` ngắn giải thích lý do đằng sau code Claude viết | Đang làm quen codebase, muốn hiểu "vì sao" kèm thay đổi |
+| **Learning** | Giải thích lựa chọn **và chừa lại những phần code nhỏ để bạn tự viết** | Muốn luyện tay mà task vẫn xong |
+| Concise | Bỏ phần dẫn dắt, đi thẳng vào kết quả | Câu trả lời mặc định dài hơn bạn muốn |
+
+Gợi ý: bật **Learning** khi học một mảng mới (Signal Forms, RxJS nâng cao), về lại Default khi cần tốc độ.
+
 :::quiz Cách nào giúp hiểu sâu nhất khi học một khái niệm mới với Claude?
 - [ ] Đọc thật nhiều giải thích của Claude
 - [x] Tự giải thích lại bằng lời của mình và nhờ Claude chỉ ra chỗ sai hoặc thiếu
@@ -44,6 +56,15 @@ Chủ động truy xuất và tự giải thích giúp nhớ lâu hơn nhiều s
 Câu hỏi để tự kiểm tra: nếu đồng nghiệp hỏi "vì sao lỗi xảy ra?", bạn có trả lời được không cần nhìn lại hội thoại?
 :::
 
+:::quiz Bạn muốn Claude làm task nhưng chừa vài đoạn code nhỏ để bạn tự viết nhằm luyện tay. Dùng gì?
+- [ ] Output style Concise
+- [x] Output style Learning
+- [ ] Plan mode
+- [ ] `--bare`
+
+Learning giải thích lựa chọn và để lại phần nhỏ cho bạn tự code.
+:::
+
 :::exercise Kế hoạch học một tuần
 Viết kế hoạch 5 buổi (30–45 phút/buổi) để học chặng "Change Detection & Performance" trong lộ trình, trong đó Claude chỉ được dùng theo cách "suy nghĩ tốt hơn".
 ???
@@ -54,3 +75,5 @@ Gợi ý:
 - Buổi 4: tự đề xuất 2 hướng tối ưu kèm lý do, rồi nhờ Claude phản biện; triển khai một hướng với phép kiểm tra rõ ràng.
 - Buổi 5: đo lại, viết một dòng thành tích có số liệu cho CV; tick bài thực hành trong lộ trình.
 :::
+
+> Nguồn: phần output style theo *Output styles* — code.claude.com/docs/en/output-styles (truy cập 11/11/2026). Các kỹ thuật học còn lại là khuyến nghị của Learning Hub.

@@ -1,0 +1,157 @@
+{
+  "title": "Lộ trình Claude Code: người mới → nâng cao",
+  "description": "6 chặng, khoảng 5–7 tuần nếu học 3–4 giờ mỗi tuần và áp dụng ngay vào dự án thật. Mỗi chặng có việc thực hành và một cột mốc kiểm chứng — qua cột mốc rồi mới sang chặng sau.",
+  "stages": [
+    {
+      "id": "ngay-dau-tien",
+      "title": "Ngày đầu tiên: cài đặt, hiểu cách Claude Code làm việc, phiên đầu tiên",
+      "duration": "2–3 ngày",
+      "goal": "Cài đặt và đăng nhập đúng tài khoản, hiểu agentic loop, chạy được phiên đầu tiên trên dự án thật mà không sợ làm hỏng gì.",
+      "outcomes": [
+        "Giải thích được agentic loop và năm nhóm công cụ",
+        "Biết Claude thấy gì trong máy mình và hai cơ chế an toàn (checkpoint, permission)",
+        "Hỏi được về dự án, cho Claude sửa một thay đổi nhỏ và commit bằng lời",
+        "Biết dùng claude doctor, /doctor, /status khi có vấn đề"
+      ],
+      "items": [
+        "claude-code/review/getting-started/claude-code-la-gi",
+        "claude-code/review/getting-started/cai-dat-va-dang-nhap",
+        "claude-code/review/getting-started/phien-dau-tien",
+        "claude-code/review/principles/ai-la-cong-cu"
+      ],
+      "practice": [
+        "Cài Claude Code, chạy claude --version và /status để xác nhận tài khoản",
+        "Mở phiên trong dự án Angular của bạn, hỏi 5 câu về kiến trúc, tự kiểm tra lại 2 câu trả lời bằng cách đọc code",
+        "Cho Claude sửa một thay đổi nhỏ có test, đọc diff, commit bằng lời"
+      ],
+      "milestone": "Một commit nhỏ do Claude làm mà bạn giải thích được từng dòng."
+    },
+    {
+      "id": "thao-tac-va-quyen",
+      "title": "Thao tác thành thạo và kiểm soát quyền",
+      "duration": "1 tuần",
+      "goal": "Dùng phím tắt, slash command và permission mode một cách có chủ đích; biết điều khiển và quay lui một phiên.",
+      "outcomes": [
+        "Dùng @, !, Esc, Esc Esc, Shift+Tab, xếp hàng tin nhắn, /btw không cần nghĩ",
+        "Chọn đúng permission mode cho từng việc; hiểu auto mode chặn gì",
+        "Biết /clear, /compact, /rewind khác nhau thế nào và quy tắc hai lần"
+      ],
+      "items": [
+        "claude-code/review/interface/phim-tat-va-cu-phap",
+        "claude-code/review/interface/slash-commands-can-biet",
+        "claude-code/review/guardrails/che-do-quyen",
+        "claude-code/review/sessions/dieu-khien-phien",
+        "claude-code/consolidate/getting-started/chon-noi-lam-viec"
+      ],
+      "practice": [
+        "Làm một task ở plan mode, sửa kế hoạch bằng Ctrl+G trước khi duyệt",
+        "Cố ý để Claude đi sai hướng rồi dùng /rewind quay code về",
+        "Thử extension VS Code (hoặc JetBrains) với một task trong ngày"
+      ],
+      "milestone": "Một ngày làm việc chỉ dùng phím tắt và slash command, không phải tra lại."
+    },
+    {
+      "id": "boi-canh-va-bo-nho",
+      "title": "Prompt cụ thể, CLAUDE.md và quản lý context",
+      "duration": "1 tuần",
+      "goal": "Cho Claude đúng bối cảnh: prompt cụ thể, CLAUDE.md ngắn, rules theo đường dẫn, và giữ context gọn suốt phiên dài.",
+      "outcomes": [
+        "Viết prompt nêu file, triệu chứng và thế nào là xong",
+        "CLAUDE.md dưới 200 dòng chỉ chứa thứ Claude không tự thấy được",
+        "Biết cái gì còn lại sau compact và giữ quy tắc quan trọng ở đâu",
+        "Đọc được /context và /usage"
+      ],
+      "items": [
+        "claude-code/review/prompting/viet-prompt-cu-the",
+        "claude-code/review/memory/claude-md-ngan-gon",
+        "claude-code/consolidate/memory/cau-truc-bo-nho",
+        "claude-code/consolidate/sessions/context-window-va-checkpoint"
+      ],
+      "practice": [
+        "Chạy /init rồi rút gọn CLAUDE.md của dự án; tách một phần sang .claude/rules có paths",
+        "Kiểm tra bằng /context all rằng file đã nạp",
+        "Nhờ Claude phỏng vấn bạn để viết SPEC.md cho một tính năng sắp làm"
+      ],
+      "milestone": "CLAUDE.md của dự án được review trong một PR và cả team dùng chung."
+    },
+    {
+      "id": "quy-trinh-hang-ngay",
+      "title": "Quy trình hằng ngày: plan, bug, test, git, kiểm chứng",
+      "duration": "1–2 tuần",
+      "goal": "Có một quy trình lặp lại được từ hiểu yêu cầu tới PR, trong đó mọi thay đổi đều có phép kiểm tra và được bạn review.",
+      "outcomes": [
+        "Biết khi nào plan, khi nào làm luôn",
+        "Sửa bug theo test-first, refactor từng bước nhỏ có kiểm tra",
+        "Commit/PR bằng lời, /code-review và /security-review trước khi push",
+        "Luôn cho Claude một phép kiểm tra pass/fail và đòi bằng chứng"
+      ],
+      "items": [
+        "claude-code/review/workflows/hieu-codebase-moi",
+        "claude-code/consolidate/workflows/explore-plan-code",
+        "claude-code/consolidate/workflows/bug-test-refactor",
+        "claude-code/consolidate/workflows/git-va-pull-request",
+        "claude-code/consolidate/verification/cho-claude-phep-kiem-tra",
+        "claude-code/consolidate/memory/quy-trinh-task-angular",
+        "claude-code/consolidate/principles/hoc-cung-ai-khong-phu-thuoc"
+      ],
+      "practice": [
+        "Làm trọn một ticket thật theo quy trình: plan → test fail → sửa → /code-review → PR",
+        "Bật output style Learning cho một buổi học mảng mới"
+      ],
+      "milestone": "Ba PR liên tiếp làm cùng Claude được merge mà không bị reviewer bắt lỗi bạn không giải thích được."
+    },
+    {
+      "id": "cau-hinh-va-mo-rong",
+      "title": "Cấu hình, an toàn và mở rộng: settings, hook, skill, subagent, MCP",
+      "duration": "1–2 tuần",
+      "goal": "Biến quy định của team thành cấu hình đúng tầng và mở rộng Claude Code đúng lúc, theo tín hiệu thực tế.",
+      "outcomes": [
+        "Viết được .claude/settings.json với allow/ask/deny hợp lý",
+        "Có hook format và hook chặn file nhạy cảm; Stop hook cho test",
+        "Viết một skill và một subagent reviewer chỉ đọc cho dự án",
+        "Biết khi nào cần MCP/plugin và rủi ro prompt injection đi kèm"
+      ],
+      "items": [
+        "claude-code/consolidate/guardrails/settings-va-permission-rule",
+        "claude-code/consolidate/guardrails/hook-permission-sandbox",
+        "claude-code/consolidate/getting-started/khi-gap-su-co",
+        "claude-code/deep-dive/guardrails/mo-rong-claude-code",
+        "claude-code/deep-dive/extending/viet-skill",
+        "claude-code/deep-dive/extending/subagent",
+        "claude-code/deep-dive/extending/hooks-thuc-chien",
+        "claude-code/deep-dive/extending/mcp-va-plugin",
+        "claude-code/deep-dive/guardrails/sandbox-va-prompt-injection"
+      ],
+      "practice": [
+        "Commit .claude/settings.json, một hook và một skill vào repo của team",
+        "Bật sandbox với allowedDomains tối thiểu và chạy một ngày làm việc"
+      ],
+      "milestone": "Một đồng nghiệp clone repo và có ngay cùng quyền, hook, skill mà không cần bạn hướng dẫn."
+    },
+    {
+      "id": "tu-dong-hoa",
+      "title": "Tự động hoá, làm song song và quy định team",
+      "duration": "1–2 tuần (và duy trì)",
+      "goal": "Để Claude chạy không giám sát một cách an toàn: headless/CI, worktree, /goal, scheduled task — với chi phí và rủi ro trong tầm kiểm soát.",
+      "outcomes": [
+        "Viết được lệnh claude -p có quyền tối thiểu, giới hạn lượt và output có cấu trúc",
+        "Cài @claude cho repo GitHub và một workflow theo lịch",
+        "Chạy song song bằng worktree; dùng /goal với điều kiện kiểm chứng được",
+        "Trả lời năm câu hỏi trước khi để Claude chạy một mình; chọn model/effort theo việc"
+      ],
+      "items": [
+        "claude-code/deep-dive/sessions/chi-phi-va-subagent",
+        "claude-code/deep-dive/sessions/model-va-usage",
+        "claude-code/deep-dive/automation/headless-va-ci",
+        "claude-code/deep-dive/automation/lam-viec-song-song",
+        "claude-code/deep-dive/automation/chay-khong-can-giam-sat",
+        "claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team"
+      ],
+      "practice": [
+        "Viết một script claude --bare -p cho việc lặp lại của bạn (vd tóm tắt diff thành release note)",
+        "Tạo một scheduled task mở PR (không push nhánh chính) và theo dõi 3 lần chạy đầu"
+      ],
+      "milestone": "Một job tự động chạy đều hằng tuần, mở PR có phép kiểm tra xanh, và bạn chưa từng phải revert."
+    }
+  ]
+}

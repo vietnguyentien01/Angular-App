@@ -305,3 +305,10 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ Môn **TypeScript** riêng: 25 bài, 64 câu — mọi phát biểu kiểm chứng bằng tsc 6.0.3.
 - ✅ Môn **Làm việc với Claude Code**: 12 bài bám *Best practices for Claude Code* và *Extend Claude Code* (code.claude.com/docs) — kiến thức nền là chính, AI là công cụ; có case study lỗi AI bị bắt khi xây chính app này.
 
+
+## 12. Claude Code từ người mới tới nâng cao (11/11/2026)
+
+- ✅ Viết lại môn **Làm việc với Claude Code** thành giáo trình đầy đủ: 35 bài, 80 câu trắc nghiệm, bám ~45 trang tài liệu chính thức (code.claude.com/docs), mỗi bài ghi nguồn.
+- ✅ Ba phần đổi tên theo trình độ: **Cơ bản (người mới)** · **Thực hành hằng ngày** · **Nâng cao**; thêm chủ đề Bắt đầu, Giao diện & lệnh, Quy trình hằng ngày, Mở rộng Claude Code.
+- ✅ Lộ trình riêng `/claude-code/roadmap`: 6 chặng từ cài đặt tới tự động hoá, bao phủ mọi bài.
+- ✅ Dashboard hiển thị thẻ lộ trình cho **mọi** môn có lộ trình (component `RoadmapCard`).

@@ -1,27 +1,27 @@
 {
   "id": "claude-code",
   "title": "Làm việc với Claude Code",
-  "description": "Dùng Claude Code đúng cách theo hướng dẫn chính thức của Anthropic — để làm việc hiệu quả hơn mà vẫn giữ vững kiến thức nền và chất lượng code.",
+  "description": "Học Claude Code từ con số 0 tới nâng cao theo tài liệu chính thức của Anthropic — cài đặt, thao tác, bộ nhớ, quyền, quy trình hằng ngày, mở rộng và tự động hoá — mà vẫn giữ vững kiến thức nền và chất lượng code.",
   "icon": "sparkles",
   "color": "#d97757",
   "order": 1,
   "sections": [
     {
       "id": "review",
-      "title": "Ôn lại Core",
-      "description": "Nguyên tắc, viết prompt cụ thể, CLAUDE.md ngắn gọn, điều khiển phiên làm việc.",
+      "title": "Cơ bản (người mới)",
+      "description": "Claude Code là gì, cài đặt, phiên đầu tiên, phím tắt và slash command, permission mode, prompt cụ thể, CLAUDE.md, điều khiển phiên.",
       "icon": "refresh"
     },
     {
       "id": "consolidate",
-      "title": "Củng cố",
-      "description": "Cho Claude phép kiểm tra để tự xác minh, hook và permission, quy trình cho task Angular, học cùng AI mà không phụ thuộc.",
+      "title": "Thực hành hằng ngày",
+      "description": "Chọn nơi làm việc, quy trình explore → plan → code, sửa bug/test/git, bộ nhớ và settings, context & checkpoint, kiểm chứng, hook.",
       "icon": "hammer"
     },
     {
       "id": "deep-dive",
-      "title": "Chuyên sâu",
-      "description": "Mở rộng bằng skill/subagent/MCP/plugin, chạy tự động không giám sát, chi phí, bảo mật và quy định team.",
+      "title": "Nâng cao",
+      "description": "Skill, subagent, hook, MCP, plugin; model và chi phí; sandbox & prompt injection; headless/CI, làm song song, chạy không giám sát, quy định team.",
       "icon": "telescope"
     }
   ]

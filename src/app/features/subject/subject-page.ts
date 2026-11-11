@@ -26,7 +26,7 @@ import { PageState } from '../../shared/page-state/page-state';
             <div class="mt-4 flex flex-wrap gap-3">
               @if (index.subject.hasRoadmap) {
                 <a [routerLink]="['roadmap']" class="btn-secondary">
-                  <app-icon name="route" [size]="16" /> Lộ trình lên Senior
+                  <app-icon name="route" [size]="16" /> Xem lộ trình học
                 </a>
               }
             </div>
