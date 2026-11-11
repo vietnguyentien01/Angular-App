@@ -136,4 +136,10 @@ Workspace trust là hàng rào trước khi cấu hình của repo được phé
 Không. Hãy nêu **mục tiêu, bối cảnh và cách kiểm tra** — Claude tự tìm file. Chỉ trỏ file cụ thể khi bạn đã biết chỗ (dùng `@đường/dẫn`). Nếu kết quả lệch, chỉnh tiếp trong hội thoại; sửa hai lần vẫn sai thì `/clear` và viết lại prompt tốt hơn.
 :::
 
+:::exercise Phiên đầu tiên có chấm điểm
+Trong dự án thật của bạn (hoặc cc-lab), làm đủ 6 bước của bài này trong 30 phút. Chấm bản thân: (a) có đối chiếu ít nhất 2 câu trả lời với code không; (b) đã đọc diff trước khi chấp nhận không; (c) commit message do Claude viết có đúng quy ước team không; (d) `CLAUDE.md` sau `/init` đã được bạn rút gọn chưa.
+???
+Đạt 4/4 là tốt. Lỗi hay gặp nhất của người mới là (b) — bấm Yes liên tục. Mẹo: ở phiên đầu, dùng Manual mode (`claude --permission-mode default`) để bị buộc phải nhìn từng thao tác; khi đã quen mới chuyển sang auto. Với (c), nếu message chưa đúng quy ước, thêm đúng một dòng vào CLAUDE.md (vd "Commit message theo Conventional Commits, tiếng Anh").
+:::
+
 > Nguồn: *Quickstart* — code.claude.com/docs/en/quickstart; *How Claude Code works* — mục "Ask Claude Code for help" (truy cập 11/11/2026).

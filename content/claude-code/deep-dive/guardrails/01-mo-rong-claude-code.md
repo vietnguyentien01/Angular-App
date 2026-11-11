@@ -82,4 +82,10 @@ Rào chắn → hook; quy trình cần suy luận → skill.
 Và subagent tốn thêm token vì có context riêng.
 :::
 
+:::exercise Chọn đúng cơ chế cho năm tín hiệu
+Với mỗi tình huống, chọn cơ chế và viết phác thảo cấu hình: (1) Claude quên lệnh test lần thứ hai; (2) bạn dán cùng checklist release lần thứ ba; (3) tìm kiếm rộng làm ngập hội thoại; (4) cần format sau mỗi lần sửa; (5) cứ phải copy nội dung ticket Jira vào chat.
+???
+(1) Một dòng trong CLAUDE.md. (2) Skill `/release-check` (`disable-model-invocation: true`) — Lab 07. (3) Subagent (Explore có sẵn hoặc subagent chỉ đọc riêng) — Lab 08. (4) Hook PostToolUse — Lab 06. (5) MCP server của Jira (hoặc CLI nếu có) — Lab 12 cho cách thêm server và giới hạn quyền.
+:::
+
 > Nguồn: *Extend Claude Code* và *Best practices for Claude Code* — code.claude.com/docs (truy cập 11/11/2026).

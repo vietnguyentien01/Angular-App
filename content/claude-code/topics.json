@@ -1,13 +1,67 @@
 [
-  { "id": "getting-started", "title": "Bắt đầu", "description": "Claude Code là gì, cài đặt và đăng nhập, phiên làm việc đầu tiên, chọn nơi làm việc (terminal, IDE, desktop, cloud), xử lý sự cố." },
-  { "id": "interface", "title": "Giao diện & lệnh", "description": "Phím tắt, cú pháp @ / ! /, gõ nhiều dòng, xếp hàng tin nhắn, và các slash command cần biết." },
-  { "id": "principles", "title": "Nguyên tắc & tư duy", "description": "AI là công cụ; chỉ dẫn mềm và chỉ dẫn bắt buộc; bốn nguyên nhân khi phiên làm việc không như ý; học cùng AI mà không phụ thuộc." },
-  { "id": "prompting", "title": "Prompt & bối cảnh", "description": "Prompt cụ thể, đưa file/ảnh/log, brainstorm thành SPEC.md, effort." },
-  { "id": "memory", "title": "CLAUDE.md, rules & bộ nhớ", "description": "Ghi những gì Claude không tự thấy được; vị trí các file CLAUDE.md, import, rules theo đường dẫn, auto memory." },
-  { "id": "guardrails", "title": "Quyền, settings & an toàn", "description": "Permission mode, permission rule, file settings và thứ tự ưu tiên, hook, sandbox, prompt injection." },
-  { "id": "sessions", "title": "Phiên, context & chi phí", "description": "Esc, /rewind, /clear, /compact, context window, checkpoint, resume/branch, model, effort và chi phí." },
-  { "id": "workflows", "title": "Quy trình hằng ngày", "description": "Hiểu codebase mới, explore → plan → code, sửa bug, viết test, refactor, git và pull request." },
-  { "id": "verification", "title": "Kiểm chứng", "description": "Cho Claude một phép kiểm tra pass/fail, đòi bằng chứng, review độc lập theo spec." },
-  { "id": "extending", "title": "Mở rộng Claude Code", "description": "Viết skill, tạo subagent, hook thực chiến, kết nối MCP server và cài plugin." },
-  { "id": "automation", "title": "Tự động hoá & làm song song", "description": "claude -p, GitHub Actions, worktree, /goal, /loop, scheduled task, và năm câu hỏi trước khi để Claude chạy một mình." }
+  {
+    "id": "getting-started",
+    "title": "Bắt đầu",
+    "description": "Claude Code là gì, cài đặt và đăng nhập, phiên làm việc đầu tiên, chọn nơi làm việc (terminal, IDE, desktop, cloud), xử lý sự cố."
+  },
+  {
+    "id": "interface",
+    "title": "Giao diện & lệnh",
+    "description": "Phím tắt, cú pháp @ / ! /, gõ nhiều dòng, xếp hàng tin nhắn, và các slash command cần biết."
+  },
+  {
+    "id": "principles",
+    "title": "Nguyên tắc & tư duy",
+    "description": "AI là công cụ; chỉ dẫn mềm và chỉ dẫn bắt buộc; bốn nguyên nhân khi phiên làm việc không như ý; học cùng AI mà không phụ thuộc."
+  },
+  {
+    "id": "prompting",
+    "title": "Prompt & bối cảnh",
+    "description": "Prompt cụ thể, đưa file/ảnh/log, brainstorm thành SPEC.md, effort."
+  },
+  {
+    "id": "memory",
+    "title": "CLAUDE.md, rules & bộ nhớ",
+    "description": "Ghi những gì Claude không tự thấy được; vị trí các file CLAUDE.md, import, rules theo đường dẫn, auto memory."
+  },
+  {
+    "id": "guardrails",
+    "title": "Quyền, settings & an toàn",
+    "description": "Permission mode, permission rule, file settings và thứ tự ưu tiên, hook, sandbox, prompt injection."
+  },
+  {
+    "id": "sessions",
+    "title": "Phiên, context & chi phí",
+    "description": "Esc, /rewind, /clear, /compact, context window, checkpoint, resume/branch, model, effort và chi phí."
+  },
+  {
+    "id": "workflows",
+    "title": "Quy trình hằng ngày",
+    "description": "Hiểu codebase mới, explore → plan → code, sửa bug, viết test, refactor, git và pull request."
+  },
+  {
+    "id": "verification",
+    "title": "Kiểm chứng",
+    "description": "Cho Claude một phép kiểm tra pass/fail, đòi bằng chứng, review độc lập theo spec."
+  },
+  {
+    "id": "extending",
+    "title": "Mở rộng Claude Code",
+    "description": "Viết skill, tạo subagent, hook thực chiến, kết nối MCP server và cài plugin."
+  },
+  {
+    "id": "automation",
+    "title": "Tự động hoá & làm song song",
+    "description": "claude -p, GitHub Actions, worktree, /goal, /loop, scheduled task, và năm câu hỏi trước khi để Claude chạy một mình."
+  },
+  {
+    "id": "labs",
+    "title": "Thực hành có hướng dẫn",
+    "description": "Chuỗi bài lab trên dự án mẫu cc-lab: mỗi bài có mục tiêu, các bước, prompt mẫu, kết quả mong đợi và checklist."
+  },
+  {
+    "id": "commands",
+    "title": "Lệnh & phím tắt",
+    "description": "Tra cứu đầy đủ slash command, lệnh claude, flag dòng lệnh và phím tắt."
+  }
 ]

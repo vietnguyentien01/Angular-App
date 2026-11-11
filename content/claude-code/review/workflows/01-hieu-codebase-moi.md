@@ -96,4 +96,10 @@ Code intelligence cho Claude điều hướng theo ký hiệu thay vì tìm chu�
 Dùng Claude để **rút ngắn thời gian tìm**, không để thay việc hiểu: hỏi từ rộng tới hẹp bằng từ ngữ domain, đòi trích file/dòng, tự đọc lại code được trích, tự vẽ luồng rồi nhờ Claude soát; chỉ bắt đầu sửa khi giải thích lại được luồng đó cho người khác.
 :::
 
+:::exercise Onboarding một repo mã nguồn mở
+Clone một repo Angular mã nguồn mở bạn chưa từng đọc (vd một ứng dụng mẫu trên GitHub). Mở `claude --permission-mode plan`, đi theo chuỗi câu hỏi của bài, rồi tự vẽ sơ đồ một luồng (từ thao tác người dùng tới API) và nhờ Claude chỉ chỗ sai trong sơ đồ của bạn.
+???
+Tiêu chí đạt: sơ đồ của bạn có ≥ 5 bước, mỗi bước gắn với file thật; Claude chỉ ra ít hơn 2 chỗ sai. Luôn yêu cầu trích dẫn file:dòng cho các khẳng định quan trọng và mở file để kiểm tra. Plan mode bảo đảm bạn không vô tình sửa repo của người khác.
+:::
+
 > Nguồn: *Common workflows* — mục "Understand new codebases", code.claude.com/docs/en/common-workflows (truy cập 11/11/2026).

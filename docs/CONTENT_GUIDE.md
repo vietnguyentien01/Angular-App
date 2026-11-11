@@ -49,6 +49,8 @@ App tự cảnh báo bài "có thể đã cũ" khi `version` < `currentVersion` 
 ## 3. Cấu trúc nội dung theo phần
 
 Yêu cầu tối thiểu về luyện tập: bài `review` có **≥ 2 `:::quiz`**, bài `consolidate` có **≥ 2 `:::quiz` và ≥ 1 `:::exercise`**, bài `deep-dive` có **≥ 1 `:::quiz` hoặc `:::exercise`**.
+
+Một môn có thể có thêm phần ngoài ba phần chuẩn (vd `claude-code` có `labs` — bài thực hành từng bước trên dự án mẫu, và `commands` — tra cứu lệnh). Bài ở phần thêm cần ≥ 1 `:::quiz` và ≥ 1 `:::exercise`. Lab phải có: Mục tiêu, các bước với prompt/lệnh chính xác, kết quả mong đợi, checklist hoàn thành, lỗi thường gặp; code mẫu phải được chạy thử trước khi đưa vào.
 Câu "đoán output" và đáp án code **phải được chạy thử** (RxJS, signals…) trước khi commit.
 
 

@@ -116,6 +116,15 @@ body {
 .shiki {
   background-color: var(--shiki-light-bg, #fff);
 }
+/* Khối không tô màu (```text): chữ phải đủ tương phản với nền. */
+.content-prose pre.shiki,
+.content-prose pre.shiki code {
+  color: #24292e;
+}
+.dark .content-prose pre.shiki,
+.dark .content-prose pre.shiki code {
+  color: #e1e4e8;
+}
 .shiki span {
   color: var(--shiki-light);
 }

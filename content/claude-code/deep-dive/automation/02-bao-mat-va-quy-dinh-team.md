@@ -53,4 +53,10 @@ Chỉ managed settings mới không bị file cá nhân ghi đè.
 Bước "ai có tiếng nói cuối" thuộc về người duyệt — không phải bản tóm tắt của Claude.
 :::
 
+:::exercise Biến quy định team thành cấu hình
+Lấy 5 quy định thật của team bạn (hoặc dùng: test phải xanh; không đọc secret; mọi thay đổi qua review; format chuẩn; ưu tiên Signal Forms). Với mỗi quy định: mềm hay cứng, đặt ở đâu (CLAUDE.md, rule, hook, permission, branch protection, managed settings), và viết cấu hình cụ thể cho cc-lab.
+???
+Test xanh → Stop hook (Lab 06) + CI; không đọc secret → deny `Read(./.env*)` + sandbox `credentials` (Lab 05), chính sách công ty → managed settings; qua review → branch protection trên GitHub (Lab 09); format → PostToolUse Prettier (Lab 06); Signal Forms → một dòng trong `.claude/rules/forms.md` có `paths`. Kiểm tra mỗi cái bằng một lần thử vi phạm có chủ đích.
+:::
+
 > Nguồn: *Best practices for Claude Code* — mục "Choose who a rule applies to" và bảng chỉ dẫn mềm/bắt buộc, code.claude.com/docs (truy cập 11/11/2026). Phần thói quen bảo vệ dữ liệu là khuyến nghị của Learning Hub.

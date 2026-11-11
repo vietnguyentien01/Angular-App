@@ -1,6 +1,6 @@
 {
   "title": "Lộ trình Claude Code: người mới → nâng cao",
-  "description": "6 chặng, khoảng 5–7 tuần nếu học 3–4 giờ mỗi tuần và áp dụng ngay vào dự án thật. Mỗi chặng có việc thực hành và một cột mốc kiểm chứng — qua cột mốc rồi mới sang chặng sau.",
+  "description": "6 chặng, khoảng 6–8 tuần nếu học 3–4 giờ mỗi tuần. Mỗi chặng gồm bài học, bài tra cứu lệnh liên quan và bài lab thực hành trên dự án mẫu cc-lab — qua cột mốc rồi mới sang chặng sau.",
   "stages": [
     {
       "id": "ngay-dau-tien",
@@ -17,9 +17,12 @@
         "claude-code/review/getting-started/claude-code-la-gi",
         "claude-code/review/getting-started/cai-dat-va-dang-nhap",
         "claude-code/review/getting-started/phien-dau-tien",
-        "claude-code/review/principles/ai-la-cong-cu"
+        "claude-code/review/principles/ai-la-cong-cu",
+        "claude-code/commands/commands/cach-dung-lenh",
+        "claude-code/labs/labs/chuan-bi-du-an-va-phien-dau-tien"
       ],
       "practice": [
+        "Làm Lab 01: tạo dự án cc-lab, phiên đầu tiên, commit thay đổi đầu tiên do Claude làm",
         "Cài Claude Code, chạy claude --version và /status để xác nhận tài khoản",
         "Mở phiên trong dự án Angular của bạn, hỏi 5 câu về kiến trúc, tự kiểm tra lại 2 câu trả lời bằng cách đọc code",
         "Cho Claude sửa một thay đổi nhỏ có test, đọc diff, commit bằng lời"
@@ -41,9 +44,14 @@
         "claude-code/review/interface/slash-commands-can-biet",
         "claude-code/review/guardrails/che-do-quyen",
         "claude-code/review/sessions/dieu-khien-phien",
-        "claude-code/consolidate/getting-started/chon-noi-lam-viec"
+        "claude-code/consolidate/getting-started/chon-noi-lam-viec",
+        "claude-code/commands/commands/lenh-phien-va-hoi-thoai",
+        "claude-code/commands/commands/lenh-model-context-chi-phi",
+        "claude-code/commands/commands/phim-tat-day-du",
+        "claude-code/labs/labs/quyen-va-settings"
       ],
       "practice": [
+        "Làm Lab 05: allowlist lệnh kiểm tra, chặn .env, thử bốn permission mode",
         "Làm một task ở plan mode, sửa kế hoạch bằng Ctrl+G trước khi duyệt",
         "Cố ý để Claude đi sai hướng rồi dùng /rewind quay code về",
         "Thử extension VS Code (hoặc JetBrains) với một task trong ngày"
@@ -65,9 +73,11 @@
         "claude-code/review/prompting/viet-prompt-cu-the",
         "claude-code/review/memory/claude-md-ngan-gon",
         "claude-code/consolidate/memory/cau-truc-bo-nho",
-        "claude-code/consolidate/sessions/context-window-va-checkpoint"
+        "claude-code/consolidate/sessions/context-window-va-checkpoint",
+        "claude-code/labs/labs/claude-md-va-rules"
       ],
       "practice": [
+        "Làm Lab 02: CLAUDE.md dưới 30 dòng + rule có paths, đạt 4/4 bảng chấm tuân thủ",
         "Chạy /init rồi rút gọn CLAUDE.md của dự án; tách một phần sang .claude/rules có paths",
         "Kiểm tra bằng /context all rằng file đã nạp",
         "Nhờ Claude phỏng vấn bạn để viết SPEC.md cho một tính năng sắp làm"
@@ -92,9 +102,14 @@
         "claude-code/consolidate/workflows/git-va-pull-request",
         "claude-code/consolidate/verification/cho-claude-phep-kiem-tra",
         "claude-code/consolidate/memory/quy-trinh-task-angular",
-        "claude-code/consolidate/principles/hoc-cung-ai-khong-phu-thuoc"
+        "claude-code/consolidate/principles/hoc-cung-ai-khong-phu-thuoc",
+        "claude-code/commands/commands/lenh-quy-trinh-code",
+        "claude-code/labs/labs/tinh-nang-voi-plan-mode",
+        "claude-code/labs/labs/sua-bug-test-first-va-rewind",
+        "claude-code/labs/labs/git-pr-va-review"
       ],
       "practice": [
+        "Làm Lab 03, 04 và 09: tính năng bằng plan mode, sửa bug test-first, PR trên GitHub",
         "Làm trọn một ticket thật theo quy trình: plan → test fail → sửa → /code-review → PR",
         "Bật output style Learning cho một buổi học mảng mới"
       ],
@@ -120,9 +135,16 @@
         "claude-code/deep-dive/extending/subagent",
         "claude-code/deep-dive/extending/hooks-thuc-chien",
         "claude-code/deep-dive/extending/mcp-va-plugin",
-        "claude-code/deep-dive/guardrails/sandbox-va-prompt-injection"
+        "claude-code/deep-dive/guardrails/sandbox-va-prompt-injection",
+        "claude-code/commands/commands/lenh-cau-hinh",
+        "claude-code/commands/commands/lenh-tai-khoan-tro-giup-nen-tang",
+        "claude-code/labs/labs/hooks-format-bao-ve-cong-test",
+        "claude-code/labs/labs/viet-skill-cho-du-an",
+        "claude-code/labs/labs/subagent-reviewer",
+        "claude-code/labs/labs/mcp-playwright-kiem-tra-giao-dien"
       ],
       "practice": [
+        "Làm Lab 06, 07, 08 và 12: hook, skill, subagent reviewer, kiểm tra giao diện bằng Playwright MCP",
         "Commit .claude/settings.json, một hook và một skill vào repo của team",
         "Bật sandbox với allowedDomains tối thiểu và chạy một ngày làm việc"
       ],
@@ -145,9 +167,16 @@
         "claude-code/deep-dive/automation/headless-va-ci",
         "claude-code/deep-dive/automation/lam-viec-song-song",
         "claude-code/deep-dive/automation/chay-khong-can-giam-sat",
-        "claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team"
+        "claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team",
+        "claude-code/commands/commands/lenh-claude-tren-shell",
+        "claude-code/commands/commands/flag-dong-lenh",
+        "claude-code/labs/labs/headless-va-ci",
+        "claude-code/labs/labs/worktree-goal-song-song",
+        "claude-code/labs/labs/du-an-tong-hop"
       ],
       "practice": [
+        "Làm Lab 10 và 11: cổng review JSON trong script/CI, worktree song song và /goal",
+        "Hoàn thành Lab 13 (dự án tổng hợp) và tự chấm ≥ 16/20",
         "Viết một script claude --bare -p cho việc lặp lại của bạn (vd tóm tắt diff thành release note)",
         "Tạo một scheduled task mở PR (không push nhánh chính) và theo dõi 3 lần chạy đầu"
       ],

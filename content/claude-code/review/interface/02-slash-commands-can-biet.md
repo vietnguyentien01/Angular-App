@@ -110,4 +110,10 @@ Hỏi model chỉ cho câu trả lời "có vẻ đúng"; `/context all` cho d�
 `/clear`: bỏ toàn bộ context, bắt đầu hội thoại mới (dùng khi đổi task). `/compact`: tóm tắt hội thoại hiện tại để giải phóng context nhưng vẫn tiếp tục task, có thể chỉ định trọng tâm. `/rewind`: quay **code và/hoặc hội thoại** về một prompt trước — dùng khi Claude đi sai hướng; ngoài ra có "Summarize from here" để nén một đoạn hội thoại.
 :::
 
+:::exercise Mười lệnh trong một phiên
+Trong cc-lab, dùng đủ mười lệnh theo thứ tự hợp lý: `/status`, `/init`, `/context`, `/plan` (một task nhỏ), `/diff`, `/code-review`, `/rename`, `/compact`, `/usage`, `/clear`. Với mỗi lệnh ghi một câu: bạn thấy gì và khi nào sẽ dùng lại.
+???
+Thứ tự gợi ý phản ánh vòng đời một task: kiểm tra phiên → bộ nhớ dự án → xem context → lên kế hoạch → xem thay đổi → review → đặt tên để tìm lại → nén khi hội thoại dài → xem chi phí → bắt đầu task mới. Tra chi tiết từng lệnh ở phần **Tra cứu lệnh**.
+:::
+
 > Nguồn: *Commands* — code.claude.com/docs/en/commands; *Interactive mode* — mục "Commands" (truy cập 11/11/2026).

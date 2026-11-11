@@ -123,4 +123,10 @@ Vì vậy vẫn phải dùng git cho lịch sử lâu dài và commit thường 
 Model chỉ sinh văn bản; "agentic" nghĩa là model được trao **công cụ** (đọc/sửa file, chạy lệnh, tìm kiếm) và chạy trong một **vòng lặp** — mỗi kết quả công cụ quay lại làm đầu vào cho bước tiếp theo — nên nó tự đi từ mục tiêu tới kết quả đã được kiểm tra, thay vì chỉ trả lời một lần. Người dùng vẫn ở trong vòng lặp: ngắt, chỉnh hướng, cấp/thu quyền.
 :::
 
+:::exercise Quan sát agentic loop bằng mắt
+Trong cc-lab (Lab 01) hoặc dự án của bạn, gửi: *"Chạy npm test -- --watch=false, nếu có test fail thì tìm nguyên nhân và báo lại, chưa sửa."* Bật `Ctrl+O` để xem transcript chi tiết. Ghi lại theo thứ tự: mỗi lần gọi công cụ thuộc nhóm nào (file, search, execution, web) và thuộc pha nào (thu thập bối cảnh / hành động / kiểm tra).
+???
+Chuỗi thường thấy: Bash `npm test` (execution, hành động) → đọc output (thu thập) → Grep/Glob tìm file test và file nguồn (search, thu thập) → Read các file (file, thu thập) → báo cáo. Nếu bạn cho phép sửa, sẽ có thêm Edit (hành động) và chạy lại test (kiểm tra). Điều cần rút ra: bạn không chỉ định bước nào — Claude tự chọn công cụ dựa trên kết quả của bước trước.
+:::
+
 > Nguồn: *How Claude Code works* và *Overview* — code.claude.com/docs/en/how-claude-code-works, /overview (truy cập 11/11/2026).

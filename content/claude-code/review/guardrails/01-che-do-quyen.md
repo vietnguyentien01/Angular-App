@@ -118,4 +118,10 @@ Muốn chia sẻ cho cả team thì chủ động chuyển rule sang `.claude/se
 Chỉ khi Claude chạy trong môi trường **cô lập** (container, VM, sandbox runtime) mà thiệt hại tối đa chấp nhận được — vd job CI dùng một lần, không có credential quan trọng, chạy bằng user không phải root. Trên máy cá nhân có SSH key, cloud credential, repo khác… thì không. Kể cả khi bypass, rule `deny` vẫn có hiệu lực.
 :::
 
+:::exercise Một task, ba chế độ
+Trong cc-lab, sau mỗi lần chạy thì `git checkout . && git clean -fd src`. Giao cùng một task — *"Thêm hàm isDueToday(task, today) vào task-filter.ts kèm test, chạy test"* — lần lượt ở `--permission-mode default`, `--permission-mode acceptEdits` và `--permission-mode plan`. Đếm số lần bạn phải duyệt và ghi lại điều khác biệt.
+???
+Manual: hỏi cho mỗi lần sửa file và lệnh `npm test` (trừ khi đã có allow rule). acceptEdits: sửa file không hỏi, `npm test` vẫn hỏi (không phải lệnh filesystem thông dụng). Plan: Claude đọc và trình kế hoạch, không sửa gì tới khi bạn chọn một lựa chọn duyệt; sau đó chế độ chuyển theo lựa chọn. Rút ra: chọn chế độ theo mức bạn muốn giám sát, còn allowlist cho lệnh kiểm tra giảm số lần hỏi ở mọi chế độ.
+:::
+
 > Nguồn: *Choose a permission mode* và *Configure permissions* — code.claude.com/docs/en/permission-modes, /permissions (truy cập 11/11/2026).

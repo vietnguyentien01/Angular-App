@@ -107,4 +107,10 @@ Chỉ bản cài native tự cập nhật nền; Homebrew và WinGet phải nân
 Chạy `/status` để xem phiên đang xác thực bằng tài khoản nào. Nhiều khả năng shell có biến `ANTHROPIC_API_KEY` và họ đã đồng ý dùng key đó → usage tính vào API. Gỡ biến (hoặc không chấp nhận key), `/login` lại bằng tài khoản gói Claude.
 :::
 
+:::exercise Checklist cài đặt đầy đủ
+Làm và đánh dấu: (1) cài native; (2) mở terminal mới, `claude --version`; (3) `claude doctor`; (4) `claude` trong một thư mục dự án, đăng nhập; (5) `/status` — ghi lại tài khoản và model; (6) `echo $ANTHROPIC_API_KEY` để chắc không có key "lạc" trong shell; (7) `claude auth status --text`; (8) `/release-notes` xem bản bạn đang dùng có gì mới.
+???
+Kết quả mong đợi: `--version` in số phiên bản kèm "(Claude Code)"; `claude doctor` không báo lỗi settings; `/status` hiện đúng tài khoản gói Claude của bạn. Nếu bước (6) in ra một key mà bạn không định dùng, gỡ nó khỏi file profile shell (`~/.zshrc`, `~/.bashrc`) để usage không bị tính nhầm vào API. Cài bằng Homebrew/WinGet thì thêm lịch nhắc tự cập nhật hằng tuần.
+:::
+
 > Nguồn: *Quickstart*, *Advanced setup*, *Authentication* — code.claude.com/docs/en/quickstart, /setup, /authentication (truy cập 11/11/2026).

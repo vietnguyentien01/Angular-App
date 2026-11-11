@@ -23,6 +23,18 @@
       "title": "Nâng cao",
       "description": "Skill, subagent, hook, MCP, plugin; model và chi phí; sandbox & prompt injection; headless/CI, làm song song, chạy không giám sát, quy định team.",
       "icon": "telescope"
+    },
+    {
+      "id": "labs",
+      "title": "Bài thực hành",
+      "description": "Thực hành từng bước trên một dự án Angular thật: prompt chính xác, kết quả mong đợi, checklist tự kiểm tra và thử thách mở rộng — từ phiên đầu tiên tới hook, skill, subagent, CI và làm song song.",
+      "icon": "flag"
+    },
+    {
+      "id": "commands",
+      "title": "Tra cứu lệnh",
+      "description": "Giải thích mọi lệnh của Claude Code: slash command trong phiên, lệnh claude trên shell, flag dòng lệnh và phím tắt — kèm cú pháp, ví dụ và khi nào dùng.",
+      "icon": "code"
     }
   ]
 }

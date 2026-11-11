@@ -59,4 +59,10 @@ Giải pháp: đưa lệnh test/typecheck, và yêu cầu **bằng chứng** (l�
 AI tăng tốc người đã hiểu vấn đề; với người chưa hiểu, nó tăng tốc việc tạo ra lỗi khó phát hiện.
 :::
 
+:::exercise Chẩn đoán một phiên không như ý
+Nhớ lại (hoặc cố ý tạo trong cc-lab) một phiên mà kết quả không như ý — vd giao *"làm cho danh sách task đẹp hơn"*. Xếp nguyên nhân vào bốn nhóm của bài: thiếu bối cảnh, yêu cầu mơ hồ, không có phép kiểm tra, quy tắc cần bắt buộc nhưng chỉ nằm trong lời dặn. Viết lại prompt giải quyết cả bốn.
+???
+Prompt mơ hồ "đẹp hơn" trượt cả bốn: không biết đẹp theo chuẩn nào, không có ràng buộc, không có cách kiểm. Viết lại: *"Trong TaskList: mỗi task một dòng có padding 8px, task xong gạch ngang và màu xám, badge 'Quá hạn' màu đỏ đạt tương phản AA. Chỉ sửa task-list.ts. Kiểm tra: npm test xanh và chụp màn hình bằng Playwright (Lab 12)."* Quy tắc "không sửa angular.json" thì đưa vào hook (Lab 06) thay vì lời dặn.
+:::
+
 > Nguồn: *Best practices for Claude Code* — code.claude.com/docs/en/best-practices (truy cập 11/11/2026).

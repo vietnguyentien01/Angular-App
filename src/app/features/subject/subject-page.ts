@@ -77,7 +77,7 @@ import { PageState } from '../../shared/page-state/page-state';
         <section aria-labelledby="matrix-heading">
           <h2 id="matrix-heading" class="section-heading">Ma trận kiến thức</h2>
           <p class="-mt-2 mb-4 text-sm text-slate-500">
-            Mỗi chủ đề đi qua 3 tầng. Ô càng đậm là bạn càng nắm vững.
+            Mỗi chủ đề đi qua các phần của môn học. Ô càng đậm là bạn càng nắm vững.
           </p>
           <div class="card overflow-x-auto">
             <table class="w-full min-w-[32rem] text-sm">

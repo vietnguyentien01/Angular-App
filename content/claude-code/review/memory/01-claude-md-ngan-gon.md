@@ -84,4 +84,10 @@ Model hiện tại làm theo câu viết bình thường; nhấn mạnh quá m�
 Giữ `CLAUDE.md` gọn và tiết kiệm context cho những task không liên quan.
 :::
 
+:::exercise Phép thử từng dòng
+Mở `CLAUDE.md` của dự án thật (hoặc tạo bằng `/init` trong cc-lab). Với mỗi dòng, hỏi: "Nếu xoá dòng này, Claude có làm sai không?" Xoá các dòng trả lời "không". Sau đó giao một task nhỏ và kiểm tra Claude vẫn theo đúng các quy ước còn lại.
+???
+Thường xoá được 30–60%: mô tả cấu trúc thư mục, "dự án dùng Angular/TypeScript", lời khuyên chung ("viết code sạch", "nhớ test"). Giữ: lệnh build/test chính xác, quy ước khác mặc định (vd "ngày là chuỗi YYYY-MM-DD"), gotcha (vd "test e2e cần chạy mock server trước"). Kiểm tra file đã nạp bằng `/context all`. Bài thực hành đầy đủ: Lab 02.
+:::
+
 > Nguồn: *Best practices for Claude Code* và *Extend Claude Code* — code.claude.com/docs (truy cập 11/11/2026).

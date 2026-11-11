@@ -56,4 +56,10 @@ Chi phí: chủ yếu là token (mỗi subagent gửi request riêng), đôi khi
 Việc đơn giản không cần model lớn; output ngắn giữ context chính gọn.
 :::
 
+:::exercise Đo chi phí của một subagent
+Trong cc-lab, hỏi cùng một câu hai cách và so `/usage` sau mỗi lần (mở phiên mới cho mỗi cách): (A) *"Tìm mọi chỗ dùng TaskStore và giải thích vai trò"* trực tiếp; (B) *"Dùng subagent Explore tìm mọi chỗ dùng TaskStore, chỉ trả về danh sách file:dòng"*.
+???
+Với repo nhỏ như cc-lab, (B) có thể tốn **nhiều** hơn tổng cộng vì subagent phải tự thu thập bối cảnh và có request riêng — nhưng context của hội thoại chính gọn hơn (xem `/context`). Lợi ích của subagent rõ hơn khi tìm kiếm rộng trên repo lớn hoặc output dài. Kết luận đúng: subagent để giữ context chính gọn và làm việc độc lập, không phải để rẻ hơn hay thông minh hơn.
+:::
+
 > Nguồn: *Best practices for Claude Code* — mục "Change the model and effort", "Know what subagents cost", "What you can stop doing", code.claude.com/docs (truy cập 11/11/2026).

@@ -117,4 +117,10 @@ Khi ô nhập có chữ, `Esc Esc` chỉ xoá bản nháp.
 Câu hỏi bình thường thêm vào lịch sử hội thoại — chiếm context và có thể làm Claude lệch khỏi task. `/btw` trả lời từ những gì đã có trong phiên mà **không** ghi vào lịch sử, nên context của task chính vẫn sạch.
 :::
 
+:::exercise Năm thao tác bàn phím trong cc-lab
+(1) Gõ `@src/app/tasks/` và dùng `Tab` để chọn `task-store.ts`, hỏi "giải thích file này"; (2) `! npm test -- --watch=false` rồi hỏi "test nào chậm nhất?"; (3) trong lúc Claude đang trả lời, gõ "trả lời ngắn thôi" + `Enter` (xếp hàng); (4) soạn một prompt 5 dòng bằng `Ctrl+G`; (5) `/btw` hỏi "file nào định nghĩa Task?".
+???
+Kỳ vọng: (1) nội dung file được đưa thẳng vào, Claude không cần tự tìm; (2) output test thành bối cảnh, Claude trả lời dựa trên đó; (3) tin nhắn hiện màu xám rồi được Claude đọc ngay sau khi lệnh đang chạy xong; (4) editor mở, lưu và đóng thì nội dung về ô nhập; (5) câu trả lời không xuất hiện trong lịch sử khi bạn `/export`.
+:::
+
 > Nguồn: *Interactive mode* — code.claude.com/docs/en/interactive-mode; *Common workflows* — mục "Work with images", "Reference files and directories" (truy cập 11/11/2026).

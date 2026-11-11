@@ -59,4 +59,10 @@ Checkpoint hoạt động cùng git, không thay thế git.
 Với cửa sổ 1M token và tự động compact, hiếm khi hết context — nhưng vẫn tốn chi phí và giảm độ tập trung.
 :::
 
+:::exercise Luyện quy tắc "hai lần"
+Trong cc-lab, cố ý giao một yêu cầu mơ hồ (vd *"sắp xếp task cho hợp lý"*), sửa hướng hai lần trong cùng hội thoại. Rồi `/clear` và viết một prompt mới gộp những gì bạn đã học từ hai lần sửa. So số lượt và chất lượng kết quả.
+???
+Prompt sau `/clear` nên nêu rõ điều bạn phát hiện qua hai lần sửa, vd *"Sắp xếp: task chưa xong trước, trong đó quá hạn lên đầu, rồi theo dueDate tăng dần; task xong xuống cuối. Viết test cho cả bốn nhóm."* Thường chỉ cần một lượt và không mang theo "dấu vết" của các lần thử sai. Dùng `/rename` trước `/clear` nếu muốn giữ phiên cũ để tham khảo.
+:::
+
 > Nguồn: *Best practices for Claude Code* — mục "Steer the session" và "Keep cost and context down", code.claude.com/docs (truy cập 11/11/2026).

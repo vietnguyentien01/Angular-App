@@ -67,4 +67,10 @@ Muốn Claude suy nghĩ sâu hơn: `/effort high` / `xhigh`, hoặc `ultrathink`
 Prompt cụ thể cho việc cụ thể; prompt mở cho việc khám phá.
 :::
 
+:::exercise Viết lại ba prompt mơ hồ
+Viết lại cho cụ thể (file, triệu chứng/mục tiêu, ràng buộc, cách kiểm tra): (1) "sửa lỗi tìm kiếm"; (2) "thêm test"; (3) "tối ưu danh sách". Thử bản đã viết lại trong cc-lab và so với bản gốc.
+???
+(1) *"Gõ 'angular' vào ô Tìm task (src/app/tasks) không ra 'Học Angular signals'; docstring nói không phân biệt hoa thường. Viết test fail trước, sửa filterTasks, chạy npm test -- --watch=false."* (2) *"Thêm test cho isOverdue trong task-filter.spec.ts: task hạn hôm nay (không quá hạn), hạn hôm qua chưa xong (quá hạn), hạn hôm qua đã xong (không). Theo style describe/it hiện có."* (3) *"Danh sách 5.000 task giật khi gõ tìm kiếm. Đo trước bằng DevTools Performance, đề xuất 2 cách (debounce query, virtual scroll) kèm trade-off, chưa sửa."*
+:::
+
 > Nguồn: *Best practices for Claude Code* — code.claude.com/docs/en/best-practices (truy cập 11/11/2026). Ví dụ được chuyển sang ngữ cảnh dự án Angular.

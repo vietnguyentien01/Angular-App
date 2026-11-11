@@ -312,3 +312,10 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ Ba phần đổi tên theo trình độ: **Cơ bản (người mới)** · **Thực hành hằng ngày** · **Nâng cao**; thêm chủ đề Bắt đầu, Giao diện & lệnh, Quy trình hằng ngày, Mở rộng Claude Code.
 - ✅ Lộ trình riêng `/claude-code/roadmap`: 6 chặng từ cài đặt tới tự động hoá, bao phủ mọi bài.
 - ✅ Dashboard hiển thị thẻ lộ trình cho **mọi** môn có lộ trình (component `RoadmapCard`).
+
+## 13. Claude Code: bài thực hành và tra cứu lệnh (11/11/2026)
+
+- ✅ Phần **Bài thực hành**: 13 lab trên dự án mẫu `cc-lab` (Angular 22) — seed code, bug cài sẵn, script hook và script cổng review đều đã chạy thử; lab cuối là dự án tổng hợp có thang tự chấm 20 điểm.
+- ✅ Phần **Tra cứu lệnh**: 9 bài giải thích mọi slash command, lệnh `claude` trên shell, flag dòng lệnh và phím tắt (đối chiếu đủ với trang Commands và CLI reference).
+- ✅ Mọi bài Claude Code có ít nhất một bài tập thực hành cụ thể; lộ trình 6 chặng gắn lab và bài tra cứu tương ứng (57 bài).
+- ✅ Sửa lỗi hiển thị: khối code ```text có chữ quá nhạt trên nền sáng.
