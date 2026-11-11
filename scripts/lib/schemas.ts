@@ -63,3 +63,31 @@ export const updateFrontMatterSchema = z.strictObject({
     .array(z.strictObject({ title: z.string().min(1), url: z.url({ protocol: /^https$/ }) }))
     .min(1, 'mỗi bản tin cần ít nhất 1 nguồn'),
 });
+
+export const roadmapSchema = z.strictObject({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  stages: z
+    .array(
+      z.strictObject({
+        id,
+        title: z.string().min(1),
+        duration: z.string().min(1),
+        goal: z.string().min(1),
+        outcomes: z.array(z.string().min(1)).min(1),
+        items: z
+          .array(
+            z
+              .string()
+              .regex(
+                /^[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+$/,
+                'dạng subject/section/topic/slug',
+              ),
+          )
+          .min(1),
+        practice: z.array(z.string().min(1)).default([]),
+        milestone: z.string().min(1),
+      }),
+    )
+    .min(1),
+});

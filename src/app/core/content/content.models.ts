@@ -28,6 +28,7 @@ export interface SubjectSummary {
   topicCount: number;
   itemCount: number;
   quizCount: number;
+  hasRoadmap: boolean;
 }
 
 export interface Manifest {
@@ -145,4 +146,23 @@ export interface UpdateDetail extends UpdateSummary {
 
 export interface UpdatesIndex {
   updates: UpdateSummary[];
+}
+
+export interface RoadmapStage {
+  id: string;
+  title: string;
+  duration: string;
+  goal: string;
+  outcomes: string[];
+  /** Bài học thuộc chặng, đã được giải nghĩa từ khoá `subject/section/topic/slug`. */
+  items: ItemSummary[];
+  practice: string[];
+  milestone: string;
+}
+
+export interface Roadmap {
+  subject: string;
+  title: string;
+  description: string;
+  stages: RoadmapStage[];
 }

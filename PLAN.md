@@ -294,3 +294,9 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 1. **Cách đưa bản cập nhật lên app**: (a) tự push thẳng lên `main` và deploy ngay nếu kiểm tra đạt (đề xuất cho app cá nhân), hay (b) tạo Pull Request để bạn duyệt trước?
 2. **GitHub Pages với repo private** cần gói GitHub trả phí; nếu repo đang private thì để public hay đổi sang host khác (Cloudflare Pages / Netlify miễn phí cho repo private)?
 3. Ngoài Angular, bạn đã nghĩ tới môn tiếp theo chưa (để tôi kiểm tra kiến trúc với trường hợp đó)?
+
+## 10. Lộ trình lên Senior (11/11/2026)
+
+- ✅ Trang **Lộ trình** (`/angular/roadmap`): 7 chặng cá nhân hoá theo hồ sơ — mục tiêu, thời lượng, kết quả đầu ra, bài học liên kết, bài thực hành trên dự án thật (checkbox lưu IndexedDB), cột mốc kiểm chứng.
+- ✅ Tiến độ tự tính từ bài đã học + bài thực hành; thẻ "Học tiếp" trên dashboard.
+

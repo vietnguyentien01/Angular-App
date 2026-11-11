@@ -12,6 +12,7 @@ export const contentUrl = {
   updates: () => 'data/updates/index.json',
   update: (id: string) => `data/updates/${id}.json`,
   quizzes: (subject: string) => `data/${subject}/quizzes.json`,
+  roadmap: (subject: string) => `data/${subject}/roadmap.json`,
 };
 
 /**

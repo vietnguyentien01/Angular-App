@@ -70,6 +70,19 @@ import { Icon } from '../shared/icon/icon';
               <ul
                 class="mt-1 space-y-0.5 border-l border-slate-200 pl-2 ml-5 dark:border-slate-700"
               >
+                @if (subject.hasRoadmap) {
+                  <li>
+                    <a
+                      [routerLink]="['/', subject.id, 'roadmap']"
+                      routerLinkActive="nav-active"
+                      class="nav-link text-sm"
+                      (click)="navigate.emit()"
+                    >
+                      <app-icon name="route" [size]="16" />
+                      <span class="flex-1">Lộ trình</span>
+                    </a>
+                  </li>
+                }
                 @for (section of subject.sections; track section.id) {
                   <li>
                     <a

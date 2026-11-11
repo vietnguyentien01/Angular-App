@@ -31,6 +31,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/subject/subject-page').then((m) => m.SubjectPage),
   },
   {
+    path: ':subject/roadmap',
+    title: 'Lộ trình · Learning Hub',
+    loadComponent: () => import('./features/roadmap/roadmap-page').then((m) => m.RoadmapPage),
+  },
+  {
     path: ':subject/practice',
     title: 'Luyện tập · Learning Hub',
     loadComponent: () => import('./features/practice/practice-page').then((m) => m.PracticePage),

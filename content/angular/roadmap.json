@@ -1,0 +1,228 @@
+{
+  "title": "Lộ trình Angular Middle → Senior",
+  "description": "7 chặng, khoảng 5–6 tháng nếu học 6–8 giờ mỗi tuần song song với công việc. Thứ tự ưu tiên đã điều chỉnh theo hồ sơ: đi nhanh phần bạn đã vững (RxJS, dynamic form, micro frontend), dành nhiều thời gian cho change detection, performance có số liệu, testing, security và kỹ năng ngoài code.",
+  "stages": [
+    {
+      "id": "nen-tang",
+      "title": "Kiểm tra nền tảng",
+      "duration": "1–2 tuần",
+      "goal": "Xác nhận nền tảng đủ chắc: làm trắc nghiệm phần Ôn lại Core, chỉ học lại những thẻ làm sai.",
+      "outcomes": [
+        "Giải thích được union/narrowing, generics, utility types mà không cần tra",
+        "Dùng thành thạo control flow mới, content projection, pipe pure",
+        "Nắm route lazy, guard dạng hàm, Reactive Forms có type"
+      ],
+      "items": [
+        "angular/review/typescript/kieu-va-narrowing",
+        "angular/review/typescript/generics-utility-types",
+        "angular/review/components-templates/binding-va-control-flow",
+        "angular/review/components-templates/projection-va-template-ref",
+        "angular/review/directives-pipes/pipe-co-san-va-pure",
+        "angular/review/directives-pipes/tu-viet-directive",
+        "angular/review/routing/route-co-ban",
+        "angular/review/routing/guard-va-dieu-huong",
+        "angular/review/forms/reactive-forms-co-type",
+        "angular/review/http/httpclient-co-ban",
+        "angular/review/cli-project/cli-va-angular-json"
+      ],
+      "practice": [
+        "Làm 1 lượt Luyện tập Angular 20 câu, chế độ Ngẫu nhiên, lọc phần “Ôn lại Core” — mục tiêu ≥ 80%",
+        "Ôn lại toàn bộ câu sai bằng chế độ “Ôn câu đã sai” cho tới khi hết câu sai"
+      ],
+      "milestone": "Đạt ≥ 80% ở phần Ôn lại Core và không còn câu sai tồn đọng."
+    },
+    {
+      "id": "reactive-hien-dai",
+      "title": "Reactive hiện đại: Signals + RxJS",
+      "duration": "2–3 tuần",
+      "goal": "Dùng đúng signal/computed/effect/linkedSignal/resource, chọn đúng flattening operator và không còn memory leak.",
+      "outcomes": [
+        "Giải thích push–pull và vì sao computed glitch-free",
+        "Biết khi nào effect là code smell và thay bằng gì",
+        "Chọn switchMap/mergeMap/concatMap/exhaustMap cho từng tình huống có lý do",
+        "Ranh giới rõ ràng giữa RxJS và Signals trong codebase"
+      ],
+      "items": [
+        "angular/review/signals/signal-computed-effect",
+        "angular/review/signals/input-output-model",
+        "angular/review/signals/linkedsignal-resource-co-ban",
+        "angular/consolidate/signals/effect-dung-cach",
+        "angular/consolidate/signals/linkedsignal-patterns",
+        "angular/deep-dive/signals/reactive-graph",
+        "angular/deep-dive/signals/resource-httpresource",
+        "rxjs/review/flattening/bon-toan-tu-flattening",
+        "rxjs/consolidate/flattening/chon-dung-flattening",
+        "rxjs/consolidate/errors/xu-ly-loi-dung-cho",
+        "rxjs/consolidate/subjects/sharereplay-va-multicasting",
+        "rxjs/consolidate/angular/memory-leak-va-takeuntildestroyed",
+        "rxjs/consolidate/angular/tosignal-toobservable",
+        "rxjs/deep-dive/subjects/rxjs-va-signals-kien-truc"
+      ],
+      "practice": [
+        "Rà soát dự án hiện tại: tìm và sửa ít nhất 3 chỗ effect + set signal → computed/linkedSignal",
+        "Tìm mọi subscribe() thủ công trong một module, chuyển sang toSignal / takeUntilDestroyed",
+        "Viết lại luồng auto-save nháp bằng debounceTime + concatMap, có xử lý lỗi bên trong"
+      ],
+      "milestone": "Giải thích được mỗi effect và mỗi flattening operator trong module mình phụ trách bằng một câu “vì sao”."
+    },
+    {
+      "id": "cd-performance",
+      "title": "Change Detection & Performance có số liệu",
+      "duration": "3 tuần",
+      "goal": "Hiểu change detection tới mức giải thích được zoneless, và có ít nhất một cải thiện hiệu năng đo được trong dự án thật.",
+      "outcomes": [
+        "Giải thích OnPush, Eager, markForCheck, zoneless và thay đổi mặc định ở v22",
+        "Đọc được Angular DevTools Profiler và tab Performance",
+        "Dùng @defer, @for track, Web Worker đúng chỗ"
+      ],
+      "items": [
+        "angular/review/change-detection/default-vs-onpush",
+        "angular/review/change-detection/lifecycle-hooks",
+        "angular/consolidate/change-detection/expression-changed",
+        "angular/consolidate/change-detection/markforcheck-detectchanges",
+        "angular/deep-dive/change-detection/zoneless-ben-trong",
+        "angular/deep-dive/change-detection/angular-22-thay-doi-mac-dinh",
+        "angular/review/performance/checklist-hieu-nang",
+        "angular/consolidate/performance/defer-thuc-chien",
+        "angular/consolidate/performance/bang-du-lieu-lon",
+        "angular/deep-dive/performance/do-luong-profiling",
+        "angular/deep-dive/performance/debounced-va-injectasync"
+      ],
+      "practice": [
+        "Chọn 1 màn hình chậm trong dự án, đo baseline (production build, CPU 4×) và ghi lại số liệu",
+        "Áp dụng 1–2 kỹ thuật (OnPush/signals, @defer, Web Worker cho import Excel…) rồi đo lại",
+        "Viết 1 dòng thành tích có số liệu trước/sau để đưa vào CV"
+      ],
+      "milestone": "Có một con số cải thiện thật (vd: “giảm X% thời gian…”) kèm ảnh chụp profiler trước/sau."
+    },
+    {
+      "id": "kien-truc",
+      "title": "Kiến trúc & DI cho codebase lớn",
+      "duration": "3–4 tuần",
+      "goal": "Thiết kế được cấu trúc feature, API component dùng chung, cấu hình qua DI và form engine mở rộng được.",
+      "outcomes": [
+        "Chọn đúng nơi đặt provider; dùng InjectionToken, multi provider, provideX()",
+        "Thiết kế component API ít input, nhiều chỗ mở rộng; tạo component động",
+        "Trình bày được kiến trúc dynamic form engine và trade-off của micro frontend"
+      ],
+      "items": [
+        "angular/review/dependency-injection/inject-va-providers",
+        "angular/review/dependency-injection/injector-hierarchy",
+        "angular/consolidate/dependency-injection/injectiontoken-multi-factory",
+        "angular/consolidate/dependency-injection/providers-o-dau",
+        "angular/deep-dive/dependency-injection/di-cho-kien-truc",
+        "angular/consolidate/components-templates/thiet-ke-component-tai-su-dung",
+        "angular/deep-dive/components-templates/dynamic-component",
+        "angular/deep-dive/directives-pipes/host-directives-composition",
+        "angular/review/architecture/cau-truc-feature",
+        "angular/consolidate/architecture/facade-va-ranh-gioi",
+        "angular/consolidate/routing/trang-thai-tren-url",
+        "angular/deep-dive/routing/kien-truc-route-lon",
+        "angular/consolidate/forms/custom-control-cva",
+        "angular/consolidate/forms/validator-tu-viet",
+        "angular/deep-dive/forms/dynamic-form-tu-json-schema",
+        "angular/deep-dive/architecture/micro-frontend",
+        "angular/deep-dive/architecture/nx-monorepo",
+        "angular/consolidate/typescript/type-an-toan-o-ranh-gioi",
+        "angular/deep-dive/typescript/conditional-mapped-template-types"
+      ],
+      "practice": [
+        "Vẽ sơ đồ kiến trúc module mình phụ trách (feature, data-access, ui, phụ thuộc) và tìm 1 chỗ phá ranh giới",
+        "Refactor một màn hình sang mô hình facade + component trình bày",
+        "Viết 1 custom control dùng được với cả Reactive Forms và Signal Forms"
+      ],
+      "milestone": "Trình bày được kiến trúc dynamic form engine (hoặc micro frontend) trong 10 phút, kèm 3 trade-off."
+    },
+    {
+      "id": "chat-luong",
+      "title": "Chất lượng: Testing, Security, Accessibility",
+      "duration": "3 tuần",
+      "goal": "Từ “biết viết test” sang thiết kế chiến lược test; nhận diện rủi ro bảo mật và a11y khi review.",
+      "outcomes": [
+        "Viết test component/HTTP đúng cách khi zoneless",
+        "Dựng characterization test khi migrate legacy",
+        "Giải thích sanitization, CSP, Trusted Types, nơi lưu token, XSRF",
+        "Kiểm tra a11y cơ bản và tự động bằng axe"
+      ],
+      "items": [
+        "angular/review/testing/testbed-co-ban",
+        "angular/consolidate/testing/test-http-va-async",
+        "angular/consolidate/testing/chien-luoc-test",
+        "angular/deep-dive/testing/characterization-test-khi-migrate",
+        "rxjs/deep-dive/angular/marble-testing",
+        "angular/review/security/xss-va-sanitization",
+        "angular/consolidate/security/bypass-csp-trusted-types",
+        "angular/consolidate/security/token-va-xsrf",
+        "angular/deep-dive/security/oidc-pkce-spa",
+        "angular/review/a11y-i18n/a11y-co-ban",
+        "angular/consolidate/a11y-i18n/focus-va-cdk-a11y",
+        "angular/deep-dive/a11y-i18n/combobox-theo-aria-apg"
+      ],
+      "practice": [
+        "Thêm regression test cho 2 bug production gần nhất bạn đã sửa",
+        "Viết 1 bộ characterization test (≥ 10 case) cho một luồng nghiệp vụ đang migrate",
+        "Rà soát mọi bypassSecurityTrust* và [innerHTML] trong dự án, ghi lại rủi ro",
+        "Chạy axe cho 3 màn hình chính và sửa các lỗi nghiêm trọng"
+      ],
+      "milestone": "Có bộ test bảo vệ một luồng nghiệp vụ quan trọng và một báo cáo rà soát security/a11y ngắn gửi team."
+    },
+    {
+      "id": "nen-tang-mo-rong",
+      "title": "HTTP, SSR & tooling",
+      "duration": "2 tuần",
+      "goal": "Làm chủ tầng HTTP, hiểu SSR/hydration đủ để quyết định có dùng hay không, và tự động hoá quy trình cho team.",
+      "outcomes": [
+        "Thiết kế chuỗi interceptor, upload/download có tiến độ, cache & dedupe",
+        "Viết code an toàn cho SSR; hiểu mặc định hydration ở v22",
+        "Cấu hình runtime cho nhiều môi trường; biết schematic/migration làm gì"
+      ],
+      "items": [
+        "angular/consolidate/http/interceptor-thuc-chien",
+        "angular/consolidate/http/upload-download",
+        "angular/deep-dive/http/cache-va-dedupe",
+        "rxjs/deep-dive/errors/retry-nang-cao",
+        "angular/review/ssr/ssr-ssg-hydration-co-ban",
+        "angular/consolidate/ssr/code-an-toan-cho-ssr",
+        "angular/deep-dive/ssr/incremental-hydration-va-render-mode",
+        "angular/consolidate/cli-project/cau-hinh-runtime-va-proxy",
+        "angular/deep-dive/cli-project/schematic-va-migration",
+        "angular/consolidate/directives-pipes/structural-directive-tu-viet"
+      ],
+      "practice": [
+        "Chuẩn hoá xử lý lỗi HTTP của dự án bằng một errorInterceptor (đặt đúng thứ tự với retry)",
+        "Đề xuất (hoặc làm) cơ chế config.json để một bản build chạy được nhiều môi trường"
+      ],
+      "milestone": "Một PR cải thiện tầng HTTP hoặc cấu hình build được team review và merge."
+    },
+    {
+      "id": "senior-ngoai-code",
+      "title": "Senior ngoài code: thiết kế, dẫn dắt, phỏng vấn",
+      "duration": "2–3 tuần (và duy trì liên tục)",
+      "goal": "Tư duy system design, review và ra quyết định có ghi chép, giao tiếp bằng tiếng Anh, sẵn sàng phỏng vấn Senior.",
+      "outcomes": [
+        "Đi hết một bài system design theo RADIO trong 45 phút",
+        "Review code theo thứ tự ưu tiên, viết ADR",
+        "Ước lượng có khoảng + giả định, nói về technical debt bằng chi phí – lợi ích",
+        "Có 5–6 câu chuyện STAR và CV có số liệu"
+      ],
+      "items": [
+        "angular/review/system-design/checklist-yeu-cau-phi-chuc-nang",
+        "angular/deep-dive/system-design/khung-tra-loi-system-design",
+        "angular/consolidate/system-design/case-danh-sach-cuon-vo-han",
+        "angular/deep-dive/system-design/case-dashboard-realtime",
+        "angular/review/senior-skills/thuat-ngu-va-mau-cau-tieng-anh",
+        "angular/deep-dive/senior-skills/code-review-va-adr",
+        "angular/consolidate/senior-skills/uoc-luong-va-tech-debt",
+        "angular/deep-dive/senior-skills/phong-van-senior"
+      ],
+      "practice": [
+        "Viết 1 ADR thật cho một quyết định trong dự án và đưa team review",
+        "Luyện 2 đề system design (tự bấm giờ 45 phút, ghi âm để nghe lại)",
+        "Viết 5 câu chuyện STAR, luyện kể bằng tiếng Anh",
+        "Viết lại 3 dòng kinh nghiệm trong CV theo kiểu có số liệu",
+        "Hướng dẫn (mentor) một đồng nghiệp một chủ đề trong lộ trình này"
+      ],
+      "milestone": "Hoàn thành một buổi phỏng vấn thử Senior (với đồng nghiệp/mentor) gồm kỹ thuật, system design và hành vi."
+    }
+  ]
+}

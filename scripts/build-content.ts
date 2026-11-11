@@ -17,6 +17,7 @@ import type {
   Manifest,
   QuizBank,
   QuizEntry,
+  Roadmap,
   SubjectIndex,
   SubjectSummary,
   UpdateDetail,
@@ -26,6 +27,7 @@ import { DEMO_NAMES } from '../src/app/plugins/demos/demo-names';
 import { initHighlighter, renderMarkdown } from './lib/markdown';
 import {
   itemFrontMatterSchema,
+  roadmapSchema,
   subjectSchema,
   topicsSchema,
   updateFrontMatterSchema,
@@ -36,7 +38,7 @@ const CONTENT = join(ROOT, 'content');
 const OUT = join(ROOT, 'public', 'data');
 const CHECK_ONLY = process.argv.includes('--check');
 /** Các đoạn route cố định dưới /:subject — không được dùng làm section id. */
-const RESERVED_SECTION_IDS = ['practice'];
+const RESERVED_SECTION_IDS = ['practice', 'roadmap'];
 
 const errors: string[] = [];
 const rel = (p: string) => relative(ROOT, p);
@@ -103,6 +105,8 @@ function checkDemos(file: string, demos: string[]) {
 interface BuiltSubject {
   index: SubjectIndex;
   details: ItemDetail[];
+  /** roadmap.json đã validate (chưa giải nghĩa item — cần index của mọi môn). */
+  roadmap?: z.output<typeof roadmapSchema>;
 }
 
 async function buildSubject(subjectId: string): Promise<BuiltSubject | undefined> {
@@ -203,9 +207,15 @@ async function buildSubject(subjectId: string): Promise<BuiltSubject | undefined
     topicCount: topics.length,
     itemCount: details.length,
     quizCount: details.reduce((n, d) => n + d.quizCount, 0),
+    hasRoadmap: false,
   };
+  const roadmapFile = join(dir, 'roadmap.json');
+  const roadmap = existsSync(roadmapFile)
+    ? parseWith(roadmapSchema, await readJson(roadmapFile), roadmapFile)
+    : undefined;
+  summary.hasRoadmap = !!roadmap;
   const items: ItemSummary[] = details.map(({ blocks, toc, related, changelog, ...rest }) => rest);
-  return { index: { subject: summary, topics, items }, details };
+  return { index: { subject: summary, topics, items }, details, roadmap };
 }
 
 async function buildUpdates(topicKeys: Set<string>): Promise<UpdateDetail[]> {
@@ -287,6 +297,37 @@ async function main() {
   }
   if (subjects.length === 0) errors.push('  ✗ content/: chưa có môn học nào');
 
+  // Giải nghĩa item của lộ trình (có thể tham chiếu bài ở môn khác).
+  const summaryByKey = new Map(
+    subjects.flatMap((s) => s.index.items.map((i) => [`${i.subject}/${i.id}`, i] as const)),
+  );
+  const roadmaps = new Map<string, Roadmap>();
+  for (const s of subjects) {
+    if (!s.roadmap) continue;
+    const sid = s.index.subject.id;
+    const seenStage = new Set<string>();
+    const stages = s.roadmap.stages.map((stage) => {
+      if (seenStage.has(stage.id))
+        errors.push(`  ✗ content/${sid}/roadmap.json: trùng stage id "${stage.id}"`);
+      seenStage.add(stage.id);
+      const items = stage.items.flatMap((key) => {
+        const item = summaryByKey.get(key);
+        if (!item)
+          errors.push(
+            `  ✗ content/${sid}/roadmap.json: stage "${stage.id}" — bài "${key}" không tồn tại`,
+          );
+        return item ? [item] : [];
+      });
+      return { ...stage, items };
+    });
+    roadmaps.set(sid, {
+      subject: sid,
+      title: s.roadmap.title,
+      description: s.roadmap.description,
+      stages,
+    });
+  }
+
   // Kiểm tra liên kết chéo giữa các bài.
   const allIds = new Set(subjects.flatMap((s) => s.details.map((d) => `${d.subject}/${d.id}`)));
   for (const s of subjects) {
@@ -329,6 +370,8 @@ async function main() {
     const sid = s.index.subject.id;
     await writeJson(join(OUT, sid, 'index.json'), s.index);
     await writeJson(join(OUT, sid, 'quizzes.json'), quizBank(s.details));
+    const roadmap = roadmaps.get(sid);
+    if (roadmap) await writeJson(join(OUT, sid, 'roadmap.json'), roadmap);
     for (const d of s.details) await writeJson(join(OUT, sid, 'items', `${d.id}.json`), d);
   }
   const updateSummaries: UpdateSummary[] = updates.map(({ blocks, sources, ...rest }) => rest);

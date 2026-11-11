@@ -23,6 +23,13 @@ import { PageState } from '../../shared/page-state/page-state';
           <div class="min-w-0 flex-1">
             <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">{{ index.subject.title }}</h1>
             <p class="mt-1 text-slate-600 dark:text-slate-400">{{ index.subject.description }}</p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              @if (index.subject.hasRoadmap) {
+                <a [routerLink]="['roadmap']" class="btn-secondary">
+                  <app-icon name="route" [size]="16" /> Lộ trình lên Senior
+                </a>
+              }
+            </div>
             @if (index.subject.quizCount) {
               <a [routerLink]="['practice']" class="btn-primary mt-4">
                 <app-icon name="target" [size]="16" /> Luyện tập {{ index.subject.quizCount }} câu

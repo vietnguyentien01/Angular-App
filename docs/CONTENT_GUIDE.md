@@ -136,6 +136,23 @@ Quy tắc:
 - Không trùng tin đã có (tìm trong `content/updates/` trước khi viết).
 - Nếu tin làm một bài học cũ bị lỗi thời: sửa bài đó (cập nhật `lastReviewed`, `changelog`) trong cùng lần chạy.
 
+## 5b. Lộ trình (roadmap.json)
+
+Mỗi môn có thể có `content/<subject>/roadmap.json` → trang `/<subject>/roadmap`:
+
+```json
+{
+  "title": "…", "description": "…",
+  "stages": [
+    { "id": "kebab-id", "title": "…", "duration": "2–3 tuần", "goal": "…",
+      "outcomes": ["…"], "items": ["angular/consolidate/signals/effect-dung-cach", "rxjs/…"],
+      "practice": ["Việc thực hành trên dự án thật"], "milestone": "Cột mốc kiểm chứng" }
+  ]
+}
+```
+
+`items` dùng khoá đầy đủ `subject/section/topic/slug` (được tham chiếu bài của môn khác) — build báo lỗi nếu bài không tồn tại. Khi thêm bài mới quan trọng, cân nhắc thêm vào chặng phù hợp.
+
 ## 6. Thêm demo tương tác
 
 1. Tạo component trong `src/app/plugins/demos/<ten-demo>/`.

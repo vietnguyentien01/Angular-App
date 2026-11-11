@@ -1,8 +1,10 @@
 import { DatePipe } from '@angular/common';
+import { httpResource } from '@angular/common/http';
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import type { ItemSummary } from '../../core/content/content.models';
-import { ContentService } from '../../core/content/content.service';
+import type { ItemSummary, Roadmap } from '../../core/content/content.models';
+import { ContentService, contentUrl } from '../../core/content/content.service';
+import { RoadmapTasksService, computeStageProgress } from '../../core/roadmap/roadmap-progress';
 import { ProgressService, computeStats } from '../../core/progress/progress.service';
 import { UpdatesReadService } from '../../core/updates/updates-read.service';
 import { Icon } from '../../shared/icon/icon';
@@ -20,6 +22,43 @@ import { ProgressBar } from '../../shared/progress-bar/progress-bar';
           Ôn lại nền tảng, củng cố bằng thực hành, rồi đi sâu và cập nhật cái mới.
         </p>
       </header>
+
+      @if (roadmapCard(); as r) {
+        <section aria-labelledby="roadmap-heading" class="card overflow-hidden">
+          <div
+            class="flex flex-wrap items-center gap-4 bg-gradient-to-r from-indigo-600 to-rose-500 p-5 text-white"
+          >
+            <app-icon name="route" [size]="32" />
+            <div class="min-w-0 flex-1">
+              <h2 id="roadmap-heading" class="text-lg font-semibold">{{ r.title }}</h2>
+              <p class="text-sm text-white/85">
+                @if (r.current; as c) {
+                  Chặng {{ r.currentIndex + 1 }}/{{ r.stageCount }}:
+                  <strong>{{ c.title }}</strong> · {{ r.currentPercent }}%
+                } @else {
+                  Đã hoàn thành toàn bộ lộ trình 🎉
+                }
+              </p>
+            </div>
+            <a
+              [routerLink]="['/', r.subject, 'roadmap']"
+              class="rounded-lg bg-white/15 px-4 py-2 text-sm font-medium hover:bg-white/25"
+              >Xem lộ trình</a
+            >
+          </div>
+          <div class="flex flex-wrap items-center gap-4 p-4">
+            <div class="min-w-48 flex-1">
+              <p class="mb-1 text-xs text-slate-500">Tổng thể {{ r.overall }}%</p>
+              <app-progress-bar [percent]="r.overall" label="Tiến độ lộ trình" />
+            </div>
+            @if (r.next; as n) {
+              <a [routerLink]="['/', n.subject, n.section, n.topic, n.slug]" class="btn-primary">
+                <app-icon name="chevron-right" [size]="16" /> Học tiếp: {{ n.title }}
+              </a>
+            }
+          </div>
+        </section>
+      }
 
       @if (continueItems().length) {
         <section aria-labelledby="continue-heading">
@@ -133,6 +172,42 @@ import { ProgressBar } from '../../shared/progress-bar/progress-bar';
 export class DashboardPage {
   private readonly content = inject(ContentService);
   private readonly progress = inject(ProgressService);
+  private readonly roadmapTasks = inject(RoadmapTasksService);
+
+  private readonly roadmapSubject = computed(
+    () => this.content.subjects().find((s) => s.hasRoadmap)?.id,
+  );
+  private readonly roadmap = httpResource<Roadmap>(() => {
+    const sid = this.roadmapSubject();
+    return sid ? contentUrl.roadmap(sid) : undefined;
+  });
+
+  protected readonly roadmapCard = computed(() => {
+    if (!this.roadmap.hasValue()) return undefined;
+    const r = this.roadmap.value();
+    const records = this.progress.records();
+    const tasks = this.roadmapTasks.tasks();
+    const progress = r.stages.map((s) => computeStageProgress(r.subject, s, records, tasks));
+    const currentIndex = progress.findIndex((p) => !p.complete);
+    const current = currentIndex >= 0 ? r.stages[currentIndex] : undefined;
+    const totals = progress.reduce(
+      (acc, p) => ({
+        done: acc.done + p.lessonsDone + p.tasksDone,
+        all: acc.all + p.lessonsTotal + p.tasksTotal,
+      }),
+      { done: 0, all: 0 },
+    );
+    return {
+      subject: r.subject,
+      title: r.title,
+      stageCount: r.stages.length,
+      current,
+      currentIndex,
+      currentPercent: currentIndex >= 0 ? progress[currentIndex].percent : 100,
+      next: current?.items.find((i) => records[`${i.subject}/${i.id}`]?.status !== 'done'),
+      overall: totals.all ? Math.round((totals.done / totals.all) * 100) : 0,
+    };
+  });
   protected readonly updatesRead = inject(UpdatesReadService);
 
   protected readonly subjectCards = computed(() => {
