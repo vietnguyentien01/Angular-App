@@ -1,5 +1,20 @@
 [
   {
+    "id": "typescript",
+    "title": "TypeScript cho Angular",
+    "description": "Kiểu, union & narrowing, generics, utility types, satisfies, unknown vs any."
+  },
+  {
+    "id": "components-templates",
+    "title": "Components & Templates",
+    "description": "Binding, control flow @if/@for/@switch/@let, content projection, template reference."
+  },
+  {
+    "id": "directives-pipes",
+    "title": "Directives & Pipes",
+    "description": "Pipe có sẵn, pure vs impure, tự viết attribute directive và pipe."
+  },
+  {
     "id": "signals",
     "title": "Signals",
     "description": "Mô hình reactive dựa trên signal: signal, computed, effect, linkedSignal, resource."
@@ -13,6 +28,26 @@
     "id": "dependency-injection",
     "title": "Dependency Injection",
     "description": "inject(), providers, cây injector, InjectionToken, multi provider và thiết kế API cho thư viện."
+  },
+  {
+    "id": "routing",
+    "title": "Routing",
+    "description": "Định nghĩa route, lazy loading, route params, guard, routerLink."
+  },
+  {
+    "id": "forms",
+    "title": "Forms",
+    "description": "Reactive forms có type, validator, template-driven, Signal Forms (v22)."
+  },
+  {
+    "id": "http",
+    "title": "HttpClient",
+    "description": "Gọi API có type, params/headers, xử lý lỗi, interceptor."
+  },
+  {
+    "id": "cli-project",
+    "title": "CLI & cấu trúc project",
+    "description": "ng new/generate/build/update, angular.json, budgets, môi trường."
   },
   {
     "id": "performance",
