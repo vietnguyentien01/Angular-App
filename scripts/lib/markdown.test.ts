@@ -66,6 +66,66 @@ describe('renderMarkdown', () => {
   });
 });
 
+describe('quiz & exercise', () => {
+  it('tách quiz thành block có đáp án đúng và giải thích', () => {
+    const src = [
+      ':::quiz Log ra gì?',
+      '```ts',
+      'console.log(1);',
+      '```',
+      '',
+      '- [ ] `0`',
+      '- [x] `1`',
+      '- [ ] Lỗi',
+      '',
+      'Vì log 1.',
+      ':::',
+    ].join('\n');
+    const { blocks, quizzes } = renderMarkdown(src);
+    assert.equal(quizzes.length, 1);
+    const q = quizzes[0];
+    assert.equal(q.id, 'q1');
+    assert.equal(blocks[0].kind, 'quiz');
+    assert.deepEqual(
+      q.options.map((o) => o.correct),
+      [false, true, false],
+    );
+    assert.equal(q.options[1].html, '<code>1</code>');
+    assert.equal(q.multiple, false);
+    assert.match(q.question, /Log ra gì\?/);
+    assert.match(q.question, /shiki/);
+    assert.match(q.explanation, /Vì log 1/);
+  });
+
+  it('nhận diện quiz nhiều đáp án', () => {
+    const { quizzes } = renderMarkdown(':::quiz Chọn đúng\n- [x] a\n- [x] b\n- [ ] c\n:::');
+    assert.equal(quizzes[0].multiple, true);
+  });
+
+  it('báo lỗi quiz không có đáp án đúng', () => {
+    assert.throws(() => renderMarkdown(':::quiz Sai\n- [ ] a\n- [ ] b\n:::'), /đáp án đúng/);
+  });
+
+  it('render exercise với lời giải ẩn', () => {
+    const out = html(':::exercise Viết hàm\nĐề bài\n???\nLời giải\n:::');
+    assert.match(out, /class="exercise"/);
+    assert.match(
+      out,
+      /<details class="exercise-solution"><summary>Xem lời giải<\/summary><p>Lời giải<\/p>/,
+    );
+  });
+
+  it('báo lỗi exercise thiếu lời giải', () => {
+    assert.throws(() => renderMarkdown(':::exercise X\nĐề\n:::'), /\?\?\?/);
+  });
+});
+
+describe('container lồng nhau', () => {
+  it('báo lỗi khi có ":::" thừa', () => {
+    assert.throws(() => renderMarkdown(':::tip\nA\n:::note\nB\n:::\n:::'), /thừa/);
+  });
+});
+
 describe('slugify', () => {
   it('bỏ dấu tiếng Việt', () => {
     assert.equal(slugify('Đồng bộ dữ liệu'), 'dong-bo-du-lieu');

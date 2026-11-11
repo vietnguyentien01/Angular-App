@@ -27,6 +27,7 @@ export interface SubjectSummary {
   sections: (SectionMeta & { itemCount: number })[];
   topicCount: number;
   itemCount: number;
+  quizCount: number;
 }
 
 export interface Manifest {
@@ -50,6 +51,7 @@ export interface ItemSummary {
   level: Level;
   order: number;
   minutes: number;
+  quizCount: number;
   version?: number;
   lastReviewed: string;
   tags: string[];
@@ -68,7 +70,39 @@ export interface SubjectIndex {
   items: ItemSummary[];
 }
 
-export type ContentBlock = { kind: 'html'; html: string } | { kind: 'demo'; name: string };
+export interface QuizOption {
+  html: string;
+  correct: boolean;
+}
+
+export interface QuizBlock {
+  kind: 'quiz';
+  /** Duy nhất trong một bài: q1, q2… */
+  id: string;
+  question: string;
+  options: QuizOption[];
+  explanation: string;
+  multiple: boolean;
+}
+
+export type ContentBlock =
+  { kind: 'html'; html: string } | { kind: 'demo'; name: string } | QuizBlock;
+
+/** Một câu hỏi trong ngân hàng câu hỏi của môn học (data/<subject>/quizzes.json). */
+export interface QuizEntry extends Omit<QuizBlock, 'kind'> {
+  /** `${itemId}#${quizId}` */
+  key: string;
+  subject: string;
+  itemId: string;
+  itemTitle: string;
+  section: string;
+  topic: string;
+  level: Level;
+}
+
+export interface QuizBank {
+  quizzes: QuizEntry[];
+}
 
 export interface TocEntry {
   id: string;

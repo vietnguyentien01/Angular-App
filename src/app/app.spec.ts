@@ -36,6 +36,7 @@ describe('App', () => {
           ],
           topicCount: 1,
           itemCount: 3,
+          quizCount: 0,
         },
       ],
     };

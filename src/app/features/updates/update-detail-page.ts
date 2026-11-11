@@ -36,7 +36,7 @@ import { IMPORTANCE } from './updates-page';
           <p class="mt-2 text-lg text-slate-600 dark:text-slate-400">{{ u.summary }}</p>
         </header>
 
-        <app-content-blocks class="mt-8" [blocks]="u.blocks" />
+        <app-content-blocks class="mt-8" [blocks]="u.blocks" [keyPrefix]="'updates/' + u.id" />
 
         @if (relatedTopics().length) {
           <section class="mt-10" aria-labelledby="rt-heading">

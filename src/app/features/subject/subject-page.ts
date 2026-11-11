@@ -20,9 +20,15 @@ import { PageState } from '../../shared/page-state/page-state';
           >
             <app-icon [name]="index.subject.icon" [size]="24" />
           </span>
-          <div>
+          <div class="min-w-0 flex-1">
             <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">{{ index.subject.title }}</h1>
             <p class="mt-1 text-slate-600 dark:text-slate-400">{{ index.subject.description }}</p>
+            @if (index.subject.quizCount) {
+              <a [routerLink]="['practice']" class="btn-primary mt-4">
+                <app-icon name="target" [size]="16" /> Luyện tập {{ index.subject.quizCount }} câu
+                hỏi
+              </a>
+            }
           </div>
         </header>
 

@@ -1,6 +1,6 @@
 import { Marked, type Tokens, type TokenizerAndRendererExtension } from 'marked';
 import { createHighlighter, type Highlighter } from 'shiki';
-import type { ContentBlock, TocEntry } from '../../src/app/core/content/content.models';
+import type { ContentBlock, QuizBlock, TocEntry } from '../../src/app/core/content/content.models';
 
 /**
  * Markdown → HTML cho nội dung của app.
@@ -13,6 +13,8 @@ import type { ContentBlock, TocEntry } from '../../src/app/core/content/content.
  *   :::version v16 [Tiêu đề]                      ... :::   → khác biệt theo phiên bản cũ
  *   :::interview Câu hỏi phỏng vấn?               ... :::   → câu hỏi + đáp án ẩn
  *   :::demo ten-demo                                        → nhúng demo tương tác
+ *   :::quiz Câu hỏi?  (nội dung) - [ ] sai / - [x] đúng (giải thích) :::  → trắc nghiệm
+ *   :::exercise Tiêu đề   đề bài  ???  lời giải  :::                 → bài tập có lời giải ẩn
  *   ```ts good title="app.ts"    /    ```ts bad              → khối code có nhãn
  */
 
@@ -40,7 +42,9 @@ const CALLOUTS: Record<string, string> = {
   version: 'Khác biệt phiên bản',
 };
 const DEMO_MARKER = (name: string) => `<!--demo:${name}-->`;
-const DEMO_SPLIT = /<!--demo:([a-z0-9-]+)-->/;
+const QUIZ_MARKER = (index: number) => `<!--quiz:${index}-->`;
+const BLOCK_SPLIT = /<!--(demo|quiz):([a-z0-9-]+)-->/;
+const SPECIAL_CONTAINERS = ['interview', 'quiz', 'exercise'];
 
 let highlighter: Highlighter | undefined;
 
@@ -102,6 +106,8 @@ interface ContainerToken extends Tokens.Generic {
   title: string;
   titleTokens: Tokens.Generic[];
   tokens: Tokens.Generic[];
+  /** Chỉ dùng cho :::exercise — phần sau dòng `???`. */
+  solutionTokens?: Tokens.Generic[];
 }
 
 interface DemoToken extends Tokens.Generic {
@@ -113,6 +119,7 @@ export interface RenderResult {
   blocks: ContentBlock[];
   toc: TocEntry[];
   demos: string[];
+  quizzes: QuizBlock[];
   words: number;
 }
 
@@ -120,6 +127,7 @@ export function renderMarkdown(source: string): RenderResult {
   const toc: TocEntry[] = [];
   const usedIds = new Map<string, number>();
   const demos: string[] = [];
+  const quizzes: Omit<QuizBlock, 'id'>[] = [];
 
   const demoExt: TokenizerAndRendererExtension = {
     name: 'demo',
@@ -148,9 +156,9 @@ export function renderMarkdown(source: string): RenderResult {
       if (!match) return undefined;
       const [, variant, title = '', body] = match;
       if (variant === 'demo') return undefined;
-      if (variant !== 'interview' && !(variant in CALLOUTS)) {
+      if (!SPECIAL_CONTAINERS.includes(variant) && !(variant in CALLOUTS)) {
         throw new Error(
-          `Container không hợp lệ ":::${variant}". Cho phép: ${[...Object.keys(CALLOUTS), 'interview', 'demo'].join(', ')}`,
+          `Container không hợp lệ ":::${variant}". Cho phép: ${[...Object.keys(CALLOUTS), ...SPECIAL_CONTAINERS, 'demo'].join(', ')}`,
         );
       }
       const token: ContainerToken = {
@@ -161,13 +169,53 @@ export function renderMarkdown(source: string): RenderResult {
         titleTokens: this.lexer.inlineTokens(title.trim()),
         tokens: [],
       };
-      this.lexer.blockTokens(body, token.tokens);
+      if (variant === 'exercise') {
+        const [task, solution] = body.split(/^\?\?\?[ \t]*$/m);
+        if (solution === undefined)
+          throw new Error(':::exercise cần dòng "???" để tách đề bài và lời giải');
+        this.lexer.blockTokens(task, token.tokens);
+        token.solutionTokens = [];
+        this.lexer.blockTokens(solution, token.solutionTokens);
+      } else {
+        this.lexer.blockTokens(body, token.tokens);
+      }
       return token;
     },
     renderer(token) {
       const t = token as ContainerToken;
-      const body = this.parser.parse(t.tokens);
       const title = this.parser.parseInline(t.titleTokens);
+      if (t.variant === 'quiz') {
+        const listIndex = t.tokens.findIndex(
+          (tk) => tk.type === 'list' && (tk as Tokens.List).items.some((i) => i.task),
+        );
+        if (listIndex < 0)
+          throw new Error(`:::quiz "${t.title}" cần danh sách đáp án dạng "- [ ]" / "- [x]"`);
+        const list = t.tokens[listIndex] as Tokens.List;
+        const options = list.items.map((item) => ({
+          html: this.parser
+            .parse(item.tokens.filter((tk) => tk.type !== 'checkbox') as Tokens.Generic[])
+            .replace(/^<p>([\s\S]*)<\/p>\s*$/, '$1')
+            .trim(),
+          correct: !!item.checked,
+        }));
+        const correctCount = options.filter((o) => o.correct).length;
+        if (options.length < 2 || correctCount === 0) {
+          throw new Error(`:::quiz "${t.title}" cần ≥ 2 đáp án và ≥ 1 đáp án đúng ("- [x]")`);
+        }
+        const before = this.parser.parse(t.tokens.slice(0, listIndex));
+        quizzes.push({
+          question: `<p class="quiz-question">${title}</p>${before}`,
+          options,
+          explanation: this.parser.parse(t.tokens.slice(listIndex + 1)),
+          multiple: correctCount > 1,
+        });
+        return QUIZ_MARKER(quizzes.length - 1);
+      }
+      const body = this.parser.parse(t.tokens);
+      if (t.variant === 'exercise') {
+        const solution = this.parser.parse(t.solutionTokens ?? []);
+        return `<section class="exercise"><p class="exercise-title"><span class="exercise-label">Bài tập</span> ${title}</p>${body}<details class="exercise-solution"><summary>Xem lời giải</summary>${solution}</details></section>\n`;
+      }
       if (t.variant === 'interview') {
         return `<details class="interview"><summary><span class="interview-label">Phỏng vấn</span> ${title}</summary><div class="interview-answer">${body}</div></details>\n`;
       }
@@ -236,19 +284,33 @@ export function renderMarkdown(source: string): RenderResult {
   });
 
   const html = marked.parse(source, { async: false });
+  if (/(^|\n)(<p>)?:::/.test(html)) {
+    throw new Error('Có dòng ":::" thừa — container không được lồng nhau, hoặc thiếu dòng mở/đóng');
+  }
 
   const blocks: ContentBlock[] = [];
-  const parts = html.split(DEMO_SPLIT);
-  parts.forEach((part, i) => {
-    if (i % 2 === 1) {
-      blocks.push({ kind: 'demo', name: part });
-    } else if (part.trim()) {
-      blocks.push({ kind: 'html', html: part.trim() });
+  const quizBlocks: QuizBlock[] = [];
+  // split với 2 nhóm bắt: [html, loại, giá trị, html, loại, giá trị, ...]
+  const parts = html.split(BLOCK_SPLIT);
+  for (let i = 0; i < parts.length; i += 3) {
+    const part = parts[i];
+    if (part.trim()) blocks.push({ kind: 'html', html: part.trim() });
+    const kind = parts[i + 1];
+    const value = parts[i + 2];
+    if (kind === 'demo') blocks.push({ kind: 'demo', name: value });
+    if (kind === 'quiz') {
+      const quiz: QuizBlock = {
+        kind: 'quiz',
+        id: `q${quizBlocks.length + 1}`,
+        ...quizzes[Number(value)],
+      };
+      quizBlocks.push(quiz);
+      blocks.push(quiz);
     }
-  });
+  }
 
   const prose = source.replace(/```[\s\S]*?```/g, ' ').replace(/[#>*_`:\-|[\]()]/g, ' ');
   const words = prose.split(/\s+/).filter(Boolean).length;
 
-  return { blocks, toc, demos, words };
+  return { blocks, toc, demos, quizzes: quizBlocks, words };
 }

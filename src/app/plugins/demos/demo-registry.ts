@@ -12,4 +12,7 @@ import type { DemoName } from './demo-names';
 export const DEMO_REGISTRY: Record<DemoName, () => Promise<Type<unknown>>> = {
   'signals-counter': () =>
     import('./signals-counter/signals-counter').then((m) => m.SignalsCounterDemo),
+  'rxjs-flattening': () =>
+    import('./rxjs-flattening/rxjs-flattening').then((m) => m.RxjsFlatteningDemo),
+  'onpush-tree': () => import('./onpush-tree/onpush-tree').then((m) => m.OnPushTreeDemo),
 };

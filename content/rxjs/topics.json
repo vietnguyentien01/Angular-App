@@ -1,0 +1,8 @@
+[
+  { "id": "observable", "title": "Observable cơ bản", "description": "Observable, Observer, Subscription, thứ tự thực thi, cold vs hot." },
+  { "id": "operators", "title": "Operators", "description": "Biến đổi, lọc, kết hợp luồng: map, filter, debounceTime, combineLatest, forkJoin…" },
+  { "id": "flattening", "title": "Higher-order mapping", "description": "switchMap, mergeMap, concatMap, exhaustMap — chọn đúng để tránh race condition." },
+  { "id": "subjects", "title": "Subject & multicasting", "description": "Subject, BehaviorSubject, ReplaySubject, share, shareReplay." },
+  { "id": "errors", "title": "Xử lý lỗi", "description": "catchError, retry, finalize — luồng chết khi nào và cách giữ nó sống." },
+  { "id": "angular", "title": "RxJS trong Angular", "description": "async pipe, takeUntilDestroyed, toSignal / toObservable, HttpClient." }
+]

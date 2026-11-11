@@ -31,6 +31,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/subject/subject-page').then((m) => m.SubjectPage),
   },
   {
+    path: ':subject/practice',
+    title: 'Luyện tập · Learning Hub',
+    loadComponent: () => import('./features/practice/practice-page').then((m) => m.PracticePage),
+  },
+  {
     path: ':subject/:section',
     title: 'Learning Hub',
     loadComponent: () => import('./features/subject/section-page').then((m) => m.SectionPage),

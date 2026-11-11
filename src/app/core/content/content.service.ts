@@ -11,6 +11,7 @@ export const contentUrl = {
   item: (subject: string, id: string) => `data/${subject}/items/${id}.json`,
   updates: () => 'data/updates/index.json',
   update: (id: string) => `data/updates/${id}.json`,
+  quizzes: (subject: string) => `data/${subject}/quizzes.json`,
 };
 
 /**

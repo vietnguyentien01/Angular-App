@@ -66,3 +66,61 @@ Trong code review, mỗi `effect` nên trả lời được câu hỏi: *“side
 :::interview Vì sao effect set signal lại gây “trễ một nhịp”?
 Effect được lên lịch chạy **sau** khi signal nguồn thay đổi (không đồng bộ ngay lúc `set`). Trong khoảng giữa, ai đọc signal đích sẽ thấy giá trị cũ. `computed` thì được tính **khi được đọc** và luôn nhất quán với nguồn (glitch-free).
 :::
+
+:::quiz Trường hợp nào DÙNG `effect` là hợp lý?
+- [ ] Tính `total` từ `items` và `discount`
+- [ ] Reset `page` về 1 khi `filter` đổi
+- [x] Lưu `theme()` vào `localStorage` mỗi khi đổi
+- [ ] Tạo `fullName` từ `first` và `last`
+
+Ba trường hợp còn lại là state dẫn xuất → `computed` / `linkedSignal`. Ghi `localStorage` là đồng bộ ra **bên ngoài** reactive graph.
+:::
+
+:::quiz Effect sau chạy lại khi signal nào đổi?
+```ts
+effect(() => {
+  if (this.enabled()) {
+    console.log(this.value());
+  }
+});
+```
+
+- [ ] Chỉ `enabled`
+- [ ] Cả `enabled` và `value`, luôn luôn
+- [x] `enabled` luôn được theo dõi; `value` chỉ được theo dõi khi lần chạy gần nhất có `enabled() === true`
+- [ ] Không signal nào
+
+Dependency được thu thập **động** theo những gì thực sự được đọc trong lần chạy. Khi `enabled` là `false`, `value()` không được đọc nên không phải dependency.
+:::
+
+:::exercise Refactor component
+```ts
+export class Cart {
+  readonly items = input.required<Item[]>();
+  readonly total = signal(0);
+  readonly isEmpty = signal(true);
+
+  constructor() {
+    effect(() => {
+      this.total.set(this.items().reduce((s, i) => s + i.price * i.qty, 0));
+      this.isEmpty.set(this.items().length === 0);
+      localStorage.setItem('cart', JSON.stringify(this.items()));
+    });
+  }
+}
+```
+???
+```ts
+export class Cart {
+  readonly items = input.required<Item[]>();
+  readonly total = computed(() => this.items().reduce((s, i) => s + i.price * i.qty, 0));
+  readonly isEmpty = computed(() => this.items().length === 0);
+
+  constructor() {
+    // Chỉ giữ lại side effect thật sự
+    effect(() => localStorage.setItem('cart', JSON.stringify(this.items())));
+  }
+}
+```
+`total` và `isEmpty` là giá trị dẫn xuất → `computed`. Chỉ việc ghi `localStorage` mới cần `effect`.
+:::

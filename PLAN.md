@@ -262,12 +262,20 @@ Trên app:
 | Giai đoạn | Nội dung | Kết quả để bạn review |
 |---|---|---|
 | **1. Khung app có thể mở rộng** ✅ | Angular + Tailwind, mô hình Subject/Section/Topic, content pipeline + validate, layout, routing, render Markdown, IndexedDB, dark mode, **GitHub Actions deploy lên GitHub Pages** | App chạy trên GitHub Pages, có môn Angular với 3 phần (nội dung giả) |
-| **2. Lát cắt mẫu** | Làm trọn **Signals** và **Change Detection** xuyên suốt cả 3 phần | Bạn duyệt hình thức & độ sâu |
+| **2. Lát cắt mẫu** ✅ | Làm trọn **Signals** và **Change Detection** xuyên suốt cả 3 phần | Bạn duyệt hình thức & độ sâu |
 | **3. Công cụ học + cập nhật tự động** | Flashcard SM-2, quiz, bài tập, ma trận kiến thức, tìm kiếm, dashboard, mục "Frontend mới"; **tạo scheduled task mỗi 2 ngày** | Nhận bản tin đầu tiên |
 | **4. Nội dung còn lại** | Viết theo đợt, ưu tiên các khoảng trống trong CV | |
 | **5. Hoàn thiện** | PWA, timeline v12 → mới nhất, tech radar, self-assessment, export/import, script `new-subject` | Sẵn sàng thêm môn học mới |
 
 Mỗi giai đoạn sẽ commit & push để bạn xem.
+
+## 8b. Cập nhật theo phản hồi (11/11/2026)
+
+- ✅ **Bài tập tương tác**: `:::quiz` (trắc nghiệm, đoán output — có giải thích) và `:::exercise` (đề + lời giải ẩn), kết quả lưu IndexedDB.
+- ✅ **Trang Luyện tập** cho mỗi môn: ngẫu nhiên / câu chưa làm / ôn câu đã sai, lọc theo phần & chủ đề.
+- ✅ **Môn RxJS riêng** (3 phần, 12 bài, 48 câu hỏi, demo so sánh switchMap/mergeMap/concatMap/exhaustMap).
+- ✅ **Angular Signals & Change Detection** đầy đủ 3 phần (19 bài, 34 câu hỏi, demo cây OnPush).
+- Tiếp theo: mở rộng các chủ đề Angular còn lại (DI, Forms, Routing, HTTP, Performance, Testing, Security…) mỗi chủ đề đủ 3 phần + bài tập.
 
 ## 9. Đã chốt & còn cần xác nhận
 

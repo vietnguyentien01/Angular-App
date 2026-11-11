@@ -1,0 +1,29 @@
+{
+  "id": "rxjs",
+  "title": "RxJS",
+  "description": "Lập trình reactive với RxJS trong Angular: ôn operator hay dùng, chọn đúng flattening, tránh memory leak, xử lý lỗi và hiểu bên trong Observable.",
+  "icon": "stream",
+  "color": "#b7178c",
+  "order": 2,
+  "currentVersion": 7,
+  "sections": [
+    {
+      "id": "review",
+      "title": "Ôn lại Core",
+      "description": "Observable, operator hay dùng, Subject, cold/hot — nhắc lại nhanh kèm câu hỏi kiểm tra.",
+      "icon": "refresh"
+    },
+    {
+      "id": "consolidate",
+      "title": "Củng cố",
+      "description": "Chọn đúng operator cho tình huống thật, đoán output, tìm bug memory leak và race condition.",
+      "icon": "hammer"
+    },
+    {
+      "id": "deep-dive",
+      "title": "Chuyên sâu",
+      "description": "Tự viết Observable và custom operator, scheduler, marble testing, RxJS vs Signals ở góc nhìn kiến trúc.",
+      "icon": "telescope"
+    }
+  ]
+}

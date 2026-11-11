@@ -84,6 +84,20 @@ import { Icon } from '../shared/icon/icon';
                     </a>
                   </li>
                 }
+                @if (subject.quizCount) {
+                  <li>
+                    <a
+                      [routerLink]="['/', subject.id, 'practice']"
+                      routerLinkActive="nav-active"
+                      class="nav-link text-sm"
+                      (click)="navigate.emit()"
+                    >
+                      <app-icon name="target" [size]="16" />
+                      <span class="flex-1">Luyện tập</span>
+                      <span class="text-xs text-slate-400">{{ subject.quizCount }}</span>
+                    </a>
+                  </li>
+                }
               </ul>
             </li>
           } @empty {

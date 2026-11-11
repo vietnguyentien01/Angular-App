@@ -14,6 +14,7 @@ const item = (id: string): ItemSummary => ({
   level: 'core',
   order: 1,
   minutes: 1,
+  quizCount: 0,
   lastReviewed: '2026-11-11',
   tags: [],
 });

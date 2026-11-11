@@ -52,6 +52,11 @@ export const itemRoute = (item: Pick<ItemSummary, 'subject' | 'section' | 'topic
           <span class="inline-flex items-center gap-1"
             ><app-icon name="clock" [size]="12" /> {{ item().minutes }} phút</span
           >
+          @if (item().quizCount) {
+            <span class="inline-flex items-center gap-1 text-sky-700 dark:text-sky-400"
+              ><app-icon name="check-circle" [size]="12" /> {{ item().quizCount }} câu hỏi</span
+            >
+          }
         </span>
       </span>
       <app-icon name="chevron-right" [size]="18" class="mt-1 text-slate-400" />

@@ -15,6 +15,8 @@ import type {
   ItemDetail,
   ItemSummary,
   Manifest,
+  QuizBank,
+  QuizEntry,
   SubjectIndex,
   SubjectSummary,
   UpdateDetail,
@@ -33,6 +35,8 @@ const ROOT = process.cwd();
 const CONTENT = join(ROOT, 'content');
 const OUT = join(ROOT, 'public', 'data');
 const CHECK_ONLY = process.argv.includes('--check');
+/** Các đoạn route cố định dưới /:subject — không được dùng làm section id. */
+const RESERVED_SECTION_IDS = ['practice'];
 
 const errors: string[] = [];
 const rel = (p: string) => relative(ROOT, p);
@@ -116,6 +120,10 @@ async function buildSubject(subjectId: string): Promise<BuiltSubject | undefined
     report(subjectFile, `id "${subject.id}" phải trùng tên thư mục "${subjectId}"`);
 
   const sectionIds = new Set(subject.sections.map((s) => s.id));
+  for (const id of sectionIds) {
+    if (RESERVED_SECTION_IDS.includes(id))
+      report(subjectFile, `section id "${id}" bị trùng với route của app`);
+  }
   const topicIds = new Set(topics.map((t) => t.id));
   const details: ItemDetail[] = [];
 
@@ -161,6 +169,7 @@ async function buildSubject(subjectId: string): Promise<BuiltSubject | undefined
           level: fm.level,
           order: fm.order ?? Number(match[1]),
           minutes: minutesFor(rendered.words),
+          quizCount: rendered.quizzes.length,
           version: fm.version,
           lastReviewed: fm.lastReviewed,
           tags: fm.tags,
@@ -191,6 +200,7 @@ async function buildSubject(subjectId: string): Promise<BuiltSubject | undefined
     })),
     topicCount: topics.length,
     itemCount: details.length,
+    quizCount: details.reduce((n, d) => n + d.quizCount, 0),
   };
   const items: ItemSummary[] = details.map(({ blocks, toc, related, changelog, ...rest }) => rest);
   return { index: { subject: summary, topics, items }, details };
@@ -225,6 +235,27 @@ async function buildUpdates(topicKeys: Set<string>): Promise<UpdateDetail[]> {
     updates.push({ id, ...fm, blocks: rendered.blocks });
   }
   return updates.sort((a, b) => b.id.localeCompare(a.id));
+}
+
+function quizBank(details: ItemDetail[]): QuizBank {
+  const quizzes: QuizEntry[] = [];
+  for (const d of details) {
+    for (const block of d.blocks) {
+      if (block.kind !== 'quiz') continue;
+      const { kind, ...quiz } = block;
+      quizzes.push({
+        ...quiz,
+        key: `${d.id}#${quiz.id}`,
+        subject: d.subject,
+        itemId: d.id,
+        itemTitle: d.title,
+        section: d.section,
+        topic: d.topic,
+        level: d.level,
+      });
+    }
+  }
+  return { quizzes };
 }
 
 async function writeJson(path: string, data: unknown) {
@@ -284,6 +315,7 @@ async function main() {
   for (const s of subjects) {
     const sid = s.index.subject.id;
     await writeJson(join(OUT, sid, 'index.json'), s.index);
+    await writeJson(join(OUT, sid, 'quizzes.json'), quizBank(s.details));
     for (const d of s.details) await writeJson(join(OUT, sid, 'items', `${d.id}.json`), d);
   }
   const updateSummaries: UpdateSummary[] = updates.map(({ blocks, sources, ...rest }) => rest);

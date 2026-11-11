@@ -48,6 +48,10 @@ App tự cảnh báo bài "có thể đã cũ" khi `version` < `currentVersion` 
 
 ## 3. Cấu trúc nội dung theo phần
 
+Yêu cầu tối thiểu về luyện tập: bài `review` có **≥ 2 `:::quiz`**, bài `consolidate` có **≥ 2 `:::quiz` và ≥ 1 `:::exercise`**, bài `deep-dive` có **≥ 1 `:::quiz` hoặc `:::exercise`**.
+Câu "đoán output" và đáp án code **phải được chạy thử** (RxJS, signals…) trước khi commit.
+
+
 | Phần | Mục đích | Khung bài |
 |---|---|---|
 | `review` (Ôn lại Core) | Nhắc lại nhanh, 1–3 phút | TL;DR → ví dụ ngắn → bảng chọn nhanh → 1 lỗi hay gặp → `:::version` → 1 `:::interview` |
@@ -71,11 +75,29 @@ Khác biệt ở các bản cũ mà dự án thực tế còn dùng.
 
 :::demo signals-counter           (demo phải được đăng ký, xem mục 6)
 
+:::quiz Câu hỏi trắc nghiệm?
+(tuỳ chọn: đoạn code hoặc mô tả)
+
+- [ ] Đáp án sai
+- [x] Đáp án đúng                 (≥ 2 đáp án, ≥ 1 đúng; nhiều [x] = chọn nhiều)
+- [ ] Đáp án sai
+
+Giải thích (hiện sau khi trả lời).
+:::
+
+:::exercise Tiêu đề bài tập
+Đề bài…
+???
+Lời giải (ẩn, bấm để xem).
+:::
+
 ```ts good title="app.ts"         (good | bad | không có; title tuỳ chọn)
 const x = 1;
 ```
 ````
 
+- **Không lồng container** (vd `:::warning` bên trong `:::exercise`) — build sẽ báo lỗi.
+- Mọi `:::quiz` của môn học được gom vào trang **Luyện tập** (`/<subject>/practice`).
 - **HTML thô bị escape** — không dùng thẻ HTML trong Markdown.
 - Link nội bộ dùng đường dẫn tuyệt đối trong app, vd `[Signals](/angular/review)`.
 - Ngôn ngữ code hỗ trợ: `ts, js, html, css, scss, json, bash, yaml, diff, text`.
@@ -104,6 +126,7 @@ Khung nội dung bản tin:
 2. `## Vì sao quan trọng` — ảnh hưởng thực tế với dev Angular / dự án enterprise.
 3. `## Ví dụ` — code trước/sau nếu có.
 4. `## Việc nên làm` — áp dụng ngay / theo dõi / chưa cần quan tâm.
+5. Tuỳ chọn: một `:::quiz` ngắn để tự kiểm tra đã hiểu tin.
 
 Quy tắc:
 

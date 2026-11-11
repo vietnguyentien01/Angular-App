@@ -47,6 +47,9 @@ import { PageState } from '../../shared/page-state/page-state';
               <span class="inline-flex items-center gap-1"
                 ><app-icon name="clock" [size]="14" /> {{ item.minutes }} phút</span
               >
+              @if (item.quizCount) {
+                <span>{{ item.quizCount }} câu trắc nghiệm</span>
+              }
               @if (item.version) {
                 <span>Angular v{{ item.version }}</span>
               }
@@ -71,7 +74,11 @@ import { PageState } from '../../shared/page-state/page-state';
             </div>
           }
 
-          <app-content-blocks class="mt-8" [blocks]="item.blocks" />
+          <app-content-blocks
+            class="mt-8"
+            [blocks]="item.blocks"
+            [keyPrefix]="item.subject + '/' + item.id"
+          />
 
           @if (item.changelog.length) {
             <section
