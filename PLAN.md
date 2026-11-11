@@ -276,7 +276,9 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ **Môn RxJS riêng** (3 phần, 12 bài, 48 câu hỏi, demo so sánh switchMap/mergeMap/concatMap/exhaustMap).
 - ✅ **Angular Signals & Change Detection** đầy đủ 3 phần (19 bài, 34 câu hỏi, demo cây OnPush).
 - ✅ **Đợt 1 mở rộng Angular** (ưu tiên theo khoảng trống CV): Dependency Injection, Performance, Testing, Security — mỗi chủ đề đủ 3 phần + bài tập.
-- Tiếp theo — **Đợt 2**: Forms (Reactive + Signal Forms, CVA, dynamic form), Routing, HTTP & interceptors.
+- ✅ **Mở rộng Ôn lại Core**: TypeScript, Components & Templates, Directives & Pipes, Routing, Forms (kể cả Signal Forms), HttpClient, CLI.
+- ✅ **Đợt 2**: Forms (CVA + FormValueControl, validator tự viết, dynamic form engine), Routing (state trên URL, lỗi hay gặp, kiến trúc route lớn), HTTP (interceptor, upload/download, cache & dedupe).
+- Tiếp theo — **Đợt 3** (đề xuất): Kiến trúc & Micro Frontend (Nx, Module Federation vs single-spa), SSR/Hydration, Accessibility & i18n, Frontend System Design, kỹ năng Senior & phỏng vấn.
 
 ## 9. Đã chốt & còn cần xác nhận
 
