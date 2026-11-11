@@ -4,7 +4,7 @@
   "description": "Lập trình reactive với RxJS trong Angular: ôn operator hay dùng, chọn đúng flattening, tránh memory leak, xử lý lỗi và hiểu bên trong Observable.",
   "icon": "stream",
   "color": "#b7178c",
-  "order": 2,
+  "order": 3,
   "currentVersion": 7,
   "sections": [
     {
