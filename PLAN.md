@@ -132,7 +132,52 @@ scripts/
 
 Mỗi giai đoạn sẽ commit & push lên nhánh để bạn xem.
 
-## 7. Câu hỏi cần bạn xác nhận
+## 7. Cá nhân hoá theo hồ sơ (CV)
+
+### Điểm mạnh hiện có → học nhanh / đào sâu "tại sao"
+- 4+ năm Angular, đi qua v12 → v21 (standalone, Signals, OnPush) → module **Migration** trở thành thế mạnh, đóng gói thành case study.
+- **Micro Frontend (single-spa)**, shared components dùng chung giữa nhiều MFE.
+- **Dynamic forms (JSON Schema, Form.io, JSONLogic)**, BPMN/Flowable, low-code platform.
+- **RxJS**, TanStack Query, Playwright, Excel import/export, chuyển đổi hệ thống legacy.
+- Làm việc trong team lớn (20–50 người), domain Chính phủ / Y tế / Ngân hàng / Bảo hiểm.
+
+### Khoảng trống so với Senior → ưu tiên cao
+| Mảng | Vì sao quan trọng với bạn |
+|---|---|
+| **Change Detection nội tại & Zoneless** | Angular 21 mặc định zoneless; senior phải giải thích được cơ chế, không chỉ dùng OnPush |
+| **Performance có đo lường** | CV mới ghi "tham gia tối ưu"; senior cần profiling, số liệu trước/sau (bảng lớn, Excel import, form hàng trăm field) |
+| **DI chuyên sâu & thiết kế API cho thư viện** | Nền tảng để xây form engine / component library cấu hình được |
+| **Security** | Domain chính phủ, ngân hàng, y tế: XSS, CSP, Trusted Types, OIDC/PKCE, lưu token |
+| **Testing strategy** | Từ "viết test" → thiết kế chiến lược test, Component Harness, test signals/effects |
+| **Kỹ năng Senior** | Code review, ADR / technical design doc, mentoring, ước lượng, dẫn dắt kỹ thuật |
+| **Frontend System Design** | Vòng phỏng vấn senior gần như luôn có |
+
+### Ưu tiên trung bình
+- State management: NgRx Store / SignalStore, so sánh với TanStack Query & `resource()` (server state vs client state).
+- Monorepo Nx, **Module Federation / Native Federation so với single-spa** (bạn đã có trải nghiệm thực tế để so sánh).
+- Design system & thư viện: CDK, `ng-packagr`, versioning, theming (từ kinh nghiệm shared components).
+- Accessibility (WCAG) — cổng dịch vụ công cần chuẩn này.
+- SSR / Hydration (ít gặp ở app nội bộ, nhưng hay bị hỏi phỏng vấn).
+- Tooling & CI/CD, schematics/generators.
+
+### Học ít hơn (đã vững)
+- Control flow cơ bản, Reactive Forms cơ bản, gọi REST API, UI libraries (NG-ZORRO, Material, PrimeNG).
+
+### Case study gắn với dự án thật của bạn
+1. Thiết kế **dynamic form engine từ JSON Schema** (kiến trúc, hiệu năng, signal forms, validation bằng JSONLogic).
+2. **Auto-save draft** an toàn (RxJS debounce, hủy request cũ, xung đột phiên bản, offline).
+3. **Import Excel lớn** không đơ UI (Web Worker, virtual scroll, chunking).
+4. **Shared component library cho micro frontends** (versioning, singleton dependencies, theming).
+5. **Migration legacy → Angular 21** đảm bảo "kết quả giống hệt" (characterization tests, chạy song song).
+
+### Thêm cho phát triển nghề nghiệp
+- **Bảng thuật ngữ Anh–Việt** và mẫu câu tiếng Anh dùng trong code review / phỏng vấn.
+- Hướng dẫn viết lại CV theo kiểu senior: thêm **số liệu tác động** (giảm X% thời gian load, giảm Y% bug...).
+
+### Điều chỉnh giai đoạn 2 (module mẫu)
+Thay RxJS (đã mạnh) bằng mảng còn thiếu: **Change Detection & Zoneless**, **Signals chuyên sâu (kèm signal forms, resource)**, **Performance**.
+
+## 8. Câu hỏi cần bạn xác nhận
 
 1. **Ngôn ngữ nội dung**: tiếng Việt, giữ thuật ngữ kỹ thuật tiếng Anh (đề xuất) — hay song ngữ?
 2. **Phiên bản Angular**: bám theo bản mới nhất (đề xuất), có cần ghi chú khác biệt cho bản cũ (v14–v16) mà dự án công ty bạn đang dùng không?
