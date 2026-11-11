@@ -8,5 +8,25 @@
     "id": "change-detection",
     "title": "Change Detection",
     "description": "Angular cập nhật giao diện khi nào và như thế nào: OnPush, Zone.js, zoneless."
+  },
+  {
+    "id": "dependency-injection",
+    "title": "Dependency Injection",
+    "description": "inject(), providers, cây injector, InjectionToken, multi provider và thiết kế API cho thư viện."
+  },
+  {
+    "id": "performance",
+    "title": "Performance",
+    "description": "@defer, @for track, bảng dữ liệu lớn, đo lường bằng Web Vitals và profiler."
+  },
+  {
+    "id": "testing",
+    "title": "Testing",
+    "description": "TestBed, test HTTP và async khi zoneless, chiến lược test, characterization test khi migrate."
+  },
+  {
+    "id": "security",
+    "title": "Security",
+    "description": "XSS và sanitization, CSP, Trusted Types, token và XSRF, OIDC/PKCE cho SPA."
   }
 ]

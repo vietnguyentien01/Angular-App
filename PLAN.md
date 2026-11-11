@@ -275,7 +275,8 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ **Trang Luyện tập** cho mỗi môn: ngẫu nhiên / câu chưa làm / ôn câu đã sai, lọc theo phần & chủ đề.
 - ✅ **Môn RxJS riêng** (3 phần, 12 bài, 48 câu hỏi, demo so sánh switchMap/mergeMap/concatMap/exhaustMap).
 - ✅ **Angular Signals & Change Detection** đầy đủ 3 phần (19 bài, 34 câu hỏi, demo cây OnPush).
-- Tiếp theo: mở rộng các chủ đề Angular còn lại (DI, Forms, Routing, HTTP, Performance, Testing, Security…) mỗi chủ đề đủ 3 phần + bài tập.
+- ✅ **Đợt 1 mở rộng Angular** (ưu tiên theo khoảng trống CV): Dependency Injection, Performance, Testing, Security — mỗi chủ đề đủ 3 phần + bài tập.
+- Tiếp theo — **Đợt 2**: Forms (Reactive + Signal Forms, CVA, dynamic form), Routing, HTTP & interceptors.
 
 ## 9. Đã chốt & còn cần xác nhận
 

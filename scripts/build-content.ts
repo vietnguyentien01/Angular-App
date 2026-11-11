@@ -145,7 +145,9 @@ async function buildSubject(subjectId: string): Promise<BuiltSubject | undefined
           report(file, 'tên file phải có dạng "01-ten-bai.md"');
           continue;
         }
-        const { data, content } = matter(await readFile(file, 'utf8'));
+        const parsed = await readFrontMatter(file);
+        if (!parsed) continue;
+        const { data, content } = parsed;
         const fm = parseWith(itemFrontMatterSchema, data, file);
         if (!fm) continue;
         let rendered;
@@ -218,7 +220,9 @@ async function buildUpdates(topicKeys: Set<string>): Promise<UpdateDetail[]> {
     }
     if (seen.has(id)) report(file, `trùng id "${id}"`);
     seen.add(id);
-    const { data, content } = matter(await readFile(file, 'utf8'));
+    const parsed = await readFrontMatter(file);
+    if (!parsed) continue;
+    const { data, content } = parsed;
     const fm = parseWith(updateFrontMatterSchema, data, file);
     if (!fm) continue;
     if (!id.startsWith(fm.date)) report(file, `ngày trong tên file phải trùng "date: ${fm.date}"`);
@@ -256,6 +260,15 @@ function quizBank(details: ItemDetail[]): QuizBank {
     }
   }
   return { quizzes };
+}
+
+async function readFrontMatter(file: string) {
+  try {
+    return matter(await readFile(file, 'utf8'));
+  } catch (e) {
+    report(file, `front-matter YAML không hợp lệ: ${(e as Error).message.split('\n')[0]}`);
+    return undefined;
+  }
 }
 
 async function writeJson(path: string, data: unknown) {
