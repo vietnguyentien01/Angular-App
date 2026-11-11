@@ -133,7 +133,9 @@
         "angular/consolidate/typescript/type-an-toan-o-ranh-gioi",
         "angular/deep-dive/typescript/conditional-mapped-template-types",
         "typescript/consolidate/generics/thiet-ke-api-generic",
-        "typescript/deep-dive/advanced/type-level-programming"
+        "typescript/deep-dive/advanced/type-level-programming",
+        "typescript/deep-dive/unions/mo-hinh-hoa-trang-thai",
+        "typescript/deep-dive/objects/branded-types"
       ],
       "practice": [
         "Vẽ sơ đồ kiến trúc module mình phụ trách (feature, data-access, ui, phụ thuộc) và tìm 1 chỗ phá ranh giới",
@@ -196,7 +198,8 @@
         "angular/deep-dive/ssr/incremental-hydration-va-render-mode",
         "angular/consolidate/cli-project/cau-hinh-runtime-va-proxy",
         "angular/deep-dive/cli-project/schematic-va-migration",
-        "angular/consolidate/directives-pipes/structural-directive-tu-viet"
+        "angular/consolidate/directives-pipes/structural-directive-tu-viet",
+        "typescript/consolidate/config/tsconfig-cho-angular-va-ci"
       ],
       "practice": [
         "Chuẩn hoá xử lý lỗi HTTP của dự án bằng một errorInterceptor (đặt đúng thứ tự với retry)",
