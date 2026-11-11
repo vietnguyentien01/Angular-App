@@ -41,8 +41,9 @@ export interface AppError {
 
 export const SILENT_ERROR = new HttpContextToken(() => false);
 
-export const errorInterceptor: HttpInterceptorFn = (req, next) =>
-  next(req).pipe(
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const toast = inject(Toast); // inject ở đầu hàm — bên trong catchError đã KHÔNG còn injection context
+  return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
       const appError: AppError = {
         status: err.status,
@@ -50,10 +51,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) =>
         message: err.status === 0 ? 'Mất kết nối mạng' : (err.error?.message ?? 'Có lỗi xảy ra'),
         fieldErrors: err.status === 422 ? err.error?.errors : undefined,
       };
-      if (!req.context.get(SILENT_ERROR) && err.status !== 422) inject(Toast).error(appError.message);
+      if (!req.context.get(SILENT_ERROR) && err.status !== 422) toast.error(appError.message);
       return throwError(() => appError);
     }),
   );
+};
 ```
 
 Component chỉ còn xử lý `AppError` thống nhất, không phải biết cấu trúc lỗi của từng backend.
@@ -72,7 +74,7 @@ Dùng **bộ đếm** chứ không phải boolean — 3 request song song, reque
 
 :::quiz Vì sao dùng `inject(Toast)` được bên trong interceptor dạng hàm?
 - [ ] Không dùng được
-- [x] Functional interceptor chạy trong injection context của environment injector
+- [x] Functional interceptor chạy trong injection context của environment injector — nhưng chỉ ở phần thân hàm, không phải trong callback của `catchError`/`tap` chạy sau đó
 - [ ] Vì Toast là singleton
 - [ ] Chỉ được dùng khi có `@Injectable`
 
