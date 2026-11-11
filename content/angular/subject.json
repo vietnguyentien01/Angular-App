@@ -1,0 +1,29 @@
+{
+  "id": "angular",
+  "title": "Angular",
+  "description": "Từ Middle lên Senior: ôn lại nền tảng, củng cố bằng thực hành, đi sâu vào cơ chế bên trong và cập nhật phiên bản mới.",
+  "icon": "angular",
+  "color": "#dd0031",
+  "order": 1,
+  "currentVersion": 22,
+  "sections": [
+    {
+      "id": "review",
+      "title": "Ôn lại Core",
+      "description": "Nhắc lại nhanh kiến thức nền tảng: thẻ ngắn, cheat sheet, flashcard.",
+      "icon": "refresh"
+    },
+    {
+      "id": "consolidate",
+      "title": "Củng cố",
+      "description": "Hiểu “tại sao”, tránh pitfalls, luyện qua bài tập và case study thực tế.",
+      "icon": "hammer"
+    },
+    {
+      "id": "deep-dive",
+      "title": "Chuyên sâu & Cập nhật",
+      "description": "Cơ chế bên trong, tính năng mới theo phiên bản, kiến trúc và kỹ năng Senior.",
+      "icon": "telescope"
+    }
+  ]
+}

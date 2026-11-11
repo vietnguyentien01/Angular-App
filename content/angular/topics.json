@@ -1,0 +1,12 @@
+[
+  {
+    "id": "signals",
+    "title": "Signals",
+    "description": "Mô hình reactive dựa trên signal: signal, computed, effect, linkedSignal, resource."
+  },
+  {
+    "id": "change-detection",
+    "title": "Change Detection",
+    "description": "Angular cập nhật giao diện khi nào và như thế nào: OnPush, Zone.js, zoneless."
+  }
+]

@@ -261,7 +261,7 @@ Trên app:
 
 | Giai đoạn | Nội dung | Kết quả để bạn review |
 |---|---|---|
-| **1. Khung app có thể mở rộng** | Angular + Tailwind, mô hình Subject/Section/Topic, content pipeline + validate, layout, routing, render Markdown, IndexedDB, dark mode, **GitHub Actions deploy lên GitHub Pages** | App chạy trên GitHub Pages, có môn Angular với 3 phần (nội dung giả) |
+| **1. Khung app có thể mở rộng** ✅ | Angular + Tailwind, mô hình Subject/Section/Topic, content pipeline + validate, layout, routing, render Markdown, IndexedDB, dark mode, **GitHub Actions deploy lên GitHub Pages** | App chạy trên GitHub Pages, có môn Angular với 3 phần (nội dung giả) |
 | **2. Lát cắt mẫu** | Làm trọn **Signals** và **Change Detection** xuyên suốt cả 3 phần | Bạn duyệt hình thức & độ sâu |
 | **3. Công cụ học + cập nhật tự động** | Flashcard SM-2, quiz, bài tập, ma trận kiến thức, tìm kiếm, dashboard, mục "Frontend mới"; **tạo scheduled task mỗi 2 ngày** | Nhận bản tin đầu tiên |
 | **4. Nội dung còn lại** | Viết theo đợt, ưu tiên các khoảng trống trong CV | |
