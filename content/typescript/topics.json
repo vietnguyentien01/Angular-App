@@ -1,0 +1,10 @@
+[
+  { "id": "basics", "title": "Kiểu cơ bản & suy luận", "description": "Primitive, literal type, widening, as const, any / unknown / never / void." },
+  { "id": "objects", "title": "Object, interface & type", "description": "Structural typing, optional, readonly, index signature, excess property check." },
+  { "id": "unions", "title": "Union & narrowing", "description": "typeof, in, instanceof, discriminated union, type predicate, exhaustive check." },
+  { "id": "functions", "title": "Hàm", "description": "Tham số, overload, callback, void, tham số this." },
+  { "id": "generics", "title": "Generics & utility types", "description": "Ràng buộc, giá trị mặc định, const type parameter, NoInfer, utility types." },
+  { "id": "classes-modules", "title": "Class, enum & module", "description": "Access modifier, #private, abstract, enum vs union, import type." },
+  { "id": "advanced", "title": "Type nâng cao", "description": "keyof, typeof, indexed access, conditional, mapped, template literal, variance." },
+  { "id": "config", "title": "tsconfig & TypeScript 6", "description": "Cờ strict, noUncheckedIndexedAccess, mặc định và deprecation của TS 6, file .d.ts." }
+]

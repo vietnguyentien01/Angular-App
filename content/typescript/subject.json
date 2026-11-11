@@ -1,0 +1,14 @@
+{
+  "id": "typescript",
+  "title": "TypeScript",
+  "description": "Ôn lại và đào sâu TypeScript: hệ thống kiểu, narrowing, generics, type nâng cao, tsconfig và những thay đổi của TypeScript 6.",
+  "icon": "code",
+  "color": "#3178c6",
+  "order": 3,
+  "currentVersion": 6,
+  "sections": [
+    { "id": "review", "title": "Ôn lại Core", "description": "Thẻ ôn nhanh hệ thống kiểu: suy luận, object, union, hàm, generics, class, tsconfig.", "icon": "refresh" },
+    { "id": "consolidate", "title": "Củng cố", "description": "Đoán lỗi biên dịch, bẫy narrowing, thiết kế API generic, enum vs union.", "icon": "hammer" },
+    { "id": "deep-dive", "title": "Chuyên sâu", "description": "Lập trình ở tầng kiểu, variance, viết .d.ts và module augmentation.", "icon": "telescope" }
+  ]
+}

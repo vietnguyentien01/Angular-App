@@ -13,8 +13,14 @@
         "Nắm route lazy, guard dạng hàm, Reactive Forms có type"
       ],
       "items": [
-        "angular/review/typescript/kieu-va-narrowing",
-        "angular/review/typescript/generics-utility-types",
+        "typescript/review/basics/kieu-co-ban-va-suy-luan",
+        "typescript/review/objects/interface-type-va-structural-typing",
+        "typescript/review/unions/narrowing",
+        "typescript/review/functions/ham-va-overload",
+        "typescript/review/generics/generics-va-utility-types",
+        "typescript/review/classes-modules/class-enum-va-module",
+        "typescript/review/advanced/keyof-typeof-indexed-access",
+        "typescript/review/config/tsconfig-va-typescript-6",
         "angular/review/components-templates/binding-va-control-flow",
         "angular/review/components-templates/projection-va-template-ref",
         "angular/review/directives-pipes/pipe-co-san-va-pure",
@@ -27,6 +33,7 @@
       ],
       "practice": [
         "Làm 1 lượt Luyện tập Angular 20 câu, chế độ Ngẫu nhiên, lọc phần “Ôn lại Core” — mục tiêu ≥ 80%",
+        "Làm 1 lượt Luyện tập TypeScript 15 câu — mục tiêu ≥ 80%; kiểm tra tsconfig dự án với các deprecation của TypeScript 6",
         "Ôn lại toàn bộ câu sai bằng chế độ “Ôn câu đã sai” cho tới khi hết câu sai"
       ],
       "milestone": "Đạt ≥ 80% ở phần Ôn lại Core và không còn câu sai tồn đọng."
@@ -124,7 +131,9 @@
         "angular/deep-dive/architecture/micro-frontend",
         "angular/deep-dive/architecture/nx-monorepo",
         "angular/consolidate/typescript/type-an-toan-o-ranh-gioi",
-        "angular/deep-dive/typescript/conditional-mapped-template-types"
+        "angular/deep-dive/typescript/conditional-mapped-template-types",
+        "typescript/consolidate/generics/thiet-ke-api-generic",
+        "typescript/deep-dive/advanced/type-level-programming"
       ],
       "practice": [
         "Vẽ sơ đồ kiến trúc module mình phụ trách (feature, data-access, ui, phụ thuộc) và tìm 1 chỗ phá ranh giới",
@@ -145,6 +154,7 @@
         "Kiểm tra a11y cơ bản và tự động bằng axe"
       ],
       "items": [
+        "typescript/consolidate/unions/bay-narrowing",
         "angular/review/testing/testbed-co-ban",
         "angular/consolidate/testing/test-http-va-async",
         "angular/consolidate/testing/chien-luoc-test",
