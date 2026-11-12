@@ -19,6 +19,13 @@ Thêm vào cc-lab tính năng **Nhắc việc sắp đến hạn**:
 
 **Thời gian:** 2–3 giờ · **Tiền đề:** Lab 01–12 (dùng lại CLAUDE.md, rules, settings, hook, skill, subagent, script review).
 
+## Trước khi bắt đầu
+
+- [ ] Đã xong Lab 01–12 (hoặc ít nhất 02, 05, 06, 08, 10).
+- [ ] Repo GitHub của cc-lab (Lab 09) và các script `scripts/claude-review.sh`, `scripts/review-gate.sh` (Lab 10).
+- [ ] Dành 2–3 giờ liên tục; tạo nhánh `feat/due-reminders`.
+
+
 ## Giai đoạn 1 — Spec (20 phút)
 
 ```text
@@ -73,6 +80,18 @@ Tách commit theo Conventional Commits, push, tạo PR: Vấn đề, Thay đổi
 ```
 
 Tự đọc diff trên GitHub. Chỉ merge khi bạn giải thích được **mọi** dòng.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Giai đoạn 1 | `SPEC.md` có tiêu chí chấp nhận đánh số, kiểm chứng được | Nhờ Claude hỏi tiếp những điểm còn mơ hồ |
+| Giai đoạn 2 | Kế hoạch có test cho từng bước và nhắc tới `dueWithin` | Sửa bằng `Ctrl+G` trước khi duyệt |
+| Giai đoạn 3 | Stop hook chặn khi test đỏ; hook format chạy; `angular.json` không bị sửa | Hook của Lab 06 chưa có → làm Lab 06 trước |
+| Giai đoạn 4 | Bảng đạt/không cho từng tiêu chí từ reviewer và Playwright; gate exit 0 | Tiêu chí không đạt → quay lại Giai đoạn 3 cho đúng tiêu chí đó |
+| Giai đoạn 5 | PR có commit tách theo mục đích và mô tả 5 mục | — |
 
 ## Thang tự chấm (tối đa 20 điểm)
 

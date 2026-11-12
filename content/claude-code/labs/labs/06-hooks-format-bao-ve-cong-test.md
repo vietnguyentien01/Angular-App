@@ -14,6 +14,13 @@ Ba quy tắc "không có ngoại lệ" chuyển từ lời dặn thành hook —
 
 **Thời gian:** 50–60 phút · **Cần:** `jq` (`brew install jq` / `apt-get install jq`), Prettier (đã có trong devDependencies của dự án Angular 22 mới).
 
+## Trước khi bắt đầu
+
+- [ ] `jq --version` chạy được; `npx prettier --version` chạy trong cc-lab.
+- [ ] Nhánh riêng: `git checkout -b lab06`; đã có `.claude/settings.json` từ Lab 05 (hoặc tạo mới với `{}`).
+- [ ] macOS cho hook thông báo: dùng `osascript`; Linux: `notify-send` (gói `libnotify-bin`).
+
+
 ## Bước 1 — Hook format (PostToolUse)
 
 ```json title=".claude/settings.json (thêm khoá hooks, giữ nguyên permissions của Lab 05)"
@@ -139,6 +146,17 @@ Thử: *"Đổi filterTasks để trả về task đã sắp xếp theo dueDate.
 ```
 
 Linux: thay lệnh bằng `notify-send 'Claude Code' 'Claude Code cần bạn'`.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 1 | `/hooks` liệt kê hook PostToolUse; file vừa sửa dùng nháy đơn theo `.prettierrc` | `matcher` phải là chuỗi `"Edit\|Write"`; kiểm tra `jq` có trong `PATH` |
+| Bước 2 | Test tay: `angular.json` → in `Blocked…` và `exit=2`; `app.ts` → `exit=0`. Trong phiên: sửa `angular.json` bị chặn | `chmod +x`; đường dẫn `$CLAUDE_PROJECT_DIR` đặt trong ngoặc kép |
+| Bước 3 | Test tay với test hỏng → `exit=2` kèm dòng FAIL; với `stop_hook_active:true` → `exit=0`. Trong phiên: Claude tự làm tiếp khi test đỏ | Hook không chạy test vì không có thay đổi trong `src/` (đúng thiết kế) — sửa một file trong `src/` rồi thử |
+| Bước 4 | Có thông báo hệ điều hành khi Claude chờ duyệt quyền | Cho phép terminal gửi thông báo trong cài đặt hệ điều hành |
 
 ## Checklist hoàn thành
 

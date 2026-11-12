@@ -108,6 +108,21 @@ npx tsx ../a11y-agent/a11y-agent.ts src/app
 - **Điều khoản**: theo Commercial Terms của Anthropic.
 - Áp dụng mọi nguyên tắc của chạy không giám sát: quyền tối thiểu, giới hạn lượt/chi phí, đầu ra có cấu trúc, người duyệt cho thao tác không hoàn tác được.
 
+## Tự chạy để kiểm chứng
+
+Cần: Node 20+, một **API key** từ Claude Console (SDK dùng API key hoặc cloud provider, không dùng đăng nhập gói Claude), dự án cc-lab của Lab 01.
+
+| # | Làm | Bạn nên thấy | Nếu khác |
+|---|---|---|---|
+| 1 | `mkdir -p ~/projects/a11y-agent && cd ~/projects/a11y-agent && npm init -y && npm pkg set type=module` | Tạo `package.json` có `"type": "module"` | — |
+| 2 | `npm install @anthropic-ai/claude-agent-sdk && npm install --save-dev tsx typescript @types/node` | `added N packages` | Lỗi mạng/registry: kiểm tra proxy npm |
+| 3 | Lưu code mẫu thành `a11y-agent.ts`; chạy `npx tsc --noEmit --strict --module nodenext --moduleResolution nodenext --target es2022 --skipLibCheck a11y-agent.ts` | Không in gì (không lỗi type) | Lỗi type ở `message.…` → SDK đổi kiểu; xem TypeScript reference của SDK |
+| 4 | `export ANTHROPIC_API_KEY=...` (shell hiện tại) | — | — |
+| 5 | `cd ~/projects/cc-lab && npx tsx ../a11y-agent/a11y-agent.ts src/app` | Trên stderr các dòng `→ Glob`, `→ Read`, `→ Grep`…; cuối cùng `Đã ghi a11y-report.md — chi phí ước tính $…` | 401/authentication → sai key; báo thiếu binary Claude Code → cài lại SDK, không dùng `--omit=optional`; `Kết thúc: error_max_turns` → tăng `maxTurns` |
+| 6 | `cat a11y-report.md` | Bảng `file:line \| problem \| suggested fix` bằng tiếng Việt (cc-lab có thể có ít hoặc không vấn đề) | File rỗng → `subtype` không phải `success`, xem dòng `Kết thúc:` |
+
+Muốn có vấn đề để agent tìm: thêm vào `task-list.ts` một `<input type="date" />` không có label rồi chạy lại.
+
 :::senior Góc nhìn senior
 Đừng vội viết agent bằng SDK cho thứ một dòng `claude -p` hay một skill làm được. SDK đáng giá khi agent là **một phần của hệ thống** — cần UI duyệt quyền riêng, tích hợp API nội bộ dạng công cụ, lưu session vào storage của bạn, hay chạy như một dịch vụ cho người không dùng terminal. Khi đó, thiết kế nó như một service: observability (log từng tool call), giới hạn, test.
 :::
@@ -136,4 +151,4 @@ Sản phẩm không được trông như Claude Code hay sản phẩm của Anth
 (2) Đổi prompt thành *"Answer ONLY with a JSON array of {file, line, problem, fix}"* rồi `JSON.parse(report)` (bọc try/catch, báo lỗi nếu không parse được); hoặc dùng tuỳ chọn output có cấu trúc của SDK (xem tài liệu *Get structured output from agents*) để có kết quả đã kiểm tra theo schema. (3) Sau khi ghi file: `if (issues.length > 0) process.exitCode = 1;`. Trong CI đặt `ANTHROPIC_API_KEY` từ secret, giữ `permissionMode: 'dontAsk'` và `allowedTools` chỉ đọc.
 :::
 
-> Nguồn: *Agent SDK overview*, *Quickstart* — code.claude.com/docs/en/agent-sdk/overview, /agent-sdk/quickstart (truy cập 12/11/2026). Ví dụ đã type-check với gói `@anthropic-ai/claude-agent-sdk` (TypeScript strict); chưa chạy gọi API thật trong môi trường biên soạn.
+> Nguồn: *Agent SDK overview*, *Quickstart* — code.claude.com/docs/en/agent-sdk/overview, /agent-sdk/quickstart (truy cập 12/11/2026). Ví dụ đã type-check với gói `@anthropic-ai/claude-agent-sdk` (TypeScript strict). Bước gọi API thật bạn tự chạy theo mục **Tự chạy để kiểm chứng** ở trên.

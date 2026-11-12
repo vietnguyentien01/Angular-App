@@ -122,6 +122,21 @@ Bị chặn 3 lần liên tiếp hoặc 20 lần tổng → auto mode tạm dừ
 Classifier là **cổng thứ hai** sau hệ thống permission. Thứ tuyệt đối không được xảy ra (đọc file secret, xoá dữ liệu khách hàng) → `permissions.deny` trong managed settings, chặn trước khi classifier được hỏi.
 :::
 
+## Tự chạy để kiểm chứng
+
+Làm trong cc-lab, nhánh thử (`git checkout -b lab-auto`).
+
+| # | Làm | Bạn nên thấy | Nếu khác |
+|---|---|---|---|
+| 1 | `claude auto-mode defaults \| head -60` | JSON các rule mặc định | Lệnh không có → cập nhật Claude Code (`claude update`) |
+| 2 | Thêm khối `autoMode.environment` (có `"$defaults"`) vào `~/.claude/settings.json` | — | JSON lỗi → `claude doctor` chỉ ra dòng sai |
+| 3 | `claude auto-mode config` | Mục của bạn xuất hiện cạnh mục mặc định | Không thấy → bạn đặt nhầm vào `.claude/settings.json` của repo (bị bỏ qua) |
+| 4 | `claude --permission-mode auto`, rồi: *"force push nhánh hiện tại lên origin"* | Hành động bị chặn, có thông báo | Thanh trạng thái không hiện auto mode → tài khoản/model chưa hỗ trợ, xem `/status` |
+| 5 | `/permissions` → tab **Recently blocked** | Dòng force push vừa bị chặn, đọc được lệnh thật | — |
+| 6 | Thêm `"ask": ["Bash(git push *)"]` vào `.claude/settings.json`, nhờ Claude push thường | Hộp thoại hỏi bạn dù đang ở auto mode | Không hỏi → Claude viết lệnh dạng khác (`git -C … push`) không khớp rule |
+
+Xong: `claude auto-mode reset --yes` nếu muốn bỏ cấu hình thử, xoá nhánh thử.
+
 :::senior Góc nhìn senior
 Đội security nên sở hữu `autoMode.environment` của tổ chức qua managed settings: đó là định nghĩa "trong" và "ngoài" của công ty dưới dạng văn bản. Viết nó cùng lúc với tài liệu kiến trúc mạng — nếu bạn không mô tả được ranh giới cho một kỹ sư mới, classifier cũng không đoán được.
 :::

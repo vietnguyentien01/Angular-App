@@ -127,6 +127,22 @@ Phiên cập nhật bản tin "Frontend mới" mỗi 2 ngày của app này ch�
 
 Muốn phiên đó cũng theo dõi thay đổi của Claude Code: thêm `code.claude.com` vào Allowed domains của environment.
 
+## Tự chạy để kiểm chứng
+
+Cần gói có cloud session và GitHub đã kết nối (`/web-setup` hoặc trên claude.ai/code). Dùng repo cc-lab trên GitHub (Lab 09).
+
+| # | Làm | Bạn nên thấy | Nếu khác |
+|---|---|---|---|
+| 1 | claude.ai/code → bộ chọn environment dưới ô nhập → **New environment**, đặt tên `cc-lab-test` | Environment mới trong danh sách | Không thấy bộ chọn → hoàn tất onboarding web trước |
+| 2 | Network access: **Limited**, bật *Allow package managers*; Setup script: `#!/bin/bash` + `apt-get update && apt-get install -y shellcheck` | Lưu được | — |
+| 3 | Biến môi trường: `NODE_ENV=test` | — | — |
+| 4 | Tạo phiên với repo cc-lab, environment `cc-lab-test`, hỏi: *"chạy shellcheck --version và echo $NODE_ENV"* | Số phiên bản shellcheck và `test` | Phiên không khởi động → setup script exit khác 0; xem log setup |
+| 5 | Hỏi: *"chạy curl -sI https://example.org"* | Bị chặn (host không trong danh sách) | Không bị chặn → environment đang ở mức Full |
+| 6 | Tạo phiên thứ hai cùng environment | Khởi động nhanh hơn (dùng cache), shellcheck vẫn có | — |
+| 7 | Từ terminal: `/remote-env` chọn `cc-lab-test`, rồi `claude --cloud "chạy npm test -- --watch=false và báo kết quả"` | Phiên cloud mới chạy trong environment đó | — |
+
+Xong: lưu trữ (archive) environment thử nếu không dùng nữa.
+
 :::senior Góc nhìn senior
 Environment là **ranh giới bảo mật** của mọi việc chạy trên cloud. Thiết kế nó như thiết kế quyền cho một service account: mạng tối thiểu theo domain, secret qua network secret (không qua biến), setup script tất định và nhanh để cache được, một environment riêng cho mỗi loại việc (cập nhật nội dung khác với review PR).
 :::

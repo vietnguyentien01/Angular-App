@@ -88,6 +88,26 @@ Kiểm tra: tìm metric `claude_code.session.count` trên backend; không thấy
 Mặc định **không** ghi nội dung prompt, câu trả lời hay đối số công cụ. `OTEL_LOG_USER_PROMPTS`, `OTEL_LOG_ASSISTANT_RESPONSES`, `OTEL_LOG_TOOL_DETAILS`… bật lên là đưa nội dung làm việc (có thể gồm code và dữ liệu khách hàng) vào hệ thống log — chỉ bật khi có lý do và chính sách lưu trữ rõ ràng. Token xác thực của collector: dùng `otelHeadersHelper` thay vì ghi cứng vào settings.
 :::
 
+## Tự chạy để kiểm chứng
+
+**Artifact** (gói Pro trở lên, đăng nhập bằng `/login`):
+
+| # | Làm | Bạn nên thấy | Nếu khác |
+|---|---|---|---|
+| 1 | Trong cc-lab: *"Làm một artifact tóm tắt module tasks: sơ đồ luồng signal và bảng các hàm lọc"* | Claude trả một link claude.ai riêng tư | Không có công cụ artifact → kiểm tra gói và đăng nhập (`/status`) |
+| 2 | Mở link | Trang tương tác, chỉ bạn xem được | — |
+| 3 | `/artifacts` | Artifact vừa tạo trong danh sách | — |
+
+**OpenTelemetry** — thử nhanh không cần collector, dùng exporter `console`:
+
+| # | Làm | Bạn nên thấy | Nếu khác |
+|---|---|---|---|
+| 1 | `export CLAUDE_CODE_ENABLE_TELEMETRY=1 OTEL_METRICS_EXPORTER=console OTEL_METRIC_EXPORT_INTERVAL=10000` | — | — |
+| 2 | `claude --debug-file /tmp/otel.log -p "nói xin chào"` | Câu trả lời; metric được in ra theo exporter console (có `claude_code.session.count`, `claude_code.token.usage`) | Không thấy metric → `grep -i telemetry /tmp/otel.log` tìm lỗi `[3P telemetry]` |
+| 3 | Bỏ thử nghiệm: `unset CLAUDE_CODE_ENABLE_TELEMETRY OTEL_METRICS_EXPORTER OTEL_METRIC_EXPORT_INTERVAL` | — | — |
+
+Với collector thật (Grafana/Prometheus…): đổi sang `OTEL_METRICS_EXPORTER=otlp` và `OTEL_EXPORTER_OTLP_ENDPOINT` của collector, kiểm tra metric `claude_code.session.count` trên backend.
+
 :::senior Góc nhìn senior
 Đo AI như đo mọi công cụ kỹ thuật: chi phí, mức dùng, và **kết quả** (thời gian review, tỉ lệ bug lọt, lead time) — không chỉ "số dòng code AI viết". Số dòng code tăng mà tỉ lệ revert cũng tăng là tín hiệu xấu. Đặt dashboard cạnh chỉ số chất lượng của team.
 :::

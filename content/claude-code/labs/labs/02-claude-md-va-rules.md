@@ -16,6 +16,12 @@ related: [claude-code/consolidate/memory/cau-truc-bo-nho, claude-code/labs/labs/
 
 **Thời gian:** 30 phút · **Tiền đề:** đã xong Lab 01.
 
+## Trước khi bắt đầu
+
+- [ ] Đã xong Lab 01: `cd cc-lab && git status` sạch, `npm test -- --watch=false` xanh.
+- [ ] Nếu muốn làm lại từ đầu: `git checkout . && git clean -fd` (xoá thay đổi chưa commit).
+
+
 ## Bước 1 — Sinh CLAUDE.md
 
 ```bash
@@ -108,6 +114,17 @@ Nhớ giúp mình: mình thích commit message tiếng Anh theo Conventional Com
 ```
 
 Thấy *Saved … memory* → điều này vào **auto memory** (chỉ máy bạn). Mở `/memory` xem file vừa được ghi. Muốn cả team theo: *"thêm quy ước commit message vào CLAUDE.md"*. Tạo thêm `CLAUDE.local.md` (thêm vào `.gitignore`) với một dòng riêng của bạn, ví dụ URL API giả lập bạn hay dùng.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 1 | Có file `CLAUDE.md` ở gốc cc-lab | Kiểm tra thư mục làm việc của phiên (`/status`) |
+| Bước 4 | Sau `/clear`: Memory files có `CLAUDE.md`, **chưa** có `tasks.md`; sau khi Claude đọc file trong `src/app/tasks/`: có `tasks.md` | Rule phải nằm ở `.claude/rules/tasks.md` và có `paths` đúng glob |
+| Bước 5 | Bảng chấm 4/4 sau tối đa 2 lần chỉnh câu chữ | Viết quy ước cụ thể hơn (lệnh chính xác, ví dụ), `/clear`, `git checkout .`, làm lại |
+| Bước 6 | Thấy *Saved … memory*; `/memory` mở được file vừa ghi | Nói rõ "nhớ giúp mình…"; kiểm tra auto memory đang bật trong `/memory` |
 
 ## Checklist hoàn thành
 

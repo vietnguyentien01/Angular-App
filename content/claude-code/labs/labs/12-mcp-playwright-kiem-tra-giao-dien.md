@@ -14,6 +14,13 @@ Cho Claude một **phép kiểm tra bằng mắt**: không chỉ test đơn vị
 
 **Thời gian:** 40 phút · **Cần:** Node, mạng tới npm registry (server được tải bằng `npx`).
 
+## Trước khi bắt đầu
+
+- [ ] `npx -y @playwright/mcp@latest --help` chạy được trên shell (lần đầu tải gói).
+- [ ] cc-lab chạy được `npx ng serve` ở cổng 4200.
+- [ ] Nếu server báo thiếu trình duyệt: làm theo thông báo cài trình duyệt của Playwright.
+
+
 ## Bước 1 — Thêm server
 
 ```bash
@@ -89,6 +96,17 @@ claude mcp remove playwright      # hoặc giữ lại nhưng tắt: /mcp disabl
 ```
 
 Server không dùng vẫn tốn context (tên tool, instructions) và chạy tiến trình nền mỗi phiên.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 1 | `claude mcp get playwright` báo connected | Chạy thử `npx -y @playwright/mcp@latest --help` để xem lỗi thật |
+| Bước 3 | Các tool trong allow chạy không hỏi; `browser_evaluate` hỏi bạn | Tên tool khác phiên bản → xem danh sách thật trong `/mcp` |
+| Bước 4 | Bảng 4 bước có bằng chứng; ảnh chụp sau bước 2. Chưa sửa bug Lab 04 → bước 2 (gõ chữ thường) **không đạt** | Claude báo "đạt hết" dù bug còn → đòi bằng chứng snapshot cho bước 2 |
+| Bước 6 | `claude mcp list` không còn `playwright` (hoặc `/mcp` báo disabled) | — |
 
 ## Checklist hoàn thành
 

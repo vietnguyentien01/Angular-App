@@ -15,6 +15,12 @@ related: [claude-code/deep-dive/extending/viet-skill, claude-code/labs/labs/suba
 
 **Thời gian:** 45 phút.
 
+## Trước khi bắt đầu
+
+- [ ] Lab 01–02 xong; nhánh riêng: `git checkout -b lab07`.
+- [ ] Có ít nhất một thay đổi chưa commit trước khi gọi `/new-filter` để thấy output `git status` được bơm vào (vd sửa một comment).
+
+
 ## Bước 1 — Action skill `/new-filter`
 
 ```bash
@@ -102,6 +108,17 @@ Nhấn `t` để sắp theo token. `tasks-domain` chỉ tốn phần **mô tả*
 ## Bước 4 — Khi Claude không tự gọi skill
 
 Đổi description của `tasks-domain` thành mơ hồ (`description: Domain stuff.`), `/reload-skills`, hỏi lại câu ở Bước 2. Claude có còn nạp skill? Khôi phục description cụ thể và rút ra quy tắc viết description.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 1 | Gõ `/new-filter` thấy trong menu; Claude tạo hàm + test, `npm test` chạy không hỏi quyền | Skill phải ở `.claude/skills/new-filter/SKILL.md`; skill mới thêm giữa phiên → `/reload-skills` |
+| Bước 2 | Câu hỏi về nghiệp vụ → Claude nạp `tasks-domain` (thấy khi bật `Ctrl+O`); `/tasks-domain` không có trong menu | Description phải nêu rõ "khi nào dùng" |
+| Bước 3 | `/skills` liệt kê cả hai; nhấn `t` sắp theo token | — |
+| Bước 4 | Description mơ hồ → Claude thường không nạp skill; khôi phục thì nạp lại | Nhớ `/reload-skills` sau mỗi lần sửa |
 
 ## Checklist hoàn thành
 

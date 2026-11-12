@@ -14,6 +14,13 @@ Biến Claude thành **một công cụ dòng lệnh có đầu vào/đầu ra r
 
 **Thời gian:** 60 phút · **Cần:** `jq`; Lab 09 nếu làm phần GitHub Actions.
 
+## Trước khi bắt đầu
+
+- [ ] `jq --version` chạy được; cc-lab có remote `origin` (Lab 09) nếu làm Bài 4.
+- [ ] Bài 3 cần ESLint: `npx ng add @angular-eslint/schematics` (chấp nhận các câu hỏi mặc định).
+- [ ] Bài 4 cần secret `ANTHROPIC_API_KEY` (hoặc `CLAUDE_CODE_OAUTH_TOKEN` từ `claude setup-token`) trong repo GitHub: Settings → Secrets and variables → Actions.
+
+
 ## Bài 1 — Linter chính tả cho diff
 
 ```json title="package.json (thêm vào scripts)"
@@ -117,6 +124,17 @@ jobs:
 - Với prompt văn bản thường (không phải skill), Claude **không có** quyền shell hay GitHub API cho tới khi bạn cấp đúng công cụ qua `claude_args`.
 
 Mở một PR nhỏ, xem tab Actions và comment Claude để lại. Cách cài nhanh hơn có workflow review dựng sẵn: `/install-github-app`.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bài 1 | In các dòng `file:line` cho lỗi chính tả cố ý | Không có diff so với `main` → kiểm tra bạn đang ở nhánh có thay đổi |
+| Bài 2 | Có lỗi high → gate in danh sách và `exit 1`; sau khi sửa → `✅` và `exit 0` | `review.json` thiếu `structured_output` → đọc `.result`, tăng `--max-turns` |
+| Bài 3 | In kết quả và `cost: …`; Claude không chạy được lệnh nào ngoài `ng lint` | `Claude Code chưa đăng nhập` → `claude auth login` trên máy đó |
+| Bài 4 | Mở PR → tab Actions có job; PR nhận comment review (hoặc ghi chú không có vấn đề) | Kiểm tra secret, quyền GitHub App, và log của job |
 
 ## Checklist hoàn thành
 

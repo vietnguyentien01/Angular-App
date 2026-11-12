@@ -14,6 +14,13 @@ Một PR **nhỏ, một mục đích, có mô tả "vì sao" và "cách test"** 
 
 **Thời gian:** 45–60 phút · **Cần:** tài khoản GitHub, [GitHub CLI](https://cli.github.com) đã `gh auth login`.
 
+## Trước khi bắt đầu
+
+- [ ] `gh auth status` báo đã đăng nhập GitHub.
+- [ ] Quyền tạo repo private trên tài khoản GitHub của bạn.
+- [ ] Không dùng repo thật của công ty cho lab này.
+
+
 ## Bước 1 — Đưa cc-lab lên GitHub (riêng tư)
 
 ```bash
@@ -91,6 +98,19 @@ Làm theo hướng dẫn: cài GitHub App, chọn workflow, lưu secret. Merge P
 ```
 
 Xem tab **Actions** để thấy workflow chạy; Claude trả lời bằng comment.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 1 | `gh repo view` hiển thị repo private `cc-lab`; branch protection bật cho `main` | Thiếu quyền tạo repo → tạo tay trên GitHub rồi `git remote add origin …` |
+| Bước 3 | `git log --oneline main..HEAD` có 2 commit đúng mục đích | Nhờ Claude tách lại; hoặc `git reset --soft main` rồi commit lại |
+| Bước 4 | `/code-review` và `/security-review` chạy xong, có danh sách (có thể rỗng) | `ambiguous argument` → chưa có remote `origin` hoặc chưa push `main` |
+| Bước 5 | PR mở trên GitHub với 4 mục mô tả | `gh` chưa đăng nhập trong shell Claude dùng → `gh auth status` |
+| Bước 6 | `claude --from-pr <số>` liệt kê phiên đã tạo PR | Phiên chỉ được liên kết khi chính Claude tạo PR |
+| Bước 7 | Comment `@claude` được trả lời; tab Actions có lần chạy | Workflow chưa merge vào `main`, hoặc thiếu secret |
 
 ## Checklist hoàn thành
 

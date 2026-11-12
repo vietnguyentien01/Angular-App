@@ -112,6 +112,29 @@ Dev container là môi trường Docker giống nhau cho cả team. Claude Code 
 Trong container, một repo độc hại vẫn có thể lấy mọi thứ container truy cập được — kể cả credential Claude Code trong `~/.claude`. Chỉ dùng với repo tin cậy, không mount `~/.ssh` hay file credential cloud từ máy host vào container; ưu tiên token ngắn hạn, phạm vi repo.
 :::
 
+## Tự chạy để kiểm chứng
+
+**Mạng công ty** (chạy trên máy công ty):
+
+| # | Làm | Bạn nên thấy | Nếu khác |
+|---|---|---|---|
+| 1 | `env \| grep -i -E 'https?_proxy\|no_proxy\|NODE_EXTRA_CA_CERTS'` | Đúng các giá trị IT cung cấp | Chưa có → đặt trong khối `env` của `~/.claude/settings.json` |
+| 2 | `curl -sS -o /dev/null -w '%{http_code}\n' https://api.anthropic.com` | Một mã HTTP bất kỳ (vd `404`) — nghĩa là đi qua được proxy | Lỗi `SSL certificate problem` → thiếu CA; `Could not resolve proxy` → sai địa chỉ proxy |
+| 3 | `claude --debug` rồi gửi một câu "hello"; thoát; `grep -i "CA certs" ~/.claude/debug/*.txt \| tail -3` | Dòng xác nhận đã nạp `NODE_EXTRA_CA_CERTS` (nếu bạn dùng biến này) | Không có dòng → đường dẫn file PEM sai hoặc biến không tới được Claude Code |
+| 4 | `claude doctor` | Không có lỗi về kết nối/cài đặt | Làm theo gợi ý sửa trong output |
+| 5 | Mở một phiên, hỏi một câu đơn giản | Claude trả lời bình thường | Lỗi kết nối → so danh sách host ở mục 5 với firewall |
+
+**Dev container** (cần Docker và extension Dev Containers của VS Code):
+
+| # | Làm | Bạn nên thấy | Nếu khác |
+|---|---|---|---|
+| 1 | `docker info` | Docker đang chạy | Mở Docker Desktop / khởi động dịch vụ docker |
+| 2 | Tạo `.devcontainer/devcontainer.json` như mẫu trong cc-lab; Command Palette → **Dev Containers: Reopen in Container** | VS Code mở lại trong container; lần đầu build vài phút | Build fail ở bước Node → thêm feature `ghcr.io/devcontainers/features/node:1` trước feature Claude Code |
+| 3 | Terminal trong container: `claude --version` và `echo $CLAUDE_CONFIG_DIR` | Số phiên bản; `/home/node/.claude` | Không thấy `claude` → feature chưa cài, xem log build |
+| 4 | `claude` → đăng nhập | Đăng nhập thành công | Không mở được trình duyệt → dùng URL đăng nhập in trên terminal |
+| 5 | **Rebuild Container**, rồi `claude auth status --text` | Vẫn đăng nhập (nhờ volume) | Phải đăng nhập lại → kiểm tra khối `mounts` và `containerEnv` |
+| 6 | Trong phiên: nhờ Claude chạy `npm test -- --watch=false` | Lệnh chạy **trong container** (đường dẫn kiểu `/workspaces/...`) | — |
+
 :::senior Góc nhìn senior
 Ở ngân hàng/chính phủ, đi cùng IT từ đầu: xin mở đúng danh sách host ở trên (đừng xin "mở internet"), phát `env` qua **managed settings** để không dev nào phải tự cấu hình proxy, và chuẩn hoá dev container cho dự án để "chạy được trên máy tôi" không còn là vấn đề — kể cả với Claude.
 :::

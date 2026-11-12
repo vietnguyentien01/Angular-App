@@ -16,6 +16,13 @@ related: [claude-code/deep-dive/automation/lam-viec-song-song, claude-code/labs/
 
 **Thời gian:** 60 phút.
 
+## Trước khi bắt đầu
+
+- [ ] cc-lab là repo git, `git status` sạch, đang ở `main`.
+- [ ] Hai terminal mở sẵn cho Bước 2.
+- [ ] Mỗi worktree cần `npm install` riêng — có mạng tới npm.
+
+
 ## Bước 1 — Chuẩn bị
 
 ```bash
@@ -98,6 +105,17 @@ claude agents        # agent view: theo dõi các phiên nền
 ```
 
 Trong lúc chờ, bạn làm việc khác. Xem output: `claude logs <id>`; gắn vào: `claude attach <id>`.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 2 | `ls .claude/worktrees` có `priority` và `stats`; `git branch` có `worktree-priority`, `worktree-stats` | "Workspace trust" chưa chấp nhận → chạy `claude` một lần ở gốc repo |
+| Bước 3 | Gộp xong, test và build pass trên `main` | Conflict ở `task-list.ts`/`app.html` là bình thường — nhờ Claude giải thích từng conflict |
+| Bước 4 | Mỗi lượt có một đánh giá điều kiện; dừng khi test xanh; `git diff \| grep` không có `as any`/`@ts-ignore` | Goal chạy mãi → điều kiện chưa có giới hạn lượt; `/goal clear` |
+| Bước 5 | `claude --bg …` in ID phiên; `claude agents` thấy hàng đang chạy; `claude logs <id>` có output | Agent view là research preview — giao diện có thể khác chút |
 
 ## Checklist hoàn thành
 

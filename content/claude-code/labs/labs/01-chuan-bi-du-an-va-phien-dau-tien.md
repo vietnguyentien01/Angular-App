@@ -15,6 +15,13 @@ related: [claude-code/review/getting-started/phien-dau-tien, claude-code/labs/la
 
 **Thời gian:** 30–40 phút · **Cần:** Node 20+ (bản LTS mới), git, Claude Code đã đăng nhập.
 
+## Trước khi bắt đầu
+
+- [ ] Terminal có `node -v` ≥ 20 và `git --version`.
+- [ ] `claude --version` in số phiên bản; `claude auth status --text` báo đã đăng nhập.
+- [ ] Một thư mục trống để tạo dự án (vd `~/projects`).
+
+
 ## Bước 1 — Tạo dự án
 
 ```bash
@@ -219,6 +226,18 @@ commit my changes with a descriptive message
 ```
 
 Sau đó trên shell: `git log --oneline -3`.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 1 | `npm test -- --watch=false` báo 2 test pass | Xem lỗi cài npm; chạy lại `npm install` |
+| Bước 2 | 6 test pass; `npx ng build` thành công | So từng file với code mẫu (thiếu import `TaskList` trong `app.ts` là lỗi hay gặp) |
+| Bước 4 | Claude nêu đúng `query` → `visible` → template, có tên file | Hỏi lại: "trích file và dòng" |
+| Bước 5 | Chỉ `task-list.ts` đổi; test và build pass; task "Học Angular signals" có nhãn Quá hạn | `/rewind` → Restore code, giao lại với phạm vi rõ hơn |
+| Bước 6 | `git log --oneline -3` có commit mới với message mô tả | Nhờ Claude viết lại message hoặc tự `git commit --amend` |
 
 ## Checklist hoàn thành
 

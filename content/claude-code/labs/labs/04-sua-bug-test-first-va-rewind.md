@@ -14,6 +14,12 @@ Người dùng báo: *"Gõ 'angular' vào ô tìm kiếm không ra task 'Học A
 
 **Thời gian:** 40 phút · **Tiền đề:** Lab 01 (seed nguyên vẹn ở `task-filter.ts`).
 
+## Trước khi bắt đầu
+
+- [ ] `src/app/tasks/task-filter.ts` còn nguyên seed của Lab 01 (chưa sửa bug). Nếu đã sửa ở lab khác: `git checkout main -- src/app/tasks/task-filter.ts`.
+- [ ] Nhánh riêng: `git checkout -b lab04`.
+
+
 ## Bước 1 — Tự tái hiện (không dùng Claude)
 
 ```bash
@@ -62,6 +68,17 @@ return tasks.filter(
 4. `Esc Esc` (ô nhập trống) → chọn prompt "Refactor…" → **Restore code and conversation**.
 5. `git status` — sạch như trước? Ghi lại.
 6. Thử lại nhưng lần này nhờ Claude chạy một lệnh Bash đổi file (vd `npx prettier --write src/app/tasks`), rồi `/rewind` → Restore code. File bị prettier đổi có quay lại không? Dùng `git diff` để kiểm. Theo tài liệu: file mà Claude **đã từng sửa bằng công cụ sửa file** trong phiên thì thay đổi Bash sau đó cũng được hoàn tác; file **chỉ** bị Bash đổi thì không — kết quả của bạn nên khớp quy tắc này.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 1 | Gõ `angular` → "Không có task nào"; gõ `Angular` → có kết quả | Bạn đã sửa bug trước đó — khôi phục `task-filter.ts` từ seed |
+| Bước 2 | Test mới **fail** với kỳ vọng `[1]`, nhận `[]`; sau khi sửa: toàn bộ test pass | Test fail vì lỗi import/cú pháp → chưa đúng; nhờ sửa test |
+| Bước 3 | Bạn có test fail: `dueWithin(tasks, '2026-11-11', 9)` phải trả `[2]` | Đọc lại docstring "tính cả hai đầu" và điều kiện `< end` |
+| Bước 4 | Sau Restore code and conversation: `git status` sạch như trước lần refactor | Có file còn đổi → kiểm tra file đó có phải chỉ bị Bash thay đổi không, dùng `git checkout` |
 
 ## Checklist hoàn thành
 

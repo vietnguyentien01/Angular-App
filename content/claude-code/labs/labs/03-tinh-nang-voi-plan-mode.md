@@ -14,6 +14,13 @@ Thêm vào cc-lab: (1) dropdown lọc theo trạng thái (Tất cả / Cần là
 
 **Thời gian:** 45–60 phút · **Tiền đề:** Lab 01–02.
 
+## Trước khi bắt đầu
+
+- [ ] Lab 01–02 xong; `git status` sạch.
+- [ ] Tạo nhánh riêng cho lab: `git checkout -b lab03`.
+- [ ] Mở sẵn một terminal thứ hai để chạy `npx ng serve` ở Bước 5.
+
+
 ## Bước 1 — Tự phác kế hoạch trước (5 phút, không dùng Claude)
 
 Viết ra giấy: những file nào sẽ đổi? Test nào cần có? Thứ tự làm? Giữ tờ giấy này để so ở Bước 6.
@@ -84,6 +91,18 @@ So kế hoạch của bạn (Bước 1) với kế hoạch của Claude và kế
 ```
 
 Sửa những phát hiện đúng, rồi commit.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 2 | Thanh trạng thái `⏸ plan mode on`; Claude trình kế hoạch, **không** sửa file | `Shift+Tab` tới plan mode; dùng `/plan …` |
+| Bước 3 | `Ctrl+G` mở kế hoạch trong editor; lưu đóng thì kế hoạch đã sửa hiện lại | Đặt biến `EDITOR`/`VISUAL` (vd `export EDITOR=nano`) |
+| Bước 4 | Mỗi lần sửa file đều hỏi bạn (vì chọn manually approve) | Bạn đã chọn auto mode — không sao, nhưng mất phần luyện đọc diff |
+| Bước 5 | Test và build pass; trên trình duyệt: lọc "Xong" chỉ còn "Review PR"; tiêu đề toàn khoảng trắng bị chặn | Mô tả lại đúng hành vi sai cho Claude kèm bước tái hiện |
+| Bước 6 | `/code-review` trả danh sách (có thể rỗng); bạn sửa phát hiện đúng rồi commit | Phát hiện sai → ghi lại, đừng sửa theo |
 
 ## Checklist hoàn thành
 

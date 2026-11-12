@@ -15,6 +15,12 @@ related: [claude-code/consolidate/guardrails/settings-va-permission-rule, claude
 
 **Thời gian:** 40 phút.
 
+## Trước khi bắt đầu
+
+- [ ] Lab 01 xong; nhánh riêng: `git checkout -b lab05`.
+- [ ] Biết cách thoát và mở lại phiên (`/exit` rồi `claude …`) vì Bước 5 chạy bốn lần với bốn chế độ.
+
+
 ## Bước 1 — Tạo "bí mật" giả
 
 ```bash
@@ -100,6 +106,16 @@ Thêm hàm countByStatus(tasks) vào task-filter.ts trả về { todo, doing, do
 ## Bước 6 — Commit settings của team
 
 Commit `.claude/settings.json`. **Không** commit `.claude/settings.local.json` (Claude Code tự đưa nó ra ngoài git) và `.env`.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 3 | `/permissions` hiện 3 nhóm rule, nguồn `.claude/settings.json` | JSON lỗi → `/doctor` hoặc `claude doctor` chỉ ra dòng sai |
+| Bước 4 | `npm test` chạy không hỏi; đọc `.env` bị chặn; `npm install` hỏi; "don't ask again" ghi vào `.claude/settings.local.json` | Rule không khớp lệnh: kiểm tra Claude chạy đúng `npm test -- --watch=false` (khớp `Bash(npm test *)`) |
+| Bước 5 | Manual hỏi nhiều nhất; acceptEdits không hỏi khi sửa file nhưng hỏi lệnh ngoài allowlist; plan trình kế hoạch trước; auto gần như không hỏi | Auto không có trong vòng `Shift+Tab` → tài khoản/model chưa hỗ trợ, xem `/status` |
 
 ## Checklist hoàn thành
 

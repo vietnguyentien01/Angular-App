@@ -189,6 +189,20 @@ Mặc định hook lỗi là **fail-open** (hành động tiếp tục). Với h
 Hook `command` chạy lệnh trên máy bạn; hook `http` gửi **dữ liệu sự kiện** (gồm lệnh, đường dẫn, có thể cả nội dung) tới URL. Chỉ trỏ tới dịch vụ nội bộ tin cậy, dùng HTTPS ngoài localhost, đừng ghi log nội dung file nhạy cảm.
 :::
 
+## Tự chạy để kiểm chứng
+
+Trong cc-lab, hai terminal.
+
+| # | Làm | Bạn nên thấy | Nếu khác |
+|---|---|---|---|
+| 1 | Terminal 1: lưu `hook-server.mjs`, `export HOOK_TOKEN=lab-token`, `node hook-server.mjs` | `hook server on :8787` | Cổng bận → đổi cổng ở cả server và settings |
+| 2 | Terminal 2: `curl -s -X POST localhost:8787 -H 'Authorization: Bearer lab-token' -d '{"tool_input":{"command":"kubectl apply -n prod"}}'` | JSON có `"permissionDecision":"deny"` | — |
+| 3 | Thêm hook `http` vào `.claude/settings.json` của cc-lab (URL `http://localhost:8787/hooks/pre-tool-use`) | `/hooks` liệt kê hook `http` | Không thấy → JSON sai vị trí khoá `hooks` |
+| 4 | Terminal 2: `export HOOK_TOKEN=lab-token && claude`, nhờ chạy `npm test -- --watch=false` | Lệnh chạy; `audit.log` có một dòng | `audit.log` trống → biến `HOOK_TOKEN` không có trong môi trường của `claude` (401) |
+| 5 | Nhờ chạy `echo deploy to prod` | Bị chặn, Claude nhận lý do "Lệnh nhắm vào production…" | — |
+| 6 | Dừng server (`Ctrl+C`), nhờ chạy `npm test` lần nữa | Lệnh **vẫn chạy**, có thông báo hook error (fail-open) | — |
+| 7 | Thêm `"onFailure": "block"` vào hook, thử lại khi server tắt | Lệnh bị chặn | Phiên bản Claude Code cũ chưa hỗ trợ `onFailure` → `claude update` |
+
 :::senior Góc nhìn senior
 Dùng hook `http` + managed settings để có **một nơi** thực thi chính sách và audit cho cả tổ chức, thay vì mỗi repo một script. Nhưng giữ logic tất định ở `command`/`http` của bạn; dùng `prompt`/`agent` chỉ khi thật sự cần phán đoán — chúng chậm hơn, tốn token và khó dự đoán hơn.
 :::

@@ -14,6 +14,12 @@ Một reviewer **độc lập** (chưa thấy cách code được viết), **ít
 
 **Thời gian:** 45 phút.
 
+## Trước khi bắt đầu
+
+- [ ] Nhánh `main` của cc-lab sạch; Bước 1 sẽ tạo nhánh `lab08-review`.
+- [ ] Ba lỗi cài sẵn phải do **bạn tự gõ** (không nhờ Claude) để reviewer không "biết trước".
+
+
 ## Bước 1 — Tạo nhánh có ba lỗi cài sẵn
 
 ```bash
@@ -91,6 +97,16 @@ Subagent không có `Edit`/`Write` → nó không sửa được và sẽ báo l
 ## Bước 5 — Cải thiện
 
 Nếu reviewer bỏ sót một lỗi: thêm câu cụ thể hơn vào checklist (vd *"search for setInterval/setTimeout/addEventListener and verify each has cleanup"*), gọi lại và cập nhật bảng.
+
+## Kết quả bạn nên thấy
+
+> Câu chữ Claude trả lời mỗi lần một khác — điều cần kiểm là **kết quả** trong bảng dưới (file đổi gì, lệnh nào pass, Claude có bị chặn đúng chỗ không), không phải câu chữ.
+
+| Bước | Dấu hiệu đúng | Nếu khác |
+|---|---|---|
+| Bước 2 | `@` gợi ý `angular-reviewer (agent)` | File phải ở `.claude/agents/angular-reviewer.md`; agents dir mới tạo giữa phiên → khởi động lại phiên |
+| Bước 3 | Reviewer trả danh sách `file:line — vấn đề — sửa`; điền được bảng so sánh | Reviewer không chạy `git diff main...HEAD` được → kiểm tra nhánh `main` tồn tại |
+| Bước 4 | Reviewer không sửa được file (không có Edit/Write) và báo lại | Nếu file vẫn đổi → kiểm tra có lệnh Bash nào ghi file; cân nhắc bỏ `Bash` khỏi `tools` |
 
 ## Checklist hoàn thành
 
