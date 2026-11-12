@@ -34,6 +34,39 @@ Hãy phỏng vấn tôi cho tới khi đủ để viết spec, rồi ghi vào SP
 
 Có `SPEC.md` rồi thì **mở phiên mới** để làm, bắt đầu với context sạch và một định nghĩa "xong" bằng văn bản.
 
+## Khung 4 phần cho người mới
+
+Khi không biết bắt đầu thế nào, viết đủ bốn dòng:
+
+```text
+Bối cảnh:  <ở đâu, triệu chứng hoặc mục tiêu, cái gì đã thử>
+Việc:      <kết quả mong muốn, không cần liệt kê từng bước>
+Ràng buộc: <không được đụng gì, không thêm gì, theo mẫu nào>
+Xong khi:  <lệnh kiểm tra pass / chỉ số đạt / điều quan sát được>
+```
+
+Ví dụ:
+
+```text
+Bối cảnh:  Trang /cases, đổi bộ lọc trạng thái khi đang ở trang 2 thì danh sách không tải lại.
+Việc:      Sửa để đổi bộ lọc luôn về trang 1 và tải lại.
+Ràng buộc: Chỉ sửa trong features/cases; không đổi API của CaseApi; không thêm thư viện.
+Xong khi:  Có test tái hiện (fail trước, pass sau); npm test -- --watch=false và ng build pass.
+```
+
+## Ảnh và log: những thứ nên dán
+
+| Thay vì mô tả | Dán thẳng |
+|---|---|
+| "layout bị vỡ trên mobile" | Ảnh chụp màn hình 375px (`Ctrl+V`) |
+| "build lỗi gì đó về type" | Output lỗi (`! ng build` hoặc `@build.log`) |
+| "giống thiết kế" | Ảnh mockup + tên component mẫu |
+| "API trả về sai" | Một response JSON mẫu (đã xoá dữ liệu thật) |
+
+:::warning Đừng dán dữ liệu thật của khách hàng
+Log và response có thể chứa thông tin cá nhân. Ẩn danh trước khi dán — mọi thứ trong prompt đều được gửi lên model.
+:::
+
 ## Effort, không phải câu thần chú
 
 - `think step by step`, `be thorough` chỉ là chữ thường, **không** nâng mức suy nghĩ vượt quá effort hiện tại.

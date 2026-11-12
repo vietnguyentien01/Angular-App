@@ -32,6 +32,29 @@ Phần lớn thời gian hãy để Claude tự quyết. Chỉ những việc **
 3. Claude làm điều không bao giờ được làm, hoặc bỏ qua bước bắt buộc → **quy tắc đó cần cơ chế bắt buộc**, prompt không đảm bảo được.
 4. Đúng nhưng tốn thời gian/token/lần hỏi quyền → **cần đổi một mặc định**.
 
+## Bốn lý do — ví dụ trong dự án Angular
+
+| Lý do | Triệu chứng thật | Sửa đúng chỗ |
+|---|---|---|
+| Thiếu thông tin không có trong repo | Mỗi phiên Claude lại hỏi "test chạy bằng lệnh gì", hoặc dùng `npm` trong repo dùng `pnpm` | Một dòng trong `CLAUDE.md` |
+| Không có cách tự kiểm tra | "Đã sửa lỗi lọc ngày" nhưng chưa ai chạy test; bug còn nguyên | Đưa lệnh `npm test -- --watch=false` vào prompt; Stop hook |
+| Quy tắc cần cơ chế bắt buộc | Claude sửa `environment.prod.ts` dù CLAUDE.md đã dặn | Deny `Edit(...)` hoặc hook PreToolUse |
+| Cần đổi một mặc định | Phiên nào cũng bị hỏi quyền chạy `ng build` 20 lần | Allow rule `Bash(npx ng build *)`; chọn model/effort hợp việc |
+
+Khi một phiên hỏng, hỏi theo thứ tự: **thiếu thông tin → thiếu phép kiểm tra → thiếu hàng rào → mặc định chưa hợp**. Đa số trường hợp rơi vào hai mục đầu.
+
+## Chu trình làm việc có trách nhiệm
+
+1. **Hiểu** vấn đề đủ để mô tả "xong" là gì (nếu không, nhờ Claude phỏng vấn và giải thích trước).
+2. **Giao** việc với bối cảnh, phạm vi, phép kiểm tra.
+3. **Kiểm** bằng bằng chứng: output test/build, diff, chạy app.
+4. **Hiểu lại**: giải thích được mọi dòng sẽ merge.
+5. **Rút kinh nghiệm**: sửa lặp lại → CLAUDE.md; quy trình lặp lại → skill; quy tắc cứng → hook/permission.
+
+:::interview Phỏng vấn Senior: "Team bạn dùng AI coding tool thế nào để không giảm chất lượng?"
+Trả lời theo khung: (1) **trách nhiệm** — người merge chịu trách nhiệm, không merge thứ không giải thích được; (2) **kiểm chứng** — mọi thay đổi có phép kiểm tra chạy được (test, build, CI), AI review chỉ là một lớp; (3) **hàng rào** — quy tắc không ngoại lệ nằm ở hook/permission/branch protection chứ không trong prompt; (4) **tri thức chung** — quy ước ghi trong CLAUDE.md và review qua PR; (5) **đo lường** — theo dõi bug lọt, thời gian review, chi phí.
+:::
+
 :::quiz Quy tắc "không bao giờ sửa thư mục `src/gen/`" nên đặt ở đâu nếu thật sự không được có ngoại lệ?
 - [ ] Viết IN HOA trong `CLAUDE.md`
 - [ ] Nhắc lại trong mỗi prompt

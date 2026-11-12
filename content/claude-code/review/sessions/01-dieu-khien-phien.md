@@ -28,6 +28,34 @@ Nếu đã sửa cùng một điều **hai lần** mà vẫn sai, lần sửa th
 Checkpoint chỉ phục hồi file Claude sửa bằng **công cụ sửa file** của nó. File chỉ bị thay đổi qua lệnh Bash **không** được khôi phục. Hãy commit thường xuyên.
 :::
 
+## Phút đầu tiên: nhìn gì
+
+Sau khi giao việc, đừng đi pha cà phê ngay. Trong 30–60 giây đầu, xem:
+
+- Claude đang đọc **đúng thư mục** không? (vd bạn nói `features/orders` mà nó đi đọc `features/reports`)
+- Kế hoạch ngắn nó nêu có khớp ý bạn không?
+- Lệnh đầu tiên nó chạy có hợp lý không (chạy test trước, hay sửa luôn)?
+
+Lệch hướng → `Esc` ngay. Mỗi phút để Claude đi sai là thêm diff phải đọc và thêm context "bẩn".
+
+## `Esc` hay gõ thêm?
+
+| Tình huống | Làm |
+|---|---|
+| Claude đi **sai hướng** (sửa nhầm file, hiểu sai yêu cầu) | `Esc`, nói rõ chỗ sai |
+| Claude đi đúng nhưng bạn **nhớ thêm** một chi tiết | Gõ và `Enter` — tin nhắn được xếp hàng, Claude đọc sau lệnh hiện tại |
+| Claude đã sửa vài file sai | `Esc`, rồi `Esc Esc` → Restore code (hoặc `/rewind`) |
+| Hội thoại đã rối sau nhiều lần sửa | `/rename` rồi `/clear`, viết prompt mới |
+
+## Ví dụ một buổi làm việc
+
+1. `claude -n "orders-date-filter"` — đặt tên ngay từ đầu.
+2. Giao việc có phép kiểm tra; theo dõi phút đầu.
+3. Sai hướng ở lượt 2 → `Esc`, chỉnh: *"chỉ sửa order-filter.ts, không đụng component"*.
+4. Xong → `/diff`, commit.
+5. Việc tiếp theo không liên quan → `/clear`.
+6. Hôm sau quay lại hỏi tiếp về bộ lọc → `claude --resume orders-date-filter`.
+
 ## Mỗi task một phiên
 
 Mỗi request gửi lại **toàn bộ** hội thoại. Một phiên đã gom ba task không liên quan sẽ đọc lại cả ba ở mỗi lượt của task thứ tư → chậm hơn, tốn hơn, dễ lẫn. `/clear` giữa các task không liên quan.
@@ -41,13 +69,13 @@ Mỗi request gửi lại **toàn bộ** hội thoại. Một phiên đã gom ba
 Hội thoại chứa hai lần thử thất bại sẽ kéo Claude về các hướng cũ.
 :::
 
-:::quiz Claude chạy `sed -i` qua Bash để sửa file, sau đó bạn `/rewind`. File đó có được khôi phục không?
-- [ ] Có
-- [x] Không — checkpoint không theo dõi thay đổi do lệnh Bash tạo ra
-- [ ] Chỉ khi file nằm trong git
+:::quiz Claude chạy `sed -i` qua Bash trên một file **chỉ** do Bash thay đổi (Claude chưa từng sửa nó bằng công cụ sửa file), sau đó bạn `/rewind` → Restore code. File đó có được khôi phục không?
+- [ ] Có, mọi thay đổi đều có checkpoint
+- [x] Không — file chỉ bị lệnh Bash thay đổi không được theo dõi; dùng git để khôi phục
 - [ ] Chỉ khi dùng auto mode
+- [ ] Chỉ khi file dưới 5.000 dòng
 
-Checkpoint hoạt động cùng git, không thay thế git.
+Nếu Claude **đã** sửa file đó bằng công cụ sửa file trong phiên, thay đổi Bash sau đó cũng được hoàn tác. Checkpoint hoạt động cùng git, không thay thế git.
 :::
 
 :::quiz Vì sao nên `/clear` giữa hai task không liên quan dù context còn nhiều chỗ?

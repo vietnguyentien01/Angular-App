@@ -27,6 +27,34 @@ Chỉ một tin nhắn cần suy nghĩ sâu → `ultrathink` trong tin đó thay
 
 Chi phí: chủ yếu là token (mỗi subagent gửi request riêng), đôi khi cả thời gian (phải tự thu thập context mà phiên chính đã có). Giảm chi phí: `model: haiku` cho việc đơn giản, yêu cầu trả tóm tắt ngắn, xem `/usage` để biết subagent nào đáng tiền.
 
+## Bảng chọn nhanh cho việc Angular hằng ngày
+
+| Việc | Model | Effort | Subagent? |
+|---|---|---|---|
+| Đổi tên, sửa typo, thêm log | Mặc định / Sonnet | `low` | Không |
+| Component mới theo mẫu có sẵn | Mặc định | `medium` | Không |
+| Bug trong code legacy, test flaky | Mặc định / Opus | `high`–`xhigh` | Explore để tìm nơi liên quan |
+| Thiết kế lại state của feature lớn | Opus hoặc `opusplan` | `high` (+ plan mode) | Plan (tự động trong plan mode) |
+| Tìm mọi chỗ dùng một API | Haiku trong subagent | `low` | **Có** — chỉ trả danh sách `file:line` |
+| Review trước PR | Mặc định | `medium`–`high` | **Có** — reviewer chỉ đọc, chưa thấy hội thoại |
+| Săn lỗ hổng bảo mật | Opus / Fable | `max` (thử trước) | Có thể (Claude Security dùng nhiều agent) |
+
+## Đo trước khi tối ưu
+
+```text
+/usage
+```
+
+```text
+/context
+```
+
+Nếu phần lớn context là kết quả công cụ (output test, file lớn) → giao cho subagent hoặc lọc output; nếu là MCP tools → tắt server không dùng; nếu hội thoại quá dài → `/compact` có trọng tâm hoặc `/clear`.
+
+:::interview "Làm sao để team dùng AI coding tool mà chi phí không tăng vọt?"
+Đo trước (`/usage`, analytics của tổ chức), rồi: chọn model/effort theo loại việc (không mặc định dùng mức cao nhất); `/clear` giữa task; CLAUDE.md ngắn, chuyển quy trình ít dùng sang skill; tắt MCP/plugin không dùng; dùng subagent model rẻ cho tìm kiếm; giới hạn `--max-turns`/`--max-budget-usd` cho job tự động; giữ cache bằng cách không đổi model/MCP giữa task.
+:::
+
 ## Những lời khuyên cũ có thể bỏ
 
 | Lời khuyên cũ | Vì sao không còn cần |

@@ -9,19 +9,19 @@
     {
       "id": "review",
       "title": "Cơ bản (người mới)",
-      "description": "Claude Code là gì, cài đặt, phiên đầu tiên, phím tắt và slash command, permission mode, prompt cụ thể, CLAUDE.md, điều khiển phiên.",
+      "description": "Claude Code là gì, cài đặt, phiên đầu tiên, phím tắt và slash command, permission mode, prompt cụ thể, CLAUDE.md, điều khiển phiên, kiểm chứng cơ bản, bản đồ mở rộng, ba mức tự động hoá.",
       "icon": "refresh"
     },
     {
       "id": "consolidate",
       "title": "Thực hành hằng ngày",
-      "description": "Chọn nơi làm việc, quy trình explore → plan → code, sửa bug/test/git, bộ nhớ và settings, context & checkpoint, kiểm chứng, hook.",
+      "description": "Chọn nơi làm việc, tuỳ biến môi trường, sáu mẫu prompt, quy trình explore → plan → code, bug/test/git, bộ nhớ và settings, context & checkpoint, kiểm chứng, hook, skill/plugin có sẵn, phiên nền và agent view.",
       "icon": "hammer"
     },
     {
       "id": "deep-dive",
       "title": "Nâng cao",
-      "description": "Skill, subagent, hook, MCP, plugin; model và chi phí; sandbox & prompt injection; headless/CI, làm song song, chạy không giám sát, quy định team.",
+      "description": "Bên trong Claude Code và prompt caching, prompt cho việc dài, monorepo, skill/subagent/hook/MCP, tạo plugin, Claude in Chrome, kiểm chứng hệ thống, review và bảo mật quy mô team, quyền riêng tư dữ liệu, headless/CI, Agent SDK.",
       "icon": "telescope"
     },
     {

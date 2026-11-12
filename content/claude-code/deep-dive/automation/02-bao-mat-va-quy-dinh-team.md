@@ -26,6 +26,41 @@ Nguyên tắc từ hướng dẫn: **giữ tập quy tắc cứng nhỏ**. Mỗi
 - **Repo** (`.claude/settings.json` commit vào repo — áp cho mọi người; deny rule có hiệu lực ngay, allow rule và hook chờ mỗi người chấp nhận hộp thoại tin cậy thư mục).
 - **Tổ chức** (managed settings từ admin console/MDM — không file cá nhân nào ghi đè được). Đây là nơi duy nhất phù hợp cho chính sách của security team.
 
+## Managed settings mẫu cho tổ chức
+
+File cùng dạng `settings.json`, đặt ở thư mục hệ thống trên mỗi máy (hoặc phân phối qua MDM / server-managed settings từ admin console):
+
+- macOS: `/Library/Application Support/ClaudeCode/managed-settings.json`
+- Linux, WSL: `/etc/claude-code/managed-settings.json`
+- Windows: `C:\Program Files\ClaudeCode\managed-settings.json`
+
+```json title="managed-settings.json (theo ví dụ trong tài liệu chính thức)"
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./secrets/**)"
+    ],
+    "disableBypassPermissionsMode": "disable"
+  },
+  "allowManagedPermissionRulesOnly": true
+}
+```
+
+- `disableBypassPermissionsMode: "disable"`: không ai bật được `bypassPermissions` (tương tự `disableAutoMode` cho auto mode).
+- `allowManagedPermissionRulesOnly: true`: bỏ qua permission rule từ file user/project/local và `--allowedTools` — chỉ rule của tổ chức có hiệu lực. Mạnh nhưng làm mất tính linh hoạt của team; cân nhắc trước khi bật.
+- Kiểm tra trên máy dev: `/status` → dòng *Setting sources* phải hiện nguồn managed.
+
+## Onboarding một dev mới vào dự án có quy định
+
+1. Cài Claude Code, đăng nhập bằng tài khoản **của tổ chức**; `/status` xác nhận managed settings đã áp dụng.
+2. Clone repo → tin cậy thư mục → `/permissions` để xem rule của team; `/hooks` xem hook.
+3. Đọc `CLAUDE.md`, `.claude/rules/`, `REVIEW.md` (nếu có).
+4. Làm một task nhỏ theo quy trình của team (plan → test-first → `/code-review` → PR).
+5. Biết đường báo sự cố: rule chặn nhầm, hook lỗi → báo người sở hữu cấu hình, **không** tự vô hiệu hoá.
+
+Xem thêm bài *Dữ liệu đi đâu?* cho phần quyền riêng tư và telemetry, và *Review và bảo mật ở quy mô team* cho các lớp review.
+
 ## Thói quen bảo vệ dữ liệu (khuyến nghị)
 
 > Phần dưới là khuyến nghị thực hành chung cho dự án chính phủ/ngân hàng/bảo hiểm, không phải trích dẫn từ tài liệu Anthropic.
@@ -59,4 +94,4 @@ Lấy 5 quy định thật của team bạn (hoặc dùng: test phải xanh; kh�
 Test xanh → Stop hook (Lab 06) + CI; không đọc secret → deny `Read(./.env*)` + sandbox `credentials` (Lab 05), chính sách công ty → managed settings; qua review → branch protection trên GitHub (Lab 09); format → PostToolUse Prettier (Lab 06); Signal Forms → một dòng trong `.claude/rules/forms.md` có `paths`. Kiểm tra mỗi cái bằng một lần thử vi phạm có chủ đích.
 :::
 
-> Nguồn: *Best practices for Claude Code* — mục "Choose who a rule applies to" và bảng chỉ dẫn mềm/bắt buộc, code.claude.com/docs (truy cập 11/11/2026). Phần thói quen bảo vệ dữ liệu là khuyến nghị của Learning Hub.
+> Nguồn: *Best practices for Claude Code* — mục "Choose who a rule applies to" và bảng chỉ dẫn mềm/bắt buộc; *Deploy managed settings* — code.claude.com/docs/en/managed-settings (truy cập 12/11/2026). Phần thói quen bảo vệ dữ liệu là khuyến nghị của Learning Hub.

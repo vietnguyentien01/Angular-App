@@ -1,6 +1,6 @@
 {
   "title": "Lộ trình Claude Code: người mới → nâng cao",
-  "description": "6 chặng, khoảng 6–8 tuần nếu học 3–4 giờ mỗi tuần. Mỗi chặng gồm bài học, bài tra cứu lệnh liên quan và bài lab thực hành trên dự án mẫu cc-lab — qua cột mốc rồi mới sang chặng sau.",
+  "description": "7 chặng, khoảng 8–10 tuần nếu học 3–4 giờ mỗi tuần. Mỗi chặng gồm bài học, bài tra cứu lệnh liên quan và bài lab thực hành trên dự án mẫu cc-lab — qua cột mốc rồi mới sang chặng sau.",
   "stages": [
     {
       "id": "ngay-dau-tien",
@@ -48,7 +48,8 @@
         "claude-code/commands/commands/lenh-phien-va-hoi-thoai",
         "claude-code/commands/commands/lenh-model-context-chi-phi",
         "claude-code/commands/commands/phim-tat-day-du",
-        "claude-code/labs/labs/quyen-va-settings"
+        "claude-code/labs/labs/quyen-va-settings",
+        "claude-code/consolidate/interface/tuy-bien-moi-truong-lam-viec"
       ],
       "practice": [
         "Làm Lab 05: allowlist lệnh kiểm tra, chặn .env, thử bốn permission mode",
@@ -74,7 +75,9 @@
         "claude-code/review/memory/claude-md-ngan-gon",
         "claude-code/consolidate/memory/cau-truc-bo-nho",
         "claude-code/consolidate/sessions/context-window-va-checkpoint",
-        "claude-code/labs/labs/claude-md-va-rules"
+        "claude-code/labs/labs/claude-md-va-rules",
+        "claude-code/consolidate/prompting/sau-mau-prompt-hieu-qua",
+        "claude-code/deep-dive/principles/ben-trong-claude-code"
       ],
       "practice": [
         "Làm Lab 02: CLAUDE.md dưới 30 dòng + rule có paths, đạt 4/4 bảng chấm tuân thủ",
@@ -106,7 +109,8 @@
         "claude-code/commands/commands/lenh-quy-trinh-code",
         "claude-code/labs/labs/tinh-nang-voi-plan-mode",
         "claude-code/labs/labs/sua-bug-test-first-va-rewind",
-        "claude-code/labs/labs/git-pr-va-review"
+        "claude-code/labs/labs/git-pr-va-review",
+        "claude-code/review/verification/dung-tin-chu-xong"
       ],
       "practice": [
         "Làm Lab 03, 04 và 09: tính năng bằng plan mode, sửa bug test-first, PR trên GitHub",
@@ -117,38 +121,66 @@
     },
     {
       "id": "cau-hinh-va-mo-rong",
-      "title": "Cấu hình, an toàn và mở rộng: settings, hook, skill, subagent, MCP",
+      "title": "Cấu hình, an toàn và mở rộng cơ bản: settings, hook, skill, subagent",
       "duration": "1–2 tuần",
-      "goal": "Biến quy định của team thành cấu hình đúng tầng và mở rộng Claude Code đúng lúc, theo tín hiệu thực tế.",
+      "goal": "Biến quy định của team thành cấu hình đúng tầng và bắt đầu mở rộng Claude Code theo tín hiệu thực tế.",
       "outcomes": [
         "Viết được .claude/settings.json với allow/ask/deny hợp lý",
         "Có hook format và hook chặn file nhạy cảm; Stop hook cho test",
-        "Viết một skill và một subagent reviewer chỉ đọc cho dự án",
-        "Biết khi nào cần MCP/plugin và rủi ro prompt injection đi kèm"
+        "Viết một skill và một subagent reviewer chỉ đọc cho dự án"
       ],
       "items": [
         "claude-code/consolidate/guardrails/settings-va-permission-rule",
         "claude-code/consolidate/guardrails/hook-permission-sandbox",
         "claude-code/consolidate/getting-started/khi-gap-su-co",
+        "claude-code/consolidate/extending/skill-va-plugin-co-san",
+        "claude-code/review/extending/ban-do-mo-rong",
         "claude-code/deep-dive/guardrails/mo-rong-claude-code",
         "claude-code/deep-dive/extending/viet-skill",
         "claude-code/deep-dive/extending/subagent",
         "claude-code/deep-dive/extending/hooks-thuc-chien",
-        "claude-code/deep-dive/extending/mcp-va-plugin",
-        "claude-code/deep-dive/guardrails/sandbox-va-prompt-injection",
         "claude-code/commands/commands/lenh-cau-hinh",
-        "claude-code/commands/commands/lenh-tai-khoan-tro-giup-nen-tang",
         "claude-code/labs/labs/hooks-format-bao-ve-cong-test",
         "claude-code/labs/labs/viet-skill-cho-du-an",
-        "claude-code/labs/labs/subagent-reviewer",
-        "claude-code/labs/labs/mcp-playwright-kiem-tra-giao-dien"
+        "claude-code/labs/labs/subagent-reviewer"
       ],
       "practice": [
-        "Làm Lab 06, 07, 08 và 12: hook, skill, subagent reviewer, kiểm tra giao diện bằng Playwright MCP",
+        "Làm Lab 06, 07 và 08: hook, skill, subagent reviewer",
         "Commit .claude/settings.json, một hook và một skill vào repo của team",
         "Bật sandbox với allowedDomains tối thiểu và chạy một ngày làm việc"
       ],
       "milestone": "Một đồng nghiệp clone repo và có ngay cùng quyền, hook, skill mà không cần bạn hướng dẫn."
+    },
+    {
+      "id": "mo-rong-va-quy-mo-team",
+      "title": "Mở rộng nâng cao và quy mô team: MCP, plugin, trình duyệt, review, bảo mật, monorepo",
+      "duration": "1–2 tuần",
+      "goal": "Kết nối công cụ ngoài, đóng gói cấu hình cho team, kiểm chứng giao diện, dựng nhiều lớp review và bảo mật, làm chủ codebase lớn và quyền riêng tư dữ liệu.",
+      "outcomes": [
+        "Kết nối MCP server với quyền tối thiểu và biết rủi ro prompt injection",
+        "Đóng gói skill/agent/hook thành plugin và phát hành qua marketplace nội bộ",
+        "Kiểm chứng UI bằng Playwright hoặc Claude in Chrome, /verify",
+        "Thiết kế các lớp review và bảo mật cho PR; viết REVIEW.md",
+        "Cấu hình Claude Code cho monorepo; trả lời được security team về dữ liệu"
+      ],
+      "items": [
+        "claude-code/deep-dive/extending/mcp-va-plugin",
+        "claude-code/deep-dive/guardrails/sandbox-va-prompt-injection",
+        "claude-code/commands/commands/lenh-tai-khoan-tro-giup-nen-tang",
+        "claude-code/labs/labs/mcp-playwright-kiem-tra-giao-dien",
+        "claude-code/deep-dive/extending/tao-plugin-cho-team",
+        "claude-code/deep-dive/interface/claude-in-chrome-cho-frontend",
+        "claude-code/deep-dive/verification/kiem-chung-giao-dien",
+        "claude-code/deep-dive/workflows/review-va-bao-mat-quy-mo-team",
+        "claude-code/deep-dive/memory/monorepo-va-codebase-lon",
+        "claude-code/deep-dive/getting-started/du-lieu-va-quyen-rieng-tu"
+      ],
+      "practice": [
+        "Làm Lab 12: kiểm tra giao diện cc-lab bằng Playwright MCP",
+        "Đóng gói cấu hình Lab 06–08 thành plugin và cài vào một repo khác",
+        "Viết REVIEW.md và bản trả lời security team cho dự án của bạn"
+      ],
+      "milestone": "Một repo thứ hai cài plugin của bạn bằng một lệnh và có ngay cùng quy ước, reviewer, hook."
     },
     {
       "id": "tu-dong-hoa",
@@ -172,7 +204,11 @@
         "claude-code/commands/commands/flag-dong-lenh",
         "claude-code/labs/labs/headless-va-ci",
         "claude-code/labs/labs/worktree-goal-song-song",
-        "claude-code/labs/labs/du-an-tong-hop"
+        "claude-code/labs/labs/du-an-tong-hop",
+        "claude-code/review/automation/ba-muc-tu-dong-hoa",
+        "claude-code/consolidate/automation/phien-nen-va-agent-view",
+        "claude-code/deep-dive/prompting/prompt-cho-viec-dai-va-tu-chu",
+        "claude-code/deep-dive/automation/agent-sdk-nhap-mon"
       ],
       "practice": [
         "Làm Lab 10 và 11: cổng review JSON trong script/CI, worktree song song và /goal",

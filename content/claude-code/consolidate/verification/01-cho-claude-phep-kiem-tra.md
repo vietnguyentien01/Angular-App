@@ -24,6 +24,26 @@ Các mức độ chặt, từ mềm tới bắt buộc:
 
 Dù dùng cách nào: **đòi bằng chứng** — lệnh đã chạy và output của nó. "Mọi test đều pass" không kèm output gần như không nói lên gì.
 
+## Phép kiểm tra cho từng loại thay đổi (dự án Angular)
+
+| Loại thay đổi | Phép kiểm tra pass/fail đưa cho Claude |
+|---|---|
+| Hàm thuần, pipe, util | Unit test: `npm test -- --watch=false --include='**/order-filter.spec.ts'` |
+| Component, form | TestBed component test (render, tương tác, trạng thái loading/empty/error) |
+| Gọi HTTP, interceptor | `HttpTestingController` hoặc mock server; kiểm tra số request và header |
+| Template, CSS | `/verify` hoặc Playwright/Chrome chụp màn hình so mockup ở 375px và 1280px |
+| Hiệu năng bundle | `ng build` với budget trong `angular.json` — vượt budget thì build fail |
+| Accessibility | Playwright + axe, hoặc checklist có bằng chứng snapshot |
+| Migration API | `ng build` + test + `git grep` đếm còn 0 chỗ dùng API cũ |
+| Nâng dependency | `ng build`, toàn bộ test, `npm audit` không có lỗ hổng high mới |
+
+Mẫu prompt ghép phép kiểm tra:
+
+```text
+Chuyển OrderTable sang @for/@if. Xong khi: (1) git grep -nE '\*ng(If|For)' src/app/features/orders rỗng,
+(2) npm test -- --watch=false pass, (3) ng build pass không cảnh báo budget mới. Dán output của cả ba.
+```
+
 ## Review theo spec, bỏ qua style
 
 ```text

@@ -319,3 +319,9 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ Phần **Tra cứu lệnh**: 9 bài giải thích mọi slash command, lệnh `claude` trên shell, flag dòng lệnh và phím tắt (đối chiếu đủ với trang Commands và CLI reference).
 - ✅ Mọi bài Claude Code có ít nhất một bài tập thực hành cụ thể; lộ trình 6 chặng gắn lab và bài tra cứu tương ứng (57 bài).
 - ✅ Sửa lỗi hiển thị: khối code ```text có chữ quá nhạt trên nền sáng.
+
+## 14. Claude Code: lấp đầy ma trận và mở rộng bài cũ (12/11/2026)
+
+- ✅ 16 bài mới, không còn ô trống ở ba phần chính: dữ liệu & quyền riêng tư, tuỳ biến môi trường, Claude in Chrome, bên trong Claude Code (prompt caching), sáu mẫu prompt, prompt cho việc dài, monorepo, review & bảo mật quy mô team, kiểm chứng cơ bản và hệ thống, bản đồ mở rộng, skill/plugin có sẵn, tạo plugin (đã `claude plugin validate`), ba mức tự động hoá, agent view, Agent SDK (đã type-check).
+- ✅ Mở rộng 8 bài cũ (ví dụ Angular, bảng chọn nhanh, managed settings mẫu, onboarding, câu hỏi phỏng vấn); sửa hai chỗ chưa chính xác về deny Read với lệnh Bash và checkpoint với file đổi qua Bash.
+- ✅ Lộ trình 7 chặng, phủ đủ 73 bài.

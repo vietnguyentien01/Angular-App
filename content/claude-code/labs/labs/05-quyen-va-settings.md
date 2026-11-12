@@ -78,8 +78,8 @@ Tìm 3 nhóm rule và cột **nguồn** (`.claude/settings.json`).
 | *"Cài thư viện date-fns"* | Hỏi bạn (ask) — chọn **No** kèm ghi chú "không thêm thư viện" bằng `Tab` |
 | *"Chạy npx ng lint"* (không có trong allow) | Hỏi bạn — thử chọn **Yes, and don't ask again** rồi mở `.claude/settings.local.json` xem rule mới |
 
-:::warning Bash vẫn có thể đọc .env
-Deny `Read(./.env)` chặn **công cụ Read**. Một lệnh như `cat .env` qua Bash vẫn cần được kiểm soát riêng — ở Manual mode nó sẽ hỏi bạn; muốn chặn cả đường shell thì thêm deny cho Bash hoặc bật sandbox với `denyRead` (Lab nâng cao).
+:::warning Deny Read chưa phải bức tường tuyệt đối
+Deny `Read(./.env)` chặn công cụ Read **và** các lệnh đọc file Claude Code nhận diện được trong Bash khi đường dẫn bị cấm xuất hiện làm đối số (`cat`, `head`, `grep`, `find`…, cả chuyển hướng `< .env`). Nhưng nó **không** chặn một tiến trình con tự mở file — vd `node -e "console.log(require('fs').readFileSync('.env','utf8'))"` hay một script npm đọc `.env`. Muốn chặn ở mức hệ điều hành: sandbox với `denyRead` (thử thách bên dưới).
 :::
 
 ## Bước 5 — Cùng một task, bốn chế độ
@@ -118,9 +118,9 @@ Commit `.claude/settings.json`. **Không** commit `.claude/settings.local.json` 
 :::
 
 :::exercise Thử thách mở rộng — chặn cả đường shell
-Làm cho cả `cat .env` qua Bash cũng không đọc được, bằng một trong hai cách: deny rule cho Bash hoặc sandbox. Kiểm chứng bằng cách nhờ Claude `cat .env`.
+Trước tiên nhờ Claude `cat .env` (bị chặn nhờ deny Read). Rồi nhờ nó đọc bằng `node -e "console.log(require('fs').readFileSync('.env','utf8'))"`. Làm cho cách thứ hai cũng thất bại.
 ???
-Cách 1 (đơn giản, không tuyệt đối): thêm deny `"Bash(cat .env*)"` — nhưng rule Bash khớp **chuỗi lệnh**, `head .env` hay `less .env` vẫn lọt. Cách 2 (chắc hơn): bật sandbox và thêm `"sandbox": { "enabled": true, "filesystem": { "denyRead": ["./.env"] } }` (hoặc dùng `sandbox.credentials.files`) — lệnh shell chạy trong sandbox không đọc được file đó dù dùng lệnh gì. Sandbox chạy trên macOS, Linux, WSL2. Kiểm chứng xong, xoá `.env` giả.
+Cách thứ hai lọt qua deny Read vì Node tự mở file — rule Bash chỉ khớp **chuỗi lệnh**, không biết chương trình làm gì bên trong (ở Manual mode bạn vẫn được hỏi trước khi chạy, nên hãy đọc lệnh). Chặn thật sự: bật sandbox và thêm `"sandbox": { "enabled": true, "filesystem": { "denyRead": ["./.env"] } }` (hoặc dùng `sandbox.credentials.files`) — lệnh shell chạy trong sandbox không đọc được file đó dù dùng lệnh gì. Sandbox chạy trên macOS, Linux, WSL2. Kiểm chứng xong, xoá `.env` giả.
 :::
 
 > Nguồn: *Configure permissions*, *Choose a permission mode*, *Settings files and precedence*, *Configure the sandboxed Bash tool* — code.claude.com/docs (truy cập 11/11/2026).

@@ -40,6 +40,36 @@ related: [claude-code/review/memory/claude-md-ngan-gon, claude-code/consolidate/
 | Subagent | Khi được tạo | Context riêng, tách khỏi phiên chính |
 | Hook | Khi sự kiện xảy ra | 0, trừ khi hook trả output |
 
+## Kết hợp các cơ chế
+
+Các cơ chế không loại trừ nhau — chúng ghép được:
+
+| Kết hợp | Cách | Dùng khi |
+|---|---|---|
+| Subagent nạp sẵn skill | Trường `skills:` trong frontmatter của subagent | Reviewer cần checklist chi tiết mà không nhồi vào system prompt |
+| Skill chạy trong subagent | `context: fork` (+ `agent:`) trong SKILL.md | Skill đọc nhiều file — giữ hội thoại chính gọn |
+| Hook gắn với skill/subagent | Trường `hooks:` trong frontmatter | Kiểm tra chỉ cần khi skill/agent đó chạy (vd chặn lệnh ghi khi chạy reviewer) |
+| Subagent có MCP riêng | Trường `mcpServers:` | Chỉ agent tra cứu ticket mới cần MCP của Jira |
+| Đóng gói tất cả | Plugin | Repo thứ hai cần cùng bộ |
+
+## Một hệ thống hoàn chỉnh cho dự án Angular (ví dụ)
+
+```text
+CLAUDE.md                         ← lệnh test/build, 5–10 quy ước khác mặc định
+.claude/rules/forms.md            ← paths: **/*.form.ts — quy ước Signal Forms
+.claude/rules/testing.md          ← quy ước viết spec
+.claude/skills/new-feature/       ← /new-feature: scaffold feature theo chuẩn
+.claude/skills/verify/            ← công thức chạy app (do /verify ghi lại)
+.claude/agents/angular-reviewer.md← reviewer chỉ đọc, checklist team
+.claude/settings.json             ← allow lệnh kiểm tra; deny .env, file sinh ra; hooks:
+                                     PostToolUse → Prettier; PreToolUse → bảo vệ file;
+                                     Stop → test phải xanh
+.mcp.json                         ← (nếu cần) issue tracker, chỉ quyền đọc mặc định
+REVIEW.md                         ← chỉ dẫn cho Code Review trên PR
+```
+
+Thứ tự xây: CLAUDE.md → settings (permission) → hook format/bảo vệ → skill khi có prompt lặp lại → subagent reviewer → MCP khi cần → plugin khi có repo thứ hai. Thực hành từng bước ở Lab 02, 05–08, 12.
+
 ## Ví dụ: reviewer chỉ được đọc
 
 ```markdown title=".claude/agents/reviewer.md"
