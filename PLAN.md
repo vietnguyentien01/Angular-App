@@ -334,3 +334,7 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ Đợt 4: artifacts, Projects, desktop app, OpenTelemetry/analytics; phiên cập nhật tự động đọc hướng dẫn mới trong CONTENT_GUIDE mục 5 để theo dõi changelog Claude Code (code.claude.com nằm trong allowlist mặc định của cloud environment).
 - ✅ Sửa: auto mode mặc định cho push lên mọi nhánh của repo hiện tại; khối `env` trong settings ghi đè biến của shell.
 - ✅ Lộ trình 7 chặng phủ đủ 80 bài; 183 câu trắc nghiệm.
+
+## 16. Lab 14 — workflow nhiều agent
+
+- ✅ Lab 14: chuỗi subagent (explorer → implementer → reviewer) do phiên chính điều phối, ba subagent điều tra song song một bug cài sẵn, agent team chia file và task list có phụ thuộc, bảng chọn cơ chế; hook `TaskCompleted` làm thử thách mở rộng. Ghi hướng dẫn tự chạy (không chạy thật trong môi trường biên soạn). Lộ trình phủ 81 bài.

@@ -196,7 +196,8 @@
         "Viết được lệnh claude -p có quyền tối thiểu, giới hạn lượt và output có cấu trúc",
         "Cài @claude cho repo GitHub và một workflow theo lịch",
         "Chạy song song bằng worktree; dùng /goal với điều kiện kiểm chứng được",
-        "Trả lời năm câu hỏi trước khi để Claude chạy một mình; chọn model/effort theo việc"
+        "Trả lời năm câu hỏi trước khi để Claude chạy một mình; chọn model/effort theo việc",
+        "Điều phối được nhiều agent: chuỗi subagent, subagent song song và agent team — và chọn đúng cơ chế cho từng việc"
       ],
       "items": [
         "claude-code/deep-dive/sessions/chi-phi-va-subagent",
@@ -209,6 +210,7 @@
         "claude-code/commands/commands/flag-dong-lenh",
         "claude-code/labs/labs/headless-va-ci",
         "claude-code/labs/labs/worktree-goal-song-song",
+        "claude-code/labs/labs/workflow-nhieu-agent",
         "claude-code/labs/labs/du-an-tong-hop",
         "claude-code/review/automation/ba-muc-tu-dong-hoa",
         "claude-code/consolidate/automation/phien-nen-va-agent-view",
@@ -219,6 +221,7 @@
       ],
       "practice": [
         "Làm Lab 10 và 11: cổng review JSON trong script/CI, worktree song song và /goal",
+        "Làm Lab 14: chuỗi subagent explorer → implementer → reviewer, điều tra bug song song, agent team làm tính năng thống kê",
         "Hoàn thành Lab 13 (dự án tổng hợp) và tự chấm ≥ 16/20",
         "Viết một script claude --bare -p cho việc lặp lại của bạn (vd tóm tắt diff thành release note)",
         "Tạo một scheduled task mở PR (không push nhánh chính) và theo dõi 3 lần chạy đầu"
