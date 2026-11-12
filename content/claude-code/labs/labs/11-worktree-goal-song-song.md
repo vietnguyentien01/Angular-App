@@ -106,6 +106,24 @@ Trong lúc chờ, bạn làm việc khác. Xem output: `claude logs <id>`; gắn
 - [ ] `/goal` dừng khi đạt điều kiện; diff không có lối lách `any`/`@ts-ignore`
 - [ ] Đã giao và theo dõi một phiên nền bằng `--bg` + `claude agents`
 
+:::quiz Vì sao thêm `.claude/worktrees/` vào `.gitignore`?
+- [ ] Để worktree chạy nhanh
+- [x] Để nội dung các worktree không hiện thành file untracked trong checkout chính
+- [ ] Vì git bắt buộc
+- [ ] Để Claude không đọc được
+
+Worktree nằm trong thư mục repo.
+:::
+
+:::quiz Điều kiện `/goal` có câu "không dùng `any` hay `@ts-ignore` để lách". Tác dụng?
+- [ ] Không có tác dụng
+- [x] Là ràng buộc evaluator đọc khi đánh giá — chặn cách 'xong' bằng cách tắt kiểm tra type; bạn vẫn kiểm lại bằng `git diff | grep`
+- [ ] Tắt TypeScript
+- [ ] Bật strict mode
+
+Điều kiện tốt có cả trạng thái cuối và ràng buộc.
+:::
+
 :::quiz Bạn dùng `/branch` trong cùng một thư mục để "làm song song" hai tính năng. Vấn đề gì xảy ra?
 - [ ] Không vấn đề gì
 - [x] `/branch` chỉ tách hội thoại; cả hai cùng sửa một thư mục làm việc nên ghi đè file của nhau — cần worktree

@@ -100,6 +100,24 @@ Xem tab **Actions** để thấy workflow chạy; Claude trả lời bằng comm
 - [ ] Mô tả PR có đủ 4 mục; bạn tự đọc diff trước khi merge
 - [ ] Mở lại được phiên bằng `claude --from-pr`
 
+:::quiz `/security-review` báo lỗi `ambiguous argument`. Nguyên nhân thường gặp?
+- [ ] Claude hết token
+- [x] Repo chưa có remote `origin` (hoặc nhánh mặc định trên origin) để so diff
+- [ ] Thiếu CLAUDE.md
+- [ ] Sai model
+
+Lệnh so nhánh hiện tại với nhánh mặc định của `origin`.
+:::
+
+:::quiz Vì sao tách commit refactor và commit feat?
+- [ ] Để có nhiều commit hơn
+- [x] Mỗi commit một mục đích → review dễ, revert từng phần được, lịch sử rõ
+- [ ] Vì Conventional Commits bắt buộc 2 commit
+- [ ] Để CI chạy nhanh
+
+PR nhỏ, commit có mục đích là thứ người review cần.
+:::
+
 :::quiz Vì sao bật branch protection cho `main` dù đã dặn Claude "đừng push main"?
 - [ ] Để GitHub chạy nhanh hơn
 - [x] Lời dặn là chỉ dẫn mềm và có thể mất sau compact; branch protection là hàng rào phía server không ai/agent nào vượt qua được nếu không có quyền

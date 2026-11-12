@@ -87,6 +87,10 @@ Worktree do Claude tạo bị xoá cùng phiên trong agent view. **Commit** (ho
 Agent view biến bạn thành người **giao việc và duyệt việc**. Năng suất thật phụ thuộc vào chất lượng lời giao việc (mỗi việc tự chứa, có tiêu chí xong) và tốc độ bạn duyệt kết quả. Bắt đầu với 2–3 việc song song; tăng lên khi bạn vẫn review kịp mà không hạ tiêu chuẩn.
 :::
 
+:::interview Khi nào bạn chạy nhiều phiên Claude song song, và giới hạn gì?
+Khi có các việc độc lập, tự chứa, có phép kiểm tra tự động (fix test flaky, nâng patch dependency, review một PR). Giới hạn: quota tiêu nhanh theo số phiên; khả năng review của tôi là nút thắt; mỗi phiên sửa file trong worktree riêng nên phải gộp và chạy lại test. Tôi bắt đầu với 2–3 việc và chỉ tăng khi vẫn review kịp.
+:::
+
 :::quiz Trong agent view, bạn gõ prompt thứ hai và nhấn Enter. Điều gì xảy ra?
 - [ ] Prompt được gửi làm tin nhắn tiếp theo cho phiên đầu
 - [x] Một phiên nền mới chạy song song với phiên đầu

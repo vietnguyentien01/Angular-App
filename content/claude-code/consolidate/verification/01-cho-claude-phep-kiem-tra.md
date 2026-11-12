@@ -7,6 +7,12 @@ tags: [claude-code, verification, testing, case-study]
 related: [claude-code/review/principles/ai-la-cong-cu, claude-code/consolidate/guardrails/hook-permission-sandbox]
 ---
 
+## TL;DR
+
+- Claude dừng khi việc **trông như** xong; phép kiểm tra pass/fail cho nó biết việc **thật sự** xong.
+- Các mức: yêu cầu trong prompt → `/goal` → Stop hook → review bởi agent/người chưa thấy code.
+- Luôn đòi **bằng chứng** (lệnh đã chạy và output); review theo spec nhưng "bỏ qua style".
+
 ## Nguyên tắc
 
 > Claude dừng khi công việc **trông như** đã xong. Nếu không có gì để chạy cho biết nó **thật sự** xong chưa, thì "trông như xong" là tất cả những gì nó có — và bạn trở thành bộ test.
@@ -66,6 +72,14 @@ App này được viết bằng Claude. Mọi phát biểu kỹ thuật đều p
 | Ví dụ `toObservable`, câu hỏi về DI, sanitizer… | Đều được chạy lại và khớp |
 
 Bài học: **AI cũng sai một cách rất tự tin**. Thứ bảo vệ chất lượng không phải là "AI giỏi", mà là phép kiểm tra + người review hiểu kiến thức nền.
+
+:::interview Làm sao bạn biết code AI viết thật sự đúng?
+Không tin lời mô tả, tin phép kiểm tra chạy được: test tái hiện (fail trước, pass sau), build/typecheck, chạy app thật cho UI. Đòi output thật của lệnh. Review độc lập theo spec bằng subagent chưa thấy hội thoại. Và tự đọc diff tìm dấu hiệu lách: sửa kỳ vọng test, `any`, `@ts-ignore`, try/catch nuốt lỗi.
+:::
+
+:::senior Góc nhìn senior
+Đầu tư vào phép kiểm tra là đầu tư có lãi kép: test tốt giúp Claude tự sửa đúng, giúp người review tin kết quả, và giúp lần sau giao việc lớn hơn. Dự án thiếu test là dự án mà AI chỉ có thể 'trông như xong' — bắt đầu bằng characterization test trước khi giao việc lớn.
+:::
 
 :::quiz Claude báo "Đã sửa xong, tất cả test pass". Bạn nên làm gì trước khi tin?
 - [ ] Tin, vì Claude đã nói vậy

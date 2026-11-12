@@ -8,6 +8,12 @@ tags: [claude-code, prompting]
 related: [claude-code/review/principles/ai-la-cong-cu, claude-code/consolidate/memory/quy-trinh-task-angular]
 ---
 
+## TL;DR
+
+- Prompt cụ thể = cho Claude thông tin nó **chưa có**: file, triệu chứng, thế nào là xong.
+- Có sẵn file/ảnh/log thì **đưa thẳng** (`@file`, dán ảnh, pipe output) thay vì mô tả.
+- Chưa rõ yêu cầu → nhờ Claude phỏng vấn rồi viết `SPEC.md`; độ sâu suy nghĩ điều chỉnh bằng effort, không bằng câu thần chú.
+
 ## Cụ thể hoá yêu cầu
 
 Prompt cụ thể giúp vì nó **cho Claude thông tin chưa có**: nêu file, mô tả triệu chứng, nói rõ thế nào là đã sửa.
@@ -72,6 +78,10 @@ Log và response có thể chứa thông tin cá nhân. Ẩn danh trước khi d
 - `think step by step`, `be thorough` chỉ là chữ thường, **không** nâng mức suy nghĩ vượt quá effort hiện tại.
 - Điều chỉnh bằng `/effort` (`low` / `medium` mặc định / `high` / `xhigh` / `max`), hoặc `ultrathink` cho riêng một tin nhắn.
 - `be ambitious` có ích khi bạn muốn bản đầy đủ (trạng thái rỗng/lỗi, bàn phím…), vì Claude có xu hướng làm phiên bản nhỏ nhất thoả yêu cầu.
+
+:::interview Đưa một prompt bạn hay dùng và giải thích vì sao nó hiệu quả.
+Ví dụ: "Bug: đổi bộ lọc khi ở trang 2 không tải lại. Xem features/cases/case-list.facade.ts. Viết test fail tái hiện trước, rồi sửa nguyên nhân gốc. Xong khi npm test -- --watch=false và ng build pass." Hiệu quả vì có bối cảnh cụ thể (triệu chứng, nơi bắt đầu), quy trình an toàn (test-first), và tiêu chí xong chạy được — Claude tự lặp tới khi đạt thay vì dừng ở lần thử đầu.
+:::
 
 :::quiz Theo hướng dẫn của Anthropic, viết "think harder" trong prompt có tác dụng gì?
 - [ ] Nâng effort lên `high`

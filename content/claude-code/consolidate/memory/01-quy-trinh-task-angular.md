@@ -7,6 +7,12 @@ tags: [claude-code, workflow, angular, prompts]
 related: [claude-code/review/prompting/viet-prompt-cu-the, claude-code/consolidate/verification/cho-claude-phep-kiem-tra]
 ---
 
+## TL;DR
+
+- Một task Angular đi qua 6 bước: làm rõ (SPEC) → hiểu code → triển khai có phép kiểm tra → review độc lập → bạn review diff → PR và merge bởi người.
+- Bước 2 và 5 là nơi kiến thức nền của bạn quyết định chất lượng.
+- Thư viện prompt mẫu cho bug, component, migration, sự cố production, characterization test.
+
 ## Quy trình
 
 | Bước | Bạn làm | Claude làm |
@@ -54,6 +60,14 @@ Trước khi refactor [file], viết characterization test ghi lại hành vi HI
 với các input thật trong [fixtures]. Không sửa code. Kiểm tra: test pass trên code hiện tại.
 ```
 
+:::interview Mô tả quy trình bạn dùng AI cho một ticket từ đầu tới cuối.
+Làm rõ yêu cầu (nhờ Claude phỏng vấn → SPEC.md) → tự đọc phần code liên quan → giao triển khai với test-first và lệnh kiểm tra, theo dõi phút đầu → subagent review theo SPEC.md + `/code-review` → tự review diff, giải thích được mọi dòng → PR nhỏ có mô tả và cách test, người review merge. Hàng rào: hook cho test/format, branch protection.
+:::
+
+:::senior Góc nhìn senior
+Quy trình này có giá trị khi cả team dùng **giống nhau**. Ghi nó vào CONTRIBUTING hoặc một skill `/ticket` của repo, đưa prompt mẫu thành skill, và review định kỳ: bước nào bị bỏ qua nhiều nhất (thường là bước 2 — tự đọc code) và vì sao.
+:::
+
 :::quiz Bước nào trong quy trình mà kiến thức nền của bạn quan trọng nhất?
 - [ ] Bước 6 — merge
 - [x] Bước 2 và 5 — hiểu phần code liên quan và review được diff
@@ -78,4 +92,4 @@ Dựa trên dự án Angular bạn đang làm, viết một `CLAUDE.md` không q
 Tự kiểm tra với từng dòng: *Claude có tự tìm được điều này bằng cách đọc code không, và nó có thật sự đi tìm không?* — nếu cả hai đều có, xoá dòng đó. Không mô tả kiến trúc hay liệt kê thư mục. Quy tắc không có ngoại lệ (không đọc file secret, bắt buộc test pass) chuyển sang hook/deny rule thay vì viết vào đây. Chạy `/context all` để xác nhận file được nạp, và `/doctor` để xem gợi ý cắt bớt.
 :::
 
-> Quy trình tổng hợp từ *Best practices for Claude Code* (code.claude.com/docs, truy cập 11/11/2026); thư viện prompt là khuyến nghị cho dự án Angular của Learning Hub.
+> Nguồn: quy trình tổng hợp từ *Best practices for Claude Code* (code.claude.com/docs, truy cập 11/11/2026); thư viện prompt là khuyến nghị cho dự án Angular của Learning Hub.

@@ -134,6 +134,24 @@ Mở một PR nhỏ, xem tab Actions và comment Claude để lại. Cách cài 
 | Kết quả khác nhau giữa các máy | Thiếu `--bare`: hook/skill/CLAUDE.md cục bộ của từng máy đang ảnh hưởng |
 | Workflow tốn nhiều | Giảm `--max-turns`, prompt cụ thể hơn, `CLAUDE.md` ngắn |
 
+:::quiz `review.json` không có trường `structured_output`. Script gate nên làm gì?
+- [ ] Coi như không có lỗi, exit 0
+- [x] Báo lỗi và exit khác 0 — thiếu output có cấu trúc nghĩa là lần chạy không cho kết quả hợp lệ
+- [ ] Chạy lại vô hạn
+- [ ] Xoá file
+
+Fail-closed: không có bằng chứng thì không cho qua.
+:::
+
+:::quiz Trong workflow review PR chính thức, vì sao phải giữ `--allowedTools "mcp__github_inline_comment__create_inline_comment"`?
+- [ ] Để chạy nhanh
+- [x] Action chỉ khởi động MCP server đăng comment inline khi `--allowedTools` liệt kê nó
+- [ ] Vì GitHub yêu cầu
+- [ ] Không cần thiết
+
+Theo tài liệu GitHub Actions của Claude Code.
+:::
+
 :::quiz Trong Bài 2, vì sao không cấp quyền Bash cho Claude?
 - [ ] Vì `--bare` cấm Bash
 - [x] Vì diff đã được pipe vào stdin — Claude không cần chạy lệnh nào để đọc nó; ít quyền hơn là an toàn hơn

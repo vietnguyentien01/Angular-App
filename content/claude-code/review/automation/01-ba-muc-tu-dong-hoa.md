@@ -69,6 +69,10 @@ Năm câu hỏi (chi tiết ở bài *Để Claude chạy một mình*):
 Nếu bạn chưa từng làm việc đó thành công trong một phiên tương tác, đừng đưa nó vào script hay lịch. Làm tay → ổn định prompt → mức 1 → mức 2 → mức 3.
 :::
 
+:::interview Bạn quyết định tự động hoá một việc bằng Claude thế nào?
+Chỉ khi đã làm tay thành công nhiều lần và có phép kiểm tra tự động. Lên dần ba mức: trong phiên (`/loop`, `/goal`) → script/CI (`claude -p` quyền tối thiểu, giới hạn lượt) → cloud scheduled task (branch protection, theo dõi các lần chạy đầu). Trả lời năm câu hỏi: xong là gì, kiểm tra gì, đụng gì, dừng khi nào, ai duyệt.
+:::
+
 :::quiz Bạn muốn Claude kiểm tra mỗi 10 phút xem deploy staging xong chưa trong lúc bạn làm việc khác, ngay trong phiên đang mở. Dùng gì?
 - [ ] `/schedule`
 - [x] `/loop 10m …`

@@ -99,6 +99,10 @@ Một cái tự soát lỗi bảo mật trong khi Claude viết code; một cái
 Trước khi viết skill/plugin cho team, kiểm tra cái có sẵn: `/simplify` + `/code-review` + `/verify` đã bao phủ phần lớn "quy trình trước PR" mà nhiều team tự viết lại. Tập trung công sức tự viết vào phần **riêng** của dự án bạn (quy ước domain, công thức chạy app, checklist bảo mật của khách hàng).
 :::
 
+:::interview Trước khi tự viết skill cho team, bạn kiểm tra gì?
+Xem skill có sẵn (`/simplify`, `/code-review`, `/verify`, `/batch`, `/loop`…) và plugin chính thức đã bao phủ chưa; đo chi phí bằng `/plugin` (Context cost), `/skill-doctor`. Chỉ viết phần riêng của dự án: quy ước domain, công thức chạy app, checklist của khách hàng.
+:::
+
 :::quiz Bạn cài `typescript-lsp` nhưng không thấy dòng diagnostics sau khi Claude sửa file `.ts`. Kiểm tra gì đầu tiên?
 - [ ] Đổi model
 - [x] `typescript-language-server` có trên `PATH` của shell mở `claude` không — xem `/plugin` → tab Errors

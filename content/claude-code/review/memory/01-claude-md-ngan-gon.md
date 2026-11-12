@@ -8,6 +8,12 @@ tags: [claude-code, claude-md, skills]
 related: [claude-code/consolidate/memory/quy-trinh-task-angular, claude-code/deep-dive/guardrails/mo-rong-claude-code]
 ---
 
+## TL;DR
+
+- Chỉ ghi vào `CLAUDE.md` những gì Claude **không tự tìm được** từ repo: lệnh build/test chính xác, quy ước khác mặc định, "gotcha".
+- Giữ **dưới 200 dòng**; file dài làm giảm mức tuân thủ và tốn context mỗi phiên.
+- Quy ước theo thư mục → `.claude/rules/` có `paths`; quy trình nhiều bước → skill.
+
 ## Phép thử trước khi ghi một dòng
 
 1. Claude có tìm được điều này bằng cách đọc code không?
@@ -56,6 +62,10 @@ paths:
 ```
 
 Quy trình của team (release, xử lý sự cố, chuẩn viết tài liệu API) → **skill** tại `.claude/skills/<tên>/SKILL.md`. Claude chỉ thấy tên và mô tả trong mọi phiên, nội dung đầy đủ chỉ nạp khi cần. Skill có tác dụng phụ (như release) thêm `disable-model-invocation: true` để chỉ chạy khi bạn gõ `/release`.
+
+:::interview Bạn quyết định một dòng có nên nằm trong CLAUDE.md hay không thế nào?
+Hai câu hỏi: (1) Claude có tự tìm ra điều này bằng cách đọc code không, và nó có thật sự đi tìm không? Nếu có → không cần ghi. (2) Thiếu dòng này Claude có làm sai không? Nếu không → xoá. Giữ lại lệnh kiểm chứng, quy ước khác mặc định, gotcha; chuyển quy trình dài sang skill, quy tắc không ngoại lệ sang hook/permission.
+:::
 
 :::quiz Dòng nào KHÔNG nên có trong `CLAUDE.md`?
 - [ ] Lệnh chạy một file test

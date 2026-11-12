@@ -235,6 +235,24 @@ Sau đó trên shell: `git log --oneline -3`.
 | Ngày "hôm nay" bị lệch múi giờ | Đó là một quyết định thiết kế thật — hỏi Claude: *"dùng giờ máy hay UTC? Trade-off?"* |
 | Test hỏng vì chữ "Quá hạn" | Đọc test fail, nhờ Claude giải thích trước khi sửa |
 
+:::quiz Ở Bước 4, Claude giải thích luồng dữ liệu của ô tìm kiếm. Cách đúng để biết câu trả lời có chính xác không?
+- [ ] Hỏi lại Claude "bạn chắc không?"
+- [x] Mở `task-store.ts` và `task-list.ts`, đối chiếu từng bước (`query` → `visible` → template) với code thật
+- [ ] Tin vì Claude đã đọc file
+- [ ] Chạy `ng build`
+
+Câu trả lời của model phải được kiểm bằng nguồn thật — đó là thói quen cốt lõi khi học codebase với AI.
+:::
+
+:::quiz Prompt ở Bước 5 có câu "Không sửa file nào khác ngoài task-list.ts". Mục đích?
+- [ ] Để Claude chạy nhanh hơn
+- [x] Giới hạn phạm vi — mọi file khác bị đụng tới là dấu hiệu lệch hướng, dễ phát hiện khi đọc diff
+- [ ] Vì Claude không sửa được nhiều file
+- [ ] Để tiết kiệm token tuyệt đối
+
+Ràng buộc phạm vi giúp diff nhỏ, dễ review và dễ phát hiện lệch hướng.
+:::
+
 :::quiz Vì sao lab yêu cầu commit trạng thái seed **trước** khi mở Claude?
 - [ ] Vì Claude không chạy được khi có thay đổi chưa commit
 - [x] Để luôn có điểm quay về bằng git — checkpoint của Claude không thay thế được git

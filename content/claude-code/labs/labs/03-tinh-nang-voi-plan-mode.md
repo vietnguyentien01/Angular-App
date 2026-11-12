@@ -101,6 +101,24 @@ Sửa những phát hiện đúng, rồi commit.
 | Claude sửa `task-filter.ts` dù đã cấm đổi chữ ký | Kiểm tra: đổi chữ ký hay chỉ thêm hàm? Nếu đổi chữ ký → từ chối kèm ghi chú |
 | Test component fail vì thứ tự thay đổi signal | Nhờ Claude giải thích vì sao trước khi sửa; đọc kỹ lời giải thích |
 
+:::quiz Thanh trạng thái hiện `⏸ plan mode on`. Claude được làm gì?
+- [ ] Sửa file tự do
+- [x] Đọc file, chạy lệnh khám phá, viết kế hoạch — không sửa source tới khi bạn duyệt
+- [ ] Chỉ trả lời câu hỏi, không đọc file
+- [ ] Push code
+
+Duyệt kế hoạch xong phiên mới chuyển sang chế độ được sửa.
+:::
+
+:::quiz Vì sao lab yêu cầu tự phác kế hoạch trên giấy trước (Bước 1)?
+- [ ] Để Claude đọc tờ giấy
+- [x] Để so với kế hoạch của Claude — vừa kiểm tra Claude, vừa giữ kỹ năng thiết kế của chính bạn
+- [ ] Vì plan mode cần đầu vào
+- [ ] Không có lý do
+
+Bảng so sánh ở Bước 6 cho thấy ai bỏ sót điều gì.
+:::
+
 :::quiz Trong lab này vì sao chọn "Yes, manually approve edits" thay vì auto mode?
 - [ ] Auto mode không dùng được với Angular
 - [x] Để luyện đọc từng thay đổi và đối chiếu với kế hoạch — mục tiêu học, không phải tốc độ

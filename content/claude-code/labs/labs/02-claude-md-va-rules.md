@@ -117,6 +117,24 @@ Thấy *Saved … memory* → điều này vào **auto memory** (chỉ máy bạ
 - [ ] Phân biệt được ghi chú nào vào auto memory, cái nào vào CLAUDE.md
 - [ ] Commit `CLAUDE.md` và `.claude/rules/`, không commit `CLAUDE.local.md`
 
+:::quiz Bạn sửa CLAUDE.md giữa phiên nhưng Claude vẫn làm theo bản cũ. Vì sao?
+- [ ] File bị lỗi cú pháp
+- [x] CLAUDE.md gốc được đọc một lần lúc bắt đầu phiên; bản mới chỉ nạp sau `/clear`, `/compact` hoặc phiên mới
+- [ ] Phải viết IN HOA
+- [ ] Claude bỏ qua CLAUDE.md
+
+Đó là lý do Bước 4 yêu cầu `/clear` trước khi kiểm tra.
+:::
+
+:::quiz "Nhớ giúp mình: dùng Conventional Commits" được lưu ở đâu theo mặc định?
+- [ ] CLAUDE.md của repo
+- [x] Auto memory trên máy bạn (`~/.claude/projects/<project>/memory/`)
+- [ ] `.claude/settings.json`
+- [ ] Không lưu ở đâu
+
+Muốn cả team theo thì nói rõ "thêm vào CLAUDE.md".
+:::
+
 :::quiz Sau `/clear`, `/context all` chưa liệt kê `.claude/rules/tasks.md`. Lý do?
 - [ ] File sai định dạng
 - [x] Rule có `paths` chỉ nạp khi Claude đọc/sửa file khớp `src/app/tasks/**`

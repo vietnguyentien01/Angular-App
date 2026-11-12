@@ -7,6 +7,12 @@ tags: [claude-code, hooks, permissions, sandbox]
 related: [claude-code/consolidate/verification/cho-claude-phep-kiem-tra, claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team]
 ---
 
+## TL;DR
+
+- Quy tắc **không có ngoại lệ** → cơ chế cứng: hook, permission rule, sandbox — không phải lời dặn.
+- `Stop` hook exit 2 khi typecheck/test fail → Claude không thể báo xong; `PostToolUse` chạy formatter sau mỗi lần sửa.
+- Deny luôn thắng; đặt rule ở đúng phạm vi (cá nhân, repo, tổ chức).
+
 ## Khi nào dùng cơ chế bắt buộc?
 
 > Nếu điều gì đó phải xảy ra **mọi lần**, hãy biến nó thành hook, deny rule hoặc managed setting. `CLAUDE.md` dành cho nguyên tắc, và Claude được phép quyết định một nguyên tắc không áp dụng.
@@ -73,6 +79,14 @@ Exit code `2` chặn việc kết thúc lượt; những gì in ra stderr đư�
 
 :::warning Auto mode không phải hàng rào cứng
 Auto mode dùng một model phân loại để đánh giá từng hành động — tốt, nhưng là phán đoán nên có thể sai. Các quy tắc "không bao giờ" phải nằm trong deny rule hoặc hook. Deny/ask rule và `PreToolUse` hook được áp dụng **trước** bộ phân loại.
+:::
+
+:::interview Team muốn 'không bao giờ commit khi test đỏ'. Bạn triển khai ở những lớp nào?
+Lớp phiên: Stop hook chạy test, exit 2 nếu đỏ (Claude không kết thúc được). Lớp commit: hook PreToolUse cho `git commit` chạy test nhanh, hoặc git pre-commit hook. Lớp server: CI bắt buộc xanh + branch protection — lớp duy nhất không phụ thuộc máy dev. Không dựa vào dòng 'nhớ chạy test' trong CLAUDE.md.
+:::
+
+:::senior Góc nhìn senior
+Mỗi hook và deny rule là code phải bảo trì và thỉnh thoảng chặn nhầm. Bắt đầu với 3 thứ: chặn file bí mật, format tự động, cổng test — đo xem chúng chặn đúng bao nhiêu lần trước khi thêm thứ tư. Một bộ hàng rào nhỏ mà ai cũng tin tốt hơn bộ lớn mà mọi người tìm cách tắt.
 :::
 
 :::quiz Hook `Stop` trả exit code nào để buộc Claude làm tiếp?

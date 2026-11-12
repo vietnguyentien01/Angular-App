@@ -7,6 +7,12 @@ tags: [learning, claude-code, career]
 related: [claude-code/review/principles/ai-la-cong-cu, angular/deep-dive/senior-skills/phong-van-senior]
 ---
 
+## TL;DR
+
+- Dùng AI để **hiểu sâu hơn**, không chỉ lấy đáp án: đoán trước rồi so, tự viết rồi nhờ review, nhờ đặt câu hỏi kiểm tra.
+- Output style **Learning** chừa phần code nhỏ cho bạn tự viết; **Explanatory** giải thích lý do.
+- Giữ khả năng làm việc khi không có AI: định kỳ tự làm không trợ giúp.
+
 > Bài này là **khuyến nghị học tập** của Learning Hub, không phải hướng dẫn chính thức của Anthropic.
 
 ## Hai cách dùng AI rất khác nhau
@@ -37,6 +43,14 @@ Claude Code có sẵn output style hỗ trợ học — đổi bằng `/output-s
 | Concise | Bỏ phần dẫn dắt, đi thẳng vào kết quả | Câu trả lời mặc định dài hơn bạn muốn |
 
 Gợi ý: bật **Learning** khi học một mảng mới (Signal Forms, RxJS nâng cao), về lại Default khi cần tốc độ.
+
+:::interview AI có làm kỹ năng của dev yếu đi không? Bạn tránh điều đó thế nào?
+Có, nếu dùng để thay việc hiểu. Tôi tránh bằng: đoán trước kết quả rồi mới hỏi; tự viết phiên bản đầu rồi nhờ review; không merge thứ mình không giải thích được; dùng output style Learning khi học mảng mới; và định kỳ làm một task không có AI để kiểm tra mình vẫn tự làm được.
+:::
+
+:::senior Góc nhìn senior
+Senior được trả lương cho **phán đoán**: chọn hướng, thấy rủi ro, biết khi nào sai. AI làm phần gõ phím nhanh hơn, nên giá trị của bạn càng nằm ở phần hiểu — đầu tư có chủ đích vào phần đó (đọc mã nguồn framework, tự debug trước khi hỏi) thay vì để nó teo đi.
+:::
 
 :::quiz Cách nào giúp hiểu sâu nhất khi học một khái niệm mới với Claude?
 - [ ] Đọc thật nhiều giải thích của Claude

@@ -91,6 +91,24 @@ Tự đọc diff trên GitHub. Chỉ merge khi bạn giải thích được **m�
 
 **16–20:** thành thạo — sẵn sàng áp quy trình vào dự án thật. **10–15:** làm lại các lab ứng với tiêu chí thấp điểm. **Dưới 10:** quay lại phần Thực hành hằng ngày.
 
+:::quiz Trong thang chấm, tiêu chí "Trung thực" đạt 2 điểm khi nào?
+- [ ] Claude không bao giờ sai
+- [x] Bạn phát hiện và ghi lại chỗ Claude sai (và cơ chế nào bắt được)
+- [ ] Bạn không dùng Claude
+- [ ] PR được merge nhanh
+
+Phát hiện lỗi của AI là kỹ năng, không phải thất bại.
+:::
+
+:::quiz Vì sao Giai đoạn 4 dùng cả subagent review theo SPEC, `/code-review` và Playwright?
+- [ ] Để tốn nhiều token
+- [x] Mỗi lớp bắt loại lỗi khác: đúng yêu cầu, bug đúng đắn, hành vi giao diện thật
+- [ ] Vì một lớp không chạy được
+- [ ] Để thay người review
+
+Nhiều lớp độc lập → ít lỗi lọt; người vẫn quyết định merge.
+:::
+
 :::quiz Ở Giai đoạn 2 vì sao `/clear` trước khi `/plan`?
 - [ ] Để tiết kiệm tiền tuyệt đối
 - [x] Để kế hoạch dựa trên SPEC.md trên đĩa (đã chốt), không bị nhiễu bởi các phương án bị loại trong cuộc phỏng vấn

@@ -78,6 +78,24 @@ return tasks.filter(
 | Test mới pass ngay | Test không tái hiện đúng bug — đọc lại input/kỳ vọng |
 | Claude đổi kỳ vọng của test cũ cho xanh | Từ chối: test cũ đúng spec thì sửa code |
 
+:::quiz Test tái hiện bug fail với lỗi `Cannot find module`. Bạn kết luận gì?
+- [ ] Test đã tái hiện bug
+- [x] Test fail **sai lý do** (lỗi import) — chưa chứng minh được bug; sửa test cho tới khi nó fail vì đúng kỳ vọng
+- [ ] Bug đã được sửa
+- [ ] Phải xoá test
+
+Test phải fail vì kỳ vọng `[1]` nhận `[]`, không phải vì lỗi setup.
+:::
+
+:::quiz Sau khi `/rewind` → Restore code and conversation, `git status` cho thấy còn file bị đổi. Nguyên nhân khả dĩ?
+- [ ] Checkpoint bị lỗi
+- [x] File đó chỉ bị lệnh Bash thay đổi (vd prettier) và Claude chưa từng sửa nó bằng công cụ sửa file — checkpoint không theo dõi
+- [ ] Git bị hỏng
+- [ ] Rewind chỉ chạy ở plan mode
+
+Dùng `git checkout` cho những file đó.
+:::
+
 :::quiz Vì sao bắt test phải FAIL trước khi sửa?
 - [ ] Để tốn ít token hơn
 - [x] Để chứng minh test thật sự bắt được bug — test pass ngay từ đầu không chứng minh fix có tác dụng

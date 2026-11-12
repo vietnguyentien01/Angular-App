@@ -141,6 +141,10 @@ Giải thích thay đổi này cho PM không biết code trong 5 câu: người 
 Prompt tốt chính là **ticket tốt**: bối cảnh, mục tiêu, phạm vi, tiêu chí chấp nhận. Nếu bạn viết được ticket rõ cho junior thì cũng viết được prompt rõ cho Claude — và ngược lại, luyện prompt là luyện kỹ năng giao việc của một senior.
 :::
 
+:::interview Prompt tốt có những thành phần nào?
+Kết quả mong muốn (không phải từng bước), cách tự kiểm tra (lệnh/chỉ số), mẫu tham chiếu có sẵn trong repo, tài liệu gốc (log, ảnh, file) thay cho mô tả, và định dạng câu trả lời. Giống một ticket tốt: bối cảnh, mục tiêu, phạm vi, tiêu chí chấp nhận.
+:::
+
 :::quiz Prompt "đưa bundle dưới 200KB và cho mình xem đã bỏ gì" dùng những mẫu nào?
 - [ ] Trỏ tới mẫu có sẵn
 - [x] Nêu chỉ số đo được và nói rõ định dạng câu trả lời

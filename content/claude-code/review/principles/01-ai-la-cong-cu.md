@@ -8,6 +8,12 @@ tags: [claude-code, principles]
 related: [claude-code/review/prompting/viet-prompt-cu-the, claude-code/consolidate/principles/hoc-cung-ai-khong-phu-thuoc]
 ---
 
+## TL;DR
+
+- Người merge chịu trách nhiệm — không merge thứ bạn không giải thích được.
+- Chỉ dẫn **mềm** (prompt, CLAUDE.md, skill) có thể bị bỏ qua; chỉ dẫn **cứng** (hook, permission, sandbox, CI) luôn được thực thi.
+- Phiên hỏng thường vì: thiếu thông tin, thiếu phép kiểm tra, thiếu hàng rào, hoặc mặc định chưa hợp.
+
 ## Bạn vẫn là người chịu trách nhiệm
 
 Claude Code viết code nhanh, nhưng **người quyết định merge là bạn**. Nếu không giải thích được một thay đổi (vì sao `switchMap` chứ không phải `mergeMap`, vì sao component này OnPush an toàn), bạn không review được nó. Các môn Angular, RxJS, TypeScript trong app này là nền để bạn **đánh giá** những gì AI đề xuất.

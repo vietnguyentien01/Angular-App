@@ -7,6 +7,12 @@ tags: [claude-code, security, team, enterprise]
 related: [claude-code/consolidate/guardrails/hook-permission-sandbox, claude-code/deep-dive/automation/chay-khong-can-giam-sat]
 ---
 
+## TL;DR
+
+- Mỗi quy định của team ánh xạ tới đúng cơ chế: mềm → CLAUDE.md/rules; cứng → hook, deny, sandbox, CI, branch protection.
+- Ba tầng cấu hình: cá nhân, repo, **managed settings** của tổ chức (không ai ghi đè được).
+- Bảo vệ dữ liệu khách hàng: chính sách AI của khách, không dán dữ liệu thật, secret ngoài repo, mọi thay đổi qua cùng quy trình review.
+
 ## Ánh xạ quy định → cơ chế
 
 | Quy định team | Mềm hay cứng? | Đặt ở |
@@ -69,6 +75,10 @@ Xem thêm bài *Dữ liệu đi đâu?* cho phần quyền riêng tư và teleme
 - Không dán dữ liệu thật của người dân/khách hàng vào prompt; dùng dữ liệu đã ẩn danh hoặc fixture giả.
 - Secret không nằm trong repo; nếu buộc phải có file nhạy cảm cục bộ, chặn bằng deny rule + sandbox.
 - Kết quả của AI đi qua **cùng** quy trình như code người viết: review, test, CI, branch protection.
+
+:::senior Góc nhìn senior
+Chính sách tốt là chính sách **được dùng**. Trước khi khoá chặt bằng managed settings, chạy thử một tháng ở chế độ khuyến nghị (settings repo + hướng dẫn), thu thập chỗ chặn nhầm, rồi mới khoá phần đã chứng minh cần thiết. Khoá quá sớm khiến dev quay về công cụ không kiểm soát được.
+:::
 
 :::quiz Security team muốn cấm Claude đọc thư mục `secrets/` trên mọi máy của công ty, không ai tắt được. Đặt ở đâu?
 - [ ] `CLAUDE.md` của từng repo

@@ -65,6 +65,10 @@ Nghi một plugin/hook/CLAUDE.md gây lỗi? Chạy thử `claude --bare` (bỏ 
 3. Issue đã biết: repo GitHub `anthropics/claude-code`.
 4. Tài khoản, thanh toán, gói: liên hệ support qua claude.ai (hoặc platform.claude.com với Console) → **Get help**.
 
+:::senior Góc nhìn senior
+Khi hỗ trợ đồng đội, đi theo dữ liệu thay vì đoán: `/status` (nguồn settings), `/context all` (file nào nạp), `/permissions`, `/hooks`, `/mcp`, rồi `claude --safe-mode` để khoanh vùng. Ghi lại các lỗi gặp nhiều nhất vào wiki của team — phần lớn sự cố cấu hình lặp lại theo vài mẫu quen thuộc.
+:::
+
 :::quiz Bạn thêm hook với `"matcher": ["Edit", "Write"]` nhưng hook không bao giờ chạy. Sửa thế nào?
 - [ ] Đổi sang `"matcher": "edit,write"`
 - [x] Dùng một chuỗi: `"matcher": "Edit|Write"`

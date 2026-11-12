@@ -99,6 +99,24 @@ Nếu reviewer bỏ sót một lỗi: thêm câu cụ thể hơn vào checklist 
 - [ ] Đã chứng minh reviewer không sửa được file
 - [ ] Commit `.claude/agents/angular-reviewer.md`; xoá nhánh lab bằng `git checkout main && git branch -D lab08-review`
 
+:::quiz Reviewer có `tools: Read, Glob, Grep, Bash`. Nó có sửa file được không?
+- [ ] Có, qua Edit
+- [x] Không qua công cụ sửa file (không có Edit/Write); nhưng vẫn có Bash — muốn chặt hơn thì bỏ Bash và đưa diff vào lời giao việc
+- [ ] Có, mọi subagent sửa được file
+- [ ] Chỉ sửa được file test
+
+Bash vẫn có thể ghi file bằng lệnh shell, nên cân nhắc khi cần reviewer thật sự chỉ đọc.
+:::
+
+:::quiz Cách nào **chắc chắn** gọi đúng subagent `angular-reviewer`?
+- [ ] Viết "hãy review"
+- [x] @-mention: `@"angular-reviewer (agent)" …`
+- [ ] Đặt tên file đặc biệt
+- [ ] Dùng `/agents`
+
+Gọi bằng lời thì Claude quyết định có giao việc hay không.
+:::
+
 :::quiz Vì sao subagent reviewer không thấy lịch sử hội thoại của bạn lại là **ưu điểm** ở đây?
 - [ ] Vì tiết kiệm token tuyệt đối
 - [x] Vì nó review như một người chưa thấy cách code được viết — không bị "thuyết phục" bởi lời giải thích trong hội thoại

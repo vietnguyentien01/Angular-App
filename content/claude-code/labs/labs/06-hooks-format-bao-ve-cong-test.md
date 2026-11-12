@@ -158,6 +158,24 @@ Linux: thay lệnh bằng `notify-send 'Claude Code' 'Claude Code cần bạn'`.
 | Stop hook chạy mãi | Không kiểm tra `stop_hook_active` | Thêm đoạn kiểm tra như script mẫu |
 | Hook format làm hỏng file không phải code | Prettier chạy cả trên file lạ | Lọc đuôi file trong lệnh trước khi gọi Prettier |
 
+:::quiz Script `protect-files.sh` kết thúc bằng `exit 0` khi file hợp lệ. Lần sửa file đó sẽ thế nào?
+- [ ] Được tự duyệt không hỏi
+- [x] Đi tiếp qua luồng permission bình thường — exit 0 là 'không quyết định', không phải 'cho phép'
+- [ ] Bị chặn
+- [ ] Hook chạy lại
+
+Muốn tự duyệt phải trả JSON `permissionDecision: "allow"`.
+:::
+
+:::quiz Vì sao hook dùng `"$CLAUDE_PROJECT_DIR"/.claude/hooks/...` thay vì đường dẫn tương đối?
+- [ ] Cho đẹp
+- [x] Để hook tìm đúng script dù Claude đang ở thư mục con hay đã `cd` đi đâu
+- [ ] Vì đường dẫn tương đối bị cấm
+- [ ] Để chạy trên Windows
+
+Thư mục làm việc của lệnh có thể thay đổi trong phiên.
+:::
+
 :::quiz Vì sao script Stop hook kiểm tra `stop_hook_active`?
 - [ ] Để chạy nhanh hơn
 - [x] Để không chặn lần nữa khi Claude đang tiếp tục chính vì hook này — tránh vòng lặp vô tận

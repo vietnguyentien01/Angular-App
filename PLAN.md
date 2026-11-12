@@ -325,3 +325,12 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ 16 bài mới, không còn ô trống ở ba phần chính: dữ liệu & quyền riêng tư, tuỳ biến môi trường, Claude in Chrome, bên trong Claude Code (prompt caching), sáu mẫu prompt, prompt cho việc dài, monorepo, review & bảo mật quy mô team, kiểm chứng cơ bản và hệ thống, bản đồ mở rộng, skill/plugin có sẵn, tạo plugin (đã `claude plugin validate`), ba mức tự động hoá, agent view, Agent SDK (đã type-check).
 - ✅ Mở rộng 8 bài cũ (ví dụ Angular, bảng chọn nhanh, managed settings mẫu, onboarding, câu hỏi phỏng vấn); sửa hai chỗ chưa chính xác về deny Read với lệnh Bash và checkpoint với file đổi qua Bash.
 - ✅ Lộ trình 7 chặng, phủ đủ 73 bài.
+
+## 15. Claude Code: hoàn thiện theo đợt rà soát (12/11/2026)
+
+- ✅ Đợt 1 (ưu tiên cao): mạng doanh nghiệp + dev container, cấu hình auto mode, hook JSON/prompt/agent/http (máy chủ hook mẫu đã chạy thử), tra cứu biến môi trường, cloud environment.
+- ✅ Đợt 2: mọi bài ở ba phần chính có TL;DR, câu hỏi phỏng vấn (Cơ bản/Thực hành) và góc nhìn senior (Thực hành/Nâng cao); mỗi lab có 3 câu trắc nghiệm.
+- ✅ Đợt 3: agent teams, dynamic workflows, nhắn tin giữa phiên, channels.
+- ✅ Đợt 4: artifacts, Projects, desktop app, OpenTelemetry/analytics; phiên cập nhật tự động đọc hướng dẫn mới trong CONTENT_GUIDE mục 5 để theo dõi changelog Claude Code (code.claude.com nằm trong allowlist mặc định của cloud environment).
+- ✅ Sửa: auto mode mặc định cho push lên mọi nhánh của repo hiện tại; khối `env` trong settings ghi đè biến của shell.
+- ✅ Lộ trình 7 chặng phủ đủ 80 bài; 183 câu trắc nghiệm.

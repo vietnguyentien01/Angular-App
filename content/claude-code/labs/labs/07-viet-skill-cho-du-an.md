@@ -110,6 +110,24 @@ Nhấn `t` để sắp theo token. `tasks-domain` chỉ tốn phần **mô tả*
 - [ ] Thấy rõ ảnh hưởng của description mơ hồ
 - [ ] Commit `.claude/skills/`
 
+:::quiz Skill `tasks-domain` có `user-invocable: false`. Hệ quả?
+- [ ] Không ai dùng được
+- [x] Không hiện trong menu `/`; chỉ Claude tự nạp khi câu hỏi khớp description
+- [ ] Chỉ bạn gọi được
+- [ ] Skill bị tắt
+
+Ngược với `disable-model-invocation: true` (chỉ người gọi).
+:::
+
+:::quiz Dòng `` !`git status --short` `` trong `/new-filter` chạy khi nào?
+- [ ] Khi Claude quyết định chạy
+- [x] Claude Code chạy nó **trước** khi đưa nội dung skill cho Claude, thay dòng đó bằng output
+- [ ] Sau khi skill xong
+- [ ] Không bao giờ
+
+Đó là dynamic context injection.
+:::
+
 :::quiz `allowed-tools: Bash(npm test *)` trong `/new-filter` có tác dụng bao lâu?
 - [ ] Vĩnh viễn cho dự án
 - [x] Chỉ trong lượt gọi skill — hết khi bạn gửi tin nhắn tiếp theo

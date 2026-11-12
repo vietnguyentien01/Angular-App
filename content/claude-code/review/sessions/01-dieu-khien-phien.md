@@ -8,6 +8,12 @@ tags: [claude-code, session, context]
 related: [claude-code/deep-dive/sessions/chi-phi-va-subagent]
 ---
 
+## TL;DR
+
+- `Esc` dừng ngay khi Claude đi sai; gõ thêm + `Enter` để bổ sung mà không dừng.
+- Sửa cùng một lỗi **hai lần** vẫn sai → `/clear` và viết prompt mới tốt hơn.
+- Mỗi task một phiên; `/rewind` để quay lại, `/rename` + `--resume` để quay lại sau, commit thường xuyên vì checkpoint không thay git.
+
 ## Bộ điều khiển cần thuộc lòng
 
 | Lệnh | Tác dụng |
@@ -59,6 +65,10 @@ Lệch hướng → `Esc` ngay. Mỗi phút để Claude đi sai là thêm diff 
 ## Mỗi task một phiên
 
 Mỗi request gửi lại **toàn bộ** hội thoại. Một phiên đã gom ba task không liên quan sẽ đọc lại cả ba ở mỗi lượt của task thứ tư → chậm hơn, tốn hơn, dễ lẫn. `/clear` giữa các task không liên quan.
+
+:::interview Vì sao 'sửa lần thứ ba' trong cùng hội thoại thường kém hơn bắt đầu lại?
+Mỗi lượt gửi lại toàn bộ hội thoại; hai lần thử thất bại nằm trong context tiếp tục kéo Claude về các hướng cũ và chiếm chỗ. `/clear` cộng một prompt mới gộp những gì đã học (nguyên nhân thật, ràng buộc bị bỏ sót) cho context sạch và tập trung — thường xong trong một lượt.
+:::
 
 :::quiz Bạn đã sửa Claude hai lần cho cùng một lỗi mà vẫn sai. Theo hướng dẫn nên làm gì?
 - [ ] Sửa lần thứ ba, nhấn mạnh hơn

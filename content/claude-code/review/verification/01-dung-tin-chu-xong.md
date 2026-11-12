@@ -78,6 +78,10 @@ Test xanh chưa chắc tính năng chạy. Với UI:
 Đó không phải ác ý — mô hình có thể tin rằng nó đã làm đúng. Đó là lý do phép kiểm tra phải là thứ **chạy được** (test, build, app), không phải lời mô tả.
 :::
 
+:::interview Claude báo 'xong, test pass'. Bạn làm gì trước khi chấp nhận?
+Xem bằng chứng: output thật của lệnh test (Ctrl+O hoặc tự chạy), `/diff` kiểm tra có sửa kỳ vọng test cũ, skip test, `any`/`@ts-ignore` không; chạy app thật (`/verify`) với thay đổi UI; đối chiếu từng ý của yêu cầu ban đầu. Không có bằng chứng thì chưa xong.
+:::
+
 :::quiz Claude báo "đã sửa xong, tất cả test pass". Bạn nên làm gì đầu tiên?
 - [ ] Commit ngay
 - [x] Xem bằng chứng: output lệnh test thật (`Ctrl+O` hoặc tự chạy) và `/diff` xem có test nào bị sửa kỳ vọng không

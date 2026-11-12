@@ -56,6 +56,10 @@ Quy tắc không có ngoại lệ (không sửa file prod, test phải xanh) →
 - Dùng ngay các skill và plugin **có sẵn** → bài *Skill và plugin có sẵn nên dùng ngay*.
 - Tự viết → *Viết skill*, *Subagent*, *Hook thực chiến*, *MCP server và plugin*; thực hành ở Lab 06–08, 12.
 
+:::interview Kể các cách mở rộng Claude Code và khi nào dùng từng cái.
+CLAUDE.md cho quy ước luôn đúng; skill cho quy trình/kiến thức dùng khi cần; subagent cho việc phụ cần context riêng hoặc reviewer ít quyền; hook cho việc phải xảy ra mọi lần; MCP để kết nối hệ thống ngoài; plugin để đóng gói và chia sẻ cho nhiều repo. Thêm theo tín hiệu thực tế, không cài trước.
+:::
+
 :::quiz Bạn muốn **mọi lần** Claude sửa file `.ts` đều chạy ESLint, không phụ thuộc Claude có nhớ không. Dùng gì?
 - [ ] Một dòng trong CLAUDE.md
 - [ ] Một skill

@@ -69,6 +69,10 @@ Một model riêng (classifier) xem từng hành động trước khi chạy, ch
 - Merge PR chưa ai duyệt, tự approve PR của chính Claude, tắt CI
 - In credential/token ra transcript hoặc file
 
+:::note Push thường thì được phép
+Theo mặc định, auto mode **cho phép** push lên mọi nhánh của repo đang làm (kể cả nhánh mặc định) và tạo PR — chỉ force push, nhánh mang tên deploy/publish như `production`, `release`… mới bị chặn. Muốn luôn được hỏi trước: thêm `ask: ["Bash(git push *)", "Bash(gh pr create *)"]`, và bật branch protection trên GitHub. Chi tiết ở bài *Cấu hình auto mode*.
+:::
+
 :::tip Ranh giới bạn nói trong hội thoại
 Nói "đừng push" hay "đợi mình review rồi mới deploy" → classifier coi đó là tín hiệu chặn. Nhưng ranh giới này **không** được lưu như rule và có thể mất sau khi compact — cần đảm bảo cứng thì dùng rule `deny`.
 :::

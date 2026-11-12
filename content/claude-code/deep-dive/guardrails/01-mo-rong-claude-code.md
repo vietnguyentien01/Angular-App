@@ -7,6 +7,12 @@ tags: [claude-code, skills, subagents, hooks, mcp, plugins]
 related: [claude-code/review/memory/claude-md-ngan-gon, claude-code/consolidate/guardrails/hook-permission-sandbox]
 ---
 
+## TL;DR
+
+- Sáu cơ chế: CLAUDE.md (luôn nạp), skill (nạp khi cần), subagent (context riêng), hook (luôn chạy), MCP (công cụ ngoài), plugin (đóng gói).
+- Thêm dần theo **tín hiệu** thực tế, không cấu hình mọi thứ từ đầu.
+- Mỗi thứ có chi phí context khác nhau; các cơ chế ghép được với nhau.
+
 ## Mỗi thứ để làm gì
 
 | Tính năng | Làm gì | Ví dụ |
@@ -84,6 +90,10 @@ chỉ báo lỗ hổng ảnh hưởng tính đúng đắn. Bỏ qua style.
 ```
 
 Giới hạn `tools` được Claude Code thực thi — reviewer này **không thể** sửa file, kể cả khi bị yêu cầu.
+
+:::senior Góc nhìn senior
+Kiến trúc cấu hình Claude Code giống kiến trúc phần mềm: tách theo trách nhiệm (chỉ dẫn, quy trình, thực thi, tích hợp), giữ phần luôn-nạp nhỏ, đẩy chi tiết về nơi chỉ nạp khi cần, và đo chi phí bằng `/context`, `/skill-doctor`. Review cấu hình trong PR như review code.
+:::
 
 :::quiz Một quy trình release dài 40 bước nên đặt ở `CLAUDE.md` hay skill?
 - [ ] `CLAUDE.md`, để Claude luôn nhớ

@@ -119,6 +119,10 @@ keep-coding-instructions: true
 Đầu tư 30 phút cho môi trường trả lại mỗi ngày: status line có % context giúp bạn `/compact` hoặc `/clear` **trước** khi chất lượng giảm; output style chuẩn cho team (commit vào `.claude/output-styles/`) làm câu trả lời của Claude nhất quán khi nhiều người cùng review.
 :::
 
+:::interview Output style khác CLAUDE.md và skill thế nào?
+Output style đổi **cách Claude giao tiếp** cho cả phiên (giọng, độ dài, định dạng; có thể giữ nguyên hướng dẫn code bằng `keep-coding-instructions`). CLAUDE.md chứa **sự thật về dự án** nạp mỗi phiên. Skill là **quy trình/kiến thức** chỉ nạp khi gọi hoặc khi liên quan.
+:::
+
 :::quiz Bạn muốn mọi câu trả lời của Claude kết thúc bằng mục "Rủi ro" và "Cách kiểm tra", nhưng Claude vẫn code như bình thường. Dùng gì?
 - [ ] Thêm vào CLAUDE.md
 - [x] Output style tự viết với `keep-coding-instructions: true`

@@ -138,6 +138,16 @@ Quy tắc:
 - Không trùng tin đã có (tìm trong `content/updates/` trước khi viết).
 - Nếu tin làm một bài học cũ bị lỗi thời: sửa bài đó (cập nhật `lastReviewed`, `changelog`) trong cùng lần chạy.
 
+### Theo dõi thay đổi của Claude Code (mỗi lần chạy)
+
+Môn `claude-code` bám tài liệu chính thức, và Claude Code thay đổi rất nhanh. Mỗi lần cập nhật:
+
+1. Đọc `https://code.claude.com/docs/en/changelog.md` cho các phiên bản phát hành trong khoảng thời gian đang xét (cùng khoảng với bản tin).
+2. Đối chiếu với `content/claude-code/`, nhất là phần `commands/` (slash command, lệnh `claude`, flag, biến môi trường, phím tắt) và các bài có bảng hành vi mặc định (permission mode, auto mode, settings).
+3. Lệnh/flag/hành vi bị gỡ, đổi tên, đổi mặc định, hoặc tính năng mới quan trọng → sửa đúng bài (cập nhật `lastReviewed`, thêm dòng `changelog`). Chỉ ghi điều đã xác minh trên trang tài liệu tương ứng ở `code.claude.com/docs/en/<trang>.md`.
+4. Thay đổi lớn nhất (nếu có) có thể thành một bản tin, `relatedTopics` lấy từ `content/claude-code/topics.json`. Không có gì ảnh hưởng tới bài → không sửa.
+5. Báo lại trong câu trả lời cuối: bài Claude Code nào đã sửa và vì sao.
+
 ## 5b. Lộ trình (roadmap.json)
 
 Mỗi môn có thể có `content/<subject>/roadmap.json` → trang `/<subject>/roadmap`:

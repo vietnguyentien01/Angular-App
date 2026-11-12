@@ -7,6 +7,12 @@ tags: [claude-code, effort, subagents, cost]
 related: [claude-code/review/sessions/dieu-khien-phien, claude-code/deep-dive/guardrails/mo-rong-claude-code]
 ---
 
+## TL;DR
+
+- Effort là nút điều khiển độ sâu suy nghĩ: `medium` cho việc thường, `high`/`xhigh` cho việc đúng/sai phụ thuộc case biên, `max` cho việc rất khó (thử trước).
+- Subagent đáng giá khi: song song việc độc lập, giữ output dài ngoài context chính, cần reviewer độc lập, cần ít quyền hơn — không phải để 'thông minh hơn'.
+- Nhiều lời khuyên cũ (IN HOA, 'think hard', quản lý context cực đoan) không còn cần với model hiện tại.
+
 ## Effort
 
 | Mức | Khi nào |
@@ -65,6 +71,10 @@ Nếu phần lớn context là kết quả công cụ (output test, file lớn) 
 | "think hard", "be thorough" | Effort mới là nút điều khiển; `ultrathink` vẫn dùng cho một lượt |
 | "Đừng lười, làm tới khi xong" | Dễ gây làm quá tay; thay bằng một phép kiểm tra cần pass |
 | Mô tả kiến trúc trong `CLAUDE.md` | Claude tự đọc repo |
+
+:::senior Góc nhìn senior
+Chi phí AI của team nên được quản lý như chi phí cloud: có số liệu (`/usage`, analytics), có mặc định hợp lý (model, effort theo loại việc), có giới hạn cho job tự động, và có người xem định kỳ. Tối ưu đúng chỗ — thường là context phình to — hiệu quả hơn nhiều so với ép mọi người dùng model rẻ nhất.
+:::
 
 :::quiz Bạn cần Claude tìm bug trong một module legacy không ai trong team viết. Nên chỉnh gì?
 - [ ] Giữ `low` cho nhanh

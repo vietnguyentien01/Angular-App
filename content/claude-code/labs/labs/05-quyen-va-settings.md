@@ -108,6 +108,24 @@ Commit `.claude/settings.json`. **Không** commit `.claude/settings.local.json` 
 - [ ] Điền đủ bảng bốn chế độ ở Bước 5
 - [ ] Giải thích được vì sao deny Read chưa đủ để bảo vệ `.env` tuyệt đối
 
+:::quiz Bạn chọn "Yes, and don't ask again" cho `npx ng lint`. Rule được lưu ở đâu?
+- [ ] `.claude/settings.json` (commit)
+- [x] `.claude/settings.local.json` ở gốc repo — file cá nhân, ngoài git
+- [ ] `CLAUDE.md`
+- [ ] `~/.claude.json`
+
+Muốn chia sẻ cho team thì chủ động chuyển sang `.claude/settings.json`.
+:::
+
+:::quiz Ở acceptEdits mode, Claude muốn chạy `npm test`. Điều gì xảy ra (không có allow rule)?
+- [ ] Chạy luôn
+- [x] Vẫn hỏi bạn — acceptEdits chỉ tự duyệt sửa file và lệnh filesystem thông dụng (`mkdir`, `mv`, `cp`…)
+- [ ] Bị từ chối
+- [ ] Chuyển sang auto mode
+
+Allow rule `Bash(npm test *)` từ Bước 3 là thứ giúp không bị hỏi.
+:::
+
 :::quiz Bạn thêm `allow: ["Bash(git push origin feature/*)"]` vào local settings, còn file team có `ask: ["Bash(git push *)"]`. `git push origin feature/x` sẽ thế nào?
 - [ ] Chạy luôn vì allow cụ thể hơn
 - [x] Vẫn hỏi — thứ tự xét là deny → ask → allow, ask khớp trước

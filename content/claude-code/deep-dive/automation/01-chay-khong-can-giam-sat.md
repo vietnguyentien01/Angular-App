@@ -7,6 +7,12 @@ tags: [claude-code, automation, headless, scheduled-tasks, worktrees, case-study
 related: [claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team, claude-code/consolidate/verification/cho-claude-phep-kiem-tra]
 ---
 
+## TL;DR
+
+- Trước khi để Claude chạy một mình, trả lời đủ **năm câu**: thế nào là xong, tự kiểm tra bằng gì, được đụng vào đâu, điều gì dừng nó, ai duyệt kết quả.
+- Script: `claude --bare -p` + `--allowedTools` + `--permission-mode dontAsk` + `--max-turns`; thử 3 mẫu trước khi chạy hàng loạt.
+- Scheduled task cần branch protection và theo dõi vài lần chạy đầu.
+
 ## Năm câu hỏi trước khi rời đi
 
 1. **Nó có biết thế nào là xong?** Goal, file spec, hoặc test fail cần chuyển sang xanh.
@@ -49,6 +55,10 @@ App này có một scheduled task chạy mỗi 2 ngày để viết bản tin "F
 | Ai duyệt | **Push thẳng `main` không qua người duyệt** (bạn đã chọn để tiện cho app cá nhân) | ⚠ Khác khuyến nghị — chấp nhận được vì CI chặn nội dung sai định dạng, nhưng nội dung sai về **sự thật** vẫn có thể lọt |
 
 Nếu muốn theo sát khuyến nghị hơn: để phiên tự động mở **PR** thay vì push `main`, bạn duyệt trên điện thoại rồi merge — đổi lấy một thao tác bấm mỗi 2 ngày.
+
+:::senior Góc nhìn senior
+Tự động hoá giỏi là **chán**: cùng một việc, cùng một kiểm tra, cùng một nơi báo kết quả, chạy hàng trăm lần không ai phải nghĩ. Nếu job tự động của bạn cần người đọc kỹ mỗi lần chạy, nó chưa sẵn sàng — thu hẹp phạm vi hoặc tăng phép kiểm tra trước khi tăng tần suất.
+:::
 
 :::quiz Theo hướng dẫn, việc gì nên làm trước khi để một cloud scheduled task chạy lâu dài?
 - [ ] Tắt CI để chạy nhanh hơn
