@@ -60,10 +60,6 @@ import { ProgressBar } from '../../shared/progress-bar/progress-bar';
             <div class="card divide-y divide-slate-100 p-1 dark:divide-slate-800">
               @for (item of group.items; track item.id) {
                 <app-item-row [item]="item" />
-              } @empty {
-                <p class="px-4 py-5 text-sm text-slate-500">
-                  Nội dung cho chủ đề này ở phần “{{ v.section.title }}” đang được biên soạn.
-                </p>
               }
             </div>
           </section>
@@ -93,10 +89,10 @@ export class SectionPage {
       subject: index.subject,
       section,
       stats: computeStats(items, this.progress.records()),
-      groups: index.topics.map((topic) => ({
-        topic,
-        items: items.filter((i) => i.topic === topic.id),
-      })),
+      // Chỉ hiện chủ đề có bài ở phần này — phần như "Bài thực hành" chỉ dùng vài chủ đề.
+      groups: index.topics
+        .map((topic) => ({ topic, items: items.filter((i) => i.topic === topic.id) }))
+        .filter((group) => group.items.length > 0),
     };
   });
 }
