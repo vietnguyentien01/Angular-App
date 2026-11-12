@@ -3,9 +3,12 @@ title: Làm song song và chạy dài — worktree, agent view, /goal, /loop, sc
 summary: Nhiều phiên cùng lúc không giẫm chân nhau nhờ git worktree; năm cách chạy nhiều việc (subagent, agent view, agent team, dynamic workflow, project); /goal để Claude làm tới khi đạt điều kiện; /loop lặp trong phiên; /schedule cho scheduled task trên cloud; /batch cho thay đổi cơ học lớn.
 type: lesson
 level: advanced
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-12
 tags: [claude-code, worktrees, parallel, goal, loop, scheduled-tasks]
 related: [claude-code/deep-dive/automation/chay-khong-can-giam-sat, claude-code/deep-dive/extending/subagent]
+changelog:
+  - date: 2026-11-12
+    note: "Tách cách dừng /loop theo hai kiểu (khoảng cố định vs tự điều chỉnh nhịp); thêm thay đổi của v2.1.319: vòng lặp tự điều chỉnh nhịp kết thúc khi một lượt không lên lịch tiếp."
 ---
 
 ## TL;DR
@@ -71,8 +74,10 @@ Claude nghiên cứu codebase, chia việc thành nhiều đơn vị (khoảng 5
 /loop 5m kiểm tra workflow deploy đã xong chưa và báo kết quả
 ```
 
-- Chạy khi phiên còn mở; bỏ khoảng thời gian thì Claude tự điều chỉnh nhịp.
-- Dừng: **bảo Claude huỷ** ("cancel the deploy check loop") — `Esc`/`Ctrl+C` không dừng vòng lặp.
+- Chạy khi phiên còn mở. Có hai kiểu:
+  - **Khoảng cố định** (`/loop 5m …`): dừng bằng cách **bảo Claude huỷ** ("cancel the deploy check loop"). `Esc` / `Ctrl+C` **không** dừng được kiểu này.
+  - **Tự điều chỉnh nhịp** (bỏ khoảng thời gian): sau mỗi lượt, Claude tự chọn độ trễ từ 1 phút tới 1 giờ. Trong lúc vòng lặp đang chờ lượt kế, nhấn `Esc` để dừng. Claude cũng có thể tự kết thúc vòng lặp khi việc đã xong.
+- Từ v2.1.319, vòng lặp tự điều chỉnh nhịp **kết thúc luôn** nếu một lượt chạy xong mà không lên lịch lượt kế. Trước đây Claude Code tự đặt thêm một lần đánh thức dự phòng. Đặt `CLAUDE_CODE_LOOP_KEEPALIVE=1` nếu muốn giữ hành vi cũ.
 - Task lặp tự **hết hạn sau 7 ngày** (chạy lần cuối rồi tự xoá) — chặn vòng lặp bị quên.
 - Muốn phản ứng theo sự kiện thay vì hỏi định kỳ: xem *Channels* (CI đẩy lỗi vào phiên).
 
