@@ -102,7 +102,7 @@ const x = 1;
 - Mọi `:::quiz` của môn học được gom vào trang **Luyện tập** (`/<subject>/practice`).
 - **HTML thô bị escape** — không dùng thẻ HTML trong Markdown.
 - Link nội bộ dùng đường dẫn tuyệt đối trong app, vd `[Signals](/angular/review)`.
-- Ngôn ngữ code hỗ trợ: `ts, js, html, css, scss, json, bash, yaml, diff, text`.
+- Ngôn ngữ code hỗ trợ: `ts, js, html, css, scss, json, bash, yaml, diff, sql, tsx, jsx, dockerfile, text`.
 
 ## 5. Bản tin "Frontend mới" (cập nhật mỗi 2 ngày)
 

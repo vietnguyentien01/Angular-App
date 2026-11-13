@@ -1,0 +1,6 @@
+[
+  { "id": "runtime", "title": "Runtime & async", "description": "Event loop, microtask/macrotask, Promise, async/await, module ESM, không chặn luồng chính." },
+  { "id": "express", "title": "Express 5", "description": "Routing, middleware, xử lý lỗi, validation, cấu trúc dự án nhiều tầng." },
+  { "id": "rest-api", "title": "Thiết kế REST API", "description": "Tài nguyên, method, status code, phân trang, idempotency, versioning, test API." },
+  { "id": "auth-security", "title": "Xác thực & bảo mật", "description": "Hash mật khẩu, JWT, cookie httpOnly, phân quyền, CORS, OWASP Top 10 cho backend." }
+]
