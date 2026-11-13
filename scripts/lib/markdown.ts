@@ -31,6 +31,10 @@ const LANGS = [
   'shell',
   'yaml',
   'diff',
+  'sql',
+  'tsx',
+  'jsx',
+  'dockerfile',
   'text',
 ];
 const CALLOUTS: Record<string, string> = {

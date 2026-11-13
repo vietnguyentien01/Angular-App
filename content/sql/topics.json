@@ -1,0 +1,6 @@
+[
+  { "id": "queries", "title": "Truy vấn & JOIN", "description": "SELECT, WHERE, ORDER BY, LIMIT, các loại JOIN, NULL, subquery và EXISTS." },
+  { "id": "aggregation", "title": "Tổng hợp & window", "description": "GROUP BY, HAVING, FILTER, window function (ROW_NUMBER, RANK, SUM OVER), CTE." },
+  { "id": "design", "title": "Thiết kế schema", "description": "Khoá chính/ngoại, ràng buộc, kiểu dữ liệu, chuẩn hoá, migration, JSONB." },
+  { "id": "performance", "title": "Index & transaction", "description": "Index B-tree, EXPLAIN ANALYZE, N+1, transaction, ACID, isolation và khoá." }
+]

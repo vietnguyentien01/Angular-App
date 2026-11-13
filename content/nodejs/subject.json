@@ -1,0 +1,29 @@
+{
+  "id": "nodejs",
+  "title": "Node.js & REST API",
+  "description": "Từ frontend sang backend JavaScript: event loop và async, Express 5, thiết kế REST API có test, xác thực và bảo mật cơ bản — đủ để phỏng vấn vị trí fullstack JavaScript.",
+  "icon": "route",
+  "color": "#3c873a",
+  "order": 6,
+  "currentVersion": 26,
+  "sections": [
+    {
+      "id": "review",
+      "title": "Ôn lại Core",
+      "description": "Event loop, Express, REST, xác thực — nhắc nhanh kèm câu hỏi kiểm tra.",
+      "icon": "refresh"
+    },
+    {
+      "id": "consolidate",
+      "title": "Củng cố",
+      "description": "Đoán thứ tự chạy, xử lý lỗi và validation, viết API có test, JWT và phân quyền.",
+      "icon": "hammer"
+    },
+    {
+      "id": "deep-dive",
+      "title": "Chuyên sâu",
+      "description": "Bên trong event loop và stream, kiến trúc nhiều tầng, phân trang và idempotency, OWASP cho Node.",
+      "icon": "telescope"
+    }
+  ]
+}

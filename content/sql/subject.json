@@ -1,0 +1,29 @@
+{
+  "id": "sql",
+  "title": "SQL & PostgreSQL",
+  "description": "SQL cho dev fullstack: truy vấn và JOIN, GROUP BY và window function, thiết kế schema có ràng buộc, index, EXPLAIN và transaction — luyện trên một cơ sở dữ liệu bán hàng mẫu chạy được bằng PostgreSQL.",
+  "icon": "grid",
+  "color": "#336791",
+  "order": 7,
+  "currentVersion": 16,
+  "sections": [
+    {
+      "id": "review",
+      "title": "Ôn lại Core",
+      "description": "SELECT, JOIN, GROUP BY, khoá và ràng buộc, index — nhắc nhanh kèm câu hỏi kiểm tra.",
+      "icon": "refresh"
+    },
+    {
+      "id": "consolidate",
+      "title": "Củng cố",
+      "description": "Viết truy vấn cho bài toán bán hàng thật, đoán kết quả, thiết kế schema, đọc EXPLAIN, dùng từ Node.js.",
+      "icon": "hammer"
+    },
+    {
+      "id": "deep-dive",
+      "title": "Chuyên sâu",
+      "description": "CTE đệ quy và window nâng cao, chuẩn hoá và JSONB, bên trong index B-tree, isolation level và khoá.",
+      "icon": "telescope"
+    }
+  ]
+}
