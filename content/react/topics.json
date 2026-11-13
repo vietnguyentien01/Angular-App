@@ -1,0 +1,6 @@
+[
+  { "id": "components", "title": "Component & JSX", "description": "JSX, props, state, sự kiện, render có điều kiện, danh sách và key, so sánh với Angular template." },
+  { "id": "hooks", "title": "Hooks", "description": "useState, useEffect, useRef, useMemo, useCallback, custom hook, quy tắc của hook." },
+  { "id": "data-forms", "title": "Dữ liệu & form", "description": "Gọi API, race condition, TanStack Query, form controlled/uncontrolled, Actions của React 19." },
+  { "id": "architecture", "title": "State & kiến trúc", "description": "Nâng state, context, useReducer, thư viện state, memo và hiệu năng, React vs Angular." }
+]

@@ -68,6 +68,13 @@ export function escapeHtml(text: string): string {
     .replace(/'/g, '&#39;');
 }
 
+/** Bỏ ký hiệu Markdown (`code`, *nhấn*, _nhấn_) nhưng giữ dấu gạch dưới bên trong từ (SELF_SIGNED). */
+export function tocText(text: string): string {
+  return text
+    .replace(/[`*]/g, '')
+    .replace(/(^|[^\p{L}\p{N}])_+|_+(?=[^\p{L}\p{N}]|$)/gu, '$1');
+}
+
 export function slugify(text: string): string {
   return text
     .normalize('NFD')
@@ -246,7 +253,7 @@ export function renderMarkdown(source: string): RenderResult {
         const n = usedIds.get(base) ?? 0;
         usedIds.set(base, n + 1);
         const id = n ? `${base}-${n}` : base;
-        if (depth === 2 || depth === 3) toc.push({ id, text: text.replace(/[`*_]/g, ''), depth });
+        if (depth === 2 || depth === 3) toc.push({ id, text: tocText(text), depth });
         return `<h${depth} id="${id}">${inner}</h${depth}>\n`;
       },
       code({ text, lang }) {

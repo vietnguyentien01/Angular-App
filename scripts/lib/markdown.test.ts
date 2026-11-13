@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { before, describe, it } from 'node:test';
-import { initHighlighter, renderMarkdown, slugify } from './markdown';
+import { initHighlighter, renderMarkdown, slugify, tocText } from './markdown';
 
 before(async () => {
   await initHighlighter();
@@ -130,4 +130,9 @@ describe('slugify', () => {
   it('bỏ dấu tiếng Việt', () => {
     assert.equal(slugify('Đồng bộ dữ liệu'), 'dong-bo-du-lieu');
   });
+});
+
+it('tocText giữ gạch dưới trong từ, bỏ ký hiệu nhấn mạnh', () => {
+  assert.equal(tocText('2. `npm ci` lỗi `SELF_SIGNED_CERT_IN_CHAIN` sau proxy'), '2. npm ci lỗi SELF_SIGNED_CERT_IN_CHAIN sau proxy');
+  assert.equal(tocText('Dùng _nhấn mạnh_ và **đậm**'), 'Dùng nhấn mạnh và đậm');
 });
