@@ -1,0 +1,29 @@
+{
+  "id": "docker",
+  "title": "Docker & CI/CD",
+  "description": "Đóng gói và tự động hoá cho dev fullstack: image và container, Dockerfile cho Node.js, docker compose với PostgreSQL, pipeline GitHub Actions chạy test và build image — có số đo thật về kích thước, cache và tín hiệu dừng.",
+  "icon": "settings",
+  "color": "#1d63ed",
+  "order": 8,
+  "currentVersion": 29,
+  "sections": [
+    {
+      "id": "review",
+      "title": "Ôn lại Core",
+      "description": "Image, container, Dockerfile, compose, CI/CD — nhắc nhanh kèm câu hỏi kiểm tra.",
+      "icon": "refresh"
+    },
+    {
+      "id": "consolidate",
+      "title": "Củng cố",
+      "description": "Debug container, Dockerfile multi-stage cho API, compose API + PostgreSQL, pipeline test và build image.",
+      "icon": "hammer"
+    },
+    {
+      "id": "deep-dive",
+      "title": "Chuyên sâu",
+      "description": "Bên trong container và PID 1, tối ưu và bảo mật image, compose cho nhiều môi trường, chiến lược deploy.",
+      "icon": "telescope"
+    }
+  ]
+}
