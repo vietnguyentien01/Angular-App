@@ -217,14 +217,16 @@
         "claude-code/deep-dive/prompting/prompt-cho-viec-dai-va-tu-chu",
         "claude-code/deep-dive/automation/agent-sdk-nhap-mon",
         "claude-code/deep-dive/automation/cloud-environment",
-        "claude-code/deep-dive/automation/agent-teams-workflows-channels"
+        "claude-code/deep-dive/automation/agent-teams-workflows-channels",
+        "claude-code/labs/labs/du-an-so-chi-tieu"
       ],
       "practice": [
         "Làm Lab 10 và 11: cổng review JSON trong script/CI, worktree song song và /goal",
         "Làm Lab 14: chuỗi subagent explorer → implementer → reviewer, điều tra bug song song, agent team làm tính năng thống kê",
         "Hoàn thành Lab 13 (dự án tổng hợp) và tự chấm ≥ 16/20",
         "Viết một script claude --bare -p cho việc lặp lại của bạn (vd tóm tắt diff thành release note)",
-        "Tạo một scheduled task mở PR (không push nhánh chính) và theo dõi 3 lần chạy đầu"
+        "Tạo một scheduled task mở PR (không push nhánh chính) và theo dõi 3 lần chạy đầu",
+        "Làm Lab 15: dự án Sổ chi tiêu xuyên suốt 12 giai đoạn, tự chấm ≥ 24/36"
       ],
       "milestone": "Một job tự động chạy đều hằng tuần, mở PR có phép kiểm tra xanh, và bạn chưa từng phải revert."
     }
