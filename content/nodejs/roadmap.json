@@ -1,0 +1,132 @@
+{
+  "title": "Lộ trình 4 tuần: từ frontend Angular lên fullstack JavaScript",
+  "description": "Bốn tuần, khoảng 1–2 giờ mỗi ngày, cho dev frontend muốn ứng tuyển vị trí fullstack JavaScript: backend Node.js, SQL, Docker và CI/CD, React. Mỗi tuần kết thúc bằng một sản phẩm chạy được — cuối lộ trình bạn có một dự án fullstack để đưa vào CV.",
+  "stages": [
+    {
+      "id": "tuan-1-backend-node",
+      "title": "Tuần 1 — Backend Node.js và REST API",
+      "duration": "1 tuần",
+      "goal": "Viết được một REST API Express 5 có validation, xử lý lỗi tập trung, xác thực bằng JWT trong cookie và có test.",
+      "outcomes": [
+        "Giải thích event loop và tránh các lỗi async kinh điển",
+        "Thiết kế endpoint đúng method, status code, định dạng lỗi",
+        "Viết API có test bằng supertest với repository tiêm vào",
+        "Đăng nhập, phân quyền theo vai trò và theo chủ sở hữu (chống IDOR)"
+      ],
+      "items": [
+        "nodejs/review/runtime/event-loop-va-async",
+        "nodejs/consolidate/runtime/doan-thu-tu-va-loi-async",
+        "nodejs/deep-dive/runtime/ben-trong-event-loop-va-stream",
+        "nodejs/review/express/routing-va-middleware",
+        "nodejs/consolidate/express/xu-ly-loi-va-validation",
+        "nodejs/deep-dive/express/cau-truc-du-an-nhieu-tang",
+        "nodejs/review/rest-api/thiet-ke-rest",
+        "nodejs/consolidate/rest-api/viet-api-co-test",
+        "nodejs/deep-dive/rest-api/phan-trang-idempotency-va-versioning",
+        "nodejs/review/auth-security/xac-thuc-va-bao-mat-co-ban",
+        "nodejs/consolidate/auth-security/jwt-cookie-va-phan-quyen",
+        "nodejs/deep-dive/auth-security/owasp-cho-backend-node"
+      ],
+      "practice": [
+        "Dựng API sản phẩm theo bài 'Viết một REST API có test' và làm bài tập lọc theo giá",
+        "Thêm đăng nhập + phân quyền admin cho thao tác xoá; viết test 401/403/404"
+      ],
+      "milestone": "API sản phẩm có ít nhất 12 test xanh, gồm cả test phân quyền."
+    },
+    {
+      "id": "tuan-2-sql-postgresql",
+      "title": "Tuần 2 — SQL và PostgreSQL",
+      "duration": "1 tuần",
+      "goal": "Viết truy vấn báo cáo đúng, thiết kế schema có ràng buộc, đọc EXPLAIN và xử lý race condition bằng transaction.",
+      "outcomes": [
+        "JOIN, GROUP BY, window function cho báo cáo bán hàng",
+        "Schema có khoá, CHECK, unique index một phần, migration",
+        "Đọc EXPLAIN ANALYZE, thêm index đúng chỗ, sửa N+1",
+        "Trừ kho an toàn khi nhiều request đồng thời"
+      ],
+      "items": [
+        "sql/review/queries/select-where-join",
+        "sql/consolidate/queries/viet-truy-van-ban-hang",
+        "sql/deep-dive/queries/ben-trong-join-va-logic-ba-gia-tri",
+        "sql/review/aggregation/group-by-having",
+        "sql/consolidate/aggregation/bao-cao-doanh-thu-va-window",
+        "sql/deep-dive/aggregation/cte-de-quy-va-window-nang-cao",
+        "sql/review/design/khoa-rang-buoc-va-kieu-du-lieu",
+        "sql/consolidate/design/thiet-ke-schema-ban-hang",
+        "sql/deep-dive/design/chuan-hoa-jsonb-va-migration",
+        "sql/review/performance/index-va-transaction",
+        "sql/consolidate/performance/doc-explain-va-sua-n-cong-1",
+        "sql/deep-dive/performance/isolation-va-khoa"
+      ],
+      "practice": [
+        "Chạy cơ sở dữ liệu shop và làm hết bài tập truy vấn",
+        "Thay repo bộ nhớ của API tuần 1 bằng repo PostgreSQL, giữ nguyên bộ test",
+        "Viết placeOrder trừ kho nhiều sản phẩm trong một transaction"
+      ],
+      "milestone": "API dùng PostgreSQL thật, test chạy với DB thật, có ít nhất một truy vấn báo cáo dùng window function."
+    },
+    {
+      "id": "tuan-3-docker-cicd",
+      "title": "Tuần 3 — Docker, Compose và CI/CD",
+      "duration": "1 tuần",
+      "goal": "Đóng gói API thành image gọn, chạy API + PostgreSQL bằng compose, có pipeline GitHub Actions chạy test và build image.",
+      "outcomes": [
+        "Dockerfile multi-stage, non-root, healthcheck, tắt êm khi SIGTERM",
+        "docker compose có healthcheck, volume, cấu hình theo môi trường",
+        "Debug container bằng logs, inspect, exec",
+        "Pipeline CI với PostgreSQL service container và đẩy image theo SHA"
+      ],
+      "items": [
+        "docker/review/basics/image-container-va-lenh-co-ban",
+        "docker/consolidate/basics/debug-container",
+        "docker/deep-dive/basics/ben-trong-container-va-pid-1",
+        "docker/review/dockerfile/dockerfile-co-ban",
+        "docker/consolidate/dockerfile/dockerfile-cho-node-api",
+        "docker/deep-dive/dockerfile/toi-uu-va-bao-mat-image",
+        "docker/review/compose/compose-nhieu-dich-vu",
+        "docker/consolidate/compose/compose-api-va-postgres",
+        "docker/deep-dive/compose/moi-truong-dev-test-prod",
+        "docker/review/cicd/ci-cd-va-github-actions",
+        "docker/consolidate/cicd/pipeline-test-va-build-image",
+        "docker/deep-dive/cicd/chien-luoc-deploy"
+      ],
+      "practice": [
+        "Viết Dockerfile và compose cho API tuần 2; kiểm (healthy), down/down -v",
+        "Đưa dự án lên GitHub, thêm workflow CI, bật branch protection cho main"
+      ],
+      "milestone": "Người khác clone repo, chạy `docker compose up` là có API + DB; mọi PR có CI xanh."
+    },
+    {
+      "id": "tuan-4-react-va-du-an",
+      "title": "Tuần 4 — React và hoàn thiện dự án fullstack",
+      "duration": "1 tuần",
+      "goal": "Làm giao diện React gọi API của bạn bằng TanStack Query, có form validation và test, rồi chuẩn bị phỏng vấn.",
+      "outcomes": [
+        "Giải thích render, state, hook, key và so sánh được với Angular",
+        "Gọi API bằng TanStack Query, form có validation và a11y",
+        "Tổ chức state: server/client/URL, tách context",
+        "Biết React 19 Actions và cách tối ưu hiệu năng có đo đạc"
+      ],
+      "items": [
+        "react/review/components/jsx-props-state-va-danh-sach",
+        "react/consolidate/components/doan-so-lan-render",
+        "react/deep-dive/components/reconciliation-va-key",
+        "react/review/hooks/usestate-useeffect-useref",
+        "react/consolidate/hooks/sua-bug-useeffect",
+        "react/deep-dive/hooks/ben-trong-hook",
+        "react/review/data-forms/goi-api-va-form",
+        "react/consolidate/data-forms/tanstack-query-va-form",
+        "react/deep-dive/data-forms/react-19-actions-va-use",
+        "react/review/architecture/nang-state-context-va-reducer",
+        "react/consolidate/architecture/to-chuc-state-gio-hang",
+        "react/deep-dive/architecture/hieu-nang-va-react-compiler"
+      ],
+      "practice": [
+        "Làm trang sản phẩm React (danh sách, thêm, xoá lạc quan) gọi API của bạn",
+        "Thêm một tính năng AI nhỏ (vd trợ lý tư vấn sản phẩm) nếu JD ưu tiên AI",
+        "Viết README: kiến trúc, cách chạy bằng compose, ảnh chụp, link CI"
+      ],
+      "milestone": "Một repo fullstack (React + Node + PostgreSQL + Docker + CI) đưa được vào mục Dự án của CV, và bạn trả lời được các câu :::interview của bốn môn."
+    }
+  ]
+}

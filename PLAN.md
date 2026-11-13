@@ -338,3 +338,10 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 ## 16. Lab 14 — workflow nhiều agent
 
 - ✅ Lab 14: chuỗi subagent (explorer → implementer → reviewer) do phiên chính điều phối, ba subagent điều tra song song một bug cài sẵn, agent team chia file và task list có phụ thuộc, bảng chọn cơ chế; hook `TaskCompleted` làm thử thách mở rộng. Ghi hướng dẫn tự chạy (không chạy thật trong môi trường biên soạn). Lộ trình phủ 81 bài.
+
+## 17. Bốn môn ôn tập fullstack (Node.js, SQL, Docker, React)
+
+- ✅ `nodejs` (Node.js & REST API), `sql` (SQL & PostgreSQL), `docker` (Docker & CI/CD), `react` (React 19): mỗi môn 4 chủ đề × 3 phần = 12 bài, tổng 48 bài.
+- ✅ Code mẫu, đáp án bài tập và số đo đã chạy thật: Express 5 + Zod + supertest; PostgreSQL 16 (EXPLAIN, race condition, migration); Docker 29 + compose (kích thước image, cache, SIGTERM/PID 1, OOM, read-only); actionlint cho workflow; React 19 + Testing Library + TanStack Query.
+- ✅ Lộ trình 4 tuần "từ frontend Angular lên fullstack JavaScript" (`content/nodejs/roadmap.json`) phủ đủ 48 bài.
+- ✅ Highlight thêm `sql`, `tsx`, `jsx`, `dockerfile`; mục lục giữ dấu gạch dưới trong từ (`tocText`).

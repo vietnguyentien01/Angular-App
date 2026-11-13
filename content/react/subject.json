@@ -1,0 +1,29 @@
+{
+  "id": "react",
+  "title": "React",
+  "description": "React 19 cho dev Angular: component và JSX, state và hook, gọi API và form, quản lý state và hiệu năng — luôn đặt cạnh khái niệm Angular tương ứng, mọi hành vi đã chạy thử bằng Testing Library.",
+  "icon": "monitor",
+  "color": "#087ea4",
+  "order": 5,
+  "currentVersion": 19,
+  "sections": [
+    {
+      "id": "review",
+      "title": "Ôn lại Core",
+      "description": "JSX, props, state, hook, gọi API, context — nhắc nhanh kèm câu hỏi kiểm tra.",
+      "icon": "refresh"
+    },
+    {
+      "id": "consolidate",
+      "title": "Củng cố",
+      "description": "Đoán số lần render, sửa bug effect, gọi API với TanStack Query, form có validation, tổ chức state.",
+      "icon": "hammer"
+    },
+    {
+      "id": "deep-dive",
+      "title": "Chuyên sâu",
+      "description": "Reconciliation và key, bên trong hook, React 19 (Actions, use, Server Components), hiệu năng và React Compiler.",
+      "icon": "telescope"
+    }
+  ]
+}
