@@ -1,0 +1,6 @@
+[
+  { "id": "basics", "title": "Image & container", "description": "Image, layer, container, cổng, biến môi trường, volume, các lệnh docker hằng ngày." },
+  { "id": "dockerfile", "title": "Dockerfile", "description": "FROM, COPY, RUN, CMD, cache layer, .dockerignore, multi-stage, non-root, healthcheck." },
+  { "id": "compose", "title": "Docker Compose", "description": "Nhiều dịch vụ, mạng, volume, healthcheck, depends_on, biến môi trường, profile." },
+  { "id": "cicd", "title": "CI/CD", "description": "GitHub Actions, chạy test với service PostgreSQL, build và đẩy image, deploy và rollback." }
+]
