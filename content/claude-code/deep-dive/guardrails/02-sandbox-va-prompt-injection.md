@@ -3,9 +3,12 @@ title: Sandbox, prompt injection và làm việc với nội dung không tin c�
 summary: Bash sandbox là ranh giới do hệ điều hành thực thi quanh lệnh shell — giới hạn ghi file, chặn mạng trừ domain cho phép, bảo vệ credential. Bài này giải thích sandbox chặn gì và không chặn gì, hai chế độ của nó, cách cấu hình cho dự án Angular, và các lớp phòng thủ trước prompt injection.
 type: lesson
 level: advanced
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-14
 tags: [claude-code, sandbox, security, prompt-injection]
 related: [claude-code/consolidate/guardrails/hook-permission-sandbox, claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team]
+changelog:
+  - date: 2026-11-14
+    note: "Mặc định của sandbox đổi sang regular permissions (sandbox.autoAllowBashIfSandboxed mặc định false); thêm key này vào cấu hình mẫu."
 ---
 
 ## TL;DR
@@ -30,10 +33,14 @@ Không có danh sách credential chặn sẵn — chỉ file và biến bạn li
 
 ## Hai chế độ
 
-- **Auto-allow**: lệnh chạy được trong sandbox thì **tự duyệt**, không hỏi. Vẫn áp dụng: deny rule Bash, `rm` vào đường dẫn quan trọng, rule `ask` có nội dung như `Bash(git push *)`.
-- **Regular permissions**: cùng ranh giới, nhưng lệnh vẫn đi qua luồng hỏi quyền như thường.
+- **Regular permissions** (**mặc định**): cùng ranh giới, nhưng lệnh vẫn đi qua luồng hỏi quyền như thường. Allow rule và permission mode của bạn quyết định có hỏi hay không.
+- **Auto-allow**: lệnh chạy được trong sandbox thì **tự duyệt**, không hỏi. Bật bằng `"sandbox": { "autoAllowBashIfSandboxed": true }` hoặc tab **Mode** của `/sandbox`. Vẫn áp dụng: deny rule Bash, `rm` vào đường dẫn quan trọng, rule `ask` có nội dung như `Bash(git push *)`.
 
-Kết hợp hay dùng: **Manual + sandbox auto-allow** — ít bị hỏi khi lặp nhanh mà không cần classifier.
+:::version v2.1.324 Mặc định đã đổi
+Trước v2.1.324, `sandbox.autoAllowBashIfSandboxed` mặc định là `true`: cứ bật sandbox là lệnh chạy trong sandbox được tự duyệt. Changelog ghi thay đổi này ở bản 2.1.325 (13/11/2026). Giờ mặc định là `false`. Muốn giữ cách cũ thì đặt key này thành `true`. Với managed settings, đặt nó trong nguồn managed có thứ hạng cao nhất.
+:::
+
+Kết hợp hay dùng: **Manual + sandbox auto-allow** — ít bị hỏi khi lặp nhanh mà không cần classifier. Kể từ v2.1.324, muốn dùng kiểu này phải bật auto-allow tường minh.
 
 **Lối thoát**: lệnh fail vì sandbox (vd công cụ không tương thích) có thể được Claude thử lại **ngoài** sandbox; Manual/acceptEdits sẽ hỏi bạn ("Bash command (unsandboxed)"), auto mode để classifier xét, `dontAsk` từ chối. Muốn tắt hẳn lối thoát: `sandbox.allowUnsandboxedCommands: false` (strict sandbox mode).
 
@@ -43,6 +50,7 @@ Kết hợp hay dùng: **Manual + sandbox auto-allow** — ít bị hỏi khi l�
 {
   "sandbox": {
     "enabled": true,
+    "autoAllowBashIfSandboxed": true,
     "network": {
       "allowedDomains": ["registry.npmjs.org", "github.com", "angular.dev"]
     },
@@ -61,6 +69,7 @@ Kết hợp hay dùng: **Manual + sandbox auto-allow** — ít bị hỏi khi l�
 }
 ```
 
+- `autoAllowBashIfSandboxed: true`: lệnh chạy trong sandbox không cần hỏi. Bỏ key này đi nếu muốn mọi lệnh vẫn được hỏi như thường (mặc định từ v2.1.324).
 - `excludedCommands`: lệnh luôn chạy ngoài sandbox (và vì vậy đi qua luồng quyền bình thường) — dành cho công cụ không chạy được trong sandbox.
 - Mục `deny` trong `credentials` được **gộp** từ mọi phạm vi và chỉ có thể thu hẹp quyền.
 - Nền tảng không hỗ trợ sandbox → mặc định Claude Code chạy **không** sandbox; muốn dừng hẳn thì bật `sandbox.failIfUnavailable`.
@@ -128,4 +137,4 @@ Bạn muốn chạy Claude trong CI để tự tóm tắt mọi PR, kể cả PR
 Rủi ro: nội dung PR (code, mô tả, comment) có thể chứa prompt injection; cấu hình `.claude/` và `.mcp.json` trong PR có thể chạy hook/server; secret của CI có thể bị lộ. Biện pháp: `claude --bare -p` với cấu hình tường minh; `--allowedTools` chỉ cho đọc, `--permission-mode dontAsk`; không cấp secret ghi (token chỉ đọc + quyền comment); runner cô lập; giới hạn `--max-turns`; người duyệt đọc kết quả, không để Claude tự merge hay chạy deploy.
 :::
 
-> Nguồn: *Configure the sandboxed Bash tool* — code.claude.com/docs/en/sandboxing; *Security* — /security; *Run Claude Code programmatically* — mục "Start faster with bare mode" (truy cập 11/11/2026).
+> Nguồn: *Configure the sandboxed Bash tool* — code.claude.com/docs/en/sandboxing; *Security* — /security; *Run Claude Code programmatically* — mục "Start faster with bare mode" (truy cập 14/11/2026).
