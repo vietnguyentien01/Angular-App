@@ -1,0 +1,144 @@
+{
+  "title": "Lộ trình 6 tuần: Design Patterns cho dự án enterprise",
+  "description": "Sáu tuần, khoảng 1 giờ mỗi ngày, học pattern từ vấn đề thật thay vì sơ đồ UML: nguyên tắc thiết kế, các pattern GoF hay dùng, cách Java 25 làm gọn chúng, pattern bên trong Spring/Angular/RxJS, kiến trúc hexagonal và outbox, và quan trọng không kém — khi nào không dùng pattern. Nên học sau lộ trình Java; đi song song với Spring Boot càng tốt.",
+  "stages": [
+    {
+      "id": "tuan-1-nguyen-tac",
+      "title": "Tuần 1 — Nguyên tắc thiết kế và refactor an toàn",
+      "duration": "1 tuần",
+      "goal": "Nhận ra vi phạm SOLID trong code thật, refactor có lưới an toàn, và để compiler giữ ranh giới module.",
+      "outcomes": [
+        "Giải thích SOLID bằng dấu hiệu trong code, ưu tiên composition hơn kế thừa",
+        "Viết characterization test so sánh code cũ và mới trên các giá trị biên",
+        "Phân biệt các mức coupling, đặt hướng phụ thuộc về phía nghiệp vụ",
+        "Ép ranh giới bằng package-private, module-info và jdeps"
+      ],
+      "items": [
+        "design-patterns/review/principles/solid-va-composition",
+        "design-patterns/consolidate/principles/tu-code-smell-den-refactor",
+        "design-patterns/deep-dive/principles/coupling-cohesion-va-ranh-gioi-module"
+      ],
+      "practice": [
+        "Chọn một hàm if-else dài trong dự án của bạn, viết test đặc tả trên mọi giá trị biên rồi refactor",
+        "Chạy jdeps trên jar của dự án, tìm package nghiệp vụ đang phụ thuộc thư viện kỹ thuật"
+      ],
+      "milestone": "Refactor xong một hàm quan trọng với 0 khác biệt trên toàn bộ tổ hợp đầu vào, và một lỗi lệch biên cố ý bị test bắt."
+    },
+    {
+      "id": "tuan-2-creational-structural",
+      "title": "Tuần 2 — Tạo object và bọc object",
+      "duration": "1 tuần",
+      "goal": "Dùng đúng Factory, Builder, Singleton; xếp chồng decorator đúng thứ tự và hiểu proxy đứng sau annotation của framework.",
+      "outcomes": [
+        "Viết Builder có tham số bắt buộc, kiểm tra trong compact constructor của record",
+        "Khởi tạo lười thread-safe bằng holder idiom, enum, biết StableValue (preview)",
+        "Xếp chồng retry, cache, đo đếm, dự phòng và giải thích vì sao thứ tự quan trọng",
+        "Tự viết dynamic proxy, giải thích self-invocation và UndeclaredThrowableException"
+      ],
+      "items": [
+        "design-patterns/review/creational/factory-builder-singleton",
+        "design-patterns/consolidate/creational/builder-va-static-factory-dung-cach",
+        "design-patterns/deep-dive/creational/singleton-va-khoi-tao-luoi-thread-safe",
+        "design-patterns/review/structural/adapter-decorator-proxy-facade",
+        "design-patterns/consolidate/structural/decorator-va-proxy-trong-thuc-te",
+        "design-patterns/deep-dive/structural/dynamic-proxy-va-gioi-han-cua-proxy"
+      ],
+      "practice": [
+        "Viết record + builder cho một lệnh nghiệp vụ nhiều tham số trong dự án, test mọi ràng buộc",
+        "Bọc client gọi đối tác bằng chuỗi decorator, đặt bộ đếm ở hai vị trí và so sánh số liệu"
+      ],
+      "milestone": "Giải thích được bằng ví dụ chạy thật vì sao một @Transactional gọi nội bộ không có tác dụng."
+    },
+    {
+      "id": "tuan-3-behavioral",
+      "title": "Tuần 3 — Behavioral patterns và sự kiện",
+      "duration": "1 tuần",
+      "goal": "Thay if-else bằng Strategy và State, phát sự kiện an toàn và sắp đúng thứ tự filter chain.",
+      "outcomes": [
+        "Mô hình vòng đời đơn hàng bằng State với bảng chuyển hợp lệ và lịch sử",
+        "Đưa các biến thể tính toán vào Strategy chọn lúc chạy",
+        "Cô lập lỗi listener, tránh ConcurrentModificationException, biết khi nào cần outbox",
+        "Sắp thứ tự filter (CORS, rate limit, xác thực) và tránh filter quên gọi tiếp"
+      ],
+      "items": [
+        "design-patterns/review/behavioral/strategy-observer-template-chain-state",
+        "design-patterns/consolidate/behavioral/strategy-va-state-thay-if-else",
+        "design-patterns/deep-dive/behavioral/observer-chain-of-responsibility-va-su-kien"
+      ],
+      "practice": [
+        "Thay các cờ boolean trạng thái của một entity trong dự án bằng enum State",
+        "Viết test cho filter chain: preflight không token, quá giới hạn, token sai"
+      ],
+      "milestone": "Mọi chuyển trạng thái sai bị chặn với thông báo nêu các bước được phép."
+    },
+    {
+      "id": "tuan-4-java-hien-dai",
+      "title": "Tuần 4 — Pattern với Java 25",
+      "duration": "1 tuần",
+      "goal": "Viết pattern gọn bằng lambda, record, sealed + switch và hiểu lambda chạy thế nào bên trong JVM.",
+      "outcomes": [
+        "Chọn giữa lambda và interface có tên cho strategy",
+        "Thay Visitor bằng sealed + switch, không dùng default trên kiểu sealed",
+        "Đọc invokedynamic bằng javap, biết lambda giữ gì trong bộ nhớ",
+        "Dùng record làm value object để tránh primitive obsession"
+      ],
+      "items": [
+        "design-patterns/review/modern-java/pattern-voi-lambda-record-sealed",
+        "design-patterns/consolidate/modern-java/visitor-va-sealed-pattern-matching",
+        "design-patterns/deep-dive/modern-java/lambda-ben-trong-jvm"
+      ],
+      "practice": [
+        "Chuyển một hệ class dùng instanceof thành sealed interface + switch, thêm một kiểu mới và đếm số lỗi compiler báo",
+        "Dùng javap -c -p xem bytecode của một lambda trong dự án"
+      ],
+      "milestone": "Thêm một loại sản phẩm mới và compiler chỉ ra đúng mọi chỗ cần sửa."
+    },
+    {
+      "id": "tuan-5-framework-kien-truc",
+      "title": "Tuần 5 — Pattern trong framework và kiến trúc",
+      "duration": "1 tuần",
+      "goal": "Hiểu DI container, Flow/RxJS bên trong; tổ chức lõi nghiệp vụ theo hexagonal; giữ nhất quán dữ liệu với outbox và saga.",
+      "outcomes": [
+        "Tự viết DI container nhỏ: tạo đệ quy, singleton, phát hiện vòng phụ thuộc",
+        "Chọn chiến lược backpressure: chặn, bỏ, xếp hàng, huỷ (Flow, RxJS)",
+        "Viết use case với port/adapter, test bằng adapter giả và test hợp đồng",
+        "Dùng outbox với FOR UPDATE SKIP LOCKED, consumer idempotent và saga có bước bù"
+      ],
+      "items": [
+        "design-patterns/review/frameworks/pattern-trong-spring-angular-rxjs",
+        "design-patterns/consolidate/frameworks/tu-viet-mini-di-container",
+        "design-patterns/deep-dive/frameworks/flow-va-backpressure-tu-observer-toi-rxjs",
+        "design-patterns/review/architecture/layered-hexagonal-va-repository",
+        "design-patterns/consolidate/architecture/hexagonal-port-adapter-thuc-chien",
+        "design-patterns/deep-dive/architecture/unit-of-work-outbox-va-saga"
+      ],
+      "practice": [
+        "Tách một use case quan trọng của dự án thành domain + port, chạy cùng bộ test với adapter giả và adapter thật",
+        "Dựng bảng outbox trên PostgreSQL, cho 4 relay chạy song song và chứng minh không gửi trùng"
+      ],
+      "milestone": "Use case chạy được với hai adapter cho cùng kết quả; sự kiện không mất khi process bị kill sau commit."
+    },
+    {
+      "id": "tuan-6-anti-pattern",
+      "title": "Tuần 6 — Anti-pattern và khi nào không dùng pattern",
+      "duration": "1 tuần",
+      "goal": "Nhận ra và gỡ dần anti-pattern, đồng thời biết dừng trước khi over-engineering.",
+      "outcomes": [
+        "Nhận ra God class, Service Locator, anemic domain, primitive obsession",
+        "Gỡ Service Locator bằng constructor injection, sửa test phụ thuộc thứ tự",
+        "Tách God class theo lý do thay đổi qua nhiều bước nhỏ",
+        "Áp dụng YAGNI và rule of three khi review abstraction mới"
+      ],
+      "items": [
+        "design-patterns/review/anti-patterns/anti-pattern-thuong-gap",
+        "design-patterns/consolidate/anti-patterns/god-class-va-service-locator",
+        "design-patterns/deep-dive/anti-patterns/over-engineering-va-khi-nao-khong-dung-pattern"
+      ],
+      "practice": [
+        "Tìm 5 file bị sửa nhiều nhất trong git log của dự án và lập kế hoạch tách file đứng đầu",
+        "Trong lần review tới, với mỗi interface mới hỏi: có mấy cài đặt thật, yêu cầu nào hiện tại cần nó"
+      ],
+      "milestone": "Một God class giảm được ít nhất một cụm trách nhiệm qua các PR nhỏ, test vẫn xanh."
+    }
+  ]
+}

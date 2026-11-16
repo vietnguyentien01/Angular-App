@@ -1,0 +1,10 @@
+[
+  { "id": "principles", "title": "Nguyên tắc thiết kế", "description": "SOLID, composition thay kế thừa, coupling và cohesion, code smell, refactor có lưới an toàn, ranh giới module." },
+  { "id": "creational", "title": "Creational patterns", "description": "Factory, static factory, Builder, Singleton, khởi tạo lười thread-safe và vì sao DI container thay được Singleton." },
+  { "id": "structural", "title": "Structural patterns", "description": "Adapter, Decorator, Proxy, Facade, Composite; JDK dynamic proxy và giới hạn của proxy." },
+  { "id": "behavioral", "title": "Behavioral patterns", "description": "Strategy, Template Method, Observer, Chain of Responsibility, State, Command — thay if-else dài và xử lý sự kiện an toàn." },
+  { "id": "modern-java", "title": "Pattern với Java hiện đại", "description": "Lambda thay Strategy/Command, record thay Value Object, sealed + pattern matching thay Visitor, lambda bên trong JVM." },
+  { "id": "frameworks", "title": "Pattern trong framework", "description": "Spring, Angular, RxJS dùng pattern nào bên trong: DI container, proxy, template method, observer, Flow và backpressure." },
+  { "id": "architecture", "title": "Kiến trúc ứng dụng", "description": "Layered, hexagonal (ports & adapters), Repository, Unit of Work, transactional outbox, saga và bù trừ." },
+  { "id": "anti-patterns", "title": "Anti-pattern", "description": "God class, Service Locator, lạm dụng kế thừa, Singleton có state, over-engineering và khi nào không dùng pattern." }
+]

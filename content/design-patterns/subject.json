@@ -1,0 +1,29 @@
+{
+  "id": "design-patterns",
+  "title": "Design Patterns",
+  "description": "Design pattern và nguyên tắc thiết kế cho dự án enterprise, học từ vấn đề thật chứ không từ sơ đồ UML: SOLID, các pattern GoF hay dùng, pattern được Java 25 làm gọn bằng lambda/record/sealed, pattern bên trong Spring/Angular/RxJS, kiến trúc hexagonal, outbox, saga và anti-pattern. Mọi ví dụ chạy thật trên JDK 25.",
+  "icon": "grid",
+  "color": "#8b5cf6",
+  "order": 11,
+  "currentVersion": 25,
+  "sections": [
+    {
+      "id": "review",
+      "title": "Ôn lại Core",
+      "description": "SOLID, Factory/Builder/Singleton, Adapter/Decorator/Proxy/Facade, Strategy/Observer/State, pattern hiện đại, kiến trúc và anti-pattern — nhắc nhanh kèm câu hỏi kiểm tra.",
+      "icon": "refresh"
+    },
+    {
+      "id": "consolidate",
+      "title": "Củng cố",
+      "description": "Refactor có lưới an toàn, Builder và static factory, decorator và proxy thực tế, Strategy và State thay if-else, sealed thay Visitor, tự viết DI container, hexagonal, gỡ God class.",
+      "icon": "hammer"
+    },
+    {
+      "id": "deep-dive",
+      "title": "Chuyên sâu",
+      "description": "Ranh giới module, Singleton thread-safe, dynamic proxy, observer và sự kiện, lambda bên trong JVM, Flow và backpressure, outbox và saga, khi nào không dùng pattern.",
+      "icon": "telescope"
+    }
+  ]
+}
