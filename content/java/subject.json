@@ -1,0 +1,29 @@
+{
+  "id": "java",
+  "title": "Java",
+  "description": "Java 25 LTS từ cơ bản đến nâng cao cho dự án enterprise: kiểu dữ liệu và BigDecimal, OOP với record và sealed, Collections và Stream, exception và java.time, concurrency với virtual thread, Maven và JUnit, bên trong JVM — mọi output đã chạy thử trên JDK 25.",
+  "icon": "code",
+  "color": "#e76f00",
+  "order": 9,
+  "currentVersion": 25,
+  "sections": [
+    {
+      "id": "review",
+      "title": "Ôn lại Core",
+      "description": "Kiểu dữ liệu, class và record, Collections, lambda, exception, thread, Maven, JVM — nhắc nhanh kèm câu hỏi kiểm tra.",
+      "icon": "refresh"
+    },
+    {
+      "id": "consolidate",
+      "title": "Củng cố",
+      "description": "Đoán output, sửa bẫy equals/hashCode và ConcurrentModificationException, viết Stream cho báo cáo, xử lý lỗi và thời gian, test bằng JUnit.",
+      "icon": "hammer"
+    },
+    {
+      "id": "deep-dive",
+      "title": "Chuyên sâu",
+      "description": "Bên trong HashMap và String, generics và type erasure, Stream Gatherers, Java Memory Model, virtual thread và structured concurrency, GC và JIT.",
+      "icon": "telescope"
+    }
+  ]
+}

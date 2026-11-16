@@ -35,6 +35,8 @@ const LANGS = [
   'tsx',
   'jsx',
   'dockerfile',
+  'java',
+  'xml',
   'text',
 ];
 const CALLOUTS: Record<string, string> = {

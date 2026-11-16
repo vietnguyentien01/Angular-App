@@ -51,7 +51,7 @@ import { PageState } from '../../shared/page-state/page-state';
                 <span>{{ item.quizCount }} câu trắc nghiệm</span>
               }
               @if (item.version) {
-                <span>Angular v{{ item.version }}</span>
+                <span>{{ c.subject.title }} v{{ item.version }}</span>
               }
               <span>Xem lại: {{ item.lastReviewed | date: 'dd/MM/yyyy' }}</span>
             </div>

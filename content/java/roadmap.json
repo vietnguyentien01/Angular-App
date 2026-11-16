@@ -1,0 +1,125 @@
+{
+  "title": "Lộ trình 6 tuần: Java từ cơ bản đến nâng cao cho dự án enterprise",
+  "description": "Sáu tuần, khoảng 1–2 giờ mỗi ngày, đi từ cú pháp và kiểu dữ liệu tới concurrency và JVM trên Java 25 LTS. Mỗi chặng kết thúc bằng một sản phẩm chạy được trong dự án Maven của bạn, có test — cuối lộ trình bạn đủ nền để học Spring Boot và trả lời phỏng vấn Java core ở mức middle/senior.",
+  "stages": [
+    {
+      "id": "tuan-1-nen-tang-va-oop",
+      "title": "Tuần 1 — Cú pháp, kiểu dữ liệu và OOP hiện đại",
+      "duration": "1 tuần",
+      "goal": "Viết được class, record, enum và sealed interface đúng chuẩn; tính tiền bằng BigDecimal không sai một đồng.",
+      "outcomes": [
+        "Tránh các bẫy == với Integer/String, tràn số, unboxing null",
+        "Tính và làm tròn tiền bằng BigDecimal theo đúng RoundingMode",
+        "Viết equals/hashCode đúng, ưu tiên record và composition",
+        "Mô hình kết quả nghiệp vụ bằng sealed interface + switch pattern matching"
+      ],
+      "items": [
+        "java/review/basics/kieu-du-lieu-va-cu-phap",
+        "java/consolidate/basics/tinh-tien-voi-bigdecimal",
+        "java/deep-dive/basics/ben-trong-string-va-boxing",
+        "java/review/oop/class-interface-record-enum",
+        "java/consolidate/oop/equals-hashcode-va-ke-thua",
+        "java/deep-dive/oop/sealed-record-pattern-va-mo-hinh-domain"
+      ],
+      "practice": [
+        "Viết lớp Money (BigDecimal + Currency) có kiểm tra scale và chia đều không mất đồng nào",
+        "Mô hình phí chuyển khoản bằng sealed interface, thêm một loại giao dịch mới và để compiler chỉ chỗ cần sửa"
+      ],
+      "milestone": "Hàm chiaDeu và phi chạy đúng với các bộ số có .5, số âm và chia không hết."
+    },
+    {
+      "id": "tuan-2-collections-va-stream",
+      "title": "Tuần 2 — Collections, Generics và Stream",
+      "duration": "1 tuần",
+      "goal": "Chọn đúng collection, tránh ConcurrentModificationException, viết báo cáo bằng Stream và Collectors.",
+      "outcomes": [
+        "Chọn List/Set/Map và biến thể Linked/Tree phù hợp, sắp xếp tiếng Việt bằng Collator",
+        "Xoá phần tử an toàn, phân biệt view và bản sao, tránh bẫy kiểu key",
+        "groupingBy, toMap có hàm merge, partitioningBy cho báo cáo bán hàng",
+        "Hiểu HashMap bên trong, PECS và type erasure"
+      ],
+      "items": [
+        "java/review/collections/list-set-map-va-comparator",
+        "java/consolidate/collections/loi-thuong-gap-voi-collection",
+        "java/deep-dive/collections/ben-trong-hashmap-va-generics",
+        "java/review/functional/lambda-va-stream-co-ban",
+        "java/consolidate/functional/viet-bao-cao-bang-stream",
+        "java/deep-dive/functional/ben-trong-stream-parallel-va-gatherers"
+      ],
+      "practice": [
+        "Viết báo cáo doanh thu theo tỉnh, top sản phẩm và khách VIP từ một danh sách đơn hàng",
+        "Viết lại một vòng lặp chia lô bằng Gatherers.windowFixed"
+      ],
+      "milestone": "Báo cáo cho kết quả giống truy vấn GROUP BY tương ứng trong SQL."
+    },
+    {
+      "id": "tuan-3-loi-thoi-gian-va-test",
+      "title": "Tuần 3 — Exception, thời gian, file và test",
+      "duration": "1 tuần",
+      "goal": "Xử lý lỗi giữ được nguyên nhân, làm việc đúng với múi giờ, đọc file lớn, và viết test tham số bằng JUnit trong dự án Maven.",
+      "outcomes": [
+        "Bọc exception giữ cause, dùng try-with-resources, không nuốt lỗi",
+        "Dùng Instant/LocalDate/ZonedDateTime đúng chỗ, tránh YYYY và cắt ngày theo UTC",
+        "Import CSV báo đủ lỗi từng dòng, đọc file lớn theo luồng, chỉ rõ charset",
+        "Dự án Maven có JUnit + AssertJ, test giá trị biên và tiêm Clock"
+      ],
+      "items": [
+        "java/review/exceptions/exception-file-va-java-time",
+        "java/consolidate/exceptions/xu-ly-loi-va-thoi-gian-dung-cach",
+        "java/deep-dive/exceptions/thiet-ke-exception-va-doc-file-lon",
+        "java/review/build-test/maven-va-junit-co-ban",
+        "java/consolidate/build-test/viet-test-voi-junit",
+        "java/deep-dive/build-test/quan-ly-dependency-va-test-on-dinh"
+      ],
+      "practice": [
+        "Tạo dự án Maven so-chi-tieu, chuyển ChiaHoaDon, Phi, Tuoi vào và viết test tham số cho cả ba",
+        "Thêm maven-enforcer với dependencyConvergence (kèm excludedScopes rỗng) vào pom.xml"
+      ],
+      "milestone": "mvn verify xanh với ít nhất 30 test, không có test nào phụ thuộc giờ thật hay thứ tự chạy."
+    },
+    {
+      "id": "tuan-4-concurrency",
+      "title": "Tuần 4–5 — Concurrency và virtual thread",
+      "duration": "1–2 tuần",
+      "goal": "Viết code đa luồng đúng, gọi nhiều dịch vụ song song có timeout, và dùng virtual thread đúng cách trên Java 21/25.",
+      "outcomes": [
+        "Nhận ra race condition, check-then-act, deadlock và lỗi visibility",
+        "Dùng ExecutorService, ConcurrentHashMap, LongAdder, CompletableFuture có timeout",
+        "Hiểu mount/unmount của virtual thread và lỗi pinning trên JDK 21",
+        "Biết structured concurrency (preview) và ScopedValue (Java 25)"
+      ],
+      "items": [
+        "java/review/concurrency/thread-executor-va-dong-bo",
+        "java/consolidate/concurrency/race-condition-deadlock-va-completablefuture",
+        "java/deep-dive/concurrency/virtual-thread-va-structured-concurrency"
+      ],
+      "practice": [
+        "Viết dịch vụ xét duyệt gọi song song ba nguồn dữ liệu, một nguồn chậm có giá trị dự phòng",
+        "Giới hạn 20 lời gọi đồng thời tới đối tác bằng Semaphore trên virtual thread và đo số lời gọi tối đa"
+      ],
+      "milestone": "Bộ đếm và dịch vụ xét duyệt chạy đúng dưới 10.000 việc đồng thời, có test cho trường hợp timeout."
+    },
+    {
+      "id": "tuan-6-jvm-va-hieu-nang",
+      "title": "Tuần 6 — JVM, chẩn đoán sự cố và đo hiệu năng",
+      "duration": "1 tuần",
+      "goal": "Cấu hình JVM cho container, chẩn đoán memory leak từ histogram và heap dump, đo hiệu năng bằng JMH thay vì đoán.",
+      "outcomes": [
+        "Đặt heap và cờ chẩn đoán đúng cho container, phân biệt OOM và OOMKilled",
+        "Tìm leak bằng jcmd GC.class_histogram và heap dump",
+        "Hiểu JIT theo tầng, warmup, và chọn GC theo mục tiêu",
+        "Viết benchmark JMH không bị dead code elimination"
+      ],
+      "items": [
+        "java/review/jvm/bo-nho-jvm-va-cong-cu",
+        "java/consolidate/jvm/chan-doan-memory-leak-va-oom",
+        "java/deep-dive/jvm/gc-jit-va-do-hieu-nang"
+      ],
+      "practice": [
+        "Tái hiện leak phiên đăng nhập với -Xmx128m, lấy histogram và heap dump, rồi sửa bằng cache có giới hạn",
+        "Viết benchmark JMH so sánh int[] và List<Integer> trên dữ liệu của bạn"
+      ],
+      "milestone": "Giải thích được bằng số đo: vì sao một đoạn code chậm và cách sửa nhanh hơn bao nhiêu."
+    }
+  ]
+}
