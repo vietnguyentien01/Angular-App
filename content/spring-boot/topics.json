@@ -1,0 +1,10 @@
+[
+  { "id": "core", "title": "Bean, DI & cấu hình", "description": "IoC container, constructor injection, @Configuration và @Bean, @ConfigurationProperties có validate, profile, thứ tự ưu tiên cấu hình, auto-configuration." },
+  { "id": "web", "title": "REST API với Spring MVC", "description": "@RestController, DTO record, validation, ProblemDetail, xử lý lỗi tập trung, phân trang, luồng request bên trong DispatcherServlet." },
+  { "id": "data", "title": "Spring Data JPA", "description": "Entity, repository, query method, Flyway, phân trang, N+1 và fetch join, projection, persistence context và dirty checking." },
+  { "id": "transactions", "title": "Transaction & đồng thời", "description": "@Transactional, rollback, propagation, self-invocation, optimistic và pessimistic locking, isolation, sự kiện sau commit." },
+  { "id": "security", "title": "Spring Security", "description": "SecurityFilterChain, mã hoá mật khẩu, JWT resource server, phân quyền theo vai trò và chủ sở hữu, CORS cho frontend Angular." },
+  { "id": "testing", "title": "Test trong Spring Boot", "description": "Test slice (@WebMvcTest, @DataJpaTest), @SpringBootTest, MockMvcTester, Testcontainers với @ServiceConnection, context caching." },
+  { "id": "integration", "title": "Gọi dịch vụ & tác vụ nền", "description": "RestClient, HTTP interface, timeout, retry, giới hạn đồng thời, cache, @Scheduled, idempotency." },
+  { "id": "production", "title": "Vận hành production", "description": "Actuator, health probe, metric với Micrometer, log có cấu trúc, graceful shutdown, đóng gói, Docker, khởi động nhanh." }
+]

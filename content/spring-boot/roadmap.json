@@ -1,0 +1,144 @@
+{
+  "title": "Lộ trình 6 tuần: Spring Boot 4 cho dự án enterprise",
+  "description": "Sáu tuần, khoảng 1–2 giờ mỗi ngày, xây dần một API đặt hàng thật trên Spring Boot 4.1 và Java 25: từ bean và cấu hình tới JPA, transaction, bảo mật JWT, test với Testcontainers, gọi dịch vụ ngoài an toàn và đóng gói Docker. Mỗi tuần kết thúc bằng một phần chạy được, có test. Nên học xong lộ trình Java trước.",
+  "stages": [
+    {
+      "id": "tuan-1-core-va-web",
+      "title": "Tuần 1 — Bean, cấu hình và REST API",
+      "duration": "1 tuần",
+      "goal": "Hiểu container của Spring đủ để tự đọc lỗi khởi động, và viết REST API có DTO, validation và lỗi chuẩn ProblemDetail.",
+      "outcomes": [
+        "Dùng constructor injection, @ConfigurationProperties có validation và profile",
+        "Đọc và sửa lỗi khởi động: thiếu bean, nhiều bean cùng kiểu, vòng phụ thuộc",
+        "Giải thích auto-configuration bằng condition evaluation report",
+        "Viết controller với DTO record, @Valid và trả lỗi ProblemDetail thống nhất"
+      ],
+      "items": [
+        "spring-boot/review/core/bean-di-va-cau-hinh",
+        "spring-boot/consolidate/core/loi-di-va-cau-hinh-thuong-gap",
+        "spring-boot/deep-dive/core/auto-configuration-hoat-dong-the-nao",
+        "spring-boot/review/web/rest-controller-dto-va-validation",
+        "spring-boot/consolidate/web/xu-ly-loi-api-voi-problemdetail",
+        "spring-boot/deep-dive/web/ben-trong-mot-request-spring-mvc"
+      ],
+      "practice": [
+        "Tạo dự án don-hang-api với endpoint tạo/xem đơn hàng, cấu hình phí vận chuyển qua @ConfigurationProperties",
+        "Viết @RestControllerAdvice trả ProblemDetail cho lỗi validation, không tìm thấy và lỗi nghiệp vụ"
+      ],
+      "milestone": "Gửi body sai nhận 400 với danh sách lỗi từng field; mã không tồn tại nhận 404 dạng application/problem+json."
+    },
+    {
+      "id": "tuan-2-du-lieu-va-transaction",
+      "title": "Tuần 2 — JPA, Flyway và transaction",
+      "duration": "1 tuần",
+      "goal": "Lưu dữ liệu bằng JPA mà không dính N+1, hiểu persistence context, và viết transaction đúng kể cả khi có tranh chấp.",
+      "outcomes": [
+        "Thiết kế entity, repository và migration Flyway",
+        "Phát hiện N+1 qua log SQL và sửa bằng fetch join, @EntityGraph hoặc DTO projection",
+        "Hiểu dirty checking, flush và vì sao entity detached không tự lưu",
+        "Biết khi nào @Transactional không rollback, tránh self-invocation và lost update bằng @Version hoặc khoá"
+      ],
+      "items": [
+        "spring-boot/review/data/entity-repository-va-flyway",
+        "spring-boot/consolidate/data/n-cong-1-va-lazy-loading",
+        "spring-boot/deep-dive/data/persistence-context-va-dirty-checking",
+        "spring-boot/review/transactions/transactional-co-ban",
+        "spring-boot/consolidate/transactions/transaction-khong-rollback-va-lost-update",
+        "spring-boot/deep-dive/transactions/proxy-isolation-va-khoa"
+      ],
+      "practice": [
+        "Viết API danh sách đơn hàng kèm dòng hàng, đếm số câu SQL trước và sau khi sửa N+1",
+        "Cho 20 request đặt hàng đồng thời cùng một sản phẩm và chứng minh tồn kho không bị trừ sai"
+      ],
+      "milestone": "Danh sách 100 đơn hàng chạy bằng 1–2 câu SQL; đặt hàng đồng thời không bán quá số tồn kho."
+    },
+    {
+      "id": "tuan-3-bao-mat",
+      "title": "Tuần 3 — Spring Security và JWT",
+      "duration": "1 tuần",
+      "goal": "Bảo vệ API bằng JWT, phân quyền theo vai trò và theo chủ sở hữu dữ liệu, cấu hình CORS đúng.",
+      "outcomes": [
+        "Cấu hình SecurityFilterChain stateless, mã hoá mật khẩu bằng BCrypt/DelegatingPasswordEncoder",
+        "Phát hành và kiểm tra JWT, đổi claim thành authority",
+        "Phân quyền theo chủ sở hữu (khách chỉ xem đơn của mình) và tránh IDOR",
+        "Hiểu thứ tự filter, nhiều filter chain và CORS preflight"
+      ],
+      "items": [
+        "spring-boot/review/security/security-filter-chain-co-ban",
+        "spring-boot/consolidate/security/jwt-va-phan-quyen-theo-chu-so-huu",
+        "spring-boot/deep-dive/security/security-filter-chain-va-cors"
+      ],
+      "practice": [
+        "Thêm đăng nhập trả JWT, endpoint quản trị chỉ cho ROLE_ADMIN",
+        "Viết test chứng minh khách A không đọc được đơn hàng của khách B"
+      ],
+      "milestone": "Không token → 401, sai vai trò → 403, đơn của người khác → 404; frontend ở domain khác gọi được API."
+    },
+    {
+      "id": "tuan-4-test",
+      "title": "Tuần 4 — Test slice, Testcontainers và tốc độ test",
+      "duration": "1 tuần",
+      "goal": "Có bộ test đủ tin cậy để refactor: test slice cho từng tầng, test tích hợp trên PostgreSQL thật, chạy nhanh.",
+      "outcomes": [
+        "Chọn @WebMvcTest, @DataJpaTest hay @SpringBootTest đúng mục đích",
+        "Dùng MockMvcTester, RestTestClient và @MockitoBean",
+        "Chạy test với PostgreSQL thật qua Testcontainers và @ServiceConnection",
+        "Giữ context cache hiệu quả để bộ test không chậm dần"
+      ],
+      "items": [
+        "spring-boot/review/testing/test-slice-va-springboottest",
+        "spring-boot/consolidate/testing/testcontainers-va-test-api-co-bao-mat",
+        "spring-boot/deep-dive/testing/context-caching-va-toc-do-test"
+      ],
+      "practice": [
+        "Viết test controller cho các mã lỗi 400/401/403/404 và test repository trên Testcontainers",
+        "Đo thời gian bộ test, gom cấu hình để giảm số context được tạo"
+      ],
+      "milestone": "mvn test chạy xanh trên máy mới chỉ cần Docker, không phụ thuộc DB cài sẵn."
+    },
+    {
+      "id": "tuan-5-tich-hop",
+      "title": "Tuần 5 — Gọi dịch vụ ngoài đáng tin cậy",
+      "duration": "1 tuần",
+      "goal": "Gọi API đối tác bằng RestClient/HTTP interface có timeout, retry, giới hạn đồng thời và idempotency.",
+      "outcomes": [
+        "Khai báo HTTP interface với @ImportHttpServices và cấu hình theo nhóm",
+        "Đặt connect/read timeout, @Retryable chỉ cho lỗi tạm thời, @ConcurrencyLimit",
+        "Cache kết quả tra cứu và biết khi nào không nên cache",
+        "Thiết kế Idempotency-Key để thanh toán không bị trừ hai lần"
+      ],
+      "items": [
+        "spring-boot/review/integration/restclient-http-interface-va-cache",
+        "spring-boot/consolidate/integration/timeout-retry-va-gioi-han-dong-thoi",
+        "spring-boot/deep-dive/integration/idempotency-va-goi-dich-vu-dang-tin-cay"
+      ],
+      "practice": [
+        "Giả lập đối tác chậm và lỗi 503, chứng minh ứng dụng trả lỗi trong thời gian giới hạn thay vì treo",
+        "Gửi cùng một request thanh toán hai lần với cùng Idempotency-Key và kiểm tra chỉ có một giao dịch"
+      ],
+      "milestone": "Đối tác chậm hay lỗi không làm cạn thread của ứng dụng; request lặp không tạo giao dịch trùng."
+    },
+    {
+      "id": "tuan-6-van-hanh",
+      "title": "Tuần 6 — Vận hành: actuator, log, metric và Docker",
+      "duration": "1 tuần",
+      "goal": "Đưa ứng dụng lên container sẵn sàng cho production: health check, log JSON, metric nghiệp vụ, graceful shutdown, khởi động nhanh.",
+      "outcomes": [
+        "Cấu hình actuator health liveness/readiness và bảo vệ endpoint",
+        "Bật structured logging và viết metric nghiệp vụ bằng Micrometer",
+        "Kiểm chứng graceful shutdown với request đang chạy",
+        "Đóng gói Docker nhiều layer, non-root, đặt bộ nhớ theo container và dùng AOT cache"
+      ],
+      "items": [
+        "spring-boot/review/production/actuator-health-va-metric",
+        "spring-boot/consolidate/production/log-metric-va-graceful-shutdown",
+        "spring-boot/deep-dive/production/dong-goi-docker-va-khoi-dong-nhanh"
+      ],
+      "practice": [
+        "Viết Dockerfile multi-stage cho don-hang-api, đo thời gian khởi động fat jar, extract và AOT cache",
+        "Thêm metric đếm đơn hàng theo trạng thái và xem trên /actuator/metrics"
+      ],
+      "milestone": "docker stop dừng ứng dụng sạch trong vài giây, health UP, log JSON, image chạy bằng user không phải root."
+    }
+  ]
+}

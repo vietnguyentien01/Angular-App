@@ -1,0 +1,29 @@
+{
+  "id": "spring-boot",
+  "title": "Spring Boot",
+  "description": "Spring Boot 4.1 (Spring Framework 7, Java 25) cho dự án enterprise: bean và cấu hình, REST API, Spring Data JPA, transaction, Spring Security, test với Testcontainers, gọi dịch vụ ngoài, vận hành production — mọi ví dụ chạy thật trên một dự án đơn hàng với PostgreSQL 16.",
+  "icon": "route",
+  "color": "#6db33f",
+  "order": 10,
+  "currentVersion": 4,
+  "sections": [
+    {
+      "id": "review",
+      "title": "Ôn lại Core",
+      "description": "Bean, controller, entity, @Transactional, security, test slice, RestClient, Actuator — nhắc nhanh kèm câu hỏi kiểm tra.",
+      "icon": "refresh"
+    },
+    {
+      "id": "consolidate",
+      "title": "Củng cố",
+      "description": "Lỗi DI và cấu hình, xử lý lỗi API, N+1, transaction không rollback, JWT và phân quyền, Testcontainers, retry và timeout, metric.",
+      "icon": "hammer"
+    },
+    {
+      "id": "deep-dive",
+      "title": "Chuyên sâu",
+      "description": "Auto-configuration, luồng request trong Spring MVC, persistence context, proxy và isolation, security filter chain, context caching, độ tin cậy khi gọi dịch vụ, đóng gói và khởi động nhanh.",
+      "icon": "telescope"
+    }
+  ]
+}
