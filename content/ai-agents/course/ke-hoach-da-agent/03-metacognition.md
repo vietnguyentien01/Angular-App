@@ -6,6 +6,9 @@ level: advanced
 lastReviewed: 2026-11-17
 tags: [ai-agents, metacognition, reflection, corrective-rag, code-generation]
 related: [ai-agents/course/cong-cu-tri-thuc/agentic-rag, ai-agents/course/ke-hoach-da-agent/planning-design, ai-agents/course/production-giao-thuc/agent-trong-production]
+changelog:
+  - date: 2026-11-17
+    note: Viết đầy đủ bài 9 theo bản gốc; thêm phần đọc notebook từng bước và tài liệu tham khảo.
 ---
 
 :::note Nguồn

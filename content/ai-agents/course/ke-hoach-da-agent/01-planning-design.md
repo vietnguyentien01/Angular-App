@@ -6,6 +6,9 @@ level: intermediate
 lastReviewed: 2026-11-17
 tags: [ai-agents, planning, structured-output, pydantic, orchestration]
 related: [ai-agents/course/ke-hoach-da-agent/multi-agent, ai-agents/course/cong-cu-tri-thuc/tool-use, claude-code/consolidate/workflows/explore-plan-code]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn
@@ -228,7 +231,7 @@ Ngoài ra, tool đặt chỗ thật nên khai báo `approval_mode="always_requir
 
 ### Bản .NET
 
-`07-dotnet-agent-framework` làm cùng luồng planner → concierge bằng C#; xem bài Phụ lục .NET.
+`07-dotnet-agent-framework` làm cùng luồng planner → concierge bằng C#; xem [Phụ lục .NET](/ai-agents/course/nang-cao/phu-luc-dotnet).
 
 ## Tài liệu tham khảo (theo bản gốc)
 

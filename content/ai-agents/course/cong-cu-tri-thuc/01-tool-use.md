@@ -6,6 +6,9 @@ level: intermediate
 lastReviewed: 2026-11-17
 tags: [ai-agents, tool-use, function-calling, mcp, security]
 related: [ai-agents/course/nen-tang/kham-pha-agent-framework, ai-agents/course/production-giao-thuc/giao-thuc-mcp-a2a-nlweb, claude-code/deep-dive/extending/mcp-va-plugin]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn
@@ -279,7 +282,7 @@ print("Approval mode:", book_flight.approval_mode)
 
 ### Notebook .NET và smoke test
 
-- Bản .NET (`04-dotnet-agent-framework.md`) làm cùng việc bằng C#; xem bài **Phụ lục .NET**.
+- Bản .NET (`04-dotnet-agent-framework.md`) làm cùng việc bằng C#; xem [Phụ lục .NET](/ai-agents/course/nang-cao/phu-luc-dotnet).
 - **Smoke test gốc** (`tests/lesson-04-smoke-tests.json`): sau khi deploy agent `TravelToolAgent` (Bài 16), chạy ba prompt và kiểm tra:
   - *"What destinations do you have?"*: status 200, câu trả lời chứa một trong Barcelona/Tokyo/Paris/Bali/Sydney;
   - *"Which destinations are still available to book?"*: chứa "available" hoặc tên điểm đến;

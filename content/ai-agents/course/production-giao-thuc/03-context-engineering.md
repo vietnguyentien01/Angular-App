@@ -6,6 +6,9 @@ level: intermediate
 lastReviewed: 2026-11-17
 tags: [ai-agents, context-engineering, context-window, compression, memory]
 related: [ai-agents/course/production-giao-thuc/agent-memory, ai-agents/course/cong-cu-tri-thuc/agentic-rag, claude-code/consolidate/sessions/context-window-va-checkpoint]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn

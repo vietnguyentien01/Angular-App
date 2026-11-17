@@ -6,6 +6,9 @@ level: intermediate
 lastReviewed: 2026-11-17
 tags: [ai-agents, observability, evaluation, opentelemetry, cost]
 related: [ai-agents/course/cong-cu-tri-thuc/xay-agent-dang-tin-cay, ai-agents/course/nang-cao/deploy-agent-quy-mo-lon, claude-code/deep-dive/sessions/chi-phi-va-subagent]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn

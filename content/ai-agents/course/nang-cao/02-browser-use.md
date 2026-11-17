@@ -6,6 +6,9 @@ level: advanced
 lastReviewed: 2026-11-17
 tags: [ai-agents, computer-use, browser-use, playwright, security]
 related: [ai-agents/course/cong-cu-tri-thuc/xay-agent-dang-tin-cay, ai-agents/course/nang-cao/bao-mat-ai-agent, claude-code/deep-dive/interface/claude-in-chrome-cho-frontend]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn
@@ -132,6 +135,97 @@ Theo bản gốc, Opal hiện chỉ dành cho người dùng chương trình **F
 
 Với dev frontend, CUA còn là công cụ **test UI có vision**: agent khám phá luồng mới, rồi bạn "đóng băng" luồng đã ổn thành test Playwright (actor) để chạy trong CI.
 :::
+
+## Đọc notebook từng bước: `15-browser-user.ipynb`
+
+**Cell 1: kiến trúc bốn tầng.**
+
+```text
+Playwright (quản lý vòng đời trình duyệt, kết nối CDP)
+   ▼ truyền trình duyệt
+Browser-Use Browser (bọc trình duyệt, cung cấp giao diện Agent)
+   ▼ dùng
+Agent (vision + ra quyết định, trích output có cấu trúc, nhận task bằng ngôn ngữ tự nhiên)
+   ▼ chạy bằng
+Azure OpenAI (model có vision, đọc screenshot)
+```
+
+- **Playwright** cho: vòng đời trình duyệt ổn định, toàn quyền Chrome DevTools Protocol, xử lý page và context, chờ và đồng bộ có sẵn.
+- **Browser-Use** thêm: tìm phần tử bằng AI (không cần CSS selector), hiểu trang qua hình ảnh, trích dữ liệu có cấu trúc bằng Pydantic, nhận task bằng ngôn ngữ tự nhiên.
+
+**Luồng task:**
+1. Playwright mở Chrome;
+2. agent vào airbnb.com;
+3. tìm "Stockholm, Sweden";
+4. model vision đọc giá;
+5. trả dữ liệu Pydantic;
+6. code Python so giá tìm chỗ rẻ nhất;
+7. hiển thị kết quả.
+
+**Cell 2–5: cài đặt và cấu hình.**
+- `pip install browser_use langchain-openai playwright`, `playwright install chromium`.
+- Đọc `AZURE_OPENAI_CHAT_DEPLOYMENT_NAME`, `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_API_VERSION`.
+
+**Cell 6–7: LLM.** Dùng `ChatAzureOpenAI` **của Browser-Use**, không phải của LangChain. Endpoint, key và version tự đọc từ biến môi trường; temperature thấp (0.3) để tự động hoá ổn định, dễ đoán.
+
+```python
+llm = ChatAzureOpenAI(model=azure_openai_deployment)
+```
+
+**Cell 8–9: schema trích xuất.**
+
+```python
+class AirbnbListing(BaseModel):
+    title: str = Field(description="Name/title of the listing")
+    price_per_night: float = Field(description="Price per night as a number (ignore currency symbols)")
+    currency: str = Field(default="SEK", description="Currency code (SEK for Swedish Krona)")
+    rating: Optional[float] = Field(default=None, description="Rating score if visible")
+    url: Optional[str] = Field(default=None, description="Full URL link to the listing page")
+
+class SearchResult(BaseModel):
+    location: str
+    total_listings_found: int
+    listings: List[AirbnbListing]
+    cheapest_listing: AirbnbListing
+    average_price: float
+    price_range: str           # 'min - max SEK'
+```
+
+**Cell 11–12:** schema cho luồng đặt phòng:
+- `ListingInfo`;
+- `BookingDates` (check-in, check-out, số đêm);
+- `BookingResult` (thành công, tổng giá, thông báo).
+
+Notebook **định nghĩa nhưng không chạy** luồng đặt, đúng nguyên tắc "đặt chỗ là hành động riêng cần người duyệt".
+
+**Cell 13–14:** hàm hiển thị HTML: bước, hành động, kết quả, screenshot.
+
+**Cell 15–18: class `AirbnbSearchAgent`.** Cell 16 là bản cũ, dùng `Browser(playwright_browser=...)`. Cell 18 là **bản dùng thật**:
+- nối qua CDP với `Browser(cdp_url=..., keep_alive=True)`; `keep_alive` giữ trình duyệt mở sau khi agent xong;
+- **bước 1, agent:** `Agent(task="Navigate to https://www.airbnb.com. Close any pop-ups, cookie banners, or login prompts... Search for 'Stockholm, Sweden'... Wait for the search results page to fully load", llm=llm, browser=browser, use_vision=True)`, rồi chờ 3 giây và chụp màn hình;
+- **bước 2, vision:** đọc trang và trích mọi listing vào `SearchResult`.
+
+**Cell 19: khởi động Chrome có CDP và chạy.** `start_chrome_with_cdp(port=9222)`:
+- tìm Chrome hoặc Chromium theo hệ điều hành;
+- tạo thư mục profile **tạm** (`tempfile.mkdtemp`);
+- chạy với `--remote-debugging-port`, `--no-first-run`, `--no-default-browser-check`;
+- poll `http://localhost:9222/json/version` tối đa 20 giây đến khi CDP sẵn sàng.
+
+`main()` cho Playwright và Browser-Use **cùng nối** vào Chrome đó qua CDP, chạy tìm kiếm, in kết quả, cuối cùng đóng trình duyệt và process.
+
+:::tip Ba điều nên làm khác đi khi tự xây
+- **Để code tính phần số học.** Schema yêu cầu model tự điền `cheapest_listing`, `average_price`, `price_range`, tức nhờ LLM làm phép tính. Model chỉ nên **trích** `listings`; còn `min()`, trung bình, khoảng giá thì code Python tính (như bài tập ở trên). Phần README của bài cũng nói "code Python so sánh".
+- **CDP là cửa hậu.** Cổng `9222` mở toàn quyền điều khiển trình duyệt cho **mọi process trên máy**. Chỉ bind `localhost`, dùng profile tạm như notebook (không dùng profile đang đăng nhập tài khoản thật), và tắt khi xong.
+- **Dùng `wait_for_selector` thay `sleep(3)`.** Chờ cứng 3 giây thì lúc mạng chậm sẽ thiếu, lúc mạng nhanh thì phí. Khi đã biết cấu trúc trang, chuyển sang Playwright với điều kiện chờ cụ thể (actor).
+:::
+
+**Cell 21:** bảng *Agent hay Actor* và các best practice, đã dịch ở phần trên.
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- Project Opal (Frontier): <https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-with-project-opal-frontier>
+- Browser-Use, mẫu tích hợp Playwright: <https://docs.browser-use.com/examples/templates/playwright-integration>
+- Browser-Use, tham số actor và trích nội dung: <https://docs.browser-use.com/customize/actor/all-parameters>
 
 :::quiz (Knowledge check 1) Khi nào CUA hợp hơn workflow chỉ dùng API?
 - [x] Task phụ thuộc vào thứ hiển thị trên UI web, site không có API cần thiết, hoặc trang đổi thường xuyên khiến logic API hay selector cố định dễ gãy

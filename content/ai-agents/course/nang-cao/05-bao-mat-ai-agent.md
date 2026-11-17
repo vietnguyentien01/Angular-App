@@ -6,6 +6,9 @@ level: advanced
 lastReviewed: 2026-11-17
 tags: [ai-agents, security, audit, ed25519, receipts, compliance]
 related: [ai-agents/course/cong-cu-tri-thuc/xay-agent-dang-tin-cay, ai-agents/course/nang-cao/browser-use, claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn
@@ -210,6 +213,103 @@ Trong team dùng Claude Code, audit chủ yếu dựa vào OpenTelemetry, log v�
 Câu phỏng vấn đáng chuẩn bị: *"Chữ ký số chứng minh gì và không chứng minh gì?"*. Trả lời theo đúng hai danh sách ở trên.
 :::
 
+## Đọc notebook từng bước
+
+### `18-signed-receipts.ipynb`: bốn phần thực hành
+
+**Cài đặt:** `pip install pynacl jcs` (giấy phép Apache-2.0 và MIT). Hai helper `b64url_nopad` và `sha256_canonical` giữ phần còn lại tập trung vào logic receipt.
+
+**Phần 1: ký receipt đầu tiên.** Agent Contoso Travel vừa tra chuyến bay Sydney → Los Angeles.
+1. Sinh cặp khoá Ed25519.
+2. Dựng payload: ai làm, tool nào, tham số và kết quả (**dạng hash** để không lộ nội dung), chính sách nào, khi nào.
+3. Chuẩn hoá bằng JCS, ký, gắn object chữ ký.
+4. Xác minh: bỏ chữ ký, tính lại byte chuẩn hoá, kiểm bằng khoá công khai của bên phát hành.
+
+Kết quả mong đợi:
+- `Receipt is valid: True`;
+- `Pre-hashed receipt valid: False`: một **đối chứng âm** cho quy tắc *ký thẳng byte JCS, không băm trước*;
+- `Malformed receipts rejected: True`: input hỏng trả `False`, không ném lỗi.
+
+**Phần 2: sửa receipt.**
+- Đổi `policy_id`: byte chuẩn hoá đổi, chữ ký không còn khớp, xác minh ra `False`.
+- Sửa riêng `public_key` trong object `signature`: **không** ảnh hưởng gì, vì object này không nằm trong phần được ký, và `verify_receipt` không đọc trường đó.
+- Kẻ tấn công cẩn thận hơn **ký lại bằng khoá của chính họ**: xác minh bằng khoá trong receipt ra `True`, bằng khoá thật của bên phát hành ra `False`. Ba lệnh `assert` biến điều này thành kiểm tra tự động: cell báo lỗi nếu bản giả mạo từng xác minh được với khoá thật.
+
+**Phần 3: chuỗi receipt.** Ba receipt nối bằng `previous_receipt_hash`. Sau đó sửa receipt **giữa** (đổi `tool_args_hash`, vd thời gian giữ chỗ dài hơn mức được duyệt):
+- receipt 0 vẫn hợp lệ;
+- receipt 1 **sai chữ ký**;
+- receipt 2 **đứt liên kết**, vì hash trước nó tính trên receipt 1 bản gốc.
+
+Kể cả khi kẻ tấn công ký lại receipt 1 bằng khoá của mình, chữ ký vẫn trượt với khoá thật, và liên kết ở receipt 2 vẫn lộ việc sửa.
+
+**Phần 4: tự động ký mọi tool call.** Không nên trông vào việc mỗi người viết agent nhớ gọi `make_receipt`. Class `ReceiptedTool` bọc **bất kỳ** hàm tool nào: chạy hàm, rồi tạo receipt nối vào chuỗi.
+
+```python
+class ReceiptedTool:
+    def __init__(self, name, fn, signing_key, verify_key, agent_id, policy_id):
+        self.name, self.fn, self.receipts = name, fn, []
+        ...
+    def __call__(self, *args, **kwargs):
+        result = self.fn(*args, **kwargs)
+        previous_hash = receipt_hash(self.receipts[-1]) if self.receipts else None
+        receipt = make_receipt(tool_name=self.name, tool_args={"args": list(args), "kwargs": kwargs},
+                               tool_result=result, sequence=len(self.receipts),
+                               previous_receipt_hash=previous_hash, ...)
+        self.receipts.append(receipt)
+        return result
+
+receipted_lookup = ReceiptedTool(name="lookup_flights", fn=mock_lookup_flights, ...)
+receipted_lookup(origin="SYD", destination="LAX", departure_date="2026-06-15")
+```
+
+Với Microsoft Agent Framework, bạn đăng ký hàm đã bọc làm tool cho `FoundryChatClient`. Notebook ghi phần này dưới dạng pseudocode.
+
+:::tip Lần gọi lỗi không để lại dấu vết
+`ReceiptedTool` chỉ ký **sau khi hàm chạy thành công**. Mình chép lại class này (dùng `cryptography`), gọi 3 lần, trong đó lần 2 ném `ValueError`:
+
+```text
+lỗi: unknown airport
+số receipt: 2 | chuỗi: OK
+```
+
+Chuỗi vẫn "OK", nhưng **không có dấu vết** của lần gọi thất bại. Đây đúng là điểm 6 trong danh sách "không chứng minh": sự vắng mặt của receipt không phải bằng chứng. Muốn đầy đủ hơn, hãy ký cả receipt *thất bại* (`result_hash` là hash của thông tin lỗi, thêm trường `outcome: "error"`), hoặc tách receipt *trước* và *sau* khi thực thi.
+:::
+
+**Thử thách mở rộng:** thêm trường `request_id` (UUID để truy vết phân tán), ký, xác minh, rồi sửa trường đó và thấy thất bại.
+
+**File kèm theo:**
+- `sample_receipts/`: bốn fixture `01_valid_receipt.json`, `02_tampered_receipt.json`, `03_chain_three_receipts.json`, `04_resigned_receipt.json` (bản ký lại bằng khoá kẻ tấn công), cùng script `generate_fixtures.py` sinh chúng;
+- `test_signed_receipts.py`: test tự động;
+- `18-signed-receipts.execution-receipt.json`: ghi hash notebook, môi trường Python, số cell và các kiểm tra của lần chạy sạch gần nhất.
+
+### `human-authorization-receipts.ipynb`: gắn chữ ký người duyệt vào đúng hành động
+
+Notebook kiểm tra hai tuyên bố có chữ ký:
+- một khoá **người duyệt** đã ghim ký một hành động chính xác;
+- một khoá **agent** đã ghim ký một tuyên bố mang cùng hành động đó.
+
+Nó **không** gọi provider, **không** tiêu thụ approval, **không** chứng minh việc thực thi. Khoá sinh ra chỉ đóng vai khoá đã đăng ký riêng; notebook không làm WebAuthn, không chứng minh có người thật ngồi trước máy.
+
+- **Hành động chuẩn hoá** là đơn vị được duyệt. Đó là một object đầy đủ (vd `action_type: "refund.issue"`, số tiền, đơn hàng…) và digest của nó, chứ không phải nhãn mơ hồ như "duyệt hoàn tiền". Object và digest cho phép kiểm tra khoá người duyệt đã ký *hành động nào*, nhưng không cho biết người đó đã *thấy* hay *hiểu* gì.
+- **Một envelope, hai thẩm quyền:**
+  - *approval receipt*: khoá người duyệt ký toàn bộ hành động, digest, version chính sách, thời điểm cấp và hết hạn;
+  - *agent receipt*: khoá agent ký cùng digest, kết quả tuyên bố, thời điểm, và `parent_approval_ref` (hash của approval).
+- **`verify_chain` chỉ đọc:** kiểm hai chữ ký, gắn kết hành động chuẩn hoá, độ mới của chính sách và khoá, hạn dùng. Kết quả so với hành động và **thời điểm xác minh được truyền vào** (ví dụ dùng `NOW = "2026-07-08T15:05:00Z"`).
+- **Các ca bị từ chối**, mỗi ca một lý do riêng: sửa đổi, tráo digest, chữ ký giả ở từng phía, receipt hỏng, chính sách hay khoá đã cũ, approval hết hạn. Xác minh lại nhiều lần cho cùng kết quả. Nhưng **xác minh lặp lại được không phải chống replay**: bên thực thi phải tự từ chối lần gửi trùng.
+
+**Kết luận của notebook.**
+- *Chứng minh được:* với khoá và chính sách đã ghim, khoá người duyệt đã ký đúng hành động chuẩn hoá này, và khoá agent đã ký một tuyên bố khớp, gắn với approval đó.
+- *Không chứng minh:* có người thật thấy và duyệt, khoá được bảo vệ an toàn, timestamp đáng tin, hay provider đã thực thi. Kết quả chỉ là **tuyên bố do agent ký**, không phải xác nhận của provider.
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- IETF Internet-Draft *Signed Decision Receipts for Machine-to-Machine Access Control*: <https://datatracker.ietf.org/doc/draft-farley-acta-signed-receipts/>
+- RFC 8032, Ed25519: <https://www.rfc-editor.org/rfc/rfc8032>
+- RFC 8785, JSON Canonicalization Scheme: <https://www.rfc-editor.org/rfc/rfc8785>
+- RFC 6962, Certificate Transparency (Merkle tree): <https://www.rfc-editor.org/rfc/rfc6962>
+- Bộ test vector chung: <https://github.com/ScopeBlind/agent-governance-testvectors>
+- PyNaCl: <https://pynacl.readthedocs.io/>
+
 :::quiz (Knowledge check 1) Kiểm toán viên chỉ có khoá công khai. Họ có xác minh receipt offline được không?
 - [x] Được: xác minh chỉ cần khoá công khai và phần byte đã ký; nhưng khoá phải được lấy và ghim độc lập với receipt
 - [ ] Không, phải gọi dịch vụ xác minh của bên phát hành
@@ -307,4 +407,4 @@ Dòng cuối minh hoạ đúng điều bản gốc cảnh báo: chuỗi hash ph�
 - băm chuẩn hoá hai receipt rồi nhúng digest vào receipt thứ ba, tạo một "inclusion proof" một bước.
 :::
 
-**Bài trước:** [Bài 17](/ai-agents/course/nang-cao/agent-chay-local) · Bạn đã hoàn thành khóa học. Xem [lộ trình](/ai-agents/roadmap) để ôn lại theo chặng.
+**Bài trước:** [Bài 17](/ai-agents/course/nang-cao/agent-chay-local) · **Phụ lục:** [Code mẫu .NET (C#)](/ai-agents/course/nang-cao/phu-luc-dotnet) · Bạn đã hoàn thành khóa học. Xem [lộ trình](/ai-agents/roadmap) để ôn lại theo chặng.

@@ -6,6 +6,9 @@ level: intermediate
 lastReviewed: 2026-11-17
 tags: [ai-agents, safety, security, system-prompt, human-in-the-loop]
 related: [ai-agents/course/nen-tang/nguyen-tac-thiet-ke-agent, ai-agents/course/nang-cao/bao-mat-ai-agent, claude-code/deep-dive/guardrails/sandbox-va-prompt-injection]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn

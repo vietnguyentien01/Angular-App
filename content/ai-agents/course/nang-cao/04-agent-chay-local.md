@@ -6,6 +6,9 @@ level: advanced
 lastReviewed: 2026-11-17
 tags: [ai-agents, local, slm, foundry-local, qwen, privacy]
 related: [ai-agents/course/nang-cao/deploy-agent-quy-mo-lon, ai-agents/course/cong-cu-tri-thuc/tool-use, ai-agents/course/nen-tang/cai-dat-khoa-hoc]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn
@@ -165,6 +168,114 @@ Use case thực tế:
 
 Claude Code thì chạy model trên cloud; với code nhạy cảm, hãy xem [quyền riêng tư dữ liệu](/claude-code/deep-dive/getting-started/du-lieu-va-quyen-rieng-tu) để biết dữ liệu đi đâu, rồi quyết định công cụ cho từng loại việc. Đó chính là "hybrid routing" ở cấp quy trình làm việc.
 :::
+
+## Đọc notebook từng bước: `17-local-agent-foundry-local.ipynb`
+
+Trợ lý kỹ thuật chạy **hoàn toàn trên máy**, không có lời gọi suy luận nào lên cloud. Nó làm được năm việc:
+- gọi tool qua Qwen;
+- liệt kê và đọc file trong sandbox;
+- đo metric code;
+- RAG local bằng Chroma;
+- dùng MCP local (bỏ qua nhẹ nhàng nếu chưa cấu hình).
+
+**Cell 1: chuẩn bị.**
+- Cài Foundry Local.
+- Tuỳ chọn: chạy trước `foundry model run qwen2.5-7b` (cell SDK cũng tự tải được).
+- Máy khoảng 8 GB RAM là mức tối thiểu thực tế.
+
+**Cell 3–5: nối Foundry Local.**
+
+```python
+from foundry_local_sdk import Configuration, FoundryLocalException, FoundryLocalManager
+from openai import OpenAI
+
+MODEL_ALIAS = "qwen2.5-7b"
+if FoundryLocalManager.instance is None:                 # singleton, khởi tạo một lần mỗi process
+    FoundryLocalManager.initialize(Configuration(app_name="ai_agents_for_beginners"))
+manager = FoundryLocalManager.instance
+try:
+    manager.download_and_register_eps()                  # đăng ký execution provider (vd CUDA); lỗi cũng không sao, CPU luôn chạy
+except FoundryLocalException:
+    pass
+model = manager.catalog.get_model(MODEL_ALIAS)
+if not model.is_cached:
+    model.download(progress_callback=lambda pct: print(f"\rDownloading: {pct:5.1f}%", end=""))
+model.load()
+if not manager.urls:
+    manager.start_web_service()
+client = OpenAI(base_url=manager.urls[0].rstrip("/") + "/v1", api_key="not-required")
+MODEL_ID = model.id
+```
+
+Cell 5 kiểm tra nhanh bằng một chat completion thường: *"Trong một câu, small language model là gì?"*.
+
+**Cell 6–8: tool local trong sandbox.**
+- Notebook tự tạo dự án mẫu `sample_project/`:
+  - `auth.py` có `login()` so mật khẩu dạng chữ thường và một dòng `TODO: hash the password`;
+  - `utils.py` có `clamp()`.
+- `_safe_path(path)` resolve đường dẫn rồi chỉ chấp nhận nếu nằm trong `PROJECT_ROOT`.
+- Ba tool:
+  - `list_files()`;
+  - `read_file(path)`, trả "Access denied" nếu ra ngoài sandbox;
+  - `analyze_code(path)`, trả JSON gồm số dòng, số hàm `def`, số dòng có `TODO`/`FIXME`.
+
+Mình chép lại `analyze_code` và chạy với `auth.py` của notebook: `{"lines": 8, "functions": 2, "todos": 1}`. Thử `../../etc/hostname` thì bị từ chối. (`Path.cwd()` trả đường dẫn thật đã resolve, nên `PROJECT_ROOT = Path.cwd() / "sample_project"` của notebook vẫn đúng.)
+
+**Cell 9–10: RAG local bằng Chroma.** Bốn đoạn tài liệu:
+- `auth`: so mật khẩu dạng chữ thường, nên hash;
+- `sessions`: phiên lưu trong bộ nhớ, mất khi restart;
+- `utils`: `clamp` dùng ở tầng UI;
+- `style`: PEP 8, snake_case, docstring đầu module.
+
+`chromadb.Client()` chạy trong process. Chroma kèm sẵn model embedding mặc định chạy local, nên embedding không rời máy. `search_docs(query)` trả 2 đoạn gần nhất.
+
+**Cell 11–13: vòng tool calling.** Tool khai báo bằng schema kiểu OpenAI (`TOOLS_SCHEMA`) và ánh xạ tên sang hàm (`TOOL_IMPL`). System prompt: *"trợ lý kỹ thuật local; ưu tiên gọi tool hơn đoán; ngắn gọn"*.
+
+```python
+def run_agent(user_query: str, max_iterations: int = 5) -> str:
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": user_query}]
+    for _ in range(max_iterations):
+        msg = client.chat.completions.create(model=MODEL_ID, messages=messages, tools=TOOLS_SCHEMA).choices[0].message
+        if not msg.tool_calls:
+            return msg.content or "(no answer)"
+        messages.append({"role": "assistant", "content": msg.content,
+                         "tool_calls": [tc.model_dump() for tc in msg.tool_calls]})
+        for tc in msg.tool_calls:
+            args = json.loads(tc.function.arguments or "{}")
+            result = TOOL_IMPL[tc.function.name](**args) if tc.function.name in TOOL_IMPL else f"Unknown tool: {tc.function.name}"
+            messages.append({"role": "tool", "tool_call_id": tc.id, "content": str(result)})
+    return "Stopped: reached max tool-calling iterations."
+```
+
+Đây là **Chat Completions API** (Foundry Local không có Responses API), nên định dạng khác Bài 4: `role: "tool"` + `tool_call_id`, thay vì `function_call_output` + `call_id`. Ý tưởng thì giống hệt.
+
+:::tip Một chỗ nên gia cố
+Model nhỏ đôi khi sinh `arguments` hỏng JSON, hoặc sai tên tham số. Khi đó `json.loads` hay `TOOL_IMPL[name](**args)` **ném exception và làm sập cả vòng lặp**. Hãy bọc trong `try/except` và trả `{"error": ...}` về cho model tự sửa, như lời giải bài tập ở Bài 4.
+:::
+
+**Cell 14–16: ba câu hỏi thử**, mỗi câu buộc agent dùng một kiểu tool: một câu đọc file, một câu RAG, một câu phân tích code.
+
+**Cell 17–18: MCP local (tuỳ chọn).** Đọc biến `LOCAL_MCP_COMMAND`, vd `npx -y @modelcontextprotocol/server-filesystem ./sample_project`. Không có thì bỏ qua. Có thì nối qua `stdio` và liệt kê tool của server:
+
+```python
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+params = StdioServerParameters(command=parts[0], args=parts[1:])
+async with stdio_client(params) as (read, write):
+    async with ClientSession(read, write) as session:
+        await session.initialize()
+        tools = await session.list_tools()
+```
+
+Để ý ví dụ đã **giới hạn server filesystem trong `./sample_project`**, đúng lời khuyên bảo mật của bài.
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- Foundry Local: <https://learn.microsoft.com/azure/ai-foundry/foundry-local/>
+- Qwen function calling: <https://qwen.readthedocs.io/en/latest/framework/function_call.html>
+- Chroma: <https://docs.trychroma.com/>
+- Model Context Protocol: <https://modelcontextprotocol.io/>
 
 :::quiz (Knowledge check 2) Nên chia việc giữa SLM và tool thế nào trong agent local?
 - [ ] SLM tự làm mọi thứ, tool chỉ để dự phòng

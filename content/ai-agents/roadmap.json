@@ -90,11 +90,13 @@
         "ai-agents/course/nang-cao/browser-use",
         "ai-agents/course/nang-cao/deploy-agent-quy-mo-lon",
         "ai-agents/course/nang-cao/agent-chay-local",
-        "ai-agents/course/nang-cao/bao-mat-ai-agent"
+        "ai-agents/course/nang-cao/bao-mat-ai-agent",
+        "ai-agents/course/nang-cao/phu-luc-dotnet"
       ],
       "practice": [
         "Làm assignment bài 16 (agent hỗ trợ thanh toán SaaS) nếu có Azure",
-        "Chạy Foundry Local với Qwen trên máy cá nhân cho bài 17"
+        "Chạy Foundry Local với Qwen trên máy cá nhân cho bài 17",
+        "Nếu làm .NET: chạy một mẫu C# bằng dotnet run (Phụ lục .NET)"
       ],
       "milestone": "Chuỗi receipt phát hiện được xoá giữa và đảo thứ tự, và bạn giải thích được vì sao cắt đuôi cần chain head đã ghim."
     }

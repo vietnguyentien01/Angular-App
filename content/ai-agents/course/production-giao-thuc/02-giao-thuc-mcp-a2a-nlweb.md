@@ -6,6 +6,9 @@ level: intermediate
 lastReviewed: 2026-11-17
 tags: [ai-agents, mcp, a2a, nlweb, protocols]
 related: [ai-agents/course/cong-cu-tri-thuc/tool-use, ai-agents/course/ke-hoach-da-agent/multi-agent, claude-code/deep-dive/extending/mcp-va-plugin]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn

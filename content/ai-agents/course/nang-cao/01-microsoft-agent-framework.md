@@ -6,6 +6,9 @@ level: advanced
 lastReviewed: 2026-11-17
 tags: [ai-agents, microsoft-agent-framework, middleware, workflow, langgraph]
 related: [ai-agents/course/nen-tang/kham-pha-agent-framework, ai-agents/course/ke-hoach-da-agent/multi-agent, claude-code/deep-dive/extending/hooks-thuc-chien]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn

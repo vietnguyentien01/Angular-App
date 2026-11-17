@@ -6,6 +6,9 @@ level: intermediate
 lastReviewed: 2026-11-17
 tags: [ai-agents, multi-agent, orchestration, workflow, hand-off]
 related: [ai-agents/course/ke-hoach-da-agent/planning-design, ai-agents/course/nang-cao/microsoft-agent-framework, claude-code/labs/labs/workflow-nhieu-agent]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn
@@ -210,7 +213,7 @@ workflow = (WorkflowBuilder(start_executor=evangelist_agent, output_executors=[h
 - `response_format` của evangelist và reviewer bị comment, nên dựa vào instructions "trả JSON". Model trả sai định dạng thì `model_validate_json` ném lỗi.
 :::
 
-Bản .NET của cả bốn workflow nằm ở `workflows-agent-framework/dotNET/`; xem bài Phụ lục .NET.
+Bản .NET của cả bốn workflow nằm ở `workflows-agent-framework/dotNET/`; xem [Phụ lục .NET](/ai-agents/course/nang-cao/phu-luc-dotnet).
 
 ## Tài liệu tham khảo (theo bản gốc)
 

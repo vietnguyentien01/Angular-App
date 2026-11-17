@@ -6,6 +6,9 @@ level: intermediate
 lastReviewed: 2026-11-17
 tags: [ai-agents, rag, agentic-rag, retrieval, maker-checker]
 related: [ai-agents/course/cong-cu-tri-thuc/tool-use, ai-agents/course/ke-hoach-da-agent/metacognition, ai-agents/course/production-giao-thuc/context-engineering]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn
@@ -182,7 +185,7 @@ Bản .NET (`05-dotnet-agent-framework`) nạp file `document.md` mô tả công
 - điểm đến nổi bật: Maldives, Swiss Alps, safari châu Phi;
 - khách sạn boutique và tour riêng.
 
-Xem bài Phụ lục .NET.
+Xem [Phụ lục .NET](/ai-agents/course/nang-cao/phu-luc-dotnet).
 
 ### Smoke test gốc (`tests/lesson-05-smoke-tests.json`)
 

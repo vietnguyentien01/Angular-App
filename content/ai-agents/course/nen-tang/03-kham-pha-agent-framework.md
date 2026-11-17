@@ -6,6 +6,9 @@ level: core
 lastReviewed: 2026-11-17
 tags: [ai-agents, framework, microsoft-agent-framework, foundry-agent-service]
 related: [ai-agents/course/nen-tang/gioi-thieu-ai-agent, ai-agents/course/nang-cao/microsoft-agent-framework, claude-code/deep-dive/automation/agent-sdk-nhap-mon]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn

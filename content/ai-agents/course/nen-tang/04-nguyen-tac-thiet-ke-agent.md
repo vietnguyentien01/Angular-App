@@ -6,6 +6,9 @@ level: core
 lastReviewed: 2026-11-17
 tags: [ai-agents, ux, design-principles, trust]
 related: [ai-agents/course/nen-tang/kham-pha-agent-framework, ai-agents/course/cong-cu-tri-thuc/xay-agent-dang-tin-cay]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn

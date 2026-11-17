@@ -6,6 +6,9 @@ level: core
 lastReviewed: 2026-11-17
 tags: [ai-agents, setup, microsoft-foundry, python, azure]
 related: [ai-agents/course/nen-tang/gioi-thieu-ai-agent]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn
@@ -189,6 +192,71 @@ truststore.inject_into_ssl()
 :::danger Đừng tắt kiểm tra SSL ở production
 `connection_verify=False` bỏ qua xác thực chứng chỉ. Chỉ dùng tạm khi dev, và ưu tiên hai cách đầu.
 :::
+
+## Phụ lục: thiết lập Azure AI Search (`AzureSearch.md`)
+
+Chỉ cần nếu bạn muốn chạy bài 5 hoặc bài 16 trên **index thật** thay vì knowledge base trong bộ nhớ.
+
+**Yêu cầu:** một Azure subscription (có thể dùng tài khoản miễn phí).
+
+**Bước 1: tạo Storage Account** loại *Standard General Purpose V2*, theo hướng dẫn *Create an Azure storage account*.
+
+**Bước 2: tạo dịch vụ Azure AI Search.**
+1. Đăng nhập Azure portal, chọn **Create a resource**, tìm "Azure AI Search", bấm **Create**.
+2. Tab **Basics**: chọn subscription, resource group (mới hoặc có sẵn), tên dịch vụ duy nhất, region gần người dùng, pricing tier (thử nghiệm thì dùng **Free**).
+3. Chọn **Review + create**, rồi **Create**.
+
+**Bước 3: bắt đầu dùng.**
+- Mở dịch vụ, copy URL dạng `https://<ten-dich-vu>.search.windows.net`.
+- **Khuyên dùng:** bật truy cập không cần key bằng Entra ID (RBAC). Các mẫu code tạo, cập nhật index và upload tài liệu cần hai role **Search Service Contributor** và **Search Index Data Contributor**. Nếu buộc phải dùng key, cần **primary admin key** (không phải query key), lấy ở **Settings > Keys**.
+- Có thể theo *Quickstart* trên portal để tạo index, upload dữ liệu và tìm thử.
+
+**Bước 4: dùng qua Azure CLI.**
+
+```bash
+az login
+# Khuyên dùng: không dùng key, phân quyền RBAC
+az search service update --name <ten-dich-vu> --resource-group <rg> --auth-options aadOrApiKey
+az role assignment create --assignee <id-cua-ban> --role "Search Service Contributor" \
+  --scope $(az search service show -g <rg> -n <ten-dich-vu> --query id -o tsv)
+az role assignment create --assignee <id-cua-ban> --role "Search Index Data Contributor" \
+  --scope $(az search service show -g <rg> -n <ten-dich-vu> --query id -o tsv)
+# lệnh show không có trường "endpoint", tự ghép URL từ tên dịch vụ
+export AZURE_SEARCH_SERVICE_ENDPOINT="https://<ten-dich-vu>.search.windows.net"
+
+# Dự phòng (chỉ khi không dùng được RBAC): lưu thêm admin key
+export AZURE_SEARCH_API_KEY=$(az search admin-key show -g <rg> --service-name <ten-dich-vu> --query "primaryKey" -o tsv)
+```
+
+**Python SDK: tạo index và upload tài liệu.**
+
+```python
+# pip install azure-search-documents azure-identity
+import os
+from azure.identity import DefaultAzureCredential
+from azure.search.documents import SearchClient
+from azure.search.documents.indexes import SearchIndexClient
+from azure.search.documents.indexes.models import SearchIndex, SimpleField, edm
+
+service_endpoint = os.getenv("AZURE_SEARCH_SERVICE_ENDPOINT")
+index_name = "sample-index"
+credential = DefaultAzureCredential()     # dùng phiên az login; dự phòng: AzureKeyCredential(AZURE_SEARCH_API_KEY)
+
+index_client = SearchIndexClient(service_endpoint, credential)
+fields = [
+    SimpleField(name="id", type=edm.String, key=True),
+    SimpleField(name="content", type=edm.String, searchable=True),
+]
+index_client.create_index(SearchIndex(name=index_name, fields=fields))
+
+search_client = SearchClient(service_endpoint, index_name, credential)
+search_client.upload_documents([{"id": "1", "content": "Hello world"},
+                                {"id": "2", "content": "Azure Cognitive Search"}])
+```
+
+Với trường cần tìm full-text, thư viện có lớp `SearchableField` dành riêng. Nếu tìm theo `content` không ra kết quả, hãy kiểm tra trường này trong index đã được đánh dấu *searchable* trên portal chưa.
+
+**.NET:** `dotnet run ./AzureSearch.cs` làm cùng việc. File dùng chỉ thị `#:package Azure.Search.Documents@11.*` và `#:package Azure.Identity` của .NET 10 để chạy một file `.cs` đơn lẻ, xác thực bằng `DefaultAzureCredential`. Xem [Phụ lục .NET](/ai-agents/course/nang-cao/phu-luc-dotnet).
 
 :::quiz Notebook của khóa học xác thực với Microsoft Foundry bằng cách nào theo mặc định?
 - [ ] Đặt `AZURE_API_KEY` trong `.env`

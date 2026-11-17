@@ -6,6 +6,9 @@ level: intermediate
 lastReviewed: 2026-11-17
 tags: [ai-agents, memory, mem0, cognee, personalization]
 related: [ai-agents/course/production-giao-thuc/context-engineering, ai-agents/course/cong-cu-tri-thuc/agentic-rag, claude-code/review/memory/claude-md-ngan-gon]
+changelog:
+  - date: 2026-11-17
+    note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
 ---
 
 :::note Nguồn
