@@ -152,6 +152,100 @@ Target audience analysis   -> low      ("get" là chuỗi con của "target"!)
 Claude Code làm theo cách đó: permission rule viết theo tên tool và pattern lệnh.
 :::
 
+## Đọc notebook từng bước
+
+### `06-system-message-framework.ipynb`: sinh system message bằng meta prompt
+
+Notebook này gọi thẳng **Azure OpenAI Responses API** qua endpoint `/openai/v1/`, không qua project Foundry. Cần `AZURE_OPENAI_ENDPOINT` và `AZURE_OPENAI_DEPLOYMENT` (Bài 0).
+
+**Cell 0–1: xác thực không dùng key.** Token lấy từ `az login` qua `get_bearer_token_provider`; OpenAI SDK nhận **hàm** cấp token thay cho API key.
+
+```python
+token_provider = get_bearer_token_provider(DefaultAzureCredential(),
+                                           "https://cognitiveservices.azure.com/.default")
+client = OpenAI(base_url=f"{endpoint.rstrip('/')}/openai/v1/", api_key=token_provider)
+```
+
+**Cell 2–3: bước 1–3 của framework trong một lần gọi.** Ba biến `role`, `company`, `responsibility` tạo prompt cơ bản. Meta system message đi ở vai trò `system`.
+
+```python
+role, company, responsibility = "travel agent", "contoso travel", "booking flights"
+response = client.responses.create(
+    model=deployment,
+    input=[
+        {"role": "system", "content": "You are an expert at creating AI agent assistants. ..."},
+        {"role": "user", "content": f"You are {role} at {company} that is responsible for {responsibility}."},
+    ],
+    temperature=1.0, max_output_tokens=1000, top_p=1.0, store=False,
+)
+print(response.output_text)        # system message có cấu trúc, như ví dụ Contoso ở trên
+```
+
+Đổi ba biến này là có system message cho agent khác: đúng ý "mở rộng được" của framework.
+
+### `06-human-in-the-loop.ipynb`: cổng duyệt trước hành động, phân tầng rủi ro, audit log
+
+Đoạn `APPROVE/REJECT` trong bài hỏi người dùng **sau khi** agent đã trả lời. Bản production thường cần thêm ba thứ:
+
+**Mẫu 1: cổng duyệt *trước* hành động (pre-action gate).**
+
+| | Duyệt sau (đoạn code trong bài) | Cổng trước (notebook) |
+|---|---|---|
+| Duyệt lúc nào | Sau khi agent đã tạo output | Trước khi có tác dụng phụ |
+| Chi phí LLM khi bị từ chối | Đã trả | Chỉ trả cho *đề xuất*, không cho hành động |
+| Tác dụng phụ không hoàn tác được | Có thể đã xảy ra (email đã gửi) | Được chặn |
+| Rõ ràng khi audit | Chỉ là một lệnh `print` | Bản ghi JSON có thời gian, hành động, lý do |
+
+Hàm `gate_action(action, risk_tier, attempt)` trả về `approve`, `deny` hoặc `escalate`. Không có input, hoặc input sai, thì mặc định **`deny`**.
+
+Ở `DEMO_MODE = True`, notebook chạy không cần nhập tay: hành động `high` bị từ chối ở lần 0 và **được duyệt theo kịch bản** ở lần 1, chỉ để thấy cơ chế vòng lặp. Notebook nói rõ đây **không phải** phân loại lại dựa trên bản sửa. Muốn thật thì đặt `DEMO_MODE = False` và cần người vận hành.
+
+**Mẫu 2: phân tầng rủi ro.**
+
+| Tầng | Ví dụ | Luồng duyệt |
+|---|---|---|
+| `low` (chỉ đọc) | Tìm knowledge base, tra chuyến bay, đọc trang web công khai | Tự chạy, có log |
+| `medium` (thay đổi rẻ) | Cache kết quả, tăng bộ đếm, đặt lời nhắc | Tự chạy, review gộp hằng ngày |
+| `high` (ra ngoài hoặc không hoàn tác) | Gửi email, trừ tiền thẻ, đăng lên kênh công khai | **Chặn chờ người duyệt** |
+
+Bộ phân loại dùng từ khoá để demo tất định và rẻ. Ở production, thay bằng bộ phân loại học máy hoặc **policy engine**. (Mục *Cổng duyệt trước hành động* ở trên đã chạy thử hàm này và chỉ ra lỗi so chuỗi con.)
+
+**Mẫu 3: audit log và vòng sửa đề xuất.**
+- **JSONL chỉ ghi thêm:** mỗi quyết định một dòng gồm timestamp, hành động, tầng, quyết định, lý do. Dễ grep, dễ đẩy sang kho log thật. Mỗi lần chạy ghi một file có timestamp riêng, không đụng log cũ.
+- **Vòng sửa khi bị từ chối:** `propose_action(goal, prior_rejection)` nhờ LLM đề xuất **một** hành động. Bị `deny` thì lý do được đưa lại vào prompt để lần sau đề xuất khác.
+
+```python
+def run_with_revision(goal: str, max_revisions: int = 2) -> dict:
+    prior_reason = None
+    for attempt in range(max_revisions + 1):
+        action = propose_action(goal, prior_rejection=prior_reason)
+        decision = tiered_gate(action, attempt=attempt)
+        decision["attempt"] = attempt
+        log_decision(decision)
+        if decision["decision"] == "approve":
+            return decision
+        prior_reason = decision["reason"]
+    return {**decision, "final": "max_revisions_reached"}
+```
+
+**Demo cuối:** ba mục tiêu ở ba mức rủi ro:
+- xem thời tiết Seattle (thấp);
+- đặt lời nhắc check-in trước 24 giờ (trung bình);
+- gửi email marketing về gói nâng cấp (cao).
+
+Sau đó in audit log. Vì tầng được tính từ **câu đề xuất do LLM viết**, kết quả mỗi lần chạy có thể khác nhau.
+
+**Tài liệu thêm trong notebook:** ba cách hiện thực cùng ý tưởng:
+- LangChain bọc thành **tool** chờ người nhập;
+- AutoGen dùng **agent đại diện người** (`UserProxyAgent`);
+- Microsoft Agent Framework dùng **function-invocation middleware** (Bài 14).
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- Responsible AI overview: <https://learn.microsoft.com/azure/ai-studio/responsible-use-of-ai-overview>
+- Evaluation of generative AI models and applications: <https://learn.microsoft.com/azure/ai-studio/concepts/evaluation-approach-gen-ai>
+- Safety system messages: <https://learn.microsoft.com/azure/ai-services/openai/concepts/system-message>
+
 :::quiz Theo khóa học, cách nào giúp chống tấn công đổi chỉ dẫn (task and instruction)? (chọn nhiều)
 - [x] Validate và lọc input trước khi agent xử lý
 - [x] Giới hạn số lượt hội thoại

@@ -141,6 +141,70 @@ Mình chạy riêng hàm tìm kiếm (không cần model) với vài truy vấn:
 
 Tìm theo từ khoá đơn giản rất "ồn": từ ngắn như `a`, `in` khớp mọi đoạn văn, còn `April` lại không khớp `Apr`. Đây chính là lý do cần vòng **đánh giá và truy vấn lại**: agent checker tìm lần hai bằng tên điểm đến cụ thể và so số liệu, thay vì tin kết quả lần đầu.
 
+## Đọc notebook từng bước: `05-python-agent-framework.ipynb`
+
+Toàn bộ code của notebook đã nằm ở mục "Code mẫu: RAG agent và checker agent" phía trên. Phần này nối từng cell với khái niệm.
+
+**Cell 1–4: cài đặt và tạo client.** Cần `AZURE_AI_PROJECT_ENDPOINT` và `AZURE_AI_MODEL_DEPLOYMENT_NAME`; dùng `DefaultAzureCredential`.
+
+**Cell 5 (lý thuyết):** RAG truyền thống là đường ống cố định: truy xuất rồi sinh câu trả lời. Agentic RAG cho agent tự quyết **khi nào** và **cách nào** truy xuất:
+- quyết định có cần truy xuất không;
+- chọn nguồn;
+- tinh chỉnh truy vấn;
+- tổng hợp nhiều lần truy xuất.
+
+**Cell 6–7: biến nguồn dữ liệu thành tool.** Truy xuất chỉ là **một hành động** agent có thể làm, không phải bước bắt buộc. `TRAVEL_KNOWLEDGE_BASE` gồm 4 điểm đến, bọc trong tool `search_travel_knowledge`.
+
+**Cell 8–9: RAG agent.** Instructions yêu cầu:
+- *luôn* tìm trước khi trả lời;
+- dựa trên dữ liệu tìm được;
+- nói rõ khi knowledge base không có thông tin.
+
+Câu hỏi: "nơi nào có kiến trúc đẹp?".
+
+**Cell 10–11: truy xuất lặp, mẫu maker-checker.**
+1. **Maker:** truy xuất ban đầu và soạn câu trả lời.
+2. **Checker:** truy xuất thêm để xác minh chi tiết hoặc lấp chỗ trống.
+
+`TravelRAGCheckerAgent` tìm theo chủ đề, rồi tìm lại theo **tên từng điểm đến**, so sánh, và tìm thêm nếu chi tiết còn thiếu. Câu hỏi thử: *ngân sách 175 USD/ngày, đi tháng 4*. Theo dữ liệu, Barcelona (150–200, đẹp nhất Mar–May) là ứng viên duy nhất khớp cả ngân sách lẫn thời điểm. Một agent cẩn thận sẽ chỉ ra rằng Tokyo và Paris đẹp vào tháng 4 nhưng vượt ngân sách.
+
+**Cell 12 (tổng kết):**
+- agent tự quyết khi nào truy xuất;
+- nguồn dữ liệu (như Azure AI Search) được bọc thành tool;
+- truy xuất lặp giúp câu trả lời đúng hơn.
+
+### Bản .NET dùng tài liệu riêng
+
+Bản .NET (`05-dotnet-agent-framework`) nạp file `document.md` mô tả công ty giả định **Contoso Travel**:
+- tour cao cấp tới điểm đến xa xôi;
+- lên lịch trình cá nhân, hỗ trợ 24/7;
+- bảo hiểm cấp cứu y tế, huỷ chuyến, mất hành lý;
+- điểm đến nổi bật: Maldives, Swiss Alps, safari châu Phi;
+- khách sạn boutique và tour riêng.
+
+Xem bài Phụ lục .NET.
+
+### Smoke test gốc (`tests/lesson-05-smoke-tests.json`)
+
+Kiểm tra agent `TravelRAGAgent` đã deploy **bám dữ liệu**:
+
+| Prompt | Kỳ vọng |
+|---|---|
+| "When is the best time to visit Tokyo?" | chứa "Mar", "cherry blossom" hoặc "Oct" |
+| "Roughly how much does a day in Cape Town cost?" | chứa "100", "150" hoặc "$" |
+| "What is Barcelona known for?" | chứa "Gaudí", "La Rambla" hoặc "beaches" |
+| Hỏi chi phí một ngày ở thành phố **hư cấu** "Zↄrblax" | **không được** chứa "Average daily cost: $" |
+
+Ca cuối kiểm tra agent **không bịa** khi knowledge base không có dữ liệu.
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- Implement RAG with Azure OpenAI Service (Microsoft Learn): <https://learn.microsoft.com/training/modules/use-own-data-azure-openai/>
+- Evaluation of generative AI applications with Microsoft Foundry: <https://learn.microsoft.com/azure/ai-foundry/concepts/evaluation-approach-gen-ai>
+- What is Agentic RAG, Weaviate: <https://weaviate.io/blog/what-is-agentic-rag>
+- Agentic RAG with query reformulation, Hugging Face Cookbook: <https://huggingface.co/learn/cookbook/agent_rag>
+- Bài báo: *Self-Refine* (arXiv 2303.17651), *Reflexion* (2303.11366), *CRITIC* (2305.11738), *Agentic RAG: A Survey* (2501.09136)
+
 :::quiz Điều gì phân biệt Agentic RAG với RAG truyền thống?
 - [ ] Agentic RAG dùng vector database, RAG thường thì không
 - [x] Agentic RAG tự quyết chuỗi bước truy xuất: đánh giá kết quả, viết lại truy vấn, đổi tool và lặp tới khi đủ

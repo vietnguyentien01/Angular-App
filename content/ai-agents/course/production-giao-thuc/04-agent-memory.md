@@ -147,6 +147,104 @@ Memory dài hạn chứa sở thích, sức khoẻ ("dị ứng hạt"), tình t
 Trong Claude Code, `CLAUDE.md` là long-term memory bạn **đọc và sửa được**, `/memory` để xem. Đó là thiết kế minh bạch đáng học.
 :::
 
+## Đọc notebook từng bước
+
+### `13-agent-memory.ipynb`: session và kho sở thích
+
+Các cell chính đã có ở mục "Short-term memory" và "Long-term memory bằng tool" phía trên. Trình tự đầy đủ:
+
+1. **Cài đặt, tạo client.**
+2. **Working memory bằng session:**
+   - `TravelMemoryAgent` nhớ ngân sách 3.000 USD trong **cùng** session;
+   - **session mới** thì không biết gì.
+3. **Kho sở thích lâu dài giả lập** `preference_store` cùng ba tool:
+   - `save_preference`;
+   - `get_preferences`;
+   - `search_hotels`, với 5 khách sạn: Le Meurice Paris, Four Seasons Maui, Aman Tokyo, Hotel Sacher Vienna, Fairmont Whistler.
+4. **Kịch bản 1, Sarah lần đầu:** kỷ niệm 10 năm cưới, lãng mạn, spa, cần chỗ ở tiếp cận được, 700–800 USD/đêm. Sau đó báo ăn chay và **dị ứng hạt nặng**. Cell 15 in nội dung kho để kiểm tra agent đã lưu gì.
+5. **Kịch bản 2, Sarah quay lại vài tuần sau** (session mới, working memory trống): agent đọc kho dài hạn để gợi ý; sau đó hỏi tiếp hoạt động cho trẻ em ở Maui.
+
+**Bảng tổng kết của notebook:**
+
+| Loại memory | Cơ chế trong MAF | Vòng đời |
+|---|---|---|
+| Working | `agent.create_session()` | Một cuộc hội thoại |
+| Short-term | Ngữ cảnh tích luỹ trong thread | Một task hoặc phiên |
+| Long-term | Kho ngoài, truy cập qua hàm `@tool` | Xuyên phiên |
+
+### `13-agent-memory-cognee.ipynb`: trợ lý lập trình có memory dạng knowledge graph
+
+Notebook dựng **trợ lý lập trình** dùng **Cognee** làm memory dài hạn.
+
+| Loại memory | Cơ chế | Vòng đời |
+|---|---|---|
+| Working | `agent.create_session()` (MAF) | Một cuộc hội thoại |
+| Short-term | Cache phiên của Cognee (Redis) | Một phiên |
+| Long-term | Knowledge graph + vector của Cognee | Lâu dài |
+
+Kiến trúc Cognee: dữ liệu thô (hồ sơ dev, tài liệu, hội thoại) → `cognify()` trích thực thể và quan hệ, tạo embedding → graph + vector → `search()` truy xuất lai.
+
+**Cell 3–7: cài đặt.**
+- Biến `LLM_API_KEY` cho Cognee, `CACHING=true`.
+- Tạo `FoundryChatClient`.
+- Cấu hình thư mục `.data_storage` và `.cognee_system`; `prune_data()` và `prune_system()` để **xoá sạch dữ liệu cũ** trước khi chạy.
+
+**Cell 8–10: phần 1, xây knowledge base từ ba nguồn.**
+- **Hồ sơ developer:** kỹ sư AI/Backend, FastAPI + Pydantic, asyncio/aiohttp, pytest-asyncio, từng deploy trên AWS, Azure, Google Cloud.
+- **Zen of Python bản thực hành:** đẹp hơn xấu, tường minh hơn ngầm định, đơn giản hơn phức tạp, phẳng hơn lồng nhau; kèm type hint, context manager, dataclass.
+- **Hội thoại cũ** về asyncio (semaphore giới hạn đồng thời, connection pooling), dataclass hay Pydantic (API thì chọn Pydantic), test async (pytest-asyncio), xử lý lỗi và log tập trung.
+
+```python
+await cognee.add(developer_intro, node_set=["developer_data"])
+await cognee.add(human_agent_conversations, node_set=["developer_data"])
+await cognee.add(python_zen_principles, node_set=["principles_data"])
+await cognee.cognify()          # dựng knowledge graph
+```
+
+`node_set` gắn nhãn nhóm, để sau này tìm **chỉ trong một nhóm**.
+
+**Cell 11–14: trực quan hoá và làm giàu memory.**
+- `visualize_graph('./cognee_graph.html')` xuất graph tương tác để mở bằng trình duyệt.
+- `memify()` phân tích graph, sinh "luật" (pattern, best practice, quan hệ giữa khái niệm).
+
+**Cell 15–17: phần 2, agent MAF dùng Cognee qua tool.**
+
+```python
+@tool(approval_mode="never_require")
+async def search_knowledge(query: Annotated[str, "Natural-language question to search the knowledge graph"]) -> str:
+    """Search the Cognee knowledge graph for relevant developer knowledge, best practices, and past conversations."""
+    results = await cognee.search(query_text=query, query_type=SearchType.GRAPH_COMPLETION)
+    return str(results) if results else "No relevant knowledge found."
+
+@tool(approval_mode="never_require")
+async def search_principles(query: Annotated[str, "Question about Python principles or best practices"]) -> str:
+    """Search only the Python principles subset of the knowledge graph."""
+    from cognee.modules.engine.models.node_set import NodeSet
+    results = await cognee.search(query_text=query, query_type=SearchType.GRAPH_COMPLETION,
+                                  node_type=NodeSet, node_name=["principles_data"])
+    return str(results) if results else "No relevant principles found."
+```
+
+`CodingAssistant` được dặn:
+- dùng `search_knowledge()` cho câu hỏi chung, `search_principles()` cho câu về nguyên tắc Python;
+- kết hợp với hiểu biết riêng;
+- nhắc tới stack của developer (FastAPI, asyncio, Pydantic).
+
+**Cell 18–23: working memory và long-term memory cùng lúc.**
+- Session 1: hỏi về "AsyncWebScraper của tôi có hợp nguyên tắc Python không", rồi hỏi tiếp "dựa trên câu trả lời vừa rồi…" (dùng working memory).
+- Session 2 (mới): hỏi hướng dẫn log cho incident review, và cách đặt tên biến. Graph vẫn còn nên agent vẫn trả lời được.
+
+:::warning Hai điều nên sửa khi chạy notebook Cognee
+- Giống notebook chính, `coding_agent = provider.as_agent(...)` **không truyền** `tools=[search_knowledge, search_principles]`. Instructions bảo dùng tool nhưng agent không có tool nào, nên câu trả lời chỉ dựa trên kiến thức sẵn có của model. Thêm `tools=[...]` vào lời gọi.
+- `prune_data()` và `prune_system()` **xoá toàn bộ** memory Cognee trong thư mục cấu hình. Hợp cho demo, nhưng đừng chạy cell này trên dữ liệu thật.
+:::
+
+## Tài liệu tham khảo
+
+- Mem0: <https://mem0.ai/>
+- Cognee: <https://www.cognee.ai/>
+- Azure AI Search: <https://learn.microsoft.com/azure/search/>
+
 :::quiz Người dùng hỏi "Vé đi Paris bao nhiêu?" rồi "Còn chỗ ở ở đó?". Loại memory nào giúp agent hiểu "ở đó" là Paris?
 - [ ] Long-term memory
 - [x] Short-term memory (trong cùng phiên, như `AgentSession` của MAF)

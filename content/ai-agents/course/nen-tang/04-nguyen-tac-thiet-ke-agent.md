@@ -128,6 +128,63 @@ def get_destination_details(
     ...
 ```
 
+## Đọc notebook từng bước: `03-python-agent-framework.ipynb`
+
+Notebook áp ba design pattern vào một agent gợi ý du lịch.
+
+**Cell 2–4: cài đặt và tạo client.**
+- Cài `agent-framework azure-ai-projects azure-identity pydantic python-dotenv`.
+- Kiểm tra hai biến môi trường, tạo `FoundryChatClient` với `DefaultAzureCredential()`.
+
+**Pattern 1: instructions rõ ràng (cell 5).** Agent `TravelConcierge` (tên "Alex") có vai trò, quy trình 4 bước và giọng điệu được nêu từ đầu:
+1. hiểu sở thích;
+2. kiểm tra còn chỗ trước khi gợi ý;
+3. gợi ý chi tiết, cá nhân hoá;
+4. luôn nhắc visa và mùa đẹp nhất.
+
+Câu hỏi thử: *"một tuần nghỉ có đồ ăn ngon và lịch sử, ngân sách khoảng 2.500 USD"*.
+
+**Pattern 2: output có cấu trúc bằng Pydantic (cell 6–7).** Văn bản tự do hợp cho hội thoại, nhưng hệ thống hạ nguồn cần dữ liệu có cấu trúc. Model `DestinationRecommendation` (điểm đến, còn chỗ, mùa đẹp, điểm nổi bật, ngân sách ước tính) và `TravelRecommendations` (danh sách gợi ý + ghi chú cá nhân). Tool `get_destination_details` trả về chính object Pydantic. Barcelona, Tokyo còn chỗ; Cape Town hết chỗ; điểm lạ trả `available=False`, `best_season="Unknown"`.
+
+Mấu chốt là truyền **`response_format`** khi chạy, để **buộc** model trả object đã validate:
+
+```python
+response = await structured_agent.run(
+    "Recommend 3 destinations for a culture-loving traveler with a $2500 budget",
+    options={"response_format": TravelRecommendations},
+)
+if response and response.value:
+    result: TravelRecommendations = response.value      # object Pydantic, không phải chuỗi
+    for rec in result.recommendations:
+        print(rec.destination, "Available" if rec.available else "Not available", rec.best_season)
+else:
+    print("No validated structured response was returned.")
+```
+
+Nhánh `else` xử lý trường hợp model không trả được object hợp lệ. Đừng giả định lúc nào cũng có `response.value`.
+
+**Pattern 3: agent một trách nhiệm (cell 8–9).** Chia việc phức tạp cho nhiều agent hẹp, theo nguyên tắc *separation of concerns*:
+- `DestinationExpert` chỉ đánh giá điểm đến, kiểm tra còn chỗ, trả danh sách xếp hạng kèm ưu/nhược. Instructions ghi rõ **"KHÔNG bàn chuyện vé, khách sạn"**.
+- `LogisticsPlanner` chỉ lập lịch trình từng ngày, gợi ý vé và khách sạn trong ngân sách, nhắc visa và bảo hiểm. Instructions ghi rõ **"KHÔNG gợi ý điểm đến"**.
+
+Bước 1 chạy `DestinationExpert`. Bước 2 truyền kết quả bước 1 vào prompt của `LogisticsPlanner`.
+
+**Cell 10 (tổng kết):**
+
+| Pattern | Ý chính | Lợi ích |
+|---|---|---|
+| Instructions rõ ràng | Nêu persona, trách nhiệm, ràng buộc từ đầu | Hành vi nhất quán |
+| Output có cấu trúc | Model Pydantic làm `response_format` | Kết quả đã validate, máy đọc được |
+| Một trách nhiệm | Mỗi agent một việc | Dễ test, bảo trì, ghép nối |
+
+Ba pattern ghép được với nhau: một agent hẹp vẫn có thể có instructions rõ và output có cấu trúc.
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- *Practices for Governing Agentic AI Systems*, OpenAI: <https://openai.com/index/practices-for-governing-agentic-ai-systems/>
+- The HAX Toolkit Project, Microsoft Research: <https://www.microsoft.com/en-us/haxtoolkit/>
+- Responsible AI Toolbox: <https://responsibleaitoolbox.ai/>
+
 :::quiz Nguyên tắc "con người quyết định khi nào agent bật/tắt, trạng thái agent luôn hiển thị rõ" thuộc trục nào?
 - [ ] Space
 - [ ] Time — Hiện tại

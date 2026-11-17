@@ -122,6 +122,139 @@ Claude Code là một **MCP host**: `claude mcp add` tạo client nối tới se
 - MCP là *giao thức chuẩn* để khám phá và gọi tool **từ bên ngoài ứng dụng**, tích hợp một lần, dùng với nhiều model.
 :::
 
+## Đọc notebook từng bước
+
+### `11-mcp-agent-framework.ipynb`: mô phỏng khám phá tool qua MCP
+
+**Cell 4–5 (lý thuyết):**
+- **MCP server** cung cấp tools, resources, prompts theo giao thức chuẩn;
+- **MCP client** là runtime của agent, nối tới server và khám phá năng lực;
+- **khám phá động:** agent không cần tool viết cứng.
+
+```text
+MCP Client (agent) ──discover──► MCP Server (nhà cung cấp tool: list_tools(), call_tool(), resources)
+                   ◄──kết quả────
+```
+
+**Cell 6–7: mô phỏng.** Chạy MCP server thật cần một process riêng, nên notebook dùng `@tool` để *giả lập* những gì một dịch vụ chỗ ở hay du lịch kết nối qua MCP sẽ cung cấp. Ở production, các tool này được **khám phá từ MCP server** chứ không định nghĩa local.
+- `search_accommodations(location, check_in, check_out, guests=2)`: danh sách chỗ ở ở Tokyo, Paris, Barcelona, kèm giá mỗi đêm và rating.
+- `get_local_experiences(location, interest="all")`: trải nghiệm theo nhóm `food`, `culture`, `adventure`, vd Tsukiji Market Tour 45 USD, Tea Ceremony 50 USD.
+
+Agent dùng hai tool này để lên kế hoạch chỗ ở và hoạt động. Muốn nối **MCP server thật**, dùng `MCPStreamableHTTPTool` như mục Tool use ở Bài 4.
+
+### `11-a2a-agent-framework.ipynb`: ba agent mô phỏng truyền message kiểu A2A
+
+**Cell 5 (lý thuyết):** A2A là chuẩn mở để agent giao tiếp, khám phá nhau và cộng tác, kể cả khi xây bằng framework khác hay host ở dịch vụ khác. Ba ý chính:
+- **khám phá** qua Agent Card;
+- **truyền message** có cấu trúc;
+- **quản lý task** theo vòng đời.
+
+**Cell 7–9:**
+- `CurrencyExchangeAgent`: tỷ giá, lúc nào nên đổi tiền, mẹo được giá tốt;
+- `ActivityPlannerAgent`: điểm phải đến, nơi ít người biết, trải nghiệm địa phương, quán ăn;
+- `TravelManagerAgent`: tổng hợp thành bản tóm tắt chuyến đi.
+
+Ba agent nối tuần tự bằng `WorkflowBuilder` để **mô phỏng** việc truyền message A2A. Yêu cầu thử: *"Tuần ở Tokyo, thích ẩm thực, đền chùa và công nghệ."*
+
+Đây là mô phỏng trong một process. A2A thật có Agent Card, endpoint HTTP và có thể dùng `A2AAgent` của MAF (Bài 14).
+
+**Cell 10: A2A ở production.**
+
+| Năng lực | Ý nghĩa |
+|---|---|
+| Tương thích xuyên framework | Agent viết bằng framework này giao việc cho agent của framework khác, miễn tuân thủ A2A |
+| Ranh giới dịch vụ | Agent ở microservice, vùng cloud, thậm chí tổ chức khác nhau vẫn cộng tác |
+| Khám phá động | Orchestrator tra registry Agent Card lúc chạy để tìm chuyên gia phù hợp |
+| Cập nhật streaming | Task dài gửi tiến độ theo thời gian thực |
+
+## Ví dụ mở rộng 1: agent chạy lâu trên MCP (`code_samples/mcp-agents/`)
+
+Bài viết kèm theo trả lời câu hỏi: *"Xây giao tiếp giữa các agent trên MCP được không?"*. **Được.** MCP đã vượt xa mục tiêu ban đầu "cung cấp context cho LLM".
+
+Quan niệm sai hay gặp là MCP chỉ hợp với tool hỏi–đáp đơn giản. Đặc tả MCP mới đã có đủ khối cho agent chạy lâu. Bài viết coi một agent là một **tool trên MCP server**, được host app (MCP client) gọi.
+
+| Năng lực cần cho agent chạy lâu | Use case | MCP hỗ trợ bằng |
+|---|---|---|
+| **Streaming và kết quả từng phần** | Agent migrate codebase báo "10% phân tích dependency… 50% cập nhật import…"; agent "viết sách" gửi dàn ý, mục lục rồi từng chương | **Progress notification**; mở rộng notification cho kết quả từng phần (đang là đề xuất) |
+| **Resumability** (nối lại) | Client mất kết nối giữa chừng; nối lại thì phát lại các event bị lỡ | Transport **StreamableHTTP** với session ID, last event ID; server phải có **EventStore** để phát lại |
+| **Durability** (bền vững) | Server sập khi đang migrate dữ liệu; kết quả và tiến độ vẫn còn | Tool tạo **resource** rồi trả **resource link** ngay; làm việc nền và cập nhật resource; client poll hoặc subscribe |
+| **Nhiều lượt** | Agent đặt tour xin người dùng xác nhận giá, rồi nhờ AI tóm tắt dữ liệu trước khi chốt | **Elicitation** (hỏi người), **sampling** (nhờ LLM của host) |
+
+Mã nguồn có server với hai agent-tool:
+- **Travel Agent:** đặt tour giả lập, xin **xác nhận giá bằng elicitation**;
+- **Research Agent:** nghiên cứu, nhờ **tóm tắt bằng sampling**.
+
+Cả hai gửi tiến độ thời gian thực và nối lại được phiên.
+
+```python
+# server.py: Travel agent, bước "Confirming prices..." xin người dùng xác nhận
+class PriceConfirmationSchema(BaseModel):
+    confirm: bool = Field(description="Confirm the price for this trip")
+    notes: str = Field(default="", description="Any additional notes about the price")
+
+await ctx.session.send_progress_notification(progress_token=ctx.request_id, progress=i * 25, total=100, message=step)
+elicit_result = await ctx.session.elicit(
+    message=f"Please confirm the estimated price of $1200 for your trip to {destination}",
+    requestedSchema=PriceConfirmationSchema.model_json_schema(),
+    related_request_id=ctx.request_id,
+)
+if elicit_result.action == "accept":     # tiếp tục đặt
+    ...
+elif elicit_result.action == "decline":  # huỷ, báo tiến độ 100% "Booking cancelled"
+    ...
+```
+
+```python
+# server.py: Research agent nhờ LLM phía host tóm tắt
+sampling_result = await ctx.session.create_message(
+    messages=[SamplingMessage(role="user",
+              content=TextContent(type="text", text=f"Please summarize the key findings for research on: {topic}"))],
+    max_tokens=100,
+)
+```
+
+Phía client (`client.py`) đăng ký ba callback khi mở `ClientSession`:
+- `message_handler` nhận progress và log;
+- `elicitation_callback` hỏi người dùng;
+- `sampling_callback` gọi LLM.
+
+`event_store.py` có `SimpleEventStore` lưu event trong bộ nhớ để phát lại khi client nối lại; `resumable_client.py` minh hoạ việc nối lại bằng resumption token.
+
+:::tip Chi tiết đáng để ý
+Server coi `action == "accept"` là đồng ý, mà **không kiểm tra trường `confirm`** trong nội dung form. Người dùng bấm "accept" nhưng để `confirm=false` vẫn đặt thành công. Khi tự viết, hãy kiểm tra cả hành động lẫn giá trị trong form.
+:::
+
+## Ví dụ mở rộng 2: GitHub MCP Server + Chainlit (`code_samples/github-mcp/`)
+
+Demo từ AI Agents Hackathon (Microsoft Reactor): **gợi ý ý tưởng hackathon dựa trên repo GitHub của một người dùng**.
+1. **GitHub Agent** dùng GitHub MCP Server để lấy repo và thông tin repo.
+2. **Hackathon Agent** đề xuất dự án dựa trên repo, ngôn ngữ đã dùng và các track của hackathon.
+3. **Events Agent** gợi ý sự kiện liên quan trong chuỗi hackathon (tìm trong Azure AI Search, nạp từ `event-descriptions.md`).
+
+Một **Router Agent** phân tích yêu cầu và chọn tổ hợp agent phù hợp.
+
+**Chạy thử:**
+- đặt `AZURE_AI_PROJECT_ENDPOINT`, `AZURE_AI_MODEL_DEPLOYMENT_NAME`, `AZURE_SEARCH_SERVICE_ENDPOINT`, `AZURE_SEARCH_API_KEY`;
+- `chainlit run app.py -w` (chạy ở `localhost:8000`);
+- bấm biểu tượng ổ cắm → "Connect an MCP" → nhập:
+
+```bash
+npx -y @modelcontextprotocol/server-github --env GITHUB_PERSONAL_ACCESS_TOKEN=[TOKEN_CUA_BAN]
+```
+
+Rồi hỏi: *"Recommend hackathon projects for the Github user &lt;tên-người-dùng&gt;"*.
+
+:::warning Token GitHub
+Dùng **fine-grained token chỉ đọc**, giới hạn đúng repo cần thiết. Không dán token có quyền ghi vào bất kỳ demo nào.
+:::
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- MCP for Beginners: <https://aka.ms/mcp-for-beginners>
+- Đặc tả MCP: <https://modelcontextprotocol.io/>
+- NLWeb: <https://github.com/nlweb-ai/NLWeb>
+- Microsoft Agent Framework: <https://learn.microsoft.com/en-us/agent-framework/overview/>
+
 :::quiz Trong MCP, primitive nào là dữ liệu chỉ đọc mà client lấy khi cần, như nội dung file hay bản ghi database?
 - [ ] Tools
 - [x] Resources

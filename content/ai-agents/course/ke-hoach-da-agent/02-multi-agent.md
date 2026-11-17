@@ -134,6 +134,89 @@ Mỗi `add_edge` nối output của agent trước thành input của agent sau.
 Tiêu chí chọn giống hệt: tách agent khi **vai trò, tool hoặc quyền** khác nhau, không phải chỉ vì "nhiều việc".
 :::
 
+## Đọc notebook từng bước
+
+### `08-python-agent-framework.ipynb`
+
+Toàn bộ code đã nằm ở mục "Code mẫu: workflow tuần tự với WorkflowBuilder" phía trên:
+- `TravelPlanner` lập lịch trình;
+- `TravelConcierge` review, thêm mẹo địa phương, nhà hàng, chỉ ra vấn đề;
+- bản mở rộng thêm `BudgetReviewer`, ước tính chi phí vé, khách sạn, ăn uống, hoạt động so với ngân sách 3.000 USD, rồi gợi ý cách tiết kiệm.
+
+Khi stream, notebook in tiêu đề `🤖 <tên agent>` mỗi lần `author_name` đổi, nhờ vậy thấy rõ agent nào đang "nói".
+
+### Bốn notebook workflow mở rộng (`code_samples/workflows-agent-framework/python/`)
+
+Cả bốn trước dùng GitHub Models, nay chuyển sang `FoundryChatClient` (Responses API). Mỗi notebook đều có cell vẽ sơ đồ workflow bằng `WorkflowViz`:
+- `viz.to_mermaid()` và `viz.to_digraph()` in sơ đồ dạng chữ;
+- `viz.export(format="svg")` cần thêm `graphviz`, thiếu thì bỏ qua nhẹ nhàng.
+
+API chạy hiện tại là `events = await workflow.run(...)` rồi `events.get_outputs()`; `run_stream` không còn trong public API.
+
+**01 · Basic: FrontDesk → Concierge.**
+- `FrontDesk`: nhân viên lễ tân du lịch 10 năm kinh nghiệm, nói ngắn gọn, **mỗi lần chỉ một gợi ý**.
+- `Concierge`: người có chính kiến về trải nghiệm **địa phương, không du lịch đại trà**; duyệt nếu đạt, không đạt thì góp ý cách tinh chỉnh (không đưa ví dụ cụ thể).
+
+```python
+workflow = WorkflowBuilder(start_executor=front_desk_agent).add_edge(front_desk_agent, reviewer_agent).build()
+events = await workflow.run("I would like to go to Paris.")
+result = events.get_outputs()[0].text     # output của reviewer, chặng cuối
+```
+
+**02 · Sequential: Sales → Price → Quote (tư vấn nội thất).**
+- `Sales-Agent` nhận diện món đồ nội thất và gợi ý mua.
+- `Price-Agent` phân tích giá theo từng món, ba phân khúc (budget, mid-range, premium), chi phí phụ (giao hàng, lắp đặt), thời điểm mua rẻ.
+- `Quote-Agent` tạo báo giá markdown có tiêu đề, giới thiệu, bảng tổng chi phí.
+
+Bản gốc gửi **ảnh phòng khách** (multimodal); bản hiện tại thay bằng mô tả chữ: sofa ba chỗ, hai ghế bành, bàn trà gỗ, kệ TV, đèn cây, thảm.
+
+**03 · Concurrent: fan-out cho hai agent chạy song song.** Một executor tự viết **phát cùng input** cho mọi agent:
+
+```python
+class InputDispatcher(Executor):
+    @handler
+    async def forward(self, text: str, ctx: WorkflowContext[str]) -> None:
+        await ctx.send_message(text)
+
+workflow = (WorkflowBuilder(start_executor=InputDispatcher(id="dispatcher"),
+                            output_executors=[research_agent, plan_agent])
+            .add_fan_out_edges(dispatcher, [research_agent, plan_agent])
+            .build())
+outputs = (await workflow.run("Plan a trip to Seattle in December")).get_outputs()
+for i, response in enumerate(outputs, start=1):    # thứ tự theo output_executors
+    print(i, response.text)
+```
+
+Lưu ý: hai agent chạy **độc lập**. `Plan-Agent` được dặn "dựa trên kết quả của researcher" nhưng thực tế **không nhận được** kết quả đó, vì fan-out chỉ gửi input gốc. Muốn planner dùng kết quả nghiên cứu thì phải fan-in hoặc nối tuần tự.
+
+**04 · Conditional: viết bài → review → xuất bản hoặc báo trượt** (cần `BING_CONNECTION_ID`, Bài 0).
+- `evangelist-agent` (có tool **Bing grounding**) viết bản nháp hướng dẫn trên 200 từ, theo một dàn ý có link, trả JSON `draft_content`.
+- `reviewer-agent` trả JSON `review_result` (`Yes`/`No`), `reason`, `draft_content`.
+- `to_reviewer_result` parse JSON bằng Pydantic thành dataclass `ReviewResult`.
+- **Multi-selection edge group** với `select_targets`: `Yes` thì sang `save_draft`, rồi `publisher-agent` (có **Code Interpreter**) lưu thành file `yyyymmddhhmmss.md`; `No` thì sang `handle_review`, xuất thông báo "Review failed: … please revise the draft".
+
+```python
+workflow = (WorkflowBuilder(start_executor=evangelist_agent, output_executors=[handle_review, publisher_agent])
+    .add_edge(evangelist_agent, reviewer_agent)
+    .add_edge(reviewer_agent, to_reviewer_result)
+    .add_multi_selection_edge_group(to_reviewer_result, [handle_review, save_draft], selection_func=select_targets)
+    .add_edge(save_draft, publisher_agent)
+    .build())
+```
+
+:::tip Đọc kỹ code mẫu
+- Comment trong `select_targets` và `save_draft` nhắc tới "email" và "NotSpam": dấu vết copy từ ví dụ phân loại email. Logic thật chỉ có hai đích.
+- `handle_review` có nhánh `else` gửi lại bản nháp, nhưng hàm chỉ được chọn khi kết quả là `No`, nên nhánh đó **không bao giờ chạy**. Prompt task nói "viết lại cho tới khi đạt", nhưng workflow **không có vòng lặp quay lại** evangelist. Muốn lặp thật thì thêm edge từ `handle_review` về `evangelist_agent`, kèm giới hạn số vòng.
+- `response_format` của evangelist và reviewer bị comment, nên dựa vào instructions "trả JSON". Model trả sai định dạng thì `model_validate_json` ném lỗi.
+:::
+
+Bản .NET của cả bốn workflow nằm ở `workflows-agent-framework/dotNET/`; xem bài Phụ lục .NET.
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- Microsoft Agent Framework: <https://learn.microsoft.com/en-us/agent-framework/overview/>
+- Workflows trong Agent Framework: <https://learn.microsoft.com/en-us/agent-framework/user-guide/workflows/overview>
+
 :::quiz (Knowledge check gốc) Kịch bản nào hợp nhất với hệ multi-agent?
 - [ ] Bot hỗ trợ trả lời câu hỏi thường gặp từ một knowledge base và vài tool
 - [x] Quy trình hoàn tiền cần vai trò riêng cho fraud, payment và compliance, mỗi vai trò có tool riêng, và kết quả phải được phối hợp

@@ -197,6 +197,117 @@ Cấu trúc này quen thuộc nếu bạn đã học [Agent SDK nhập môn](/cl
 
 **Code mẫu đầy đủ:** [02-python-agent-framework.ipynb](https://github.com/microsoft/ai-agents-for-beginners/blob/main/02-explore-agentic-frameworks/code_samples/02-python-agent-framework.ipynb) và [bản Azure OpenAI Responses API](https://github.com/microsoft/ai-agents-for-beginners/blob/main/02-explore-agentic-frameworks/code_samples/02-python-agent-framework-azure-openai.ipynb).
 
+## Đọc notebook từng bước
+
+### `02-python-agent-framework.ipynb`: bốn khối của MAF
+
+Notebook xây một agent đặt tour biết kiểm tra điểm đến còn chỗ không. Bốn khối xây dựng:
+
+| Khối | Vai trò |
+|---|---|
+| **Client** | Nối tới endpoint model, lo xác thực, định dạng request, parse response |
+| **Agent** | Bọc client cùng instructions (system prompt) và tool |
+| **Tools** | Hàm Python có `@tool`, model gọi được |
+| **Session** | Giữ lịch sử hội thoại cho nhiều lượt |
+
+```text
+Client  →  Agent  →  Tools
+                  →  Session
+```
+
+**Cell 2–5: cài đặt và tạo client.**
+- Cài `agent-framework azure-ai-projects` và `python-dotenv`.
+- Đọc hai biến môi trường; thiếu thì báo lỗi.
+- Tạo `FoundryChatClient(..., credential=AzureCliCredential())`.
+
+**Cell 6–7: tool với `@tool`.** Ba điểm chính:
+- dùng `Annotated[type, "mô tả"]` để model hiểu từng tham số;
+- **docstring** chính là mô tả tool mà model đọc;
+- `approval_mode="never_require"` nghĩa là tool tự chạy, không cần người xác nhận.
+
+```python
+@tool(approval_mode="never_require")
+def check_destination_availability(
+    destination: Annotated[str, "The destination to check availability for"]
+) -> str:
+    """Check if a vacation destination is currently available for booking."""
+    available = {"Barcelona": True, "Tokyo": True, "Cape Town": False, "Vancouver": True, "Dubai": False}
+    is_available = available.get(destination, False)
+    return f"{destination} is {'available' if is_available else 'not available'} for booking."
+```
+
+**Cell 8–9: tạo agent.** `instructions` là system prompt: *"Bạn là agent đặt tour… Luôn kiểm tra còn chỗ trước khi gợi ý."*
+
+**Cell 10–12: hội thoại nhiều lượt bằng session.**
+- `session = agent.create_session()`;
+- lượt 1: "Which destinations do you have available?";
+- lượt 2: "I'd like to go somewhere warm. What's available?".
+
+Vì truyền **cùng session**, agent nhớ lượt trước.
+
+:::tip Để ý
+Tool trả `False` cho mọi điểm đến **không có trong dict**. Vì vậy "Paris" sẽ thành "not available", dù thật ra hệ thống chỉ không biết về Paris. Phân biệt "không còn chỗ" với "không có dữ liệu" là chi tiết nhỏ nhưng quan trọng để agent không nói sai với khách.
+:::
+
+### `02-python-agent-framework-azure-openai.ipynb`: gọi thẳng Azure OpenAI (Responses API)
+
+Bản này trước dùng Semantic Kernel với GitHub Models. GitHub Models đã ngừng hỗ trợ (dừng hẳn tháng 7/2026) và không có Responses API, nên bản gốc chuyển sang MAF + Azure OpenAI.
+
+- **Tool `get_random_destination`:** chọn ngẫu nhiên trong 10 điểm đến, và **tránh lặp lại** điểm vừa gợi ý bằng biến toàn cục `_last_destination`.
+- **Client:**
+
+```python
+chat_client = OpenAIChatClient(
+    model=os.environ["AZURE_OPENAI_DEPLOYMENT"],
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+    credential=AzureCliCredential(),   # chạy az login trước
+)
+agent = chat_client.as_agent(
+    name="TravelAgent",
+    instructions="You are a helpful AI Agent that can help plan vacations for customers at random destinations",
+    tools=[get_random_destination],
+)
+```
+
+- **Chạy hai lượt trong một session, có streaming:** "Plan me a day trip." rồi "I don't like that destination. Plan me another vacation.". Agent dùng lịch sử session và gọi lại tool để đổi điểm đến. Kết quả hiển thị bằng `IPython.display.HTML`.
+
+```python
+session = agent.create_session()
+for user_input in user_inputs:
+    full_response = []
+    async for chunk in agent.run(user_input, session=session, stream=True):
+        full_response.append(str(chunk))
+```
+
+## Bài thực hành gốc: tạo agent trên Microsoft Foundry portal (không cần code)
+
+File `azure-ai-foundry-agent-creation.md` hướng dẫn tạo **FlightAgent** bằng giao diện web.
+
+**Yêu cầu:** tài khoản Azure, quyền Contributor hoặc Owner để tạo hub hay project. (Microsoft Foundry trước đây tên là Azure AI Studio.)
+
+1. **Tạo hub/project** theo hướng dẫn của Microsoft Foundry, rồi xem trang project.
+2. **Deploy model:** **My assets → Models + endpoints → Model deployments → + Deploy model → Deploy base model**, chọn `gpt-5-mini`. Giảm TPM (token mỗi phút) để khỏi dùng hết quota.
+3. **Tạo agent:** **Build & Customize → Agents → + Create agent**. Đặt tên `FlightAgent`, chọn deployment `gpt-5-mini`, nhập Instructions (rút gọn):
+
+```text
+You are FlightAgent, a virtual assistant specialized in handling flight-related queries...
+1. Recognizing Intent: searching for flights / retrieving flight details by flight ID /
+   checking seat availability / providing real-time flight status. If unclear, ask to clarify.
+2. Processing Requests: request origin, destination, dates; validate formats of dates,
+   flight numbers, IDs; ask again if incomplete or invalid.
+3. Generating Responses: friendly, concise, supportive; if no data or error, explain gently
+   and offer alternatives.
+```
+
+   Có thể thêm **Knowledge Base** và **Actions**; bài tập này bỏ qua.
+4. **Thử agent:** bấm **Try in playground**, hỏi vd "tìm chuyến từ Seattle đi New York ngày 28". Agent không có dữ liệu thời gian thực nên câu trả lời có thể không chính xác; mục tiêu là xem agent hiểu và theo instructions.
+5. **Dọn tài nguyên:** vào Azure portal, mở resource group, chọn **Delete resource group** để không phát sinh chi phí.
+
+**Tài liệu tham khảo:**
+- Microsoft Foundry: <https://learn.microsoft.com/azure/ai-foundry/>
+- Microsoft Agent Framework: <https://learn.microsoft.com/en-us/agent-framework/overview/>
+- Khóa *Fundamentals of AI agents on Azure*: <https://learn.microsoft.com/en-us/training/modules/ai-agent-fundamentals/>
+
 :::quiz Trong ví dụ `book_flight`, ai tách "January 1, 2025" và "New York" ra khỏi câu người dùng?
 - [ ] Một regex parser bạn tự viết
 - [x] Model, dựa trên chữ ký và docstring của tool, sinh ra lời gọi tool với đúng tham số

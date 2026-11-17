@@ -248,6 +248,192 @@ Function middleware chạy *trước và sau* mỗi tool call, có thể chặn 
 Pattern "onion" (mỗi lớp bọc lớp trong) cũng là pattern của interceptor `HttpClient` trong Angular và middleware Express. Hiểu một cái là hiểu cả ba.
 :::
 
+## Đọc notebook từng bước: sáu notebook của bài 14
+
+Cả sáu notebook (thư mục `code-samples/`) dùng chung một bối cảnh du lịch, mỗi notebook một kiểu điều phối. Tất cả tạo client bằng `FoundryChatClient` với `AzureCliCredential`, và dùng model Pydantic làm `response_format` để output có cấu trúc.
+
+### 1. `14-sequential.ipynb`: điều phối tuần tự
+
+Hai agent:
+- **Front Desk** gợi ý điểm tham quan ở thành phố;
+- **Concierge** review và **chấm điểm** gợi ý đó theo độ nổi tiếng.
+
+`WorkflowBuilder` nối Front Desk → Concierge. Cuối notebook phân tích luồng thông tin và lịch sử hội thoại giữa hai agent, để thấy output agent trước thành input agent sau.
+
+### 2. `14-concurrent.ipynb`: điều phối song song
+
+Ba agent chạy **cùng lúc**, mỗi agent một schema riêng:
+- `attractions-agent` → `AttractionsRecommendation`;
+- `dining-agent` → `DiningRecommendation`;
+- `history-agent` → `HistoryRecommendation`.
+
+Workflow gồm một executor phát input và `add_fan_out_edges`, giống notebook concurrent ở Bài 8. Thử với Tokyo và Paris.
+
+Bước 7 **đo thời gian** chạy song song và tuần tự (`measure_concurrent_performance`, `measure_sequential_performance`). Với ba lời gọi model độc lập, song song thường nhanh hơn rõ rệt. Đây là căn cứ để chọn concurrent khi các task con không phụ thuộc nhau.
+
+### 3. `14-conditional-workflow.ipynb`: rẽ nhánh theo điều kiện
+
+```python
+class BookingCheckResult(BaseModel):
+    destination: str
+    has_availability: bool
+    message: str
+
+@tool(description="Check hotel room availability for a destination city")
+def hotel_booking(destination: Annotated[str, "The destination city to check for hotel rooms"]) -> str:
+    cities_with_rooms = ["stockholm", "seattle", "tokyo", "london", "amsterdam"]
+    return json.dumps({"has_availability": destination.lower() in cities_with_rooms, "destination": destination})
+
+def has_availability_condition(message: Any) -> bool:
+    if not isinstance(message, AgentExecutorResponse):
+        return True
+    try:
+        return BookingCheckResult.model_validate_json(message.agent_run_response.text).has_availability
+    except Exception:
+        return False
+# no_availability_condition: ngược lại (mặc định False)
+
+workflow = (
+    WorkflowBuilder(start_executor=availability_agent, output_executors=[display_result])
+    .add_edge(availability_agent, alternative_agent, condition=no_availability_condition)   # hết phòng
+    .add_edge(alternative_agent, display_result)
+    .add_edge(availability_agent, booking_agent, condition=has_availability_condition)      # còn phòng
+    .add_edge(booking_agent, display_result)
+    .build()
+)
+```
+
+- Ba agent được bọc bằng `AgentExecutor(..., id=...)`:
+  - `availability_agent` có tool, output `BookingCheckResult`;
+  - `alternative_agent` gợi ý thành phố gần đó, output `AlternativeResult`;
+  - `booking_agent` khuyến khích đặt ngay, output `BookingConfirmation`.
+- `@executor(id="display_result")` là executor tự viết, gọi `ctx.yield_output(...)` để trả kết quả cuối.
+- Thử Paris (không có phòng → đi nhánh gợi ý thay thế) và Stockholm (có phòng → nhánh đặt phòng).
+- File `hotel_booking_workflow_sample.py` là bản script `.py` của chính workflow này, chạy được ngoài Jupyter.
+
+:::tip Điều kiện nên loại trừ nhau và có nhánh lỗi
+Nếu model trả JSON hỏng, **cả hai** điều kiện đều trả `False`, và workflow dừng mà không có output. Khi tự viết, hãy thêm một cạnh "lỗi" dẫn tới executor báo lỗi, hoặc retry, để không có ngõ cụt.
+:::
+
+### 4. `14-human-loop.ipynb`: workflow có người quyết định
+
+Mở rộng workflow có điều kiện. Khi **hết phòng**, thay vì tự gợi ý ngay, workflow **dừng lại hỏi người dùng** có muốn xem nơi khác không.
+- `confirmation_agent` soạn câu hỏi xác nhận (`ConfirmationQuestion`).
+- `DecisionManager`, một `Executor` tự viết, là trái tim của mẫu này:
+
+```python
+class DecisionManager(Executor):
+    @handler
+    async def on_confirmation(self, response: AgentExecutorResponse, ctx: WorkflowContext) -> None:
+        confirmation = ConfirmationQuestion.model_validate_json(response.agent_run_response.text)
+        await ctx.request_info(                      # TẠM DỪNG workflow, phát RequestInfoEvent
+            request_data=HumanFeedbackRequest(prompt=confirmation.question, destination=confirmation.destination),
+            response_type=str,
+        )
+
+    @response_handler
+    async def on_human_feedback(self, original_request: HumanFeedbackRequest, feedback: str,
+                                ctx: WorkflowContext[AgentExecutorRequest, str]) -> None:
+        reply = (feedback or "").strip().lower()
+        if reply == "yes":
+            text = f"The user wants to see alternative destinations near {original_request.destination}. Please suggest one."
+        else:                                        # "no" hoặc câu trả lời lạ → coi như từ chối
+            text = "The user has declined to see alternatives. Please acknowledge their decision."
+        await ctx.send_message(AgentExecutorRequest(messages=[Message(role="user", contents=[text])], should_respond=True))
+```
+
+- Hai điều kiện mới, `user_wants_alternatives_condition` và `user_declines_alternatives_condition`, đọc nội dung message do `DecisionManager` gửi, để rẽ sang `alternative_agent` hoặc `cancellation_agent`.
+- Nhánh **còn phòng** không cần hỏi người.
+
+```python
+workflow = (
+    WorkflowBuilder(start_executor=availability_agent, output_executors=[display_result])
+    .add_edge(availability_agent, confirmation_agent, condition=no_availability_condition)
+    .add_edge(confirmation_agent, decision_manager)               # dừng qua ctx.request_info
+    .add_edge(decision_manager, alternative_agent, condition=user_wants_alternatives_condition)
+    .add_edge(decision_manager, cancellation_agent, condition=user_declines_alternatives_condition)
+    .add_edge(alternative_agent, display_result)
+    .add_edge(cancellation_agent, display_result)
+    .add_edge(availability_agent, booking_agent, condition=has_availability_condition)
+    .add_edge(booking_agent, display_result)
+    .build()
+)
+```
+
+**Cách vòng lặp chạy:**
+1. Chạy workflow, nhận `RequestInfoEvent`.
+2. Hỏi người dùng.
+3. Gửi câu trả lời lại vào workflow; `@response_handler` nhận và định tuyến tiếp.
+
+Câu trả lời lạ được coi như **từ chối**: mặc định an toàn, giống Bài 6.
+
+### 5. `14-middleware.ipynb`: middleware cho khách hàng ưu tiên
+
+Giữ nguyên workflow có điều kiện, thêm một **function middleware** chen vào lời gọi `hotel_booking`.
+
+```python
+PRIORITY_MEMBERS = {"alice@example.com", "bob@example.com", "priority_user"}
+current_user_id = "regular_user"      # demo dùng biến toàn cục; app thật dùng session
+
+async def priority_check_middleware(context: FunctionInvocationContext,
+                                    next: Callable[[FunctionInvocationContext], Awaitable[None]]) -> None:
+    await next(context)                                   # chạy hàm thật trước
+    if context.result and context.function.name == "hotel_booking":
+        data = json.loads(context.result)
+        if current_user_id in PRIORITY_MEMBERS and not data.get("has_availability", False):
+            data["has_availability"] = True               # GHI ĐÈ kết quả cho khách ưu tiên
+            data["priority_override"] = True
+            context.result = json.dumps(data)
+```
+
+- Middleware được gắn khi tạo `availability_agent` qua tham số `middleware=...`.
+- Schema có thêm trường `priority_override` để biết kết quả đã bị middleware sửa.
+- Thử với người dùng thường và khách ưu tiên ở cùng một thành phố hết phòng: hai người đi **hai nhánh khác nhau**.
+
+:::warning Middleware sửa kết quả là con dao hai lưỡi
+Demo cho khách ưu tiên thấy "còn phòng" dù hệ thống báo hết. Ở đời thật, đó là **nói sai với khách**, trừ khi phía sau có quỹ phòng giữ riêng cho khách VIP. Trong production, middleware nên dùng cho log, kiểm quyền, rate limit, che dữ liệu nhạy cảm. Logic nghiệp vụ như "khách VIP có phòng riêng" nên nằm **trong tool hoặc hệ thống đặt phòng**, có audit (trường `priority_override` là một bước đúng hướng).
+:::
+
+### 6. `14-handoff.ipynb`: chuyển giao giữa các agent hỗ trợ
+
+Bốn agent:
+- `customer_support_agent` phân loại yêu cầu và **gọi tool handoff** để chuyển tiếp;
+- `booking_agent` đặt vé, trả JSON `FlightBookingResult`;
+- `disputes_agent` khiếu nại và hoàn tiền, trả JSON `DisputeResult`;
+- `trip_check_agent` xác nhận lịch trình, trả JSON `TripCheckResult`.
+
+```python
+from agent_framework.orchestrations import HandoffBuilder, HandoffAgentUserRequest
+
+def build_workflow():
+    # Workflow KHÔNG tự cô lập giữa các lần run(); tạo mới cho mỗi kịch bản
+    return (HandoffBuilder(name="travel_support_handoff",
+                           participants=[customer_support_agent, booking_agent, disputes_agent, trip_check_agent],
+                           termination_condition=lambda conv: sum(1 for m in conv if m.role == "user") > 3)
+            .with_start_agent(customer_support_agent)
+            .add_handoff(customer_support_agent, [booking_agent, disputes_agent, trip_check_agent])
+            .build())
+```
+
+- `termination_condition` dừng hội thoại sau hơn 3 lượt người dùng: **điều kiện dừng** chống lặp vô hạn (Bài 10).
+- Khi agent cần thêm thông tin, workflow phát event `request_info` kiểu `HandoffAgentUserRequest`. Notebook trả lời bằng **câu trả lời soạn sẵn** qua `workflow.run(stream=True, responses={request_id: HandoffAgentUserRequest.create_response(text)})`.
+- Ba kịch bản:
+  - đặt vé đi Paris → sang `booking_agent`;
+  - đòi hoàn tiền → sang `disputes_agent`;
+  - xác nhận chuyến → sang `trip_check_agent`.
+
+Mỗi agent khai báo `require_per_service_call_history_persistence=True` để giữ lịch sử khi chuyển giao.
+
+:::danger Instructions chỉ dùng cho demo
+`disputes_agent` được dặn **"luôn chấp nhận hoàn tiền"**, `booking_agent` **"chuyến bay luôn được xác nhận"**, `trip_check_agent` **"luôn xác nhận kế hoạch ổn"**. Mục đích là cho demo chạy trơn tru. Agent thật phải gọi hệ thống thanh toán hay đặt vé thật, và hoàn tiền phải qua **cổng duyệt** (Bài 6, Bài 16).
+:::
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- Microsoft Agent Framework: <https://learn.microsoft.com/en-us/agent-framework/overview/>
+- Host agent LangGraph trên Foundry: <https://learn.microsoft.com/azure/foundry/how-to/develop/langchain-hosted-agents>
+- Code đầy đủ ví dụ LangGraph: `code-samples/14-langchain-hosted-agent.py`
+
 :::quiz Trong function middleware, chuyện gì xảy ra nếu middleware không gọi `await next(context)`?
 - [ ] Framework tự gọi hàm thật sau khi middleware xong
 - [x] Middleware phía sau và hàm tool thật không chạy; middleware có thể tự đặt kết quả, vd chặn tool nguy hiểm

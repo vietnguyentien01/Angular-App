@@ -151,6 +151,89 @@ Planner chọn động trong số agent đã định nghĩa: output của nó ch
 Quy trình [explore → plan → code](/claude-code/consolidate/workflows/explore-plan-code) và Plan mode chính là planning pattern có **người duyệt kế hoạch** trước khi thực thi. Agent team với task list có phụ thuộc (Lab 14) là planner + registry + group chat manager.
 :::
 
+## Đọc notebook từng bước: `07-python-agent-framework.ipynb`
+
+Notebook làm phiên bản đầy đủ hơn đoạn code trong bài: **planner có ưu tiên và phụ thuộc**, rồi **concierge thực thi** kế hoạch bằng tool.
+
+**Cell 2–4: cài đặt và tạo client** (`FoundryChatClient`, `DefaultAzureCredential`).
+
+**Cell 5–6: chia nhỏ task.** Mỗi task con giao cho một agent chuyên trách, có độ ưu tiên và thứ tự phụ thuộc. Lợi ích:
+- **rõ ràng:** mỗi task con một trách nhiệm;
+- **song song:** task con độc lập chạy cùng lúc được;
+- **đáng tin cậy:** lỗi khoanh trong từng task con;
+- **theo dõi ngân sách.**
+
+```python
+class TravelSubTask(BaseModel):
+    task_id: int
+    description: str
+    assigned_agent: str        # "flight_agent", "hotel_agent", "activity_agent"
+    priority: str              # "high", "medium", "low"
+    dependencies: list[int] = []
+
+class TravelPlan(BaseModel):
+    destination: str
+    trip_duration_days: int
+    subtasks: list[TravelSubTask]
+    total_estimated_budget_usd: int
+    notes: str
+```
+
+So với bản trong bài, schema này có thêm `task_id`, `priority`, `dependencies` và ước tính ngân sách tổng.
+
+**Cell 7–8: planner ("lễ tân") trả `TravelPlan`.**
+
+```python
+planning_agent = client.as_agent(
+    name="TravelPlanner",
+    instructions="""You are a travel planning agent. When given a travel request:
+1. Break it into specific subtasks (flights, hotels, activities, logistics)
+2. Assign each subtask to the appropriate specialist agent
+3. Set priorities and identify dependencies between tasks
+4. Estimate the total budget""",
+)
+result = await planning_agent.run(
+    "Plan a 7-day trip to Paris for a couple interested in art, cuisine, and history. Budget around $5000.",
+    options={"response_format": TravelPlan},
+)
+plan = result.value
+for task in plan.subtasks:
+    print(f"  [{task.priority}] {task.task_id}. {task.description} → {task.assigned_agent}")
+```
+
+**Cell 9–10: concierge thực thi bằng tool chuyên trách.** Ba tool:
+- `book_flight(destination, departure_date, return_date)`;
+- `reserve_hotel(city, check_in, check_out, guests)`;
+- `book_activity(activity_name, date, participants)`.
+
+Mỗi tool trả về chuỗi xác nhận giả. Kế hoạch được chuyển thành danh sách dòng `- [priority] id. mô tả (agent, deps)` rồi đưa cho agent `Concierge`, với chỉ dẫn *"làm lần lượt theo thứ tự, tôn trọng phụ thuộc, tóm tắt kết quả"*.
+
+:::tip Thứ tự phụ thuộc nên do code đảm bảo
+Notebook để LLM tự "tôn trọng phụ thuộc". Bạn có thể chắc chắn hơn bằng cách sắp xếp topo ngay trong code, với `graphlib` có sẵn trong Python. Mình chạy thử:
+
+```python
+from graphlib import TopologicalSorter
+order = list(TopologicalSorter({t.task_id: t.dependencies for t in plan.subtasks}).static_order())
+# {1: [], 2: [1], 3: [1], 4: [2, 3]}  →  [1, 2, 3, 4]
+# phụ thuộc vòng {1: [2], 2: [1]}      →  CycleError [1, 2, 1]  → yêu cầu planner lập lại kế hoạch
+```
+
+Ngoài ra, tool đặt chỗ thật nên khai báo `approval_mode="always_require"` (Bài 4). Mã xác nhận dùng `hash()` cũng đổi theo từng process (xem Bài 4).
+:::
+
+**Cell 11 (tổng kết):**
+1. **chia nhỏ task:** planner tách yêu cầu thành task con có ưu tiên và phụ thuộc;
+2. **output có cấu trúc:** `response_format` trả `TravelPlan` đã validate;
+3. **thực thi kế hoạch:** concierge đi qua task con bằng tool chuyên trách.
+
+### Bản .NET
+
+`07-dotnet-agent-framework` làm cùng luồng planner → concierge bằng C#; xem bài Phụ lục .NET.
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- Magentic-One, hệ multi-agent tổng quát của Microsoft Research: <https://www.microsoft.com/en-us/research/articles/magentic-one-a-generalist-multi-agent-system-for-solving-complex-tasks/>
+
 :::quiz Vì sao planner nên trả kế hoạch dạng JSON theo schema (Pydantic) thay vì văn bản tự do?
 - [ ] Vì JSON ngắn hơn nên rẻ hơn
 - [x] Để agent hoặc dịch vụ hạ nguồn parse, validate và định tuyến tự động theo `assigned_agent`

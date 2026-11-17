@@ -103,6 +103,76 @@ Notebook [`12-chat_summarization.ipynb`](https://github.com/microsoft/ai-agents-
 Xem lại [Context & checkpoint](/claude-code/consolidate/sessions/context-window-va-checkpoint).
 :::
 
+## Đọc notebook từng bước: `12-chat_summarization.ipynb`
+
+**Cell 4: tạo client.**
+
+**Cell 5 (lý thuyết): vì sao phải quản lý context.** Mỗi LLM có context window hữu hạn. Khi hội thoại kéo dài:
+- **số token tăng tuyến tính** theo mỗi tin nhắn và câu trả lời;
+- **token prompt chiếm phần lớn chi phí**, vì toàn bộ lịch sử được gửi lại mỗi lượt;
+- cuối cùng hội thoại **vượt context window**: model cắt bớt hoặc báo lỗi.
+
+| Chiến lược | Cách làm | Trade-off |
+|---|---|---|
+| **Truncation** (cắt) | Bỏ tin nhắn cũ nhất | Mất ngữ cảnh ban đầu |
+| **Summarization** (tóm tắt) | Cô đọng tin nhắn cũ thành tóm tắt | Mất vài chi tiết nhưng giữ ý chính |
+| **Scratchpad / bộ nhớ ngoài** | Lưu sự kiện quan trọng ngoài hội thoại | Tốn lượt gọi tool, nhưng sống sót qua mọi lần rút gọn |
+
+Notebook kết hợp **tóm tắt** với **tool scratchpad**.
+
+**Cell 6–7: agent có ý thức về context.** Instructions dặn:
+1. khi hội thoại dài thì tóm tắt ngữ cảnh trước thành ý chính;
+2. theo dõi sở thích người dùng đã nêu;
+3. tham chiếu quyết định cũ mà không lặp lại toàn bộ chi tiết.
+
+**Cell 8–11: mô phỏng hội thoại dài sáu lượt trong một session.**
+1. Đi Nhật, thích sushi, đền chùa, nhiếp ảnh.
+2. Ngân sách 3.000 USD, đi một mình 10 ngày vào tháng 4.
+3. "Dựa trên mọi điều tôi đã kể, đừng bỏ lỡ điều gì?" (kiểm tra agent còn nhớ).
+4. Chỗ ở: thích lữ quán truyền thống (ryokan).
+5. **Đổi ý:** đi tháng 10 để ngắm lá đỏ.
+6. "Tóm tắt toàn bộ kế hoạch."
+
+Lượt 6 kiểm tra **context clash** (Bài 12): agent phải nói **tháng 10**, không phải tháng 4.
+
+**Cell 12–14: mẫu tóm tắt bằng tool.**
+1. Agent nhận ra sự kiện quan trọng.
+2. Gọi tool tóm tắt để lưu lại.
+3. Tin nhắn cũ có thể bỏ an toàn vì bản tóm tắt đã giữ phần quan trọng.
+
+```python
+@tool(approval_mode="never_require")
+def summarize_preferences(conversation_notes: str) -> str:
+    """Summarize accumulated user preferences into a compact format."""
+    return f"[SUMMARY] User preferences recorded: {conversation_notes}"
+```
+
+Agent `SummarizingTravelAgent` có quy tắc:
+- gom được vài sở thích thì gọi tool;
+- khi được hỏi lại thì dùng bản tóm tắt;
+- sở thích đổi thì cập nhật bản tóm tắt.
+
+Thử với chuyến Hy Lạp: hải sản, lịch sử, nhảy đảo, 4.000 USD, hai tuần, đi cùng bạn đời vào tháng 6. Sau đó hỏi *"top 3 hòn đảo nên đến"*.
+
+:::tip Tool này chưa thật sự "lưu" gì
+`summarize_preferences` chỉ **trả lại** chuỗi, không ghi vào đâu. Bản tóm tắt chỉ nằm trong lịch sử hội thoại (dưới dạng kết quả tool), nên vẫn mất nếu lịch sử bị cắt. Muốn đúng nghĩa scratchpad, hãy ghi ra file hoặc object ngoài, như `ContextManager` trong bài tập ở trên, hoặc `PreferenceMemory` ở Bài 13.
+:::
+
+**File `vacation_agent_scratchpad.md`:** ví dụ một scratchpad thật mà agent ghi ra, có hai mục và dấu thời gian:
+
+```markdown
+# Agent Scratchpad
+## User Preferences
+- [2025-09-16 16:30:39] Budget: $3000 per person for a week
+- [2025-09-16 16:30:39] Enjoys water sports, exploring local markets, and trying authentic cuisine
+- [2025-09-16 16:30:39] Loves beach destinations with great food and culture
+## Completed Tasks
+- [2025-09-16 16:30:52] Created Greek Islands itinerary for beach vacation
+- [2025-09-16 16:30:46] Created Bali itinerary for beach vacation
+```
+
+Tách *sở thích* khỏi *việc đã làm*, kèm thời gian, giúp agent (hoặc bạn khi debug) biết thông tin nào mới nhất.
+
 :::quiz Agent có 80 tool và hay gọi nhầm tool không liên quan, nhất là khi dùng model nhỏ. Đây là kiểu hỏng nào, và cách sửa theo khóa học?
 - [ ] Context poisoning; validate dữ liệu
 - [ ] Context clash; pruning

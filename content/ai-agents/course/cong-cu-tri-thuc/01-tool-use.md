@@ -209,6 +209,88 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO agent_ro;
 
 **Code mẫu:** [04-python-agent-framework.ipynb](https://github.com/microsoft/ai-agents-for-beginners/blob/main/04-tool-use/code_samples/04-python-agent-framework.ipynb).
 
+## Đọc notebook từng bước: `04-python-agent-framework.ipynb`
+
+**Cell 2–4: cài đặt và tạo client** (`FoundryChatClient` với `DefaultAzureCredential`).
+
+**Cell 5–6: ba tool bằng `@tool`.** Nhắc lại ba điểm:
+- **docstring** là mô tả tool;
+- **type annotation** (kèm `Annotated`) là schema tham số;
+- `approval_mode` quyết định có cần người duyệt từng lần gọi không.
+
+```python
+@tool(approval_mode="never_require")
+def get_destinations() -> list[str]:
+    """Get available vacation destinations."""
+    return ["Barcelona", "Paris", "Berlin", "Tokyo", "Sydney", "New York City"]
+
+@tool(approval_mode="never_require")
+def check_availability(destination: Annotated[str, "The destination to check"]) -> str:
+    """Check booking availability for a destination."""
+    availability = {"Barcelona": "Available - 3 spots left", "Paris": "Available", "Berlin": "Sold out",
+                    "Tokyo": "Available - 1 spot left", "Sydney": "Available", "New York City": "Available"}
+    return availability.get(destination, "Unknown destination")
+
+@tool(approval_mode="never_require")
+def get_flight_info(origin: Annotated[str, "Origin airport code"],
+                    destination: Annotated[str, "Destination airport code"]) -> str:
+    """Get flight information between two cities."""
+    flights = {"LHR-BCN": "BA 2042, Departs 08:30, Arrives 11:45, $350",
+               "LHR-CDG": "AF 1081, Departs 09:15, Arrives 11:30, $280",
+               "LHR-NRT": "JL 044, Departs 11:00, Arrives 07:00+1, $890"}
+    return flights.get(f"{origin}-{destination}", f"No direct flights from {origin} to {destination}")
+```
+
+**Cell 7–8: agent với nhiều tool.** Câu hỏi "Có những điểm đến nào? Chỗ nào còn trống?" buộc model gọi **nối tiếp**: `get_destinations` rồi `check_availability` cho từng điểm.
+
+**Cell 9–10: output có cấu trúc kết hợp tool.** `response_format=TravelPlan`; mỗi phần tử `BookingRecommendation` có `destination`, `available`, `flight_details`, `estimated_cost`. Câu hỏi: *"Bay từ London Heathrow tới một nơi ấm áp ở châu Âu, kiểm tra còn chỗ."* Model phải tự đổi tên thành phố sang mã sân bay (BCN, CDG) để gọi `get_flight_info`.
+
+**Cell 11–12: chế độ duyệt tool.**
+
+| `approval_mode` | Hành vi |
+|---|---|
+| `"never_require"` | Tool tự chạy, không cần xác nhận |
+| `"always_require"` | Mọi lần gọi phải được người dùng duyệt trước khi chạy |
+
+Dùng `"always_require"` cho tool có **tác dụng phụ** (đặt vé, trừ tiền thẻ) để luôn có người trong vòng lặp.
+
+```python
+@tool(approval_mode="always_require")
+def book_flight(origin: Annotated[str, "Origin airport code"],
+                destination: Annotated[str, "Destination airport code"],
+                passenger_name: Annotated[str, "Full name of the passenger"]) -> str:
+    """Book a flight for a passenger. Requires approval before executing."""
+    return (f"Flight booked from {origin} to {destination} "
+            f"for {passenger_name}. Confirmation #TRV-2024-{hash(passenger_name) % 10000:04d}")
+
+print("Tool name:", book_flight.name)
+print("Approval mode:", book_flight.approval_mode)
+```
+
+:::tip Một chi tiết của Python
+`hash()` trên chuỗi được **ngẫu nhiên hoá theo từng process** (`PYTHONHASHSEED`). Mình chạy `hash("Nguyen Van A") % 10000` ba lần, ra `3343`, `6966`, `3403`. Mã xác nhận demo vì vậy đổi sau mỗi lần khởi động. Mã thật nên sinh bằng `uuid` hoặc do hệ thống đặt vé cấp.
+:::
+
+**Cell 13 (tổng kết):**
+1. định nghĩa tool bằng `@tool`, có kiểu và docstring;
+2. ghép nhiều tool để agent gọi nối tiếp;
+3. output có cấu trúc qua `response_format`;
+4. kiểm soát duyệt bằng `approval_mode`.
+
+### Notebook .NET và smoke test
+
+- Bản .NET (`04-dotnet-agent-framework.md`) làm cùng việc bằng C#; xem bài **Phụ lục .NET**.
+- **Smoke test gốc** (`tests/lesson-04-smoke-tests.json`): sau khi deploy agent `TravelToolAgent` (Bài 16), chạy ba prompt và kiểm tra:
+  - *"What destinations do you have?"*: status 200, câu trả lời chứa một trong Barcelona/Tokyo/Paris/Bali/Sydney;
+  - *"Which destinations are still available to book?"*: chứa "available" hoặc tên điểm đến;
+  - *"Can you get me flight information for a trip to Barcelona?"*: chứa "flight" hoặc "Barcelona".
+
+## Tài liệu tham khảo (theo bản gốc)
+
+- Azure AI Agents Service Workshop: <https://microsoft.github.io/build-your-first-agent-with-azure-ai-agent-service-workshop/>
+- Contoso Creative Writer Multi-Agent Workshop: <https://github.com/Azure-Samples/contoso-creative-writer/tree/main/docs/workshop>
+- Microsoft Agent Framework Overview: <https://learn.microsoft.com/en-us/agent-framework/overview/>
+
 :::quiz Sau lời gọi `client.responses.create(...)` đầu tiên có kèm `tools`, `response.output` chứa gì khi model quyết định dùng tool?
 - [ ] Câu trả lời "The current time in San Francisco is 09:24 AM"
 - [x] Một item `function_call` gồm tên hàm, `arguments` dạng JSON và `call_id`

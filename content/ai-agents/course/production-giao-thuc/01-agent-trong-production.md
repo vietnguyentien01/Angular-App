@@ -134,6 +134,99 @@ Trong Claude Code:
 Câu hỏi phỏng vấn hay gặp: *"Làm sao biết agent của bạn chạy tốt ở production?"* Trả lời theo khung **trace → metric → offline eval trong CI → online eval → vòng phản hồi**.
 :::
 
+## Đọc notebook từng bước
+
+### `10-python-agent-framework.ipynb`: quan sát, đánh giá, chi phí
+
+**Cell 2–4: cài đặt và tạo client.**
+
+**Cell 5 (lý thuyết): ba trụ cột production.**
+- **observability:** biết agent làm gì, mất bao lâu, gọi tool nào;
+- **đánh giá:** kiểm chất lượng tự động theo tiêu chí;
+- **chi phí:** token quyết định tiền.
+
+**Cell 6–8: agent quan sát được.**
+- Hai tool: `get_flight_info` (Paris, Tokyo, Barcelona) và `get_activity_suggestions` (Louvre, Senso-ji, Sagrada Familia…).
+- Lần chạy được bọc bằng `time.time()` để đo latency. Đây là dạng "tracing" đơn giản nhất; production thì dùng OpenTelemetry.
+
+```python
+start_time = time.time()
+response = await agent.run("I want to plan a day trip in Paris. What flights and activities do you recommend?")
+print(f"Response ({time.time() - start_time:.2f}s):\n{response}")
+```
+
+**Cell 9–10: agent đánh giá.** `ResponseEvaluator` chấm 1–5 theo bốn tiêu chí:
+- **Completeness:** có cả vé lẫn hoạt động không;
+- **Accuracy:** thông tin có nhất quán không;
+- **Helpfulness:** có hành động được không;
+- **Overall.**
+
+Mẫu này giúp: chặn chất lượng tự động trước khi tới người dùng, phát hiện thoái lui khi đổi prompt hay model, và giám sát liên tục.
+
+**Cell 11: bảng chiến lược chi phí.**
+
+| Chiến lược | Mô tả |
+|---|---|
+| Tối ưu prompt | Instructions ngắn gọn, bỏ context thừa để giảm token input |
+| Chọn model | Model nhỏ, rẻ (vd GPT-5-mini) cho phân loại hay trích xuất; model lớn cho suy luận phức tạp |
+| Cache | Cache kết quả tool và câu hỏi thường gặp |
+| Ngân sách token | Đặt `max_tokens` để chặn câu trả lời dài bất ngờ |
+
+### `10-expense_claim-demo.ipynb`: đọc hoá đơn bằng ảnh và tạo email hoàn ứng
+
+**Tình huống:** nhân viên đi công tác, công ty hoàn mọi chi phí hợp lý; cần biến ảnh hoá đơn thành email gửi phòng tài chính.
+
+**Cell 4–5: model dữ liệu.** `Expense(date, description, amount, category)`, với ngày dạng `dd-MMM-yyyy`. `ExpenseFormatter.parse_expenses()` đọc chuỗi `date|description|amount|category`, các khoản cách nhau bằng `;`.
+
+**Cell 6–7: tool `generate_expense_email`.**
+- parse dữ liệu;
+- tính tổng;
+- dựng email "Dear Finance Team…", liệt kê từng khoản và *Total Amount*.
+
+**Cell 8–9: nạp ảnh hoá đơn thành nội dung đa phương thức.**
+
+```python
+def load_receipt_image(image_path: str = "receipt.jpg") -> Content:
+    with open(image_path, "rb") as f:
+        return Content.from_data(f.read(), "image/jpeg")
+```
+
+**Cell 10–11: hai agent.**
+- `OCRAgent` đọc ảnh, trả **chỉ** chuỗi theo định dạng trên:
+  - đổi ngày `4/4/22` thành `04-Apr-2022`;
+  - số tiền chỉ lấy số;
+  - suy ra loại: Meals, Transportation, Accommodation, Miscellaneous;
+  - bỏ qua tổng, tạm tính, phí dịch vụ.
+- `EmailAgent` chuyển nguyên chuỗi đó cho tool để tạo email.
+
+**Cell 14: workflow tuần tự OCR → Email**, input là `Message(role="user", contents=[prompt, load_receipt_image("receipt.jpg")])`. Foundry nhận ảnh như input hình chứ không phải chữ; output được stream theo tác giả.
+
+:::warning Parse "im lặng" làm sai tổng tiền
+Mình chép lại hàm parse và chạy với 5 khoản:
+
+```text
+[LOG] Parse Error: ... could not convert string to float: '$12.30'
+[LOG] Parse Error: ... could not convert string to float: '1,250.00'
+Taxi to airport 45.5
+Museum ticket 20.0
+Total 65.5
+```
+
+- Khoản có `$` và khoản có dấu phẩy ngăn nghìn bị **loại**, chỉ in log.
+- Khoản thiếu trường (3 phần thay vì 4) bị bỏ **không có log nào**.
+- Email vẫn được tạo với tổng **65,5** thay vì **1.332,30**.
+
+Với nghiệp vụ tiền bạc, tool nên **trả lỗi về cho agent** (hoặc cần người xác nhận) khi có dòng không parse được, và chuẩn hoá `$` cùng dấu phẩy trước khi đổi sang số.
+:::
+
+## Tài liệu tham khảo
+
+- OpenTelemetry: <https://opentelemetry.io/>
+- Langfuse: <https://langfuse.com/>
+- RAGAS (đánh giá RAG): <https://docs.ragas.io/>
+- LLM Guard (phát hiện nội dung độc hại, prompt injection): <https://github.com/protectai/llm-guard>
+- Bộ dữ liệu GSM8K (ví dụ đánh giá offline): <https://huggingface.co/datasets/openai/gsm8k>
+
 :::quiz Trace và span khác nhau thế nào?
 - [ ] Trace là log lỗi, span là log thông thường
 - [x] Trace là cả một task của agent từ đầu tới cuối; span là từng bước bên trong (gọi model, gọi tool, truy xuất)
