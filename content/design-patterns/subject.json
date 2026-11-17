@@ -4,7 +4,7 @@
   "description": "Design pattern và nguyên tắc thiết kế cho dự án enterprise, học từ vấn đề thật chứ không từ sơ đồ UML: SOLID, các pattern GoF hay dùng, pattern được Java 25 làm gọn bằng lambda/record/sealed, pattern bên trong Spring/Angular/RxJS, kiến trúc hexagonal, outbox, saga và anti-pattern. Mọi ví dụ chạy thật trên JDK 25.",
   "icon": "grid",
   "color": "#8b5cf6",
-  "order": 11,
+  "order": 12,
   "currentVersion": 25,
   "sections": [
     {

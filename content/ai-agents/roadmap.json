@@ -1,0 +1,102 @@
+{
+  "title": "Lộ trình AI Agents: 4 chặng theo khóa Microsoft",
+  "description": "Bốn chặng, khoảng 1 giờ mỗi ngày, đi theo đúng thứ tự 19 bài của khóa AI Agents for Beginners. Mỗi chặng kết thúc bằng một đoạn code chạy được (lời giải bài tập không cần Azure) và, nếu có tài khoản Azure, một notebook gốc chạy thật trên Microsoft Foundry.",
+  "stages": [
+    {
+      "id": "chang-1-nen-tang",
+      "title": "Chặng 1: Nền tảng và tool use",
+      "duration": "1 tuần",
+      "goal": "Hiểu agent là gì, khi nào nên và không nên dùng, framework của Microsoft, nguyên tắc thiết kế, và tự viết được vòng lặp function calling.",
+      "outcomes": [
+        "Phân biệt bảy loại agent và chọn đúng cho một bài toán",
+        "Giải thích khác biệt Microsoft Agent Framework và Foundry Agent Service",
+        "Áp ba hướng dẫn minh bạch, kiểm soát, nhất quán vào UI của agent",
+        "Viết vòng tool calling có call_id, xử lý lỗi tool và giới hạn số lượt"
+      ],
+      "items": [
+        "ai-agents/course/nen-tang/cai-dat-khoa-hoc",
+        "ai-agents/course/nen-tang/gioi-thieu-ai-agent",
+        "ai-agents/course/nen-tang/kham-pha-agent-framework",
+        "ai-agents/course/nen-tang/nguyen-tac-thiet-ke-agent",
+        "ai-agents/course/cong-cu-tri-thuc/tool-use"
+      ],
+      "practice": [
+        "Chạy notebook 01 và 04 gốc trên project Foundry (nếu có Azure)",
+        "Làm bài tập vòng lặp tool calling với model giả lập"
+      ],
+      "milestone": "Hàm run(user_text, model) chạy được với fake_model và trả lời đúng giờ Hà Nội."
+    },
+    {
+      "id": "chang-2-tri-thuc-ke-hoach",
+      "title": "Chặng 2: Tri thức, độ tin cậy, planning và multi-agent",
+      "duration": "1 tuần",
+      "goal": "Xây agent biết truy xuất và tự kiểm (agentic RAG), có cổng duyệt theo rủi ro, biết lập kế hoạch có cấu trúc, phối hợp nhiều agent và tự đổi chiến lược.",
+      "outcomes": [
+        "Giải thích vòng maker-checker của agentic RAG",
+        "Liệt kê năm mối đe doạ và cách giảm thiểu, thiết kế cổng duyệt theo tool",
+        "Validate kế hoạch của planner bằng Pydantic và định tuyến tới agent",
+        "Chọn group chat, hand-off hay collaborative filtering cho một kịch bản"
+      ],
+      "items": [
+        "ai-agents/course/cong-cu-tri-thuc/agentic-rag",
+        "ai-agents/course/cong-cu-tri-thuc/xay-agent-dang-tin-cay",
+        "ai-agents/course/ke-hoach-da-agent/planning-design",
+        "ai-agents/course/ke-hoach-da-agent/multi-agent",
+        "ai-agents/course/ke-hoach-da-agent/metacognition"
+      ],
+      "practice": [
+        "Làm bài tập thiết kế hệ multi-agent cho hỗ trợ khách hàng",
+        "So sánh với Lab 14 (workflow nhiều agent) của môn Claude Code"
+      ],
+      "milestone": "Một planner trả JSON hợp lệ theo schema, được định tuyến tới handler, và có cổng duyệt cho tool rủi ro cao."
+    },
+    {
+      "id": "chang-3-production",
+      "title": "Chặng 3: Production, giao thức, context và memory",
+      "duration": "1 tuần",
+      "goal": "Đưa agent từ hộp đen thành hộp kính: trace, metric, đánh giá offline và online; nối tool qua MCP, agent qua A2A; quản lý context và memory dài hạn.",
+      "outcomes": [
+        "Tính latency, chi phí, tỷ lệ lỗi từ span và phát hiện vòng lặp",
+        "Phân biệt MCP, A2A, NLWeb và viết được Agent Card",
+        "Nhận diện bốn kiểu hỏng context và cách sửa",
+        "Thiết kế memory dài hạn có cập nhật và quyền quên"
+      ],
+      "items": [
+        "ai-agents/course/production-giao-thuc/agent-trong-production",
+        "ai-agents/course/production-giao-thuc/giao-thuc-mcp-a2a-nlweb",
+        "ai-agents/course/production-giao-thuc/context-engineering",
+        "ai-agents/course/production-giao-thuc/agent-memory"
+      ],
+      "practice": [
+        "Đối chiếu context engineering với /compact, subagent và CLAUDE.md trong Claude Code",
+        "Viết danh sách tool MCP cho dự án Sổ chi tiêu (Lab 15)"
+      ],
+      "milestone": "ContextManager có pruning, nén và bản ghi kiểm tra; PreferenceMemory lọc khách sạn bằng code."
+    },
+    {
+      "id": "chang-4-nang-cao",
+      "title": "Chặng 4: Framework, browser, deploy, local và bảo mật",
+      "duration": "1 tuần",
+      "goal": "Nắm toàn bộ Microsoft Agent Framework, xây browser agent có guardrail, deploy có evaluation gate và smoke test, chạy agent hoàn toàn local, và làm audit trail có chữ ký số.",
+      "outcomes": [
+        "Viết middleware chain kiểu onion và chọn edge cho workflow",
+        "Áp bảy guardrail cho browser agent",
+        "Thiết kế router, cache, evaluation gate và smoke test sau deploy",
+        "Giới hạn tool local bằng sandbox đường dẫn",
+        "Ký, xác minh, nối chuỗi receipt và nói rõ receipt không chứng minh điều gì"
+      ],
+      "items": [
+        "ai-agents/course/nang-cao/microsoft-agent-framework",
+        "ai-agents/course/nang-cao/browser-use",
+        "ai-agents/course/nang-cao/deploy-agent-quy-mo-lon",
+        "ai-agents/course/nang-cao/agent-chay-local",
+        "ai-agents/course/nang-cao/bao-mat-ai-agent"
+      ],
+      "practice": [
+        "Làm assignment bài 16 (agent hỗ trợ thanh toán SaaS) nếu có Azure",
+        "Chạy Foundry Local với Qwen trên máy cá nhân cho bài 17"
+      ],
+      "milestone": "Chuỗi receipt phát hiện được xoá giữa và đảo thứ tự, và bạn giải thích được vì sao cắt đuôi cần chain head đã ghim."
+    }
+  ]
+}

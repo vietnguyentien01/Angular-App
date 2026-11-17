@@ -4,7 +4,7 @@
   "description": "Ôn lại và đào sâu TypeScript: hệ thống kiểu, narrowing, generics, type nâng cao, tsconfig và những thay đổi của TypeScript 6.",
   "icon": "code",
   "color": "#3178c6",
-  "order": 4,
+  "order": 5,
   "currentVersion": 6,
   "sections": [
     {

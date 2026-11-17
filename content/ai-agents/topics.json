@@ -1,0 +1,7 @@
+[
+  { "id": "nen-tang", "title": "Nền tảng", "description": "Bài 0–3: cài đặt môi trường, agent là gì, framework agent, nguyên tắc thiết kế agent." },
+  { "id": "cong-cu-tri-thuc", "title": "Tool, tri thức & độ tin cậy", "description": "Bài 4–6: tool use, agentic RAG, xây agent đáng tin cậy." },
+  { "id": "ke-hoach-da-agent", "title": "Planning, multi-agent & metacognition", "description": "Bài 7–9: lập kế hoạch, hệ nhiều agent, agent tự đánh giá và sửa mình." },
+  { "id": "production-giao-thuc", "title": "Production, giao thức, context & memory", "description": "Bài 10–13: observability và đánh giá, MCP/A2A/NLWeb, context engineering, bộ nhớ của agent." },
+  { "id": "nang-cao", "title": "Framework, browser, deploy & bảo mật", "description": "Bài 14–18: Microsoft Agent Framework, browser use, deploy agent quy mô lớn, agent chạy local, bảo mật agent." }
+]

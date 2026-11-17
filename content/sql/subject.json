@@ -4,7 +4,7 @@
   "description": "SQL cho dev fullstack: truy vấn và JOIN, GROUP BY và window function, thiết kế schema có ràng buộc, index, EXPLAIN và transaction — luyện trên một cơ sở dữ liệu bán hàng mẫu chạy được bằng PostgreSQL.",
   "icon": "grid",
   "color": "#336791",
-  "order": 7,
+  "order": 8,
   "currentVersion": 16,
   "sections": [
     {

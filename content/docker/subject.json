@@ -4,7 +4,7 @@
   "description": "Đóng gói và tự động hoá cho dev fullstack: image và container, Dockerfile cho Node.js, docker compose với PostgreSQL, pipeline GitHub Actions chạy test và build image — có số đo thật về kích thước, cache và tín hiệu dừng.",
   "icon": "settings",
   "color": "#1d63ed",
-  "order": 8,
+  "order": 9,
   "currentVersion": 29,
   "sections": [
     {

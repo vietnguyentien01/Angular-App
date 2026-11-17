@@ -345,3 +345,10 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ Code mẫu, đáp án bài tập và số đo đã chạy thật: Express 5 + Zod + supertest; PostgreSQL 16 (EXPLAIN, race condition, migration); Docker 29 + compose (kích thước image, cache, SIGTERM/PID 1, OOM, read-only); actionlint cho workflow; React 19 + Testing Library + TanStack Query.
 - ✅ Lộ trình 4 tuần "từ frontend Angular lên fullstack JavaScript" (`content/nodejs/roadmap.json`) phủ đủ 48 bài.
 - ✅ Highlight thêm `sql`, `tsx`, `jsx`, `dockerfile`; mục lục giữ dấu gạch dưới trong từ (`tocText`).
+
+## 18. Môn AI Agents cho người mới (bản dịch khóa Microsoft)
+
+- ✅ `ai-agents`: dịch 19 bài (0–18) của microsoft/ai-agents-for-beginners (MIT License), đặt ngay dưới môn Claude Code (order 2; các môn khác lùi một bậc). Một phần `course`, 5 chủ đề theo thứ tự khóa gốc; mỗi bài ghi nguồn, giữ thuật ngữ tiếng Anh, bỏ phần quảng bá/video, giữ knowledge check và assignment gốc.
+- ✅ Mỗi bài ≥ 2 quiz + 1 bài tập; 55 câu trắc nghiệm. Code gọi Azure/Foundry không chạy được ở đây (ghi rõ trong bài). Mọi lời giải bài tập và câu "đoán output" viết bằng Python thuần/pydantic/cryptography và đã chạy thật (vòng tool calling, tìm kiếm RAG, phân loại rủi ro, parse kế hoạch, metacognition, metric từ span, context manager, memory, middleware, kiểm tra trước hành động của browser agent, router + cache + evaluation gate, sandbox đường dẫn, receipt Ed25519 + chuỗi hash).
+- ✅ Ghi chú những chỗ bản gốc có vấn đề: tên API MAF khác nhau giữa bài 14 và các bài khác; notebook bài 13 thiếu `search_hotels` trong danh sách tool; ví dụ metacognition viết cứng chiến lược; heuristic rủi ro theo chuỗi con.
+- ✅ Highlight thêm `python`, `py`, `csharp`. Lộ trình 4 chặng phủ đủ 19 bài.

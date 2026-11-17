@@ -4,7 +4,7 @@
   "description": "Spring Boot 4.1 (Spring Framework 7, Java 25) cho dự án enterprise: bean và cấu hình, REST API, Spring Data JPA, transaction, Spring Security, test với Testcontainers, gọi dịch vụ ngoài, vận hành production — mọi ví dụ chạy thật trên một dự án đơn hàng với PostgreSQL 16.",
   "icon": "route",
   "color": "#6db33f",
-  "order": 10,
+  "order": 11,
   "currentVersion": 4,
   "sections": [
     {

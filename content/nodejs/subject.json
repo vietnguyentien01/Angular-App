@@ -4,7 +4,7 @@
   "description": "Từ frontend sang backend JavaScript: event loop và async, Express 5, thiết kế REST API có test, xác thực và bảo mật cơ bản — đủ để phỏng vấn vị trí fullstack JavaScript.",
   "icon": "route",
   "color": "#3c873a",
-  "order": 6,
+  "order": 7,
   "currentVersion": 26,
   "sections": [
     {

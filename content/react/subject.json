@@ -4,7 +4,7 @@
   "description": "React 19 cho dev Angular: component và JSX, state và hook, gọi API và form, quản lý state và hiệu năng — luôn đặt cạnh khái niệm Angular tương ứng, mọi hành vi đã chạy thử bằng Testing Library.",
   "icon": "monitor",
   "color": "#087ea4",
-  "order": 5,
+  "order": 6,
   "currentVersion": 19,
   "sections": [
     {

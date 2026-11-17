@@ -1,0 +1,16 @@
+{
+  "id": "ai-agents",
+  "title": "AI Agents cho người mới",
+  "description": "Bản dịch tiếng Việt khóa học AI Agents for Beginners của Microsoft (19 bài, MIT License): agent là gì, framework, design pattern, tool use, agentic RAG, planning, multi-agent, metacognition, production, giao thức MCP/A2A, context engineering, memory, browser use, deploy, agent chạy local và bảo mật agent.",
+  "icon": "target",
+  "color": "#0078d4",
+  "order": 2,
+  "sections": [
+    {
+      "id": "course",
+      "title": "Khóa học",
+      "description": "19 bài theo đúng thứ tự khóa học gốc của Microsoft, mỗi bài có tóm tắt, nội dung dịch, code mẫu Python (Microsoft Agent Framework), quiz và bài tập.",
+      "icon": "flag"
+    }
+  ]
+}
