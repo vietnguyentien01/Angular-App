@@ -8,7 +8,7 @@ tags: [docker, debugging, logs, troubleshooting]
 related: [docker/review/basics/image-container-va-lenh-co-ban, docker/consolidate/dockerfile/dockerfile-cho-node-api]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Container "biến mất" → `docker ps -a` (gồm container đã dừng) → `docker logs <tên>` → `docker inspect` xem `ExitCode`, `OOMKilled`.
 - Exit code: `0` thoát bình thường, `1` lỗi do app, `137` bị SIGKILL (thường do **hết bộ nhớ** hoặc `docker stop` quá thời gian chờ), `143` thoát sau SIGTERM.

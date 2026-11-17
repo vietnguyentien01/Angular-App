@@ -8,7 +8,7 @@ tags: [claude-code, plan-mode, workflow]
 related: [claude-code/review/guardrails/che-do-quyen, claude-code/consolidate/memory/quy-trinh-task-angular]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Thay đổi **nhiều file, chưa rõ cách làm, hoặc đụng code lạ** → plan trước. Sửa typo, đổi tên biến, thêm một dòng log → làm luôn.
 - Plan mode: Claude đọc, chạy lệnh khám phá, viết kế hoạch — **không sửa source** tới khi bạn duyệt.

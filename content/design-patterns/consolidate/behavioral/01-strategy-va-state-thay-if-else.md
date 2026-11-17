@@ -8,7 +8,7 @@ tags: [design-patterns, state, strategy, state-machine, enum, refactoring]
 related: [design-patterns/review/behavioral/strategy-observer-template-chain-state, design-patterns/consolidate/principles/tu-code-smell-den-refactor]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Nhiều cờ `boolean` mô tả tiến trình = **trạng thái không hợp lệ biểu diễn được**. 3 cờ = 8 tổ hợp, chỉ vài tổ hợp có nghĩa.
 - **State**: một field trạng thái duy nhất + bảng **chuyển hợp lệ**. Mọi thay đổi đi qua một method (`chuyen`) — chỗ duy nhất kiểm tra, ghi lịch sử, phát sự kiện.

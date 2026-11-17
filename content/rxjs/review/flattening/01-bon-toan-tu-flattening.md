@@ -9,7 +9,7 @@ tags: [rxjs, flattening, switchMap]
 related: [rxjs/consolidate/flattening/chon-dung-flattening]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Khi mỗi giá trị nguồn tạo ra **một Observable mới** (vd: mỗi lần gõ phím → một HTTP request), bạn cần quyết định làm gì khi inner cũ **chưa xong** mà giá trị mới đã tới:
 

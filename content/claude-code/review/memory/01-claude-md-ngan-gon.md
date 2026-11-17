@@ -8,7 +8,7 @@ tags: [claude-code, claude-md, skills]
 related: [claude-code/consolidate/memory/quy-trinh-task-angular, claude-code/deep-dive/guardrails/mo-rong-claude-code]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Chỉ ghi vào `CLAUDE.md` những gì Claude **không tự tìm được** từ repo: lệnh build/test chính xác, quy ước khác mặc định, "gotcha".
 - Giữ **dưới 200 dòng**; file dài làm giảm mức tuân thủ và tốn context mỗi phiên.

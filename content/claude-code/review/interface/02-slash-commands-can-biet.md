@@ -8,7 +8,7 @@ tags: [claude-code, beginner, slash-commands]
 related: [claude-code/review/interface/phim-tat-va-cu-phap, claude-code/consolidate/sessions/context-window-va-checkpoint]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Gõ `/` rồi vài chữ để lọc. Menu gồm **lệnh có sẵn**, **skill** (có sẵn và tự viết), và lệnh do **plugin / MCP server** thêm vào. Lệnh chỉ chạy khi nằm **đầu** tin nhắn; giữa câu, `/` + `Tab` chỉ giúp hoàn thành tên.
 

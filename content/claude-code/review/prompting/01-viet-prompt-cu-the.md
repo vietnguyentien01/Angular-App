@@ -8,7 +8,7 @@ tags: [claude-code, prompting]
 related: [claude-code/review/principles/ai-la-cong-cu, claude-code/consolidate/memory/quy-trinh-task-angular]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Prompt cụ thể = cho Claude thông tin nó **chưa có**: file, triệu chứng, thế nào là xong.
 - Có sẵn file/ảnh/log thì **đưa thẳng** (`@file`, dán ảnh, pipe output) thay vì mô tả.

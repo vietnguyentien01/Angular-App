@@ -8,7 +8,7 @@ tags: [claude-code, plugins, marketplace, team]
 related: [claude-code/deep-dive/extending/mcp-va-plugin, claude-code/deep-dive/memory/monorepo-va-codebase-lon]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Plugin = thư mục có `.claude-plugin/plugin.json` + các thành phần ở **thư mục cố định**: `skills/`, `agents/`, `hooks/hooks.json`, `.mcp.json`.
 - Skill/agent của plugin có **tiền tố tên plugin**: `/team-angular-kit:new-feature` — hai plugin cùng có skill `hello` không xung đột.

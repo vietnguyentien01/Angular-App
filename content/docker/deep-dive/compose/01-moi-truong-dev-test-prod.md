@@ -8,7 +8,7 @@ tags: [docker, compose, environments, devops]
 related: [docker/consolidate/compose/compose-api-va-postgres, docker/deep-dive/cicd/chien-luoc-deploy]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `compose.yaml`: phần **chung** mọi môi trường. `compose.override.yaml`: tự động gộp khi chạy `docker compose up` — dành cho **dev**.
 - Môi trường khác: chỉ định rõ file, `docker compose -f compose.yaml -f compose.prod.yaml up -d` (khi có `-f`, override **không** tự gộp).

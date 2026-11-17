@@ -8,7 +8,7 @@ tags: [rxjs, internals]
 related: [rxjs/deep-dive/operators/tu-viet-custom-operator]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Một Observable về bản chất là: **một hàm nhận observer, gọi `next/error/complete`, và trả về hàm dọn dẹp**. Mọi thứ khác (operator, pipe, Subject) xây trên ý tưởng này.
 

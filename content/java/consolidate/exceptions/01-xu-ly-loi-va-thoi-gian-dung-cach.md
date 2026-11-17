@@ -8,7 +8,7 @@ tags: [java, exception, java-time, timezone, pitfalls]
 related: [java/review/exceptions/exception-file-va-java-time, java/consolidate/build-test/viet-test-voi-junit]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Bọc exception thì **luôn truyền cause**: `new DichVuException("…", e)`. Mất cause = mất stack trace gốc trong log.
 - Đừng `catch (Exception e) {}` hay chỉ `e.printStackTrace()`. Hoặc xử lý thật, hoặc ném lại kèm ngữ cảnh.

@@ -8,7 +8,7 @@ tags: [change-detection, error, debugging]
 related: [angular/review/change-detection/lifecycle-hooks, angular/consolidate/change-detection/markforcheck-detectchanges]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Ở **dev mode**, sau mỗi lượt change detection Angular chạy thêm một lượt **kiểm tra** (`checkNoChanges`). Nếu một binding cho ra giá trị **khác** lần trước → lỗi `NG0100: ExpressionChangedAfterItHasBeenChecked`.
 

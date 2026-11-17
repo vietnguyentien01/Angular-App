@@ -9,7 +9,7 @@ tags: [spring-boot, spring-mvc, rest, validation]
 related: [spring-boot/consolidate/web/xu-ly-loi-api-voi-problemdetail, spring-boot/deep-dive/web/ben-trong-mot-request-spring-mvc]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `@RestController` = controller trả dữ liệu (JSON) thay vì view. Mỗi method gắn với một method HTTP + đường dẫn.
 - Nhận và trả **DTO bằng `record`**, không trả thẳng entity JPA (lộ field nội bộ, lỗi lazy loading, vòng lặp JSON).

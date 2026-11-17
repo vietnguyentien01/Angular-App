@@ -8,7 +8,7 @@ tags: [zoneless, change-detection, internals, migration]
 related: [angular/deep-dive/signals/reactive-graph, angular/consolidate/change-detection/markforcheck-detectchanges]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Zone.js** patch mọi API bất đồng bộ (`setTimeout`, `Promise`, `addEventListener`, XHR…). Mỗi khi một tác vụ kết thúc, Angular chạy change detection **cho chắc** — kể cả khi không có gì đổi.
 - **Zoneless**: không patch gì cả. Angular chỉ lên lịch change detection khi nhận được **thông báo** cụ thể.

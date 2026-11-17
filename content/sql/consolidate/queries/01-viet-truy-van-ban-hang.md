@@ -8,7 +8,7 @@ tags: [sql, postgresql, join, subquery, exists]
 related: [sql/review/queries/select-where-join, sql/consolidate/aggregation/bao-cao-doanh-thu-va-window]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Dịch câu hỏi nghiệp vụ sang SQL theo thứ tự: **cần bảng nào → nối bằng khoá nào → lọc dòng → gom nhóm → lọc nhóm → sắp xếp**.
 - Subquery **tương quan** (tham chiếu bảng ngoài) chạy "cho từng dòng" về mặt logic — dễ đọc, PostgreSQL thường tối ưu tốt.

@@ -9,7 +9,7 @@ tags: [sql, postgresql, index, explain, transaction]
 related: [sql/consolidate/performance/doc-explain-va-sua-n-cong-1, sql/deep-dive/performance/isolation-va-khoa]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Index** (B-tree mặc định) giống mục lục: tìm theo cột đã đánh index mà không quét cả bảng. Đổi lại, **ghi chậm hơn** và tốn dung lượng.
 - Khoá chính và `UNIQUE` tự có index. **Khoá ngoại thì không** — nên tự tạo index cho cột khoá ngoại hay dùng để lọc/join.

@@ -8,7 +8,7 @@ tags: [spring-boot, jpa, hibernate, n-plus-1, performance]
 related: [spring-boot/review/data/entity-repository-va-flyway, spring-boot/deep-dive/data/persistence-context-va-dirty-checking]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **N+1**: 1 query lấy danh sách cha + N query lấy quan hệ lazy của từng phần tử. Code nhìn vô hại, chạy chậm dần theo dữ liệu.
 - Phát hiện bằng cách **đếm câu SQL** (Hibernate Statistics, log `org.hibernate.SQL`) trong test và môi trường dev.

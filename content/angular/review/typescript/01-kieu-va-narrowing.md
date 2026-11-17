@@ -9,7 +9,7 @@ tags: [typescript, union, narrowing]
 related: [angular/review/typescript/generics-utility-types]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `interface` — mô tả hình dạng object, **mở rộng** được (`extends`, declaration merging).
 - `type` — đặt tên cho **bất kỳ** kiểu nào: union, tuple, function, mapped type.

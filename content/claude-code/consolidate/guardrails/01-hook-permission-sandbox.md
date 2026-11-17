@@ -7,7 +7,7 @@ tags: [claude-code, hooks, permissions, sandbox]
 related: [claude-code/consolidate/verification/cho-claude-phep-kiem-tra, claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Quy tắc **không có ngoại lệ** → cơ chế cứng: hook, permission rule, sandbox — không phải lời dặn.
 - `Stop` hook exit 2 khi typecheck/test fail → Claude không thể báo xong; `PostToolUse` chạy formatter sau mỗi lần sửa.

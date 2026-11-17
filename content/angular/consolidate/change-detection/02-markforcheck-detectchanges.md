@@ -8,7 +8,7 @@ tags: [change-detection, ChangeDetectorRef, performance]
 related: [angular/review/change-detection/default-vs-onpush, angular/deep-dive/change-detection/zoneless-ben-trong]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | API | Làm gì | Đồng bộ? |
 |---|---|---|

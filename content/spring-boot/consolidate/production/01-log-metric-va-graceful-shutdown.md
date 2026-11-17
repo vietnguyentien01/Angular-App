@@ -8,7 +8,7 @@ tags: [spring-boot, logging, metrics, actuator, graceful-shutdown]
 related: [spring-boot/review/production/actuator-health-va-metric, spring-boot/deep-dive/production/dong-goi-docker-va-khoi-dong-nhanh]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Log production là **JSON một dòng** để hệ thống log (ELK, Loki, Cloud Logging) tìm theo trường: `logging.structured.format.console=ecs` (hoặc `logstash`, `gelf`).
 - Metric nghiệp vụ cho những câu hỏi mà log trả lời chậm: "bao nhiêu đăng nhập thất bại trong 5 phút?" → cảnh báo khi tăng đột biến.

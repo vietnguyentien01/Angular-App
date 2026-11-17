@@ -8,7 +8,7 @@ tags: [claude-code, principles]
 related: [claude-code/review/prompting/viet-prompt-cu-the, claude-code/consolidate/principles/hoc-cung-ai-khong-phu-thuoc]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Người merge chịu trách nhiệm — không merge thứ bạn không giải thích được.
 - Chỉ dẫn **mềm** (prompt, CLAUDE.md, skill) có thể bị bỏ qua; chỉ dẫn **cứng** (hook, permission, sandbox, CI) luôn được thực thi.

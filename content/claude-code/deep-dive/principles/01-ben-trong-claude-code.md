@@ -8,7 +8,7 @@ tags: [claude-code, internals, prompt-caching, context-window]
 related: [claude-code/consolidate/sessions/context-window-va-checkpoint, claude-code/deep-dive/sessions/model-va-usage]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Model **không nhớ** giữa các request. Mỗi lượt, Claude Code gửi lại **toàn bộ**: system prompt, bối cảnh dự án, toàn bộ hội thoại và kết quả công cụ, cộng tin nhắn mới.
 - **Prompt caching** tái dùng phần đầu (tiền tố) không đổi → nhanh và rẻ hơn. Một thay đổi ở đầu làm tính lại **mọi thứ phía sau**.

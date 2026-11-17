@@ -8,7 +8,7 @@ tags: [react, reconciliation, key, state, internals]
 related: [react/review/components/jsx-props-state-va-danh-sach, react/consolidate/components/doan-so-lan-render]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Sau mỗi lần render, React so cây mới với cây cũ (**reconciliation**). State gắn với **vị trí trong cây** + **loại phần tử** (+ `key` nếu có) — không gắn với biến JSX hay tên component bạn viết.
 - Cùng vị trí, cùng loại, cùng key → **giữ** component và state, chỉ cập nhật props.

@@ -8,7 +8,7 @@ tags: [rxjs, memory-leak, angular]
 related: [rxjs/review/angular/async-pipe-va-unsubscribe]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Subscription **không tự huỷ** khi component bị huỷ nếu nguồn không complete. Nguồn "sống lâu" hay gây leak:
 

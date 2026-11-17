@@ -8,7 +8,7 @@ tags: [react, tanstack-query, forms, zod, testing, accessibility]
 related: [react/review/data-forms/goi-api-va-form, nodejs/consolidate/rest-api/viet-api-co-test]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `useQuery({ queryKey, queryFn })` cho đọc; `useMutation({ mutationFn, onSuccess })` cho ghi; `invalidateQueries` để danh sách tự tải lại sau khi ghi.
 - Một hàm `api()` bọc `fetch`: gắn header, ném lỗi khi `!r.ok` (TanStack Query chỉ coi Promise bị **reject** là lỗi — `fetch` không tự reject với HTTP 4xx/5xx).

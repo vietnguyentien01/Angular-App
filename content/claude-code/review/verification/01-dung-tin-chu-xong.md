@@ -8,7 +8,7 @@ tags: [claude-code, verification, beginner, testing]
 related: [claude-code/consolidate/verification/cho-claude-phep-kiem-tra, claude-code/deep-dive/verification/kiem-chung-giao-dien]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Claude làm tốt nhất khi **tự kiểm tra được** công việc của mình. Việc của bạn: (1) cho nó cách kiểm tra, (2) đòi **bằng chứng**, (3) tự nhìn lại trước khi chấp nhận.
 

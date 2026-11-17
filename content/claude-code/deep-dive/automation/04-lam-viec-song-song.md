@@ -11,7 +11,7 @@ changelog:
     note: "Tách cách dừng /loop theo hai kiểu (khoảng cố định vs tự điều chỉnh nhịp); thêm thay đổi của v2.1.319: vòng lặp tự điều chỉnh nhịp kết thúc khi một lượt không lên lịch tiếp."
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Hai phiên sửa cùng một thư mục sẽ giẫm lên nhau → mỗi phiên một **worktree**: `claude -w <ten>`.
 - Chạy dài có điều kiện dừng rõ: **`/goal`**. Lặp theo chu kỳ khi phiên còn mở: **`/loop`**. Chạy cả khi tắt máy: **`/schedule`** (cloud).

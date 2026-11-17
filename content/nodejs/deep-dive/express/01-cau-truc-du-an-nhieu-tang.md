@@ -8,7 +8,7 @@ tags: [nodejs, express, architecture, config, logging]
 related: [nodejs/consolidate/express/xu-ly-loi-va-validation, nodejs/consolidate/rest-api/viet-api-co-test]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Route/controller**: HTTP (đọc request, validate, trả status). **Service**: nghiệp vụ, không biết HTTP. **Repository**: SQL/ORM, không biết nghiệp vụ.
 - Chia thư mục theo **module nghiệp vụ** (`products/`, `orders/`) thay vì theo loại file (`controllers/`, `services/`) khi dự án lớn dần.

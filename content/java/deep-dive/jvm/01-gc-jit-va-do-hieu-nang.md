@@ -8,7 +8,7 @@ tags: [java, jvm, gc, jit, jmh, performance]
 related: [java/consolidate/jvm/chan-doan-memory-leak-va-oom, java/deep-dive/basics/ben-trong-string-va-boxing]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Code Java chạy qua các tầng: **thông dịch → C1 → C2**. Method nóng được biên dịch dần, nên những lần chạy đầu luôn chậm hơn (*warmup*). Đo hiệu năng mà bỏ qua warmup là đo sai.
 - Chọn GC theo mục tiêu: **G1** (mặc định, cân bằng), **ZGC** (pause dưới 1 ms, heap lớn), **Parallel** (thông lượng batch), **Serial** (heap nhỏ, 1 CPU).

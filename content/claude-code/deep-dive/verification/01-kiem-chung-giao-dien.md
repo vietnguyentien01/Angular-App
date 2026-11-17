@@ -8,7 +8,7 @@ tags: [claude-code, verification, testing, e2e, hooks]
 related: [claude-code/consolidate/verification/cho-claude-phep-kiem-tra, claude-code/labs/labs/mcp-playwright-kiem-tra-giao-dien]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Một chuỗi kiểm chứng tốt có **nhiều lớp độc lập**, mỗi lớp bắt loại lỗi khác:
 

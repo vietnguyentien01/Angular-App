@@ -8,7 +8,7 @@ tags: [nodejs, express, validation, zod, error-handling]
 related: [nodejs/review/express/routing-va-middleware, nodejs/consolidate/rest-api/viet-api-co-test]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Không tin dữ liệu từ client**: validate body, query, params ở rìa hệ thống, trước khi vào service.
 - Route chỉ `throw new AppError(404, 'NOT_FOUND', …)`; **một** error handler biến lỗi thành response JSON.

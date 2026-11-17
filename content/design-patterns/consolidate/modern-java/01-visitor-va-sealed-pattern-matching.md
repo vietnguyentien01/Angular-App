@@ -8,7 +8,7 @@ tags: [design-patterns, visitor, sealed, pattern-matching, java-21, java-25]
 related: [design-patterns/review/modern-java/pattern-voi-lambda-record-sealed, design-patterns/consolidate/behavioral/strategy-va-state-thay-if-else]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Visitor** giải bài toán: một tập **kiểu cố định**, nhiều **thao tác** thay đổi (tính lãi, xuất báo cáo, kiểm tra rủi ro) mà không nhét mọi thao tác vào từng class.
 - Java 21+: `sealed interface` + `switch` pattern matching làm được điều đó với ít code hơn nhiều, và compiler vẫn báo **mọi chỗ** thiếu `case` khi thêm kiểu mới.

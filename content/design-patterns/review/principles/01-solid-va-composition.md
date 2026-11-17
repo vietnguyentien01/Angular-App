@@ -9,7 +9,7 @@ tags: [design-patterns, solid, composition, oop]
 related: [design-patterns/consolidate/principles/tu-code-smell-den-refactor, design-patterns/deep-dive/principles/coupling-cohesion-va-ranh-gioi-module]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Pattern là **lời giải có tên** cho một vấn đề lặp lại. Nguyên tắc (SOLID, composition) là lý do vì sao lời giải đó tốt. Học nguyên tắc trước, pattern sẽ tự hiểu.
 - **S**ingle Responsibility: một class chỉ có **một lý do để thay đổi**.

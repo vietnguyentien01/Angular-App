@@ -8,7 +8,7 @@ tags: [docker, compose, postgresql, healthcheck, nodejs]
 related: [docker/review/compose/compose-nhieu-dich-vu, docker/consolidate/dockerfile/dockerfile-cho-node-api]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Một file `compose.yaml` + một file `.env` (không commit) là đủ để cả team chạy được API + DB giống nhau.
 - `healthcheck` ở DB + `depends_on … condition: service_healthy` ở API → API không khởi động khi DB chưa nhận kết nối.

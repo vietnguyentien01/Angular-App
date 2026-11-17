@@ -8,7 +8,7 @@ tags: [claude-code, vs-code, jetbrains, desktop, cloud, remote-control]
 related: [claude-code/review/getting-started/claude-code-la-gi, claude-code/deep-dive/automation/lam-viec-song-song]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Vòng lặp, công cụ, CLAUDE.md, settings giống nhau** ở mọi giao diện chạy trên máy bạn.
 - Hằng ngày: **VS Code extension** (diff trực quan, @-mention theo dòng) hoặc **terminal** (đầy đủ nhất, scriptable).

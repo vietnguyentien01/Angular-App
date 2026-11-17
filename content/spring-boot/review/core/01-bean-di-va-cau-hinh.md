@@ -9,7 +9,7 @@ tags: [spring-boot, dependency-injection, configuration, profiles]
 related: [spring-boot/consolidate/core/loi-di-va-cau-hinh-thuong-gap, spring-boot/deep-dive/core/auto-configuration-hoat-dong-the-nao]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Spring tạo và giữ các object (**bean**), rồi tự truyền chúng vào nơi cần (**dependency injection**). Bạn khai báo, không tự `new`.
 - Class đánh dấu `@Component`, `@Service`, `@Repository`, `@RestController` trong package của class `@SpringBootApplication` (và package con) sẽ thành bean.

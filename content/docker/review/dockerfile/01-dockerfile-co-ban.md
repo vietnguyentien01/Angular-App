@@ -9,7 +9,7 @@ tags: [docker, dockerfile, cache, nodejs]
 related: [docker/consolidate/dockerfile/dockerfile-cho-node-api, docker/deep-dive/dockerfile/toi-uu-va-bao-mat-image]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `FROM` chọn image gốc; `WORKDIR` thư mục làm việc; `COPY` đưa file vào; `RUN` chạy lệnh lúc **build**; `CMD` lệnh chạy khi **container khởi động**.
 - Mỗi lệnh là một **layer** có cache. Một layer đổi → mọi layer **sau nó** build lại. Vì vậy: copy `package.json`/lockfile → `npm ci` → **rồi** mới copy source.

@@ -8,7 +8,7 @@ tags: [java, maven, dependency, junit, flaky-test, ci]
 related: [java/consolidate/build-test/viet-test-voi-junit, java/review/build-test/maven-va-junit-co-ban]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Hai đường dẫn kéo về hai version của cùng thư viện → Maven chọn version **gần gốc nhất** (*nearest wins*), **không** phải version mới nhất, và không báo lỗi.
 - Kiểm soát version bằng **`dependencyManagement`** và **BOM** (Spring Boot, JUnit, Jackson…). Chặn xung đột trong CI bằng **maven-enforcer** `dependencyConvergence`.

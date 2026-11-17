@@ -8,7 +8,7 @@ tags: [claude-code, models, cost, usage, fast-mode]
 related: [claude-code/deep-dive/sessions/chi-phi-va-subagent, claude-code/consolidate/sessions/context-window-va-checkpoint]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Alias thay vì số phiên bản: `opus` (suy luận mạnh), `sonnet` (việc code hằng ngày, rẻ hơn), `haiku` (nhanh, rẻ — hợp subagent đơn giản), `fable` (việc khó và dài nhất), `opusplan` (opus khi plan, sonnet khi làm).
 - Chi phí token tăng theo **kích thước context** — quản lý context là cách tiết kiệm lớn nhất.

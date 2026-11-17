@@ -8,7 +8,7 @@ tags: [nodejs, event-loop, async, pitfalls]
 related: [nodejs/review/runtime/event-loop-va-async, nodejs/deep-dive/runtime/ben-trong-event-loop-va-stream]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Hai hàng đợi microtask: **`process.nextTick`** rồi **Promise**. Chúng chạy hết trước khi sang timer/I/O.
 - Trong **CommonJS**, `nextTick` chạy trước Promise. Trong **ESM**, code top-level đã chạy bên trong một Promise job, nên Promise `.then` đăng ký ở top-level chạy **trước** `nextTick`.

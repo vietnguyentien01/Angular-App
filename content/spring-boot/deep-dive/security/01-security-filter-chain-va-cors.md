@@ -8,7 +8,7 @@ tags: [spring-boot, spring-security, cors, internals, filters]
 related: [spring-boot/consolidate/security/jwt-va-phan-quyen-theo-chu-so-huu, spring-boot/deep-dive/web/ben-trong-mot-request-spring-mvc]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Spring Security là **một Servlet filter** (`FilterChainProxy`) chứa nhiều `SecurityFilterChain`; mỗi chain là một danh sách filter có thứ tự.
 - Kết quả xác thực nằm trong **`SecurityContextHolder`** (mặc định ThreadLocal) — chỉ có trên thread xử lý request.

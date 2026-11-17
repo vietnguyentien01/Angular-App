@@ -9,7 +9,7 @@ tags: [java, concurrency, thread, executor, completablefuture]
 related: [java/consolidate/concurrency/race-condition-deadlock-va-completablefuture, java/deep-dive/concurrency/virtual-thread-va-structured-concurrency]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Không tự tạo `new Thread` cho từng việc trong code nghiệp vụ. Dùng **`ExecutorService`**; việc chờ I/O (HTTP, DB) dùng **virtual thread** (`Executors.newVirtualThreadPerTaskExecutor()`).
 - Từ Java 19, `ExecutorService` là `AutoCloseable`: **`try (var ex = …) { … }`** đợi mọi task xong rồi đóng.

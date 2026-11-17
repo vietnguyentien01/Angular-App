@@ -9,7 +9,7 @@ tags: [react, state-management, context, usereducer]
 related: [react/consolidate/architecture/to-chuc-state-gio-hang, react/deep-dive/architecture/hieu-nang-va-react-compiler]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Nâng state lên** (lifting state up): hai component cần chung dữ liệu → đặt state ở **cha chung gần nhất**, truyền xuống bằng props.
 - **Context**: dữ liệu nhiều tầng cùng cần (người dùng đăng nhập, theme, giỏ hàng) — tránh "khoan props" qua 5 tầng. Mọi component đọc context **render lại khi giá trị context đổi**.

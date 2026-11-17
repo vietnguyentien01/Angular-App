@@ -8,7 +8,7 @@ tags: [sql, postgresql, normalization, jsonb, migration]
 related: [sql/review/design/khoa-rang-buoc-va-kieu-du-lieu, sql/consolidate/design/thiet-ke-schema-ban-hang]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Chuẩn hoá**: mỗi sự thật lưu **một chỗ**. 1NF: giá trị nguyên tử, không lặp nhóm cột. 2NF: cột phụ thuộc vào **toàn bộ** khoá. 3NF: cột không phụ thuộc vào cột không phải khoá.
 - **Phi chuẩn hoá có chủ đích**: lưu giá trị lịch sử (`unit_price`), số liệu tổng hợp (`rating_avg`) — kèm quy tắc cập nhật rõ ràng.

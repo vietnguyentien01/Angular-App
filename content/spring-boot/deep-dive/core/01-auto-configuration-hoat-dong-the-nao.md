@@ -8,7 +8,7 @@ tags: [spring-boot, auto-configuration, conditional, internals]
 related: [spring-boot/review/core/bean-di-va-cau-hinh, spring-boot/consolidate/core/loi-di-va-cau-hinh-thuong-gap]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `@SpringBootApplication` = `@Configuration` + `@ComponentScan` + **`@EnableAutoConfiguration`**.
 - Auto-config là các class `@AutoConfiguration` bình thường, được liệt kê trong file `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` của mỗi jar.

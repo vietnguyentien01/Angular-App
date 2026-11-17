@@ -8,7 +8,7 @@ tags: [sql, postgresql, explain, n-plus-one, performance, nodejs]
 related: [sql/review/performance/index-va-transaction, sql/deep-dive/performance/isolation-va-khoa]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **N+1**: 1 truy vấn lấy danh sách + N truy vấn lấy chi tiết cho từng phần tử. Chậm vì N lần đi về DB, và tệ hơn nữa nếu mỗi lần là một lần quét bảng.
 - Sửa: **gộp** thành `JOIN`, hoặc 2 truy vấn với `WHERE order_id = ANY($1)` rồi ghép trong code.

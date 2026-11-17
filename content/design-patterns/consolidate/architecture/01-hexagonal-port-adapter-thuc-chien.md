@@ -8,7 +8,7 @@ tags: [design-patterns, hexagonal, ports-and-adapters, testing, postgresql, arch
 related: [design-patterns/review/architecture/layered-hexagonal-va-repository, design-patterns/deep-dive/principles/coupling-cohesion-va-ranh-gioi-module]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Port ra** (driven): thứ use case cần từ bên ngoài — lưu trữ, tra cứu CIC, gửi thông báo. Domain định nghĩa interface.
 - **Port vào** (driving): cách bên ngoài gọi use case — ở đây chính là class `DuyetVay` với method `xuLy`. Controller REST, job batch, consumer Kafka đều là **adapter vào** gọi nó.

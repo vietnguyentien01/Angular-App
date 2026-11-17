@@ -8,7 +8,7 @@ tags: [design-patterns, dependency-injection, ioc, reflection, spring, angular]
 related: [design-patterns/review/frameworks/pattern-trong-spring-angular-rxjs, spring-boot/consolidate/core/loi-di-va-cau-hinh-thuong-gap]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - DI container = **registry** (kiểu → cách tạo) + **Factory** (tạo object, đệ quy tạo phụ thuộc) + **cache Singleton** + **phát hiện lỗi** (thiếu cài đặt, vòng phụ thuộc).
 - Constructor injection làm phụ thuộc **hiện rõ**: container chỉ cần đọc kiểu tham số của constructor.

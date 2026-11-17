@@ -9,7 +9,7 @@ tags: [rxjs, error]
 related: [rxjs/consolidate/errors/xu-ly-loi-dung-cho]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Khi một Observable phát `error`, nó **kết thúc** — không phát thêm gì nữa.
 - `catchError(err => fallback$)` — bắt lỗi và **thay thế** bằng một Observable khác (vd `of([])`, `EMPTY`).

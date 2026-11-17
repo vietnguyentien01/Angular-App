@@ -8,7 +8,7 @@ tags: [design-patterns, observer, reactive-streams, backpressure, flow, rxjs]
 related: [design-patterns/review/frameworks/pattern-trong-spring-angular-rxjs, design-patterns/deep-dive/behavioral/observer-chain-of-responsibility-va-su-kien]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Observer cổ điển: người phát gọi `onNext` bao nhiêu tuỳ ý. Người nhận chậm → hàng đợi phình to (tràn bộ nhớ) hoặc người phát bị chặn.
 - **Reactive Streams** (`java.util.concurrent.Flow` từ Java 9) thêm **backpressure**: người nhận gọi `subscription.request(n)` để nói "tôi nhận thêm n phần tử".

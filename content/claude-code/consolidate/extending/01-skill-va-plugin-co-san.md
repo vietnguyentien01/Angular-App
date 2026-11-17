@@ -8,7 +8,7 @@ tags: [claude-code, skills, plugins, typescript-lsp, bundled-skills]
 related: [claude-code/review/extending/ban-do-mo-rong, claude-code/deep-dive/extending/viet-skill]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Bundled skill** là prompt có sẵn được giao cho Claude — gọi bằng `/ten`, nhiều cái Claude cũng tự gọi khi phù hợp.
 - Plugin đáng cài sớm nhất cho dev Angular: **`typescript-lsp`** (Claude thấy lỗi type ngay sau khi sửa, tìm định nghĩa theo ký hiệu).

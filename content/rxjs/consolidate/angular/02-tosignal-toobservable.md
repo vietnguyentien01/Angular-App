@@ -8,7 +8,7 @@ tags: [rxjs, signals, interop]
 related: [angular/consolidate/signals/effect-dung-cach]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `toSignal(obs$)` — subscribe ngay khi tạo, trả về Signal. Trước giá trị đầu tiên, giá trị là `undefined` (trừ khi có `initialValue` hoặc `requireSync: true`).
 - `toObservable(sig)` — tạo Observable phát khi signal đổi. Phát **bất đồng bộ** (qua effect), và các thay đổi liên tiếp trong cùng một nhịp chỉ phát giá trị cuối.

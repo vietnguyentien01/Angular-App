@@ -56,9 +56,9 @@ Câu "đoán output" và đáp án code **phải được chạy thử** (RxJS, 
 
 | Phần | Mục đích | Khung bài |
 |---|---|---|
-| `review` (Ôn lại Core) | Nhắc lại nhanh, 1–3 phút | TL;DR → ví dụ ngắn → bảng chọn nhanh → 1 lỗi hay gặp → `:::version` → 1 `:::interview` |
-| `consolidate` (Củng cố) | Hiểu "tại sao", luyện tay | TL;DR → cơ chế → code `bad`/`good` → demo → pitfalls → `:::senior` → `:::version` → `:::interview` → bài tập |
-| `deep-dive` (Chuyên sâu & Cập nhật) | Bên trong & cái mới | TL;DR → cơ chế bên trong / mã nguồn → so sánh phương án, trade-off → tính năng mới theo phiên bản → `:::senior` |
+| `review` (Ôn lại Core) | Nhắc lại nhanh, 1–3 phút | Tóm tắt nhanh → ví dụ ngắn → bảng chọn nhanh → 1 lỗi hay gặp → `:::version` → 1 `:::interview` |
+| `consolidate` (Củng cố) | Hiểu "tại sao", luyện tay | Tóm tắt nhanh → cơ chế → code `bad`/`good` → demo → pitfalls → `:::senior` → `:::version` → `:::interview` → bài tập |
+| `deep-dive` (Chuyên sâu & Cập nhật) | Bên trong & cái mới | Tóm tắt nhanh → cơ chế bên trong / mã nguồn → so sánh phương án, trade-off → tính năng mới theo phiên bản → `:::senior` |
 
 ## 4. Cú pháp mở rộng
 
@@ -102,6 +102,7 @@ const x = 1;
 - Mọi `:::quiz` của môn học được gom vào trang **Luyện tập** (`/<subject>/practice`).
 - **HTML thô bị escape** — không dùng thẻ HTML trong Markdown.
 - Link nội bộ dùng đường dẫn tuyệt đối trong app, vd `[Signals](/angular/review)`.
+- **Không dùng từ viết tắt tiếng Anh không giải thích.** Mục tóm tắt đầu bài đặt tiêu đề `## Tóm tắt nhanh` (không dùng "TL;DR"). Từ viết tắt chuyên ngành (vd RAG, MCP, SLM) phải được viết đầy đủ hoặc giải thích ở lần xuất hiện đầu tiên trong bài.
 - Ngôn ngữ code hỗ trợ: `ts, js, html, css, scss, json, bash, yaml, diff, sql, tsx, jsx, dockerfile, java, xml, python, py, csharp, text`.
 
 ## 5. Bản tin "Frontend mới" (cập nhật mỗi 2 ngày)

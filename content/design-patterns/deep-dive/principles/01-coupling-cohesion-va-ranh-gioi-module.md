@@ -8,7 +8,7 @@ tags: [design-patterns, coupling, cohesion, jpms, modularity, architecture]
 related: [design-patterns/review/principles/solid-va-composition, design-patterns/consolidate/architecture/hexagonal-port-adapter-thuc-chien]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Coupling** (kết dính giữa các phần): sửa A thì phải sửa B bao nhiêu. **Cohesion** (gắn kết bên trong): các thứ trong một module có cùng lý do thay đổi không. Mục tiêu: coupling thấp, cohesion cao.
 - Phần lớn pattern (Strategy, Adapter, Facade, Observer, Hexagonal) là cách **giảm coupling** ở một điểm cụ thể.

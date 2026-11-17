@@ -9,7 +9,7 @@ tags: [react, jsx, props, state, key]
 related: [react/consolidate/components/doan-so-lan-render, react/deep-dive/components/reconciliation-va-key]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Component = **hàm** nhận `props`, trả về **JSX**. Mỗi lần state/props đổi, React **gọi lại hàm** và so kết quả với lần trước để cập nhật DOM.
 - Dữ liệu đi **một chiều**: cha truyền props xuống; con báo lên bằng **callback** trong props.

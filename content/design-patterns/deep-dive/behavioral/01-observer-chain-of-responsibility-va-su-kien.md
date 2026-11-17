@@ -8,7 +8,7 @@ tags: [design-patterns, observer, chain-of-responsibility, events, filter, concu
 related: [design-patterns/review/behavioral/strategy-observer-template-chain-state, design-patterns/deep-dive/frameworks/flow-va-backpressure-tu-observer-toi-rxjs]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Observer **đồng bộ** (cách mặc định của `ApplicationEventPublisher`, `EventEmitter` của Node, vòng `for` qua listener) chạy listener **trên thread của người phát**: exception, độ chậm và transaction của listener đều "lây" sang người phát.
 - Bus an toàn tối thiểu: bắt lỗi **từng** listener, danh sách listener là `CopyOnWriteArrayList`, và quyết định rõ việc nào chạy đồng bộ, việc nào chạy nền.

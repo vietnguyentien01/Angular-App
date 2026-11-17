@@ -9,7 +9,7 @@ tags: [design-patterns, java-25, lambda, record, sealed, functional]
 related: [design-patterns/consolidate/modern-java/visitor-va-sealed-pattern-matching, design-patterns/deep-dive/modern-java/lambda-ben-trong-jvm]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Pattern cổ điển | Trên Java 25 | Ghi chú |
 |---|---|---|

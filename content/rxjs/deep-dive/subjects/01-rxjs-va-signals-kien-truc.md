@@ -8,7 +8,7 @@ tags: [rxjs, signals, architecture]
 related: [rxjs/consolidate/angular/tosignal-toobservable, angular/deep-dive/signals/reactive-graph]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Loại dữ liệu | Công cụ phù hợp | Ví dụ |
 |---|---|---|

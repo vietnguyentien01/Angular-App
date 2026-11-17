@@ -8,7 +8,7 @@ tags: [docker, security, distroless, image-size, supply-chain]
 related: [docker/consolidate/dockerfile/dockerfile-cho-node-api, docker/deep-dive/basics/ben-trong-container-va-pid-1]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Ít thứ trong image = ít thứ để tấn công và ít thứ phải vá. Thứ tự lựa chọn hay gặp: `alpine`/`slim` → **distroless** khi team đã quen debug không cần shell.
 - Chạy với **user không phải root**, filesystem **chỉ đọc** (`--read-only`), **bỏ mọi capability** (`--cap-drop ALL`), `no-new-privileges`.

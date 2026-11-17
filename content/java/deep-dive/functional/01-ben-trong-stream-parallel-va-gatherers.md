@@ -8,7 +8,7 @@ tags: [java, stream, parallel, gatherers, internals, java-24]
 related: [java/consolidate/functional/viet-bao-cao-bang-stream, java/deep-dive/concurrency/virtual-thread-va-structured-concurrency]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Stream xử lý **theo chiều dọc**: mỗi phần tử đi qua toàn bộ pipeline rồi mới tới phần tử sau. Nhờ vậy `limit`, `findFirst`, `anyMatch` dừng sớm được.
 - Thao tác **có trạng thái** (`sorted`, `distinct`) phải đợi đủ dữ liệu → phá short-circuit ở phía trước nó.

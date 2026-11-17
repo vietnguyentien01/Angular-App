@@ -8,7 +8,7 @@ tags: [claude-code, cloud, environment, setup-script, scheduled-tasks]
 related: [claude-code/consolidate/getting-started/chon-noi-lam-viec, claude-code/deep-dive/automation/lam-viec-song-song]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Environment** = cấu hình máy ảo cho cloud session: **mạng**, **biến môi trường**, **network secret**, **setup script**. Dùng chung cho claude.ai/code, desktop, mobile, `claude --cloud`, scheduled task.
 - Mặc định có environment **Default**: mạng **Limited** (registry gói, GitHub, SDK cloud), không biến, không setup script.

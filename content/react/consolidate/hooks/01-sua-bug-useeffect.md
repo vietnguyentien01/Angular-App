@@ -8,7 +8,7 @@ tags: [react, useeffect, custom-hooks, testing]
 related: [react/review/hooks/usestate-useeffect-useref, react/deep-dive/hooks/ben-trong-hook]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Stale closure**: hàm trong effect "nhớ" giá trị state lúc nó được tạo. Dùng functional updater `setN(n => n + 1)` hoặc khai báo đúng deps.
 - **Deps là object/mảng/hàm tạo mới mỗi lần render** → effect chạy lại mọi lần → dễ thành vòng lặp. Đưa giá trị nguyên thủy vào deps, hoặc `useMemo`/đưa hằng ra ngoài component.

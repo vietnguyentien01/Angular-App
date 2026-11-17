@@ -9,7 +9,7 @@ tags: [design-patterns, adapter, decorator, proxy, facade, structural]
 related: [design-patterns/consolidate/structural/decorator-va-proxy-trong-thuc-te, design-patterns/deep-dive/structural/dynamic-proxy-va-gioi-han-cua-proxy]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Adapter**: có sẵn một API **không khớp** interface bạn cần (thư viện cũ, đối tác) → viết lớp chuyển đổi. Interface **thay đổi**.
 - **Decorator**: bọc object cùng interface để **thêm hành vi** (log, cache, retry, metric). Interface **giữ nguyên**, có thể bọc nhiều lớp.

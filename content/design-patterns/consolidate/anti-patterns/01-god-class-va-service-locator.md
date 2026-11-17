@@ -8,7 +8,7 @@ tags: [design-patterns, anti-pattern, god-class, service-locator, dependency-inj
 related: [design-patterns/review/anti-patterns/anti-pattern-thuong-gap, design-patterns/consolidate/frameworks/tu-viet-mini-di-container]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Service Locator**: class tự "xin" phụ thuộc từ một registry toàn cục (`DichVu.lay(TyGia.class)`). Nhìn constructor không biết class cần gì; thiếu đăng ký chỉ nổ khi chạy tới đúng dòng đó.
 - Registry toàn cục là **state dùng chung giữa các test**: test sau nhận cấu hình giả của test trước — đã tái hiện.

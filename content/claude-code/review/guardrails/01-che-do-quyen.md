@@ -8,7 +8,7 @@ tags: [claude-code, beginner, permissions, plan-mode, auto-mode]
 related: [claude-code/consolidate/guardrails/settings-va-permission-rule, claude-code/consolidate/guardrails/hook-permission-sandbox]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Permission mode** đặt mức "tự chủ" của cả phiên; `Shift+Tab` để xoay vòng.
 - Người mới nên dùng **Manual** hoặc **plan** với repo quan trọng; **auto** cho việc bạn tin hướng đi chung; **bypassPermissions** chỉ trong container/VM cô lập.

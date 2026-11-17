@@ -8,7 +8,7 @@ tags: [typescript, quiz, objects]
 related: [typescript/review/objects/interface-type-va-structural-typing, typescript/review/config/tsconfig-va-typescript-6]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Tương thích kiểu = **đủ** thuộc tính cần thiết (thừa thì được, trừ object literal mới).
 - `readonly T[]` không gán được sang `T[]` (vì `T[]` cho phép sửa).

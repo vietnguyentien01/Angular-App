@@ -8,7 +8,7 @@ tags: [spring-boot, spring-mvc, internals, api-versioning, virtual-threads]
 related: [spring-boot/consolidate/web/xu-ly-loi-api-voi-problemdetail, spring-boot/deep-dive/security/security-filter-chain-va-cors]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Request đi qua **Servlet filter** (Spring Security nằm ở đây) → **`DispatcherServlet`** → **HandlerMapping** chọn method → **interceptor** → **argument resolver** dựng tham số → controller → **message converter** (Jackson) ghi JSON.
 - Filter thấy mọi request, kể cả request không tới controller; interceptor biết **handler** nào sẽ chạy. Logic theo endpoint (đo thời gian, kiểm tra header theo route) đặt ở interceptor; logic chung (log, security, CORS) đặt ở filter.

@@ -8,7 +8,7 @@ tags: [claude-code, subagents, extending]
 related: [claude-code/deep-dive/sessions/chi-phi-va-subagent, claude-code/deep-dive/extending/viet-skill]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Subagent = worker có **context riêng**, system prompt riêng, bộ công cụ riêng. Đọc 50 file trong đó không làm đầy hội thoại của bạn — chỉ tóm tắt quay về.
 - Dùng khi: việc phụ sinh nhiều output, việc song song độc lập, cần reviewer **chưa thấy** cách code được viết, hoặc cần giao việc với **ít quyền** hơn.

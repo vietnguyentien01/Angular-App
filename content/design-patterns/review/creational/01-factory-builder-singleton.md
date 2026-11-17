@@ -9,7 +9,7 @@ tags: [design-patterns, factory, builder, singleton, creational]
 related: [design-patterns/consolidate/creational/builder-va-static-factory-dung-cach, design-patterns/deep-dive/creational/singleton-va-khoi-tao-luoi-thread-safe]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Creational pattern** trả lời câu hỏi: *ai* tạo object, *khi nào*, và người dùng cần biết *bao nhiêu* về class cụ thể.
 - **Factory** (static factory / factory method): một method trả về interface, chọn class cụ thể bên trong. Người gọi không `new` trực tiếp.

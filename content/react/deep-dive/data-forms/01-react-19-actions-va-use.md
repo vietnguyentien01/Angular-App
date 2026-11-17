@@ -8,7 +8,7 @@ tags: [react, react-19, actions, suspense, server-components]
 related: [react/review/data-forms/goi-api-va-form, react/consolidate/data-forms/tanstack-query-va-form]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Action** = hàm (có thể async) gắn vào `<form action={fn}>` hoặc chạy trong `startTransition`. React tự theo dõi trạng thái đang chạy.
 - `useActionState(fn, initial)` → `[state, formAction, isPending]`: kết quả lần gửi gần nhất (lỗi, dữ liệu) + cờ đang gửi — không cần tự viết `useState` cho loading/error.

@@ -8,7 +8,7 @@ tags: [spring-boot, idempotency, reliability, postgresql, distributed-systems]
 related: [spring-boot/consolidate/integration/timeout-retry-va-gioi-han-dong-thoi, spring-boot/deep-dive/transactions/proxy-isolation-va-khoa]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Mạng không đáng tin: request có thể **đã được xử lý** dù client nhận timeout. Client (hoặc chính bạn khi retry) sẽ gửi lại.
 - **Idempotent** = gọi nhiều lần cho cùng kết quả như gọi một lần. GET/PUT/DELETE vốn idempotent; POST thì không — trừ khi có **idempotency key**.

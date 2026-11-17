@@ -9,7 +9,7 @@ tags: [docker, compose, postgresql, volume]
 related: [docker/consolidate/compose/compose-api-va-postgres, docker/deep-dive/compose/moi-truong-dev-test-prod]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Compose tạo **một network** cho các dịch vụ trong file; dịch vụ gọi nhau bằng **tên** (`db`, `api`).
 - `depends_on` chỉ chờ container **khởi động**; muốn chờ DB **sẵn sàng** thì thêm `healthcheck` cho DB và `condition: service_healthy`.

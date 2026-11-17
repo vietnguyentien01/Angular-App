@@ -8,7 +8,7 @@ tags: [design-patterns, over-engineering, yagni, kiss, abstraction, code-review]
 related: [design-patterns/review/anti-patterns/anti-pattern-thuong-gap, design-patterns/consolidate/principles/tu-code-smell-den-refactor]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Mỗi lớp trừu tượng (interface, factory, decorator) có **chi phí**: thêm file, thêm bước khi đọc, thêm tầng khi debug, thêm thứ phải giữ đồng bộ. Nó chỉ đáng khi trả lại nhiều hơn.
 - **YAGNI** (You Aren't Gonna Need It): không thêm điểm mở rộng cho yêu cầu chưa có. **Rule of three**: lần thứ ba gặp cùng một dạng mới trừu tượng hoá.

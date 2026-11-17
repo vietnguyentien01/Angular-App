@@ -8,7 +8,7 @@ tags: [spring-boot, docker, aot-cache, startup, container, java-25]
 related: [spring-boot/review/production/actuator-health-va-metric, spring-boot/consolidate/production/log-metric-va-graceful-shutdown]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `mvn package` tạo **fat jar** (ứng dụng + mọi thư viện, ở đây 64 MB). Chạy được ngay, nhưng không tối ưu cho Docker và khởi động chậm nhất.
 - `java -Djarmode=tools -jar app.jar extract` tách jar thành `app.jar` + thư mục `lib/`. Khởi động nhanh hơn ~13% và cho phép tách **layer Docker**: thư viện (64,2 MB) ít đổi, code ứng dụng (119 kB) đổi mỗi lần build.

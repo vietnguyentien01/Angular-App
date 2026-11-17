@@ -9,7 +9,7 @@ tags: [design-patterns, architecture, hexagonal, layered, repository, ports-and-
 related: [design-patterns/consolidate/architecture/hexagonal-port-adapter-thuc-chien, design-patterns/deep-dive/architecture/unit-of-work-outbox-va-saga]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Layered** (nhiều tầng): `controller → service → repository → DB`. Mỗi tầng chỉ gọi tầng dưới. Đơn giản, quen thuộc, mặc định của hầu hết dự án Spring.
 - Điểm yếu của layered: service (nghiệp vụ) **phụ thuộc** vào repository (kỹ thuật) — entity JPA, `JdbcTemplate`, client HTTP lọt dần vào nghiệp vụ.

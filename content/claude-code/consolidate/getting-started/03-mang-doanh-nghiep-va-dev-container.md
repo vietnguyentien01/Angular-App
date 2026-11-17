@@ -8,7 +8,7 @@ tags: [claude-code, proxy, enterprise, network, devcontainer]
 related: [claude-code/consolidate/getting-started/khi-gap-su-co, claude-code/deep-dive/guardrails/sandbox-va-prompt-injection]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Claude Code đọc biến proxy chuẩn: `HTTPS_PROXY` (khuyến nghị), `HTTP_PROXY`, `NO_PROXY`. **Không** hỗ trợ SOCKS.
 - Proxy chặn TLS bằng chứng chỉ của công ty → `NODE_EXTRA_CA_CERTS=/đường/dẫn/ca.pem`.

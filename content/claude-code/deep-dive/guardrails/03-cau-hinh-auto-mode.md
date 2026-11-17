@@ -8,7 +8,7 @@ tags: [claude-code, auto-mode, permissions, classifier, security]
 related: [claude-code/review/guardrails/che-do-quyen, claude-code/consolidate/guardrails/settings-va-permission-rule]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Auto mode dùng một **classifier** xét từng hành động. Mặc định nó chỉ tin **thư mục làm việc** và **remote đã cấu hình** của repo; mọi đích khác bị coi là "bên ngoài".
 - Mặc định **được phép**: push lên **mọi nhánh** của repo hiện tại — kể cả nhánh mặc định — và tạo PR. Muốn có điểm dừng cho người: rule `ask` cho `git push` và `gh pr create`.

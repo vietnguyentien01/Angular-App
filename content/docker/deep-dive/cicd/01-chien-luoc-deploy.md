@@ -8,7 +8,7 @@ tags: [cicd, deployment, rollback, migration, github-actions]
 related: [docker/consolidate/cicd/pipeline-test-va-build-image, sql/deep-dive/design/chuan-hoa-jsonb-va-migration]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Deploy **image đã build** theo **SHA**, không build lại trên server. Rollback = deploy lại SHA trước.
 - **Environment** của GitHub (`production`) cho phép yêu cầu người duyệt, giới hạn nhánh, và giữ secret riêng.

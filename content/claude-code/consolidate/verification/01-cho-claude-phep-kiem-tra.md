@@ -7,7 +7,7 @@ tags: [claude-code, verification, testing, case-study]
 related: [claude-code/review/principles/ai-la-cong-cu, claude-code/consolidate/guardrails/hook-permission-sandbox]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Claude dừng khi việc **trông như** xong; phép kiểm tra pass/fail cho nó biết việc **thật sự** xong.
 - Các mức: yêu cầu trong prompt → `/goal` → Stop hook → review bởi agent/người chưa thấy code.

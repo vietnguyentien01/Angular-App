@@ -8,7 +8,7 @@ tags: [claude-code, beginner, automation, loop, headless]
 related: [claude-code/consolidate/automation/phien-nen-va-agent-view, claude-code/deep-dive/automation/chay-khong-can-giam-sat]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Mức | Chạy ở | Dừng khi | Ví dụ |
 |---|---|---|---|

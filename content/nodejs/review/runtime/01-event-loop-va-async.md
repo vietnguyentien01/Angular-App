@@ -9,7 +9,7 @@ tags: [nodejs, event-loop, async, promise]
 related: [nodejs/consolidate/runtime/doan-thu-tu-va-loi-async, nodejs/deep-dive/runtime/ben-trong-event-loop-va-stream]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Code JavaScript của bạn chạy trên **một luồng**. Đọc file, gọi DB, gọi HTTP được giao cho libuv/hệ điều hành; khi xong, callback được xếp hàng chờ luồng chính rảnh.
 - Thứ tự: **code đồng bộ** → **microtask** (`process.nextTick`, rồi Promise `.then`/`await`) → **macrotask** theo pha (timer, I/O, `setImmediate`…).

@@ -8,7 +8,7 @@ tags: [sql, postgresql, planner, join-algorithms, three-valued-logic]
 related: [sql/review/queries/select-where-join, sql/consolidate/performance/doc-explain-va-sua-n-cong-1]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - SQL dùng **logic ba giá trị**: `TRUE`, `FALSE`, `UNKNOWN` (NULL). `WHERE` chỉ giữ dòng `TRUE` — `UNKNOWN` bị loại như `FALSE`.
 - Bạn viết **cái gì**, planner chọn **làm thế nào**: Nested Loop (ít dòng ngoài + index bên trong), Hash Join (bảng lớn, điều kiện `=`), Merge Join (cả hai bên đã/được sắp xếp).

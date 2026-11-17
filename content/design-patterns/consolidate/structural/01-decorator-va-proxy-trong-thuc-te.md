@@ -8,7 +8,7 @@ tags: [design-patterns, decorator, proxy, retry, cache, resilience]
 related: [design-patterns/review/structural/adapter-decorator-proxy-facade, design-patterns/deep-dive/structural/dynamic-proxy-va-gioi-han-cua-proxy]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Decorator cho phép thêm **mối quan tâm xuyên suốt** (cross-cutting concern: retry, cache, metric, log, fallback) mà không sửa class gọi đối tác và không sửa nghiệp vụ.
 - Mỗi decorator làm **một việc**, cùng implement một interface, xếp chồng như búp bê Nga.

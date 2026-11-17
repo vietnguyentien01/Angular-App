@@ -8,7 +8,7 @@ tags: [typescript, inference, quiz]
 related: [typescript/review/basics/kieu-co-ban-va-suy-luan, typescript/deep-dive/basics/control-flow-analysis]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `const` giữ literal cho giá trị nguyên thuỷ; `let` và thuộc tính object bị nới (widening).
 - Mảng hỗn hợp → **union của phần tử**: `[1, 'a']` là `(string | number)[]`, không phải tuple.

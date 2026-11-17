@@ -8,7 +8,7 @@ tags: [claude-code, beginner, keyboard, interactive-mode]
 related: [claude-code/review/interface/slash-commands-can-biet, claude-code/review/sessions/dieu-khien-phien]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 `@` gắn file · `!` chạy lệnh shell · `/` lệnh và skill · `Esc` dừng · `Esc Esc` rewind · `Shift+Tab` đổi permission mode · `\` + `Enter` xuống dòng · `Ctrl+V` dán ảnh · `?` xem phím tắt.
 

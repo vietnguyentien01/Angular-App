@@ -8,7 +8,7 @@ tags: [sql, postgresql, transaction, isolation, locking, concurrency]
 related: [sql/review/performance/index-va-transaction, sql/consolidate/performance/doc-explain-va-sua-n-cong-1]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Transaction **không** tự chống race condition. Ở mức mặc định `READ COMMITTED`, mẫu "SELECT rồi UPDATE bằng giá trị tính trong code" làm **mất cập nhật** (lost update).
 - Cách sửa đơn giản nhất: để DB tính và kiểm trong **một câu**: `UPDATE … SET stock = stock - $1 WHERE id = $2 AND stock >= $1 RETURNING stock`.

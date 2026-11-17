@@ -8,7 +8,7 @@ tags: [claude-code, git, pull-request, code-review]
 related: [claude-code/consolidate/workflows/bug-test-refactor, claude-code/deep-dive/automation/headless-va-ci]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Claude biết nhánh hiện tại, thay đổi chưa commit, lịch sử gần đây — nên hỏi/commit/tạo nhánh bằng lời là tự nhiên.
 - Cài và đăng nhập **`gh` CLI** → Claude tự mở PR và đọc review comment mà không cần giải thích thêm.

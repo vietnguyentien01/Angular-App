@@ -8,7 +8,7 @@ tags: [java, jvm, memory-leak, heap-dump, troubleshooting]
 related: [java/review/jvm/bo-nho-jvm-va-cong-cu, java/deep-dive/jvm/gc-jit-va-do-hieu-nang]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Java có GC nhưng vẫn **rò rỉ bộ nhớ**: object còn được tham chiếu (từ `static`, cache, listener, `ThreadLocal`) thì GC không dọn được.
 - Dấu hiệu: heap sau mỗi lần GC **tăng dần** qua nhiều giờ, GC chạy ngày càng dày, cuối cùng `OutOfMemoryError`.

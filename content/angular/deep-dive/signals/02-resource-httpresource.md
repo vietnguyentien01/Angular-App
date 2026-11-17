@@ -8,7 +8,7 @@ tags: [signals, resource, httpResource, server-state]
 related: [angular/review/signals/linkedsignal-resource-co-ban, rxjs/deep-dive/subjects/rxjs-va-signals-kien-truc]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 ```ts
 const user = resource({

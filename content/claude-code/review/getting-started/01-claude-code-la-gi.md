@@ -8,7 +8,7 @@ tags: [claude-code, beginner, agentic-loop, tools]
 related: [claude-code/review/getting-started/cai-dat-va-dang-nhap, claude-code/review/principles/ai-la-cong-cu]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Claude Code là **agentic coding assistant**: bạn mô tả mục tiêu, Claude tự **thu thập bối cảnh → hành động → kiểm tra kết quả**, lặp lại cho tới khi xong. Bạn có thể ngắt và chỉnh hướng bất kỳ lúc nào.
 - Sức mạnh đến từ **model** (suy luận) + **tool** (hành động). Claude Code là lớp bao quanh model: cung cấp công cụ và quản lý context.

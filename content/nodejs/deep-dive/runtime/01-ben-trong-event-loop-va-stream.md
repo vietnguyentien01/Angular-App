@@ -8,7 +8,7 @@ tags: [nodejs, event-loop, libuv, streams, worker-threads]
 related: [nodejs/review/runtime/event-loop-va-async, nodejs/consolidate/runtime/doan-thu-tu-va-loi-async]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Event loop của libuv đi qua các pha: **timers → pending callbacks → poll (I/O) → check (`setImmediate`) → close callbacks**; giữa mỗi callback, Node xả microtask.
 - I/O mạng dùng cơ chế của hệ điều hành (epoll/kqueue/IOCP) — không tốn luồng. Còn **fs, crypto nặng (`pbkdf2`, `scrypt`), `dns.lookup`, zlib** chạy trên **thread pool** của libuv, mặc định **4 luồng** (`UV_THREADPOOL_SIZE`).

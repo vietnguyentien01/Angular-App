@@ -9,7 +9,7 @@ tags: [design-patterns, spring, angular, rxjs, framework, inversion-of-control]
 related: [design-patterns/consolidate/frameworks/tu-viet-mini-di-container, design-patterns/deep-dive/frameworks/flow-va-backpressure-tu-observer-toi-rxjs]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Inversion of Control** (IoC): thay vì code của bạn gọi thư viện, **framework gọi code của bạn** ("Hollywood principle: đừng gọi chúng tôi, chúng tôi sẽ gọi bạn"). Hầu hết pattern trong framework là các cách cụ thể của IoC.
 - **DI container** (Spring `ApplicationContext`, Angular `Injector`) = Factory + registry Singleton + tự giải quyết phụ thuộc.

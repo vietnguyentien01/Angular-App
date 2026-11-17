@@ -8,7 +8,7 @@ tags: [rxjs, event-loop, output]
 related: [rxjs/review/observable/observable-observer-subscription]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `of(...)`, `from([...])`, `new Observable` gọi `next` ngay → **đồng bộ**, phát xong trước dòng code tiếp theo.
 - `from(promise)` → **microtask** (sau code đồng bộ, trước `setTimeout`).

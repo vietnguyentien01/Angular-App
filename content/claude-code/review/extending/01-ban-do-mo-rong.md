@@ -8,7 +8,7 @@ tags: [claude-code, beginner, extending, skills, hooks, mcp]
 related: [claude-code/deep-dive/guardrails/mo-rong-claude-code, claude-code/consolidate/extending/skill-va-plugin-co-san]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Ngày đầu **không cần** cấu hình gì ngoài một `CLAUDE.md` ngắn. Thêm từng thứ khi gặp đúng tín hiệu.
 

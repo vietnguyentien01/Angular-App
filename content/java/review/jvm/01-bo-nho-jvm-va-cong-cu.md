@@ -9,7 +9,7 @@ tags: [java, jvm, memory, gc, tooling]
 related: [java/consolidate/jvm/chan-doan-memory-leak-va-oom, java/deep-dive/jvm/gc-jit-va-do-hieu-nang]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Heap**: mọi object. **Stack**: mỗi thread một stack, chứa biến local và lời gọi hàm. **Metaspace**: thông tin class.
 - Đệ quy quá sâu → `StackOverflowError`. Giữ quá nhiều object → `OutOfMemoryError: Java heap space`.

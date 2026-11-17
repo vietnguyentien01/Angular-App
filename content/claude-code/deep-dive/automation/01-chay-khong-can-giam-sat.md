@@ -7,7 +7,7 @@ tags: [claude-code, automation, headless, scheduled-tasks, worktrees, case-study
 related: [claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team, claude-code/consolidate/verification/cho-claude-phep-kiem-tra]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Trước khi để Claude chạy một mình, trả lời đủ **năm câu**: thế nào là xong, tự kiểm tra bằng gì, được đụng vào đâu, điều gì dừng nó, ai duyệt kết quả.
 - Script: `claude --bare -p` + `--allowedTools` + `--permission-mode dontAsk` + `--max-turns`; thử 3 mẫu trước khi chạy hàng loạt.

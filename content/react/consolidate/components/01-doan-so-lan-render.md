@@ -8,7 +8,7 @@ tags: [react, rendering, memo, pitfalls]
 related: [react/review/components/jsx-props-state-va-danh-sach, react/deep-dive/components/reconciliation-va-key]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Component render lại khi: **state của nó đổi**, **cha render lại** (mặc định, kể cả props không đổi), hoặc **context nó đọc đổi**.
 - Render ≠ cập nhật DOM: React gọi hàm, so cây mới với cây cũ, chỉ sửa DOM chỗ khác. Render thừa thường rẻ — chỉ tối ưu khi đo thấy chậm.

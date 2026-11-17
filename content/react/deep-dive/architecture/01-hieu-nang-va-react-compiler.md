@@ -8,7 +8,7 @@ tags: [react, performance, memo, react-compiler, code-splitting]
 related: [react/consolidate/components/doan-so-lan-render, react/consolidate/architecture/to-chuc-state-gio-hang]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Đo trước**: React DevTools → Profiler (component nào render, mất bao lâu, vì sao). Phần lớn "React chậm" là render một danh sách quá dài, tính toán nặng trong render, hoặc bundle quá lớn — không phải vài lần render thừa.
 - `memo(Component)` chỉ có tác dụng khi props **ổn định**: object/hàm truyền vào phải giữ tham chiếu (`useMemo`, `useCallback`, hoặc khai báo ngoài component).

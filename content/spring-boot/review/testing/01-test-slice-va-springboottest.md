@@ -9,7 +9,7 @@ tags: [spring-boot, testing, webmvctest, datajpatest, mockito]
 related: [spring-boot/consolidate/testing/testcontainers-va-test-api-co-bao-mat, spring-boot/deep-dive/testing/context-caching-va-toc-do-test]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Logic thuần** (tính phí, làm tròn, kiểm tra trạng thái) → test JUnit bình thường, `new` object, **không** cần Spring (mili giây).
 - **Controller** (URL, JSON, validation, mã lỗi, security) → **`@WebMvcTest`**: chỉ dựng tầng web, repository/service thay bằng **`@MockitoBean`**.

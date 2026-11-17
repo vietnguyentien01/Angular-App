@@ -8,7 +8,7 @@ tags: [nodejs, rest, testing, vitest, supertest]
 related: [nodejs/review/rest-api/thiet-ke-rest, nodejs/consolidate/express/xu-ly-loi-va-validation]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Tách `buildApp(deps)` khỏi `listen()` → test gọi app trực tiếp bằng **supertest**, không mở cổng thật.
 - **Tiêm phụ thuộc** (repository) qua tham số → test dùng repo trong bộ nhớ, production dùng repo PostgreSQL. Cùng một app, khác nguồn dữ liệu.

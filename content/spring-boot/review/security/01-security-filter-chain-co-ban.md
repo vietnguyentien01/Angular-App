@@ -9,7 +9,7 @@ tags: [spring-boot, spring-security, authentication, authorization]
 related: [spring-boot/consolidate/security/jwt-va-phan-quyen-theo-chu-so-huu, spring-boot/deep-dive/security/security-filter-chain-va-cors]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Chỉ thêm starter: **mọi endpoint** đòi đăng nhập (HTTP Basic, user `user`, mật khẩu sinh ngẫu nhiên in trong log). Chỉ dùng để thử.
 - Cấu hình thật bằng một bean **`SecurityFilterChain`**: endpoint nào công khai, endpoint nào cần vai trò gì.

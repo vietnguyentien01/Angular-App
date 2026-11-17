@@ -8,7 +8,7 @@ tags: [spring-boot, jpa, hibernate, persistence-context, performance, internals]
 related: [spring-boot/consolidate/data/n-cong-1-va-lazy-loading, spring-boot/deep-dive/transactions/proxy-isolation-va-khoa]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Mỗi transaction có một **persistence context** (bộ nhớ của `EntityManager`): mỗi bản ghi chỉ có **một** object, `findById` lần hai không chạm DB.
 - Entity **đang được quản lý** (managed) bị sửa sẽ được **tự động UPDATE** khi flush/commit — *dirty checking*. Không cần `save`.

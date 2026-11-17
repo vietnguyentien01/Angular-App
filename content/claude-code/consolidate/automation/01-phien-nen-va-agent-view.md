@@ -8,7 +8,7 @@ tags: [claude-code, agent-view, background, parallel]
 related: [claude-code/review/automation/ba-muc-tu-dong-hoa, claude-code/deep-dive/automation/lam-viec-song-song]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `claude agents` mở **agent view**: một màn hình cho mọi phiên nền — cái nào **cần bạn**, cái nào **đang chạy**, cái nào **xong**.
 - Mỗi prompt gõ ở đó = **một phiên mới** chạy nền. Phiên nền sửa file trong **worktree riêng** (tự động, nếu repo là git).

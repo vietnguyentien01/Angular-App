@@ -7,7 +7,7 @@ tags: [claude-code, workflow, angular, prompts]
 related: [claude-code/review/prompting/viet-prompt-cu-the, claude-code/consolidate/verification/cho-claude-phep-kiem-tra]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Một task Angular đi qua 6 bước: làm rõ (SPEC) → hiểu code → triển khai có phép kiểm tra → review độc lập → bạn review diff → PR và merge bởi người.
 - Bước 2 và 5 là nơi kiến thức nền của bạn quyết định chất lượng.

@@ -8,7 +8,7 @@ tags: [java, oop, equals, hashcode, composition, pitfalls]
 related: [java/review/oop/class-interface-record-enum, java/deep-dive/collections/ben-trong-hashmap-va-generics]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Override `equals` thì **bắt buộc** override `hashCode`, dùng **cùng các field**. Hai object `equals` nhau phải có cùng `hashCode`.
 - Field dùng trong `equals`/`hashCode` phải **bất biến** — sửa nó sau khi đưa vào `HashSet`/`HashMap` là object "biến mất".

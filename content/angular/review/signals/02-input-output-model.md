@@ -9,7 +9,7 @@ tags: [signals, input, output, model]
 related: [angular/review/signals/signal-computed-effect]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | API | Thay cho | Đặc điểm |
 |---|---|---|

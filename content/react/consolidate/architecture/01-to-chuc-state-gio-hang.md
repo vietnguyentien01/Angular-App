@@ -8,7 +8,7 @@ tags: [react, state-management, context, usereducer, architecture]
 related: [react/review/architecture/nang-state-context-va-reducer, react/deep-dive/architecture/hieu-nang-va-react-compiler]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Hỏi "state này **thuộc về ai** và **sống bao lâu**?" trước khi hỏi "dùng thư viện gì".
 - **Server state** (danh sách sản phẩm, đơn hàng) → TanStack Query. **Client state** (giỏ hàng, modal mở/đóng) → `useState`/`useReducer`, chia sẻ bằng context. **URL state** (bộ lọc, trang, tab) → query string để chia sẻ link và nút Back hoạt động.

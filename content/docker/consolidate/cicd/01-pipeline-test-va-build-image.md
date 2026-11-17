@@ -8,7 +8,7 @@ tags: [cicd, github-actions, docker, postgresql, testing]
 related: [docker/review/cicd/ci-cd-va-github-actions, docker/consolidate/dockerfile/dockerfile-cho-node-api]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Job `test` chạy cho **mọi PR và push**; job `image` chỉ chạy khi `test` xanh **và** là push lên `main`.
 - PostgreSQL trong CI: `services:` với healthcheck — job chờ DB healthy rồi mới chạy step.

@@ -8,7 +8,7 @@ tags: [di, providers, scope, state]
 related: [angular/review/dependency-injection/injector-hierarchy]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Đặt ở | Một instance cho | Dùng khi |
 |---|---|---|

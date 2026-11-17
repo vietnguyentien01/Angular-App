@@ -8,7 +8,7 @@ tags: [rxjs, flattening, race-condition]
 related: [rxjs/review/flattening/bon-toan-tu-flattening, rxjs/consolidate/errors/xu-ly-loi-dung-cho]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Câu hỏi cần trả lời: **"Nếu yêu cầu mới tới khi yêu cầu cũ chưa xong, chuyện gì nên xảy ra?"**
 

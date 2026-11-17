@@ -9,7 +9,7 @@ tags: [react, fetch, tanstack-query, forms]
 related: [react/consolidate/data-forms/tanstack-query-va-form, react/deep-dive/data-forms/react-19-actions-va-use]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Mỗi lần gọi API có ba trạng thái: **đang tải**, **lỗi**, **có dữ liệu** — giao diện phải xử lý cả ba.
 - `useEffect` + `fetch` tự viết: phải **huỷ request cũ** (AbortController hoặc cờ `ignore`) khi tham số đổi, nếu không kết quả cũ về sau ghi đè kết quả mới.

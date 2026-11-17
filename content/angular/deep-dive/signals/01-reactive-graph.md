@@ -8,7 +8,7 @@ tags: [signals, internals]
 related: [angular/consolidate/signals/effect-dung-cach]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Signals tạo thành một **đồ thị có hướng**:
 

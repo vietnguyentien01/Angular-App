@@ -8,7 +8,7 @@ tags: [java, bigdecimal, money, rounding, pitfalls]
 related: [java/review/basics/kieu-du-lieu-va-cu-phap, java/deep-dive/basics/ben-trong-string-va-boxing]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Tiền **không bao giờ** dùng `double`/`float`. Dùng `BigDecimal` (tạo từ **`String`** hoặc `BigDecimal.valueOf`), hoặc `long` theo đơn vị nhỏ nhất (đồng, xu).
 - `new BigDecimal(0.1)` **sai**: nó chép nguyên sai số nhị phân của `double`.

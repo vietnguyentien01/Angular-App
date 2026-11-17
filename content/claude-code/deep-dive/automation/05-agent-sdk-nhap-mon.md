@@ -8,7 +8,7 @@ tags: [claude-code, agent-sdk, typescript, automation]
 related: [claude-code/deep-dive/automation/headless-va-ci, claude-code/deep-dive/extending/subagent]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Agent SDK** = thư viện chạy chính Claude Code như một **component** trong ứng dụng của bạn: cùng công cụ (đọc/sửa file, chạy lệnh, tìm web), cùng vòng lặp agent, permission, hook, subagent, MCP, session.
 - Dùng khi cần **code** điều khiển agent: xử lý từng sự kiện stream, duyệt quyền theo logic riêng, nhúng vào dịch vụ nội bộ. Việc đơn giản → `claude -p` là đủ.

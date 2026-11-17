@@ -8,7 +8,7 @@ tags: [claude-code, debugging, testing, refactoring, workflow]
 related: [claude-code/consolidate/verification/cho-claude-phep-kiem-tra, claude-code/consolidate/memory/quy-trinh-task-angular]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Bug**: đưa lệnh tái hiện + stack trace + bước tái hiện + "lỗi lúc có lúc không?". Đòi test fail trước, sửa nguyên nhân gốc sau.
 - **Test**: nhờ tìm code chưa có test → khung test theo đúng style dự án → case biên → chạy và sửa.

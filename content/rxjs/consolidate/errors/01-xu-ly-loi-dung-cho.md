@@ -8,7 +8,7 @@ tags: [rxjs, error, catchError]
 related: [rxjs/review/errors/catcherror-retry-co-ban, rxjs/consolidate/flattening/chon-dung-flattening]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Lỗi trong inner Observable **lan ra** outer → outer cũng chết.
 - `catchError` ở **ngoài** `switchMap` → bắt được lỗi nhưng outer đã chết: ô tìm kiếm ngừng hoạt động.

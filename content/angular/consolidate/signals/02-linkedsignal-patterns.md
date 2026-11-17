@@ -8,7 +8,7 @@ tags: [signals, linkedSignal, pattern]
 related: [angular/consolidate/signals/effect-dung-cach, angular/review/signals/linkedsignal-resource-co-ban]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Dùng `linkedSignal` khi state **phụ thuộc vào nguồn** nhưng **người dùng sửa được**. Dạng đầy đủ cho phép xem **giá trị trước** để quyết định reset hay giữ.
 

@@ -7,7 +7,7 @@ tags: [claude-code, skills, subagents, hooks, mcp, plugins]
 related: [claude-code/review/memory/claude-md-ngan-gon, claude-code/consolidate/guardrails/hook-permission-sandbox]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Sáu cơ chế: CLAUDE.md (luôn nạp), skill (nạp khi cần), subagent (context riêng), hook (luôn chạy), MCP (công cụ ngoài), plugin (đóng gói).
 - Thêm dần theo **tín hiệu** thực tế, không cấu hình mọi thứ từ đầu.

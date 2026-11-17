@@ -8,7 +8,7 @@ tags: [claude-code, settings, permissions]
 related: [claude-code/review/guardrails/che-do-quyen, claude-code/consolidate/guardrails/hook-permission-sandbox]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Ưu tiên cao → thấp: **managed → `--settings` (dòng lệnh) → `.claude/settings.local.json` → `.claude/settings.json` → `~/.claude/settings.json`**.
 - Danh sách như `permissions.allow` được **gộp** từ mọi file, không ghi đè.

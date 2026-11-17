@@ -8,7 +8,7 @@ tags: [design-patterns, proxy, reflection, aop, spring]
 related: [design-patterns/consolidate/structural/decorator-va-proxy-trong-thuc-te, spring-boot/deep-dive/transactions/proxy-isolation-va-khoa]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Viết decorator tay cho 50 interface là không thực tế. **Dynamic proxy** tạo class proxy **lúc chạy**: mọi lời gọi method đổ về một `InvocationHandler` duy nhất.
 - JDK `Proxy` chỉ tạo được proxy cho **interface** (*… is not an interface*). Spring dùng CGLIB (tạo lớp con) khi cần proxy cho class — nên method `final`/`private` không bị chặn.

@@ -9,7 +9,7 @@ tags: [spring-boot, actuator, health, metrics, prometheus]
 related: [spring-boot/consolidate/production/log-metric-va-graceful-shutdown, spring-boot/deep-dive/production/dong-goi-docker-va-khoi-dong-nhanh]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `spring-boot-starter-actuator` thêm các endpoint vận hành dưới `/actuator`. Mặc định **qua HTTP chỉ mở `health`** — mở thêm phải ghi rõ.
 - `/actuator/health/liveness` (process còn sống?) và `/actuator/health/readiness` (sẵn sàng nhận request?) cho probe của Kubernetes.

@@ -8,7 +8,7 @@ tags: [claude-code, beginner, onboarding, codebase]
 related: [claude-code/consolidate/workflows/explore-plan-code, claude-code/consolidate/principles/hoc-cung-ai-khong-phu-thuoc]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Rộng → hẹp: **tổng quan → pattern kiến trúc → data model → một luồng end-to-end → thuật ngữ riêng**. Dùng ngôn ngữ domain của dự án khi hỏi. Mở bằng **plan mode** nếu muốn chắc chắn Claude không sửa gì.
 

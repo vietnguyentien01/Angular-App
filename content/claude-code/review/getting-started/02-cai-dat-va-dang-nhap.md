@@ -8,7 +8,7 @@ tags: [claude-code, beginner, install, login, update]
 related: [claude-code/review/getting-started/phien-dau-tien, claude-code/consolidate/getting-started/khi-gap-su-co]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Cài **native** (khuyến nghị) bằng một lệnh; bản native **tự cập nhật** nền. Homebrew/WinGet thì **không** tự cập nhật.
 - Kiểm tra bằng `claude --version`; chạy `claude` trong thư mục dự án → lần đầu được yêu cầu đăng nhập qua trình duyệt.

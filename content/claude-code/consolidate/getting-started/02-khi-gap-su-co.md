@@ -8,7 +8,7 @@ tags: [claude-code, troubleshooting, debugging, configuration]
 related: [claude-code/review/getting-started/cai-dat-va-dang-nhap, claude-code/consolidate/guardrails/settings-va-permission-rule]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Đừng đoán — **xem cái gì đã thật sự nạp**: `/context all` (memory files), `/permissions` (rule đang hiệu lực), `/hooks`, `/skills`, `/mcp`, `/status` (nguồn settings). Còn bí: `/doctor`, rồi `/debug <mô tả>`.
 

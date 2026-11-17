@@ -12,7 +12,7 @@ related: [ai-agents/course/nen-tang/gioi-thieu-ai-agent]
 Dịch và biên soạn từ [AI Agents for Beginners — 00 Course Setup](https://github.com/microsoft/ai-agents-for-beginners/tree/main/00-course-setup) của Microsoft (MIT License). Code mẫu cần tài khoản Azure và project Microsoft Foundry; Learning Hub **chưa chạy thử** code trong khóa này. Mỗi bài liên kết về notebook gốc để bạn tự chạy.
 :::
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Code của khóa học là **Jupyter Notebook** Python (`*-python-agent-framework.ipynb`), một số bài có thêm bản .NET.
 - Code dùng **Microsoft Agent Framework (MAF)** với `FoundryChatClient`. Client này nối tới **Microsoft Foundry Agent Service V2** (Responses API) qua **Microsoft Foundry**.

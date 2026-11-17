@@ -8,7 +8,7 @@ tags: [design-patterns, builder, static-factory, record, immutability]
 related: [design-patterns/review/creational/factory-builder-singleton, design-patterns/review/modern-java/pattern-voi-lambda-record-sealed]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Constructor `(long, int, int, BigDecimal, String)` cho phép đổi chỗ hai `int` mà **không lỗi biên dịch** — lỗi chỉ lộ ra khi khách hàng nhận lịch trả nợ sai.
 - Builder tốt: tham số **bắt buộc** ở điểm vào (`builder(soTien, kyHan)`), tham số tuỳ chọn có **giá trị mặc định**, method có tên theo nghiệp vụ.

@@ -8,7 +8,7 @@ tags: [spring-boot, transaction, concurrency, optimistic-locking, pitfalls]
 related: [spring-boot/review/transactions/transactional-co-ban, spring-boot/deep-dive/transactions/proxy-isolation-va-khoa]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `@Transactional` hoạt động nhờ **proxy**. Gọi `this.method()` trong cùng class **không** qua proxy → không có transaction.
 - Bắt exception của một method `@Transactional` bên trong một transaction khác rồi tiếp tục → transaction đã bị đánh dấu **rollback-only**, commit ném **`UnexpectedRollbackException`**.

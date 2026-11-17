@@ -8,7 +8,7 @@ tags: [design-patterns, outbox, saga, unit-of-work, postgresql, distributed-syst
 related: [design-patterns/review/architecture/layered-hexagonal-va-repository, spring-boot/deep-dive/integration/idempotency-va-goi-dich-vu-dang-tin-cay]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Unit of Work**: gom mọi thay đổi của một thao tác nghiệp vụ, ghi xuống **một lần** trong một transaction. Persistence context của JPA và `@Transactional` là Unit of Work.
 - **Dual write** (ghi DB rồi gửi Kafka/RabbitMQ) không thể nguyên tử: process chết giữa hai bước → đơn có trong DB nhưng **không ai biết**. Đã tái hiện.

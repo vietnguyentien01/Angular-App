@@ -8,7 +8,7 @@ tags: [design-patterns, refactoring, code-smell, strategy, testing]
 related: [design-patterns/review/principles/solid-va-composition, design-patterns/consolidate/behavioral/strategy-va-state-thay-if-else]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Code smell** là dấu hiệu thiết kế có vấn đề, chưa phải bug: hàm dài, if-else theo "loại", tham số kiểu `String` mang nghĩa enum, sửa một tính năng phải đụng nhiều file.
 - **Refactor** = đổi cấu trúc, **giữ nguyên hành vi**. Không có test chứng minh "giữ nguyên" thì đó là viết lại, không phải refactor.

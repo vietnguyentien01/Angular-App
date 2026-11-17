@@ -8,7 +8,7 @@ tags: [nodejs, rest, pagination, idempotency, openapi]
 related: [nodejs/review/rest-api/thiet-ke-rest, nodejs/consolidate/rest-api/viet-api-co-test]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `LIMIT 20 OFFSET 150000` vẫn phải **đọc và bỏ** 150.000 dòng. Danh sách dài/vô tận → **cursor (keyset) pagination**: `WHERE (created_at, id) < ($1, $2) ORDER BY created_at DESC, id DESC LIMIT 20`.
 - POST tạo đơn/thanh toán: client gửi `Idempotency-Key`; server lưu kết quả lần đầu và **trả lại đúng kết quả đó** cho các lần gửi lại.

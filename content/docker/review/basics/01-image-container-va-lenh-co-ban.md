@@ -9,7 +9,7 @@ tags: [docker, container, image, cli]
 related: [docker/consolidate/basics/debug-container, docker/deep-dive/basics/ben-trong-container-va-pid-1]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Image**: gói chỉ đọc (hệ điều hành tối thiểu + runtime + code), xếp thành các **layer**. **Container**: một tiến trình chạy từ image, có lớp ghi riêng — xoá container là mất lớp ghi đó.
 - Container **không** phải máy ảo: dùng chung kernel với máy chủ, khởi động trong mili giây.

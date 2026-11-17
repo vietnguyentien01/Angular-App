@@ -8,7 +8,7 @@ tags: [signals, effect, pitfalls]
 related: [angular/review/signals/signal-computed-effect, angular/deep-dive/signals/reactive-graph]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 `effect` dùng để **đồng bộ trạng thái reactive ra thế giới bên ngoài**. Nếu bạn đang dùng `effect` để tính ra một signal khác, gần như chắc chắn nên dùng `computed` hoặc `linkedSignal`.
 

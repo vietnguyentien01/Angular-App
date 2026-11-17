@@ -9,7 +9,7 @@ tags: [security, xss, sanitization]
 related: [angular/consolidate/security/bypass-csp-trusted-types]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `{{ value }}` — luôn được **escape** thành text, không bao giờ thành HTML.
 - `[innerHTML]` — được **sanitize**: giữ thẻ an toàn, bỏ `<script>`, thuộc tính `on*`, `style`, URL `javascript:`…

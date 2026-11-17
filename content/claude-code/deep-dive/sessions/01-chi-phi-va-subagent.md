@@ -7,7 +7,7 @@ tags: [claude-code, effort, subagents, cost]
 related: [claude-code/review/sessions/dieu-khien-phien, claude-code/deep-dive/guardrails/mo-rong-claude-code]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Effort là nút điều khiển độ sâu suy nghĩ: `medium` cho việc thường, `high`/`xhigh` cho việc đúng/sai phụ thuộc case biên, `max` cho việc rất khó (thử trước).
 - Subagent đáng giá khi: song song việc độc lập, giữ output dài ngoài context chính, cần reviewer độc lập, cần ít quyền hơn — không phải để 'thông minh hơn'.

@@ -9,7 +9,7 @@ tags: [java, maven, junit, testing, build]
 related: [java/consolidate/build-test/viet-test-voi-junit, java/deep-dive/build-test/quan-ly-dependency-va-test-on-dinh]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Maven dùng **quy ước thay cho cấu hình**: code ở `src/main/java`, test ở `src/test/java`, kết quả ở `target/`.
 - Một dependency = `groupId:artifactId:version` + **scope**. Thư viện test luôn để `<scope>test</scope>`.

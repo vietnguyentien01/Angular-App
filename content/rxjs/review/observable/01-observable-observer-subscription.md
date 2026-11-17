@@ -9,7 +9,7 @@ tags: [rxjs, observable]
 related: [rxjs/consolidate/observable/thu-tu-thuc-thi]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Observable** — một *hàm* mô tả cách phát ra nhiều giá trị theo thời gian. Chưa ai `subscribe` thì **không chạy gì cả** (lazy).
 - **Observer** — object có 3 callback: `next(value)`, `error(err)`, `complete()`.

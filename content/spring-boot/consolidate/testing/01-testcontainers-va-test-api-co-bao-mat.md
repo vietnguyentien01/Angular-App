@@ -8,7 +8,7 @@ tags: [spring-boot, testing, testcontainers, integration-test, security]
 related: [spring-boot/review/testing/test-slice-va-springboottest, spring-boot/deep-dive/testing/context-caching-va-toc-do-test]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Testcontainers** chạy PostgreSQL thật trong Docker cho mỗi lần test; `@ServiceConnection` tự đưa URL/user/password của container vào `spring.datasource.*`. Không còn "test xanh trên H2, đỏ trên PostgreSQL".
 - Test tích hợp đi **qua HTTP thật** (`RANDOM_PORT` + `RestTestClient`): đăng nhập lấy token thật, gửi `Authorization: Bearer`, kiểm tra mã trạng thái và body.

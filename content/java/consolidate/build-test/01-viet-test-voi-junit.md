@@ -8,7 +8,7 @@ tags: [java, junit, assertj, testing, parameterized-test]
 related: [java/review/build-test/maven-va-junit-co-ban, java/consolidate/exceptions/xu-ly-loi-va-thoi-gian-dung-cach]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Mỗi test kiểm tra **một hành vi**, theo khung **Arrange – Act – Assert**, tên test nói rõ hành vi đó.
 - Quy tắc có nhiều bộ số (phí, lãi, làm tròn) → **`@ParameterizedTest` + `@CsvSource`**, tập trung vào **giá trị biên**: ngay dưới, đúng bằng, ngay trên ngưỡng.

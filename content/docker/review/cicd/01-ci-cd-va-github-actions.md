@@ -9,7 +9,7 @@ tags: [cicd, github-actions, devops]
 related: [docker/consolidate/cicd/pipeline-test-va-build-image, docker/deep-dive/cicd/chien-luoc-deploy]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **CI (Continuous Integration)**: mỗi push/PR tự chạy cài đặt → lint → test → build. Đỏ thì không merge.
 - **CD (Continuous Delivery/Deployment)**: bản đã qua CI được tự động đưa lên môi trường (staging, production).

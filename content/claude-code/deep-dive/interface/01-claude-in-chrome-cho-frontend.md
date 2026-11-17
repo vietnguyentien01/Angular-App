@@ -8,7 +8,7 @@ tags: [claude-code, chrome, browser, frontend, verification]
 related: [claude-code/labs/labs/mcp-playwright-kiem-tra-giao-dien, claude-code/deep-dive/verification/kiem-chung-giao-dien]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Claude in Chrome** = extension trình duyệt + `claude --chrome`. Claude mở tab mới trong Chrome **thật** của bạn, dùng chung trạng thái đăng nhập, thao tác hiển thị trực tiếp.
 - Rất hợp cho dev Angular: tái hiện bug UI, đọc lỗi console, kiểm tra validation form, so giao diện với mockup — rồi sửa code ngay trong cùng phiên.

@@ -8,7 +8,7 @@ tags: [claude-code, prompting, prompt-library, angular]
 related: [claude-code/review/prompting/viet-prompt-cu-the, claude-code/consolidate/memory/quy-trinh-task-angular]
 ---
 
-## TL;DR — sáu mẫu
+## Tóm tắt nhanh: sáu mẫu
 
 | Mẫu | Ví dụ ngắn |
 |---|---|

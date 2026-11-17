@@ -8,7 +8,7 @@ tags: [sql, postgresql, window-function, cte, report]
 related: [sql/review/aggregation/group-by-having, sql/deep-dive/aggregation/cte-de-quy-va-window-nang-cao]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `GROUP BY` **gộp** nhiều dòng thành một; window function `… OVER (…)` **giữ nguyên** từng dòng và thêm cột tính trên "cửa sổ" của nó.
 - `PARTITION BY` = chia nhóm cho cửa sổ; `ORDER BY` trong `OVER` = thứ tự trong nhóm (cần cho xếp hạng, luỹ kế, LAG/LEAD).

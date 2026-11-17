@@ -8,7 +8,7 @@ tags: [spring-boot, resilience, retry, timeout, concurrency]
 related: [spring-boot/review/integration/restclient-http-interface-va-cache, spring-boot/deep-dive/integration/idempotency-va-goi-dich-vu-dang-tin-cay]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Timeout trước, retry sau.** Retry không có timeout chỉ nhân thời gian chờ lên.
 - Chỉ retry lỗi **tạm thời** (503, timeout, mất kết nối), **không** retry lỗi của chính request (400, 401, 404, 409).

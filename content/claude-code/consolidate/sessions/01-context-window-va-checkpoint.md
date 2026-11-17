@@ -8,7 +8,7 @@ tags: [claude-code, context-window, compaction, checkpoint, sessions]
 related: [claude-code/review/sessions/dieu-khien-phien, claude-code/deep-dive/sessions/chi-phi-va-subagent]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Context window chứa: hội thoại, nội dung file đã đọc, output lệnh, `CLAUDE.md`, auto memory, mô tả skill, system instructions. Càng đầy càng tốn token và dễ "quên" chỉ dẫn đầu phiên.
 - Gần đầy → Claude Code **tự compact** (tóm tắt). Chủ động: `/compact <trọng tâm>`.

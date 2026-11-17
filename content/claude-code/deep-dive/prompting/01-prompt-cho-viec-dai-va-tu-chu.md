@@ -8,7 +8,7 @@ tags: [claude-code, prompting, spec, goal, subagents]
 related: [claude-code/consolidate/prompting/sau-mau-prompt-hieu-qua, claude-code/deep-dive/automation/lam-viec-song-song]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Việc dài: **viết ra đĩa** những gì phải sống suốt quá trình (SPEC.md, tiêu chí xong) — hội thoại có thể bị compact, file thì không.
 - Claude mặc định hiểu yêu cầu **thận trọng** (làm bản nhỏ nhất thoả mãn). Muốn bản đầy đủ: nói "be ambitious" + liệt kê phạm vi.

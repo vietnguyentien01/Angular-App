@@ -12,7 +12,7 @@ changelog:
     note: Cập nhật cho Angular 22 — OnPush là mặc định, Default được đổi tên thành Eager.
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Change detection (CD)** = Angular duyệt cây component, so sánh giá trị binding trong template và cập nhật DOM.
 - **Eager** (trước đây gọi là **Default**): component được kiểm tra **mỗi lần** CD đi qua nó.

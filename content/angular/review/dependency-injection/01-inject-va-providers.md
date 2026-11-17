@@ -9,7 +9,7 @@ tags: [di, inject, provider]
 related: [angular/review/dependency-injection/injector-hierarchy, angular/consolidate/dependency-injection/injectiontoken-multi-factory]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `inject(Token)` — lấy dependency trong **injection context** (constructor, field initializer, factory của provider).
 - `@Service()` — cách khuyến nghị từ Angular 22 để khai báo service **singleton tự đăng ký** (tương đương `@Injectable({ providedIn: 'root' })`).

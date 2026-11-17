@@ -9,7 +9,7 @@ tags: [spring-boot, restclient, http-interface, cache, scheduling]
 related: [spring-boot/consolidate/integration/timeout-retry-va-gioi-han-dong-thoi, spring-boot/deep-dive/integration/idempotency-va-goi-dich-vu-dang-tin-cay]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Gọi HTTP đồng bộ: **`RestClient`** (thay `RestTemplate`). Tạo từ `RestClient.Builder` mà Boot cấu hình sẵn.
 - Nhiều endpoint của cùng đối tác → khai báo **interface `@HttpExchange`**, Spring sinh cài đặt; Boot 4 đăng ký bằng **`@ImportHttpServices`** và cấu hình `base-url`, timeout trong yaml.

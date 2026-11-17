@@ -9,7 +9,7 @@ tags: [nodejs, express, middleware]
 related: [nodejs/consolidate/express/xu-ly-loi-va-validation, nodejs/deep-dive/express/cau-truc-du-an-nhieu-tang]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Request đi qua các middleware **theo đúng thứ tự `app.use`/`app.get`**. Mỗi middleware hoặc trả response, hoặc gọi `next()`, hoặc `next(err)`.
 - `express.json()` phải đứng **trước** route đọc `req.body`. Không có nó, `req.body` là `undefined` (Express 5).

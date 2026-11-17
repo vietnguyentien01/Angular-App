@@ -9,7 +9,7 @@ tags: [nodejs, rest, http, api-design]
 related: [nodejs/consolidate/rest-api/viet-api-co-test, nodejs/deep-dive/rest-api/phan-trang-idempotency-va-versioning]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **URL là tài nguyên** (danh từ số nhiều): `/products`, `/products/42`, `/products/42/reviews`. Không viết `/getProducts`, `/deleteProduct?id=42`.
 - **Method là hành động**: GET đọc, POST tạo, PUT thay toàn bộ, PATCH sửa một phần, DELETE xoá.

@@ -8,7 +8,7 @@ tags: [whats-new, migration, angular-22]
 related: [angular/review/change-detection/default-vs-onpush, angular/deep-dive/change-detection/zoneless-ben-trong]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Cách đáng tin nhất để biết một bản major **đổi gì mặc định** là đọc các migration mà `ng update` sẽ chạy. Với `@angular/core` 22, file `node_modules/@angular/core/schematics/migrations.json` liệt kê:
 

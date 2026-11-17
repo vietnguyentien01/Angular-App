@@ -8,7 +8,7 @@ tags: [claude-code, session, context]
 related: [claude-code/deep-dive/sessions/chi-phi-va-subagent]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `Esc` dừng ngay khi Claude đi sai; gõ thêm + `Enter` để bổ sung mà không dừng.
 - Sửa cùng một lỗi **hai lần** vẫn sai → `/clear` và viết prompt mới tốt hơn.

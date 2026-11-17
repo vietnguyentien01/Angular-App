@@ -9,7 +9,7 @@ tags: [spring-boot, transaction, jpa, rollback]
 related: [spring-boot/consolidate/transactions/transaction-khong-rollback-va-lost-update, spring-boot/deep-dive/transactions/proxy-isolation-va-khoa]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Đặt `@Transactional` trên **method public của service** — đó là ranh giới một đơn vị nghiệp vụ (tạo đơn = trừ kho + lưu đơn, cùng thành công hoặc cùng huỷ).
 - Mặc định **rollback khi có `RuntimeException`/`Error`**, **commit khi có checked exception**. Muốn khác thì dùng `rollbackFor`.

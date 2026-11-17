@@ -8,7 +8,7 @@ tags: [spring-boot, testing, performance, testcontainers, internals]
 related: [spring-boot/consolidate/testing/testcontainers-va-test-api-co-bao-mat, spring-boot/review/testing/test-slice-va-springboottest]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Spring TestContext **cache** `ApplicationContext` theo **khoá cấu hình** (class cấu hình, profile, property, `@MockitoBean`, `@Import`, loại web environment…). Hai class test có khoá giống nhau dùng **chung** một context.
 - Mỗi khác biệt nhỏ (thêm một `@MockitoBean`, một `@TestPropertySource`, `RANDOM_PORT` hay không) tạo **context mới** — vài giây mỗi cái, cộng thêm container nếu container là bean của context.

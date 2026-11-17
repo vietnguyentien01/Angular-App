@@ -8,7 +8,7 @@ tags: [claude-code, beginner, quickstart, git]
 related: [claude-code/review/interface/phim-tat-va-cu-phap, claude-code/review/guardrails/che-do-quyen]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 1. `cd` vào dự án → `claude`.
 2. **Hỏi trước, sửa sau**: để Claude đọc và giải thích dự án.

@@ -9,7 +9,7 @@ tags: [rxjs, angular, unsubscribe]
 related: [rxjs/consolidate/angular/memory-leak-va-takeuntildestroyed]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Cách | Unsubscribe khi | Hợp với |
 |---|---|---|

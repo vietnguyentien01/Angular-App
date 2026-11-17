@@ -8,7 +8,7 @@ tags: [java, sealed, record, pattern-matching, domain-modeling, java-25]
 related: [java/review/oop/class-interface-record-enum, java/consolidate/oop/equals-hashcode-va-ke-thua]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Sealed interface** liệt kê đóng các dạng có thể có (`permits`). Kết hợp với **record** cho mỗi dạng, ta có kiểu "tổng" (sum type) giống union trong TypeScript.
 - `switch` trên kiểu sealed **không cần `default`**: compiler kiểm tra đủ trường hợp. Thêm một dạng mới → mọi `switch` chưa xử lý báo lỗi biên dịch.

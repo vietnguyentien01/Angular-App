@@ -8,7 +8,7 @@ tags: [rxjs, combineLatest, forkJoin]
 related: [rxjs/review/operators/operators-hay-dung]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `combineLatest` — **trạng thái dẫn xuất** từ nhiều nguồn đang sống (filter + sort + data).
 - `forkJoin` — **chờ nhiều request một lần** (như `Promise.all`).

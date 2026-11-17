@@ -9,7 +9,7 @@ tags: [rxjs, cold, hot]
 related: [rxjs/consolidate/subjects/sharereplay-va-multicasting]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | | Cold | Hot |
 |---|---|---|

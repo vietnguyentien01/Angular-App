@@ -8,7 +8,7 @@ tags: [docker, linux, namespaces, cgroups, signals]
 related: [docker/review/basics/image-container-va-lenh-co-ban, docker/consolidate/basics/debug-container]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Namespaces** cô lập cái tiến trình *nhìn thấy*: PID (chỉ thấy tiến trình của mình, bắt đầu từ PID 1), network, mount, hostname, user. **cgroups** giới hạn cái nó *dùng được*: RAM, CPU, I/O.
 - Image = các **layer chỉ đọc** chồng nhau (OverlayFS); container thêm một **layer ghi** mỏng. Nhiều container dùng chung layer của cùng image.

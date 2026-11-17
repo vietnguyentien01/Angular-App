@@ -9,7 +9,7 @@ tags: [react, hooks, useeffect, usestate]
 related: [react/consolidate/hooks/sua-bug-useeffect, react/deep-dive/hooks/ben-trong-hook]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `useState` — state gây render lại. Cập nhật dựa trên giá trị cũ thì dùng **functional updater** `setN(n => n + 1)`.
 - `useEffect(fn, deps)` — đồng bộ với **thế giới bên ngoài** (API, timer, DOM, subscription) **sau** khi render. `fn` có thể trả hàm **cleanup**. Chạy lại khi một giá trị trong `deps` đổi.

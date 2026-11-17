@@ -8,7 +8,7 @@ tags: [spring-boot, dependency-injection, troubleshooting, pitfalls]
 related: [spring-boot/review/core/bean-di-va-cau-hinh, spring-boot/deep-dive/core/auto-configuration-hoat-dong-the-nao]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Spring Boot in lỗi khởi động theo khuôn **Description / Action** — đọc phần `Description` trước, nó thường nói đúng chỗ sai.
 - Hai bean cùng kiểu → chọn rõ bằng `@Qualifier`, `@Primary`, hoặc nhận `List<…>`/`Map<String, …>` nếu thật sự cần tất cả.

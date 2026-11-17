@@ -8,7 +8,7 @@ tags: [claude-code, memory, claude-md, rules, auto-memory]
 related: [claude-code/review/memory/claude-md-ngan-gon, claude-code/consolidate/sessions/context-window-va-checkpoint]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | | CLAUDE.md | Auto memory |
 |---|---|---|

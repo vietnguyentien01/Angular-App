@@ -8,7 +8,7 @@ tags: [react, hooks, internals, useeffect, usesyncexternalstore]
 related: [react/review/hooks/usestate-useeffect-useref, react/consolidate/hooks/sua-bug-useeffect]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Mỗi component có một **danh sách ô nhớ** cho hook, ghép theo **thứ tự gọi**: lần render nào cũng phải gọi cùng các hook theo cùng thứ tự. Gọi hook trong `if`/vòng lặp → các ô bị lệch.
 - Mỗi lần render là một **ảnh chụp**: props, state, và mọi hàm tạo ra trong lần render đó "nhìn thấy" đúng các giá trị của lần ấy (gốc rễ của stale closure).

@@ -7,7 +7,7 @@ tags: [claude-code, security, team, enterprise]
 related: [claude-code/consolidate/guardrails/hook-permission-sandbox, claude-code/deep-dive/automation/chay-khong-can-giam-sat]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Mỗi quy định của team ánh xạ tới đúng cơ chế: mềm → CLAUDE.md/rules; cứng → hook, deny, sandbox, CI, branch protection.
 - Ba tầng cấu hình: cá nhân, repo, **managed settings** của tổ chức (không ai ghi đè được).

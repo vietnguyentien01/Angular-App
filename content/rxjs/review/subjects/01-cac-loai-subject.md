@@ -9,7 +9,7 @@ tags: [rxjs, subject]
 related: [rxjs/consolidate/subjects/sharereplay-va-multicasting]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 `Subject` vừa là **Observable** (subscribe được) vừa là **Observer** (gọi `next` được) và là **hot / multicast**: mọi subscriber dùng chung.
 

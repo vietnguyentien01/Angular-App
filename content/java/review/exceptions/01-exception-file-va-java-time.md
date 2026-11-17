@@ -9,7 +9,7 @@ tags: [java, exception, file, java-time]
 related: [java/consolidate/exceptions/xu-ly-loi-va-thoi-gian-dung-cach, java/deep-dive/exceptions/thiet-ke-exception-va-doc-file-lon]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Checked** exception (`IOException`, `SQLException`) phải `catch` hoặc khai báo `throws`. **Unchecked** (`RuntimeException` và lớp con: `IllegalArgumentException`, `NullPointerException`…) thì không bắt buộc.
 - Mọi thứ cần đóng (file, kết nối, stream file) → **try-with-resources**: tự đóng theo thứ tự ngược, kể cả khi có exception.

@@ -8,7 +8,7 @@ tags: [claude-code, statusline, output-styles, keybindings, terminal]
 related: [claude-code/review/interface/phim-tat-va-cu-phap, claude-code/commands/commands/lenh-cau-hinh]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Muốn | Dùng | Ở đâu |
 |---|---|---|

@@ -8,7 +8,7 @@ tags: [java, concurrency, race-condition, deadlock, completablefuture, pitfalls]
 related: [java/review/concurrency/thread-executor-va-dong-bo, java/deep-dive/concurrency/virtual-thread-va-structured-concurrency]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Lỗi concurrency **không lặp lại được** mỗi lần chạy. Test xanh không chứng minh code đúng — phải lập luận dựa trên quy tắc.
 - **Check-then-act** (`if (!map.containsKey(k)) map.put(…)`) không atomic. Dùng `computeIfAbsent`/`merge` của `ConcurrentHashMap`.

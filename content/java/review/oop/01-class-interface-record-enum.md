@@ -9,7 +9,7 @@ tags: [java, oop, record, enum, sealed]
 related: [java/consolidate/oop/equals-hashcode-va-ke-thua, java/deep-dive/oop/sealed-record-pattern-va-mo-hinh-domain]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Đóng gói**: field `private`, kiểm tra dữ liệu trong constructor/method, chỉ lộ ra hành vi (`napTien`) chứ không lộ setter tuỳ tiện.
 - **interface** = hợp đồng (một class implement nhiều interface, có `default` method). **abstract class** = khung dùng chung có state (một class chỉ `extends` một class).

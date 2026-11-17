@@ -8,7 +8,7 @@ tags: [claude-code, headless, ci, github-actions, automation]
 related: [claude-code/deep-dive/automation/chay-khong-can-giam-sat, claude-code/deep-dive/guardrails/sandbox-va-prompt-injection]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `claude -p "<prompt>"` chạy một lần, in kết quả, thoát — dùng như mọi công cụ dòng lệnh (đọc stdin, ghi stdout).
 - Trong script/CI: thêm **`--bare`** (bỏ qua hook, skill, plugin, MCP, auto memory, CLAUDE.md tự phát hiện) và truyền cấu hình tường minh.

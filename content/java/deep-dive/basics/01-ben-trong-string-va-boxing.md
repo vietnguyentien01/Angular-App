@@ -8,7 +8,7 @@ tags: [java, string, unicode, boxing, memory, internals]
 related: [java/review/basics/kieu-du-lieu-va-cu-phap, java/deep-dive/jvm/gc-jit-va-do-hieu-nang]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `String` bất biến, bên trong là `byte[] value` + `byte coder`: chuỗi chỉ có ký tự Latin-1 tốn **1 byte/ký tự**, còn lại 2 byte (compact strings, Java 9).
 - Literal giống nhau dùng chung một object trong **string pool**; chuỗi tạo lúc chạy thì không, trừ khi `intern()`.

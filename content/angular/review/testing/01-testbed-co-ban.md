@@ -9,7 +9,7 @@ tags: [testing, testbed, vitest]
 related: [angular/consolidate/testing/test-http-va-async]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Từ Angular 21, project mới dùng **Vitest** làm test runner mặc định (`ng test`). API `TestBed` vẫn như cũ.
 

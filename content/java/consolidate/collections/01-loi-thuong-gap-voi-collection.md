@@ -8,7 +8,7 @@ tags: [java, collections, pitfalls, concurrentmodification]
 related: [java/review/collections/list-set-map-va-comparator, java/consolidate/functional/viet-bao-cao-bang-stream]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Không** sửa collection (`add`/`remove`) bên trong vòng for-each của chính nó. Dùng `removeIf`, `Iterator.remove`, hoặc tạo collection mới.
 - `ConcurrentModificationException` là cơ chế **"cố gắng hết sức"** (fail-fast), không được đảm bảo: có trường hợp xoá sai mà **không** có exception.

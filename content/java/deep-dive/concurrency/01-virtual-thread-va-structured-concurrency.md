@@ -8,7 +8,7 @@ tags: [java, virtual-thread, structured-concurrency, scoped-value, loom, java-25
 related: [java/consolidate/concurrency/race-condition-deadlock-va-completablefuture, java/deep-dive/functional/ben-trong-stream-parallel-va-gatherers]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Virtual thread** là thread do JVM quản lý, rất rẻ (tạo được hàng trăm nghìn). Khi chặn I/O, nó **unmount** khỏi *carrier thread* (thread hệ điều hành) để carrier chạy việc khác.
 - Lợi ích là **thông lượng** cho việc chờ I/O, không phải tốc độ CPU. Việc nặng CPU không nhanh hơn.

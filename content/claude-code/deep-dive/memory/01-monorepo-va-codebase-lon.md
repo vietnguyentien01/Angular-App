@@ -8,7 +8,7 @@ tags: [claude-code, monorepo, nx, large-codebase, memory]
 related: [claude-code/consolidate/memory/cau-truc-bo-nho, claude-code/deep-dive/extending/mcp-va-plugin]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Mở Claude ở **thư mục của package bạn đang làm**, không nhất thiết ở gốc repo.
 - CLAUDE.md gốc: chỉ điều đúng cho **mọi** package. Quy ước riêng: CLAUDE.md của package hoặc rule có `paths`.

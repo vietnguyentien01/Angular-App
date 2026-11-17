@@ -9,7 +9,7 @@ tags: [signals, reactivity]
 related: [angular/consolidate/signals/effect-dung-cach]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `signal(v)` — **giá trị có thể thay đổi**, đọc bằng cách gọi hàm `count()`, ghi bằng `set` / `update`.
 - `computed(() => ...)` — **giá trị dẫn xuất**, chỉ đọc, tự tính lại khi signal phụ thuộc đổi. Lazy & có memoize.

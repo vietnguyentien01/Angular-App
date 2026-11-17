@@ -9,7 +9,7 @@ tags: [sql, postgresql, schema, constraints]
 related: [sql/consolidate/design/thiet-ke-schema-ban-hang, sql/deep-dive/design/chuan-hoa-jsonb-va-migration]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Khoá chính** (`PRIMARY KEY`) định danh duy nhất một dòng. **Khoá ngoại** (`REFERENCES`) bảo đảm dòng con trỏ tới dòng cha có thật.
 - Ràng buộc là **hàng rào cuối cùng**: dù code có bug, DB vẫn từ chối dữ liệu sai. Đặt `NOT NULL`, `UNIQUE`, `CHECK` cho mọi quy tắc chắc chắn đúng.

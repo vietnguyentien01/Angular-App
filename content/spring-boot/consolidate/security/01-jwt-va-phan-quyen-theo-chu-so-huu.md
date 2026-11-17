@@ -8,7 +8,7 @@ tags: [spring-boot, spring-security, jwt, authorization, idor]
 related: [spring-boot/review/security/security-filter-chain-co-ban, spring-boot/deep-dive/security/security-filter-chain-va-cors]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Xác thực** một lần ở `/api/dang-nhap` → trả **access token JWT ngắn hạn** (15 phút). Mọi request sau gửi `Authorization: Bearer <token>`.
 - Resource server (`spring-boot-starter-oauth2-resource-server`) kiểm tra **chữ ký** và **hạn** của token, rồi dựng `Authentication` từ claim.

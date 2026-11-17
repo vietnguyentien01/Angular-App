@@ -8,7 +8,7 @@ tags: [rxjs, shareReplay, multicasting]
 related: [rxjs/review/observable/cold-vs-hot, rxjs/review/subjects/cac-loai-subject]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | | `share()` | `shareReplay({ bufferSize: 1, refCount: true })` | `shareReplay(1)` |
 |---|---|---|---|

@@ -8,7 +8,7 @@ tags: [claude-code, artifacts, projects, desktop, opentelemetry, analytics]
 related: [claude-code/consolidate/getting-started/chon-noi-lam-viec, claude-code/deep-dive/getting-started/du-lieu-va-quyen-rieng-tu]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Bề mặt | Là gì | Dùng khi |
 |---|---|---|

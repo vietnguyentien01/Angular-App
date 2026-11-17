@@ -8,7 +8,7 @@ tags: [claude-code, skills, extending]
 related: [claude-code/deep-dive/guardrails/mo-rong-claude-code, claude-code/deep-dive/extending/subagent]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Skill = thư mục có `SKILL.md`: **frontmatter** (khi nào dùng) + **nội dung** (Claude làm gì).
 - Claude chỉ thấy **mô tả** của skill ở đầu phiên; nội dung đầy đủ nạp khi skill được dùng → rẻ hơn nhiều so với nhồi vào CLAUDE.md.

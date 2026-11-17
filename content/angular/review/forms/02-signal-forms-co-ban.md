@@ -9,7 +9,7 @@ tags: [forms, signal-forms, angular-22]
 related: [angular/review/forms/reactive-forms-co-type, angular/review/signals/signal-computed-effect]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Dữ liệu form là **một signal model** của bạn; `form(model, schema)` tạo ra cây field bọc quanh nó.
 - Form **không giữ bản sao** dữ liệu — sửa field là sửa thẳng vào model.

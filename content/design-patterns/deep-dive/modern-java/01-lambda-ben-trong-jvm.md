@@ -8,7 +8,7 @@ tags: [design-patterns, lambda, invokedynamic, jvm, bytecode, java-25]
 related: [design-patterns/review/modern-java/pattern-voi-lambda-record-sealed, java/deep-dive/functional/ben-trong-stream-parallel-va-gatherers]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Lớp vô danh (`new IntUnaryOperator() {...}`) sinh ra file `L$1.class` lúc biên dịch. Lambda **không** sinh file: thân lambda thành method `private static lambda$...` trong chính class đó, và tại chỗ dùng là lệnh **`invokedynamic`**.
 - Lần đầu chạy tới `invokedynamic`, JVM gọi **`LambdaMetafactory.metafactory`** để tạo một **hidden class** (`L$$Lambda/0x...`) implement interface, rồi gắn kết quả vào call site.

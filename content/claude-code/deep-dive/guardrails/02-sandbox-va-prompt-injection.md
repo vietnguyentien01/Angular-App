@@ -11,7 +11,7 @@ changelog:
     note: "Mặc định của sandbox đổi sang regular permissions (sandbox.autoAllowBashIfSandboxed mặc định false); thêm key này vào cấu hình mẫu."
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Permission quyết định **có hỏi không**; sandbox quyết định **lệnh chạm được tới đâu** khi đã chạy. Hai thứ bổ sung nhau.
 - Sandbox **tắt** mặc định; bật bằng `/sandbox`. Chạy trên macOS, Linux, WSL2 (Windows native thì không).

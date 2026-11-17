@@ -7,7 +7,7 @@ tags: [learning, claude-code, career]
 related: [claude-code/review/principles/ai-la-cong-cu, angular/deep-dive/senior-skills/phong-van-senior]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Dùng AI để **hiểu sâu hơn**, không chỉ lấy đáp án: đoán trước rồi so, tự viết rồi nhờ review, nhờ đặt câu hỏi kiểm tra.
 - Output style **Learning** chừa phần code nhỏ cho bạn tự viết; **Explanatory** giải thích lý do.

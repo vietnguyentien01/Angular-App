@@ -8,7 +8,7 @@ tags: [sql, postgresql, schema-design, migration, nodejs]
 related: [sql/review/design/khoa-rang-buoc-va-kieu-du-lieu, nodejs/consolidate/rest-api/viet-api-co-test, sql/deep-dive/design/chuan-hoa-jsonb-va-migration]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Thiết kế từ **câu hỏi nghiệp vụ**: thực thể nào, quan hệ gì, quy tắc nào **luôn đúng** (→ ràng buộc), truy vấn nào hay chạy (→ index).
 - Quy tắc nhiều cột: `CHECK` cấp bảng. "Chỉ một dòng thoả điều kiện": **unique index một phần** (`… WHERE is_default`).

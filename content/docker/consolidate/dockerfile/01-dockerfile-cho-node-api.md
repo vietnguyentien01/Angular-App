@@ -8,7 +8,7 @@ tags: [docker, dockerfile, multi-stage, nodejs, healthcheck]
 related: [docker/review/dockerfile/dockerfile-co-ban, nodejs/consolidate/rest-api/viet-api-co-test, docker/consolidate/compose/compose-api-va-postgres]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Multi-stage**: stage `deps` cài dependency; stage cuối chỉ `COPY --from=deps` thư mục `node_modules` cần thiết + source. Image cuối không có công cụ build hay devDependencies.
 - Thứ tự: lockfile → `npm ci` → source. Sửa code: `npm ci` vẫn `CACHED`.

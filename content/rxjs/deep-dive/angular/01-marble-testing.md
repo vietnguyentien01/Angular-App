@@ -8,7 +8,7 @@ tags: [rxjs, testing, marble]
 related: [rxjs/deep-dive/operators/tu-viet-custom-operator]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 `TestScheduler` chạy code RxJS trong **thời gian ảo**: `debounceTime(300)` không phải chờ 300ms thật. Bạn mô tả input/output bằng chuỗi marble:
 

@@ -9,7 +9,7 @@ tags: [design-patterns, strategy, observer, template-method, command, state, cha
 related: [design-patterns/consolidate/behavioral/strategy-va-state-thay-if-else, design-patterns/deep-dive/behavioral/observer-chain-of-responsibility-va-su-kien]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Pattern | Một câu | Nhận ra khi |
 |---|---|---|

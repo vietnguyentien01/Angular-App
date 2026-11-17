@@ -9,7 +9,7 @@ tags: [spring-boot, jpa, spring-data, flyway, postgresql]
 related: [spring-boot/consolidate/data/n-cong-1-va-lazy-loading, spring-boot/deep-dive/data/persistence-context-va-dirty-checking]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Entity** = class ánh xạ một bảng: `@Entity`, `@Id`, constructor không tham số (`protected` là đủ).
 - **Repository** = interface kế thừa `JpaRepository<Entity, Id>`; Spring Data tự sinh cài đặt. Query đơn giản viết bằng **tên method**, query phức tạp dùng **`@Query`** (JPQL).

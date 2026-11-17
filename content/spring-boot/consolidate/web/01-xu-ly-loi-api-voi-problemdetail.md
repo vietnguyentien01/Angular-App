@@ -8,7 +8,7 @@ tags: [spring-boot, spring-mvc, error-handling, problem-detail, validation]
 related: [spring-boot/review/web/rest-controller-dto-va-validation, spring-boot/consolidate/transactions/transaction-khong-rollback-va-lost-update]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Một `@RestControllerAdvice` cho cả ứng dụng: exception nghiệp vụ → `ProblemDetail` với mã HTTP đúng. Controller và service **không** tự bắt lỗi để trả JSON.
 - Kế thừa `ResponseEntityExceptionHandler` để mọi lỗi chuẩn của Spring MVC (JSON hỏng, sai kiểu, sai method) cũng có cùng định dạng.

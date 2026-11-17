@@ -9,7 +9,7 @@ tags: [sql, postgresql, group-by, aggregate]
 related: [sql/review/queries/select-where-join, sql/consolidate/aggregation/bao-cao-doanh-thu-va-window]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `GROUP BY` gom các dòng có cùng giá trị thành một nhóm; hàm tổng hợp (`count`, `sum`, `avg`, `min`, `max`) tính trên mỗi nhóm.
 - Cột trong `SELECT` phải **nằm trong `GROUP BY`** hoặc **nằm trong hàm tổng hợp** (trừ khi gom theo khoá chính — PostgreSQL cho phép lấy cột khác của bảng đó).

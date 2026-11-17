@@ -8,7 +8,7 @@ tags: [claude-code, mcp, plugins, extending]
 related: [claude-code/deep-dive/guardrails/mo-rong-claude-code, claude-code/deep-dive/guardrails/sandbox-va-prompt-injection]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Hệ thống đã có **CLI** (vd `gh`) → cho Claude dùng CLI là đường ngắn nhất. Không có CLI, hoặc cần OAuth/dữ liệu có cấu trúc → **MCP server**.
 - `claude mcp add --transport http <ten> <url>` cho server từ xa; `claude mcp add <ten> -- <lệnh>` cho server chạy cục bộ (stdio).

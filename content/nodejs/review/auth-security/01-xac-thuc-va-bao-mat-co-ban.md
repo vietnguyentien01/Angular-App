@@ -9,7 +9,7 @@ tags: [nodejs, auth, jwt, security, cors]
 related: [nodejs/consolidate/auth-security/jwt-cookie-va-phan-quyen, nodejs/deep-dive/auth-security/owasp-cho-backend-node]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - **Authentication** = bạn là ai (đăng nhập). **Authorization** = bạn được làm gì (vai trò, quyền).
 - Mật khẩu: **không bao giờ** lưu thô hay mã hoá hai chiều; lưu **hash có salt, chậm** (bcrypt, argon2). So sánh bằng hàm `compare` của thư viện.

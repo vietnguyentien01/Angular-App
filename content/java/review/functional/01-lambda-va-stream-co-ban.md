@@ -9,7 +9,7 @@ tags: [java, lambda, stream, optional, functional]
 related: [java/consolidate/functional/viet-bao-cao-bang-stream, java/deep-dive/functional/ben-trong-stream-parallel-va-gatherers]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Lambda `(x) -> biểu thức` là cài đặt ngắn gọn của một **functional interface** (interface có đúng một method trừu tượng).
 - Method reference `Don::khach` = lambda `d -> d.khach()`.

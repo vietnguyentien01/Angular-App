@@ -9,7 +9,7 @@ tags: [java, collections, list, map, comparator]
 related: [java/consolidate/collections/loi-thuong-gap-voi-collection, java/deep-dive/collections/ben-trong-hashmap-va-generics]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Mặc định: **`ArrayList`**, **`HashMap`**, **`HashSet`**. Cần giữ thứ tự thêm vào → `LinkedHashMap`/`LinkedHashSet`. Cần sắp xếp theo key → `TreeMap`/`TreeSet`.
 - `List.of`, `Set.of`, `Map.of` tạo collection **bất biến** và **không nhận `null`**. `Arrays.asList` có kích thước cố định và ghi xuyên xuống mảng gốc.

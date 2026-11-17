@@ -8,7 +8,7 @@ tags: [claude-code, code-review, security, team, github]
 related: [claude-code/consolidate/workflows/git-va-pull-request, claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Lớp | Khi nào chạy | Bắt gì | Ở đâu |
 |---|---|---|---|

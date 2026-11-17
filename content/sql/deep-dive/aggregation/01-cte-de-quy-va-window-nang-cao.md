@@ -8,7 +8,7 @@ tags: [sql, postgresql, recursive-cte, window-frame, lateral]
 related: [sql/consolidate/aggregation/bao-cao-doanh-thu-va-window]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `WITH RECURSIVE` = phần **gốc** `UNION ALL` phần **đệ quy** tham chiếu chính CTE; dừng khi phần đệ quy không sinh dòng mới. Dùng cho cây danh mục, sơ đồ tổ chức, chuỗi giới thiệu.
 - Có `ORDER BY` trong `OVER` mà không ghi khung thì khung mặc định là **`RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`** — tính tới dòng hiện tại **và mọi dòng bằng giá trị sắp xếp với nó**.

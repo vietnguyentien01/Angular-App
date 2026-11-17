@@ -8,7 +8,7 @@ tags: [di, injectiontoken, multi, factory, pattern]
 related: [angular/review/dependency-injection/inject-va-providers, angular/deep-dive/dependency-injection/di-cho-kien-truc]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `InjectionToken<T>` cho thứ **không phải class** (config, function, interface).
 - Token có `factory` → có **giá trị mặc định**, không cần ai provide.

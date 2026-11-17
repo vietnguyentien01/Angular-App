@@ -8,7 +8,7 @@ tags: [spring-boot, transaction, isolation, locking, postgresql, internals]
 related: [spring-boot/consolidate/transactions/transaction-khong-rollback-va-lost-update, spring-boot/deep-dive/data/persistence-context-va-dirty-checking]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `@Transactional` = proxy + `PlatformTransactionManager` (JPA: `JpaTransactionManager`) + một kết nối JDBC gắn với **thread** trong suốt transaction.
 - PostgreSQL mặc định **READ COMMITTED**: mỗi câu lệnh thấy dữ liệu đã commit tại thời điểm câu lệnh chạy — đọc hai lần có thể ra hai kết quả.

@@ -8,7 +8,7 @@ tags: [claude-code, hooks, automation, extending]
 related: [claude-code/consolidate/guardrails/hook-permission-sandbox, claude-code/consolidate/getting-started/khi-gap-su-co]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Hook = **deterministic**: luôn chạy ở sự kiện đã đăng ký. Dùng cho thứ "lần nào cũng phải xảy ra" — format, chặn file nhạy cảm, bắt buộc test pass, thông báo.
 - Cấu hình dưới khoá `"hooks"` trong file settings: **sự kiện → matcher → danh sách hook**.

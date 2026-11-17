@@ -8,7 +8,7 @@ tags: [claude-code, privacy, data-usage, enterprise, security]
 related: [claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team, claude-code/deep-dive/guardrails/sandbox-va-prompt-injection]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Claude Code chạy trên máy bạn nhưng **gửi prompt, nội dung file Claude đọc và output lệnh** lên model qua TLS 1.2+. Cái gì Claude đọc là cái đó rời máy.
 - **Gói cá nhân** (Free, Pro, Max, Ultra): bạn **chọn** có cho dùng dữ liệu cải thiện model hay không. **Gói thương mại** (Team, Enterprise, API, cloud provider): mặc định **không** huấn luyện trên code/prompt.

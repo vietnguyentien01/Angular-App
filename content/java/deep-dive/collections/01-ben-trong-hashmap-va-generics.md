@@ -8,7 +8,7 @@ tags: [java, hashmap, generics, type-erasure, internals]
 related: [java/consolidate/oop/equals-hashcode-va-ke-thua, java/consolidate/collections/loi-thuong-gap-voi-collection]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `HashMap` là mảng bucket (độ dài luôn là lũy thừa của 2). Vượt `capacity × 0.75` phần tử → **gấp đôi** và chia lại toàn bộ.
 - Một bucket có ≥ 8 phần tử **và** bảng ≥ 64 bucket → chuyển thành cây đỏ-đen (`TreeNode`). Cây chỉ nhanh khi key **`Comparable`**.

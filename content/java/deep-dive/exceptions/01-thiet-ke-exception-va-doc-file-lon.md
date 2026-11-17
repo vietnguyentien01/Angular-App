@@ -8,7 +8,7 @@ tags: [java, exception, design, file-io, charset, performance]
 related: [java/consolidate/exceptions/xu-ly-loi-va-thoi-gian-dung-cach, java/deep-dive/oop/sealed-record-pattern-va-mo-hinh-domain]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Phần tốn kém của exception là **chụp stack trace** (`fillInStackTrace`), không phải `throw`/`catch`. Đo được: chậm hơn ~2,5 lần so với exception không stack trace, và chậm hơn **~100 lần** so với không dùng exception.
 - Exception dành cho tình huống **ngoại lệ**. Kết quả "bình thường nhưng không thành công" (dòng CSV sai, form không hợp lệ) nên là **giá trị trả về** — sealed interface `KetQua`.

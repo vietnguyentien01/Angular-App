@@ -9,7 +9,7 @@ tags: [design-patterns, anti-pattern, code-smell, refactoring, primitive-obsessi
 related: [design-patterns/consolidate/anti-patterns/god-class-va-service-locator, design-patterns/deep-dive/anti-patterns/over-engineering-va-khi-nao-khong-dung-pattern]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Anti-pattern | Dấu hiệu | Hướng sửa |
 |---|---|---|

@@ -8,7 +8,7 @@ tags: [rxjs, custom-operator, architecture]
 related: [rxjs/deep-dive/observable/tu-viet-mini-observable]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 Hai cách viết custom operator:
 

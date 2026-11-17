@@ -8,7 +8,7 @@ tags: [performance, defer, lazy-loading]
 related: [angular/review/performance/checklist-hieu-nang]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 ```html
 @defer (on viewport; prefetch on idle) {

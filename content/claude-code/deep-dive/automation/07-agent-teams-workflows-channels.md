@@ -8,7 +8,7 @@ tags: [claude-code, agent-teams, workflows, cross-session, channels]
 related: [claude-code/deep-dive/automation/lam-viec-song-song, claude-code/deep-dive/extending/subagent, claude-code/labs/labs/workflow-nhieu-agent]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | | Subagent | Agent team | Dynamic workflow |
 |---|---|---|---|

@@ -8,7 +8,7 @@ tags: [nodejs, security, owasp, sql-injection, rate-limit]
 related: [nodejs/consolidate/auth-security/jwt-cookie-va-phan-quyen, sql/review/queries/select-where-join]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Lỗ hổng | Phòng thủ chính |
 |---|---|

@@ -8,7 +8,7 @@ tags: [nodejs, auth, jwt, cookie, authorization]
 related: [nodejs/review/auth-security/xac-thuc-va-bao-mat-co-ban, nodejs/deep-dive/auth-security/owasp-cho-backend-node]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Login: tìm user → `bcrypt.compare` → `jwt.sign({ sub, role }, secret, { expiresIn: '15m' })` → đặt cookie `HttpOnly`.
 - `requireAuth`: đọc cookie → `jwt.verify` **có chỉ định `algorithms`** → gắn `req.user`. Sai/hết hạn → `401`.

@@ -8,7 +8,7 @@ tags: [java, stream, collectors, groupingby, pitfalls]
 related: [java/review/functional/lambda-va-stream-co-ban, java/consolidate/collections/loi-thuong-gap-voi-collection]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `groupingBy(key, downstream)` là công cụ chính cho báo cáo. Downstream hay dùng: `counting()`, `mapping(f, toList())`, `reducing(ZERO, f, BigDecimal::add)`, `summingInt`.
 - Truyền `TreeMap::new` làm tham số thứ hai để kết quả có thứ tự.

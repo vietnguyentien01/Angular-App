@@ -9,7 +9,7 @@ tags: [java, basics, primitive, string, switch]
 related: [java/consolidate/basics/tinh-tien-voi-bigdecimal, java/deep-dive/basics/ben-trong-string-va-boxing]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - 8 **primitive**: `byte short int long float double char boolean`. Mỗi kiểu có **wrapper** (`Integer`, `Long`…) là object, có thể `null`.
 - `==` so sánh **giá trị** với primitive, nhưng so sánh **tham chiếu** với object. So sánh nội dung `String`, `Integer`, `BigDecimal` → dùng `equals` (với `BigDecimal` xem bài *Tính tiền*).

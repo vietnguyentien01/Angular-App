@@ -8,7 +8,7 @@ tags: [design-patterns, singleton, concurrency, lazy-initialization, stable-valu
 related: [design-patterns/review/creational/factory-builder-singleton, design-patterns/consolidate/anti-patterns/god-class-va-service-locator]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - `if (instance == null) instance = new X();` **không thread-safe**: 32 thread gọi cùng lúc lúc khởi động tạo ra **32 object** (đo được khi constructor mất 5 ms).
 - **Holder idiom** (`private static class Holder { static final X INSTANCE = new X(); }`) vừa lười vừa thread-safe, không cần `synchronized`: JVM đảm bảo một class chỉ được khởi tạo một lần.

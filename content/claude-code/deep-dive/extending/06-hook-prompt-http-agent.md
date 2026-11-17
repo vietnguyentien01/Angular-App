@@ -8,7 +8,7 @@ tags: [claude-code, hooks, http-hooks, prompt-hooks, audit]
 related: [claude-code/deep-dive/extending/hooks-thuc-chien, claude-code/labs/labs/hooks-format-bao-ve-cong-test]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | `type` | Ai quyết định | Hợp khi | Timeout mặc định |
 |---|---|---|---|

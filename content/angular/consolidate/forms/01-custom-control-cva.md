@@ -8,7 +8,7 @@ tags: [forms, cva, custom-control, signal-forms]
 related: [angular/review/forms/reactive-forms-co-type, angular/review/forms/signal-forms-co-ban, angular/consolidate/forms/validator-tu-viet]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 | Dùng với | Hợp đồng cần cài đặt |
 |---|---|

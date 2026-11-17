@@ -9,7 +9,7 @@ tags: [sql, postgresql, join, null-handling]
 related: [sql/consolidate/queries/viet-truy-van-ban-hang, sql/review/aggregation/group-by-having]
 ---
 
-## TL;DR
+## Tóm tắt nhanh
 
 - Viết: `SELECT … FROM … JOIN … WHERE … GROUP BY … HAVING … ORDER BY … LIMIT`. Chạy (logic): **FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT**. Vì vậy `WHERE` không dùng được alias đặt trong `SELECT`.
 - `INNER JOIN` chỉ giữ dòng khớp cả hai bên; `LEFT JOIN` giữ mọi dòng bên trái, bên phải không khớp thì là `NULL`.
