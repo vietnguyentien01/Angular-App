@@ -32,7 +32,9 @@ jobs:
         run: npm test -- --watch=false
       - name: Build
         run: npm run build -- --base-href /${{ github.event.repository.name }}/
-      - name: SPA fallback cho GitHub Pages
+      - name: Trang tĩnh cho mọi route (để GitHub Pages trả 200 thay vì 404)
+        run: npx tsx scripts/spa-routes.ts dist/learning-hub/browser
+      - name: SPA fallback cho GitHub Pages (route không biết trước)
         run: cp dist/learning-hub/browser/index.html dist/learning-hub/browser/404.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
