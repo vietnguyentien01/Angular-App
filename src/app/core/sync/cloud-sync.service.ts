@@ -100,13 +100,29 @@ export class CloudSyncService {
 
   /** Đăng xuất: đẩy nốt thay đổi chưa lưu, xoá dữ liệu cá nhân khỏi máy rồi mới thoát. */
   async signOut(): Promise<void> {
+    await this.flush();
+    await this.auth.signOut();
+    await this.queue;
+  }
+
+  /** Lưu nốt thay đổi còn chờ của tài khoản hiện tại lên Firestore. */
+  async flush(): Promise<void> {
     if (this.pushTimer) {
       clearTimeout(this.pushTimer);
       this.pushTimer = undefined;
       await this.enqueue(() => this.push());
     }
-    await this.auth.signOut();
     await this.queue;
+  }
+
+  /**
+   * Chuyển sang tài khoản Google khác mà không cần đăng xuất: lưu nốt tiến độ của tài khoản
+   * hiện tại rồi mở cửa sổ chọn tài khoản. Đóng cửa sổ thì vẫn ở tài khoản cũ.
+   * Khi uid đổi, `switchUser` xoá dữ liệu tài khoản cũ khỏi máy và nạp dữ liệu tài khoản mới.
+   */
+  async switchAccount(): Promise<void> {
+    await this.flush();
+    await this.auth.signInWithGoogle();
   }
 
   /** Xoá toàn bộ tiến độ của tài khoản (trên máy và trên Firestore). */

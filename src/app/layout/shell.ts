@@ -9,7 +9,10 @@ import { SidebarNav } from './sidebar-nav';
 @Component({
   selector: 'app-shell',
   imports: [RouterOutlet, RouterLink, Icon, SidebarNav],
-  host: { class: 'block min-h-dvh', '(document:keydown.escape)': 'menuOpen.set(false)' },
+  host: {
+    class: 'block min-h-dvh',
+    '(document:keydown.escape)': 'menuOpen.set(false); accountOpen.set(false)',
+  },
   template: `
     <a
       href="#main"
@@ -54,28 +57,74 @@ import { SidebarNav } from './sidebar-nav';
         <span class="hidden text-xs text-slate-500 sm:inline" role="status">{{
           cloudLabel()
         }}</span>
-        @if (u.photoUrl) {
-          <img
-            [src]="u.photoUrl"
-            alt=""
-            width="28"
-            height="28"
-            referrerpolicy="no-referrer"
-            class="size-7 rounded-full"
-          />
-        }
-        <span class="hidden max-w-40 truncate text-sm font-medium md:inline" [title]="u.email">{{
-          u.name
-        }}</span>
-        <button
-          type="button"
-          class="icon-btn"
-          (click)="signOut()"
-          aria-label="Đăng xuất"
-          title="Đăng xuất"
-        >
-          <app-icon name="log-out" />
-        </button>
+        <div class="relative">
+          <button
+            type="button"
+            class="flex items-center gap-2 rounded-full p-0.5 pr-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+            (click)="accountOpen.set(!accountOpen())"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="accountOpen()"
+            aria-controls="account-menu"
+            [attr.aria-label]="'Tài khoản: ' + u.email"
+          >
+            @if (u.photoUrl) {
+              <img
+                [src]="u.photoUrl"
+                alt=""
+                width="28"
+                height="28"
+                referrerpolicy="no-referrer"
+                class="size-7 rounded-full"
+              />
+            } @else {
+              <span
+                class="grid size-7 place-items-center rounded-full bg-indigo-600 text-xs font-semibold text-white"
+                aria-hidden="true"
+                >{{ u.name.charAt(0).toUpperCase() }}</span
+              >
+            }
+            <span class="hidden max-w-40 truncate text-sm font-medium md:inline">{{ u.name }}</span>
+          </button>
+          @if (accountOpen()) {
+            <div
+              class="fixed inset-0 z-40"
+              (click)="accountOpen.set(false)"
+              aria-hidden="true"
+            ></div>
+            <div
+              id="account-menu"
+              role="menu"
+              class="absolute right-0 z-50 mt-2 w-64 rounded-lg border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-900"
+            >
+              <div class="px-3 py-2">
+                <p class="truncate text-sm font-semibold">{{ u.name }}</p>
+                <p class="truncate text-xs text-slate-500">{{ u.email }}</p>
+              </div>
+              <hr class="my-1 border-slate-200 dark:border-slate-700" />
+              <button
+                type="button"
+                role="menuitem"
+                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm hover:bg-slate-100 disabled:opacity-60 dark:hover:bg-slate-800"
+                [disabled]="switching()"
+                (click)="switchAccount()"
+              >
+                <app-icon name="refresh" [size]="16" />
+                {{ switching() ? 'Đang mở cửa sổ chọn tài khoản…' : 'Chuyển tài khoản' }}
+              </button>
+              <button
+                type="button"
+                role="menuitem"
+                class="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800"
+                (click)="signOut()"
+              >
+                <app-icon name="log-out" [size]="16" /> Đăng xuất
+              </button>
+              @if (accountError(); as err) {
+                <p class="px-3 py-2 text-xs text-red-600" role="alert">{{ err }}</p>
+              }
+            </div>
+          }
+        </div>
       }
     </header>
 
@@ -111,6 +160,9 @@ export class Shell {
   protected readonly auth = inject(AuthService);
   private readonly cloud = inject(CloudSyncService);
   protected readonly menuOpen = signal(false);
+  protected readonly accountOpen = signal(false);
+  protected readonly switching = signal(false);
+  protected readonly accountError = signal<string | undefined>(undefined);
 
   protected readonly cloudLabel = computed(
     () =>
@@ -123,7 +175,21 @@ export class Shell {
       })[this.cloud.state()],
   );
 
+  protected async switchAccount(): Promise<void> {
+    this.switching.set(true);
+    this.accountError.set(undefined);
+    try {
+      await this.cloud.switchAccount();
+      this.accountOpen.set(false);
+    } catch (e) {
+      this.accountError.set((e as Error).message);
+    } finally {
+      this.switching.set(false);
+    }
+  }
+
   protected async signOut(): Promise<void> {
+    this.accountOpen.set(false);
     if (!confirm('Đăng xuất? Tiến độ đã được lưu vào tài khoản của bạn.')) return;
     await this.cloud.signOut();
   }
