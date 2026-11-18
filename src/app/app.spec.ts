@@ -2,14 +2,32 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { signal } from '@angular/core';
 import { App } from './app';
+import { AuthService } from './core/auth/auth.service';
+import { CloudSyncService } from './core/sync/cloud-sync.service';
 import type { Manifest } from './core/content/content.models';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        // Giả lập người dùng đã đăng nhập và dữ liệu đã nạp xong (không gọi Firebase trong test).
+        {
+          provide: AuthService,
+          useValue: {
+            enabled: true,
+            ready: signal(true),
+            signedIn: signal(true),
+            user: signal({ uid: 'u1', name: 'Test', email: 't@example.com', photoUrl: null }),
+          },
+        },
+        { provide: CloudSyncService, useValue: { loaded: signal(true), state: signal('saved') } },
+      ],
     }).compileComponents();
   });
 
