@@ -1,12 +1,15 @@
 ---
 title: "Exception, đọc ghi file và java.time — những gì dùng hằng ngày"
-summary: "Nhắc nhanh checked và unchecked exception, try-with-resources, exception tự định nghĩa, đọc ghi file bằng Files/Path, và java.time: LocalDate, Instant, ZonedDateTime, Period, Duration, DateTimeFormatter. Mọi output đã chạy trên JDK 25."
+summary: "Nhắc nhanh checked và unchecked exception, try-with-resources, exception tự định nghĩa, đọc ghi file bằng Files/Path, và java.time: LocalDate, Instant, ZonedDateTime, Period, Duration, DateTimeFormatter. Mọi output đã chạy trên JDK 21."
 type: card
 level: core
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, exception, file, java-time]
 related: [java/consolidate/exceptions/xu-ly-loi-va-thoi-gian-dung-cach, java/deep-dive/exceptions/thiet-ke-exception-va-doc-file-lon]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại mọi ví dụ trên JDK 21."
 ---
 
 ## Tóm tắt nhanh
@@ -16,7 +19,7 @@ related: [java/consolidate/exceptions/xu-ly-loi-va-thoi-gian-dung-cach, java/dee
 - File: `Path.of(...)`, `Files.readString`, `Files.readAllLines`, `Files.writeString`, `Files.lines` (stream, phải đóng). Charset mặc định là **UTF-8** từ Java 18.
 - Thời gian: **`Instant`** cho thời điểm (log, DB), **`LocalDate`** cho ngày không giờ (ngày sinh), **`ZonedDateTime`** khi hiển thị theo múi giờ. Không dùng `java.util.Date`/`Calendar` trong code mới.
 
-## Ví dụ nhanh (đã chạy trên JDK 25)
+## Ví dụ nhanh (đã chạy trên JDK 21)
 
 ```java title="Exception"
 class KhongDuSoDuException extends RuntimeException {

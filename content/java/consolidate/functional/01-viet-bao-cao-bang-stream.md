@@ -2,10 +2,13 @@
 title: "Viết báo cáo bằng Stream — groupingBy, toMap, partitioningBy và các bẫy"
 summary: "Luyện viết báo cáo bán hàng bằng Collectors: đếm theo trạng thái, doanh thu BigDecimal theo tỉnh, gom mã đơn theo khách, chia hai nhóm, top sản phẩm. Chạy thử các bẫy: toMap trùng key, stream dùng hai lần, peek và tính lazy, side effect, toList() bất biến, orElse luôn chạy."
 level: intermediate
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, stream, collectors, groupingby, pitfalls]
 related: [java/review/functional/lambda-va-stream-co-ban, java/consolidate/collections/loi-thuong-gap-voi-collection]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại các ví dụ trên JDK 21."
 ---
 
 ## Tóm tắt nhanh
@@ -30,7 +33,7 @@ var dons = List.of(
     new Don("D6", "An",   "Hà Nội",  "PAID",      new BigDecimal("1050000"), List.of("Lõi lọc")));
 ```
 
-Mọi kết quả dưới đây đã chạy trên JDK 25 (`import static java.util.stream.Collectors.*`).
+Mọi kết quả dưới đây đã chạy trên JDK 21 (`import static java.util.stream.Collectors.*`).
 
 ## Cơ chế: Collector
 

@@ -1,11 +1,11 @@
 {
   "id": "java",
   "title": "Java",
-  "description": "Java 25 LTS từ cơ bản đến nâng cao cho dự án enterprise: kiểu dữ liệu và BigDecimal, OOP với record và sealed, Collections và Stream, exception và java.time, concurrency với virtual thread, Maven và JUnit, bên trong JVM — mọi output đã chạy thử trên JDK 25.",
+  "description": "Java 21 LTS — bản phổ biến nhất trong dự án hiện nay — từ cơ bản đến nâng cao cho dự án enterprise: kiểu dữ liệu và BigDecimal, OOP với record và sealed, Collections và Stream, exception và java.time, concurrency với virtual thread, Maven và JUnit, bên trong JVM — mọi output đã chạy thử trên JDK 21; mỗi bài có ghi chú khác biệt khi nâng lên Java 25.",
   "icon": "code",
   "color": "#e76f00",
   "order": 10,
-  "currentVersion": 25,
+  "currentVersion": 21,
   "sections": [
     {
       "id": "review",
@@ -22,7 +22,7 @@
     {
       "id": "deep-dive",
       "title": "Chuyên sâu",
-      "description": "Bên trong HashMap và String, generics và type erasure, Stream Gatherers, Java Memory Model, virtual thread và structured concurrency, GC và JIT.",
+      "description": "Bên trong HashMap và String, generics và type erasure, Stream và parallel, Java Memory Model, virtual thread và pinning, GC và JIT — kèm phần nâng cấp lên Java 25.",
       "icon": "telescope"
     }
   ]

@@ -1,11 +1,14 @@
 ---
 title: "Bên trong String và boxing — compact strings, string pool, nối chuỗi, Unicode, chi phí của Integer"
-summary: "String lưu byte[] kèm coder (Latin-1 hoặc UTF-16), string pool và intern, nối chuỗi biên dịch thành invokedynamic, length() đếm UTF-16 chứ không đếm ký tự, tiếng Việt NFC/NFD, cache của Integer và cái giá bộ nhớ của boxing — đo trên JDK 25."
+summary: "String lưu byte[] kèm coder (Latin-1 hoặc UTF-16), string pool và intern, nối chuỗi biên dịch thành invokedynamic, length() đếm UTF-16 chứ không đếm ký tự, tiếng Việt NFC/NFD, cache của Integer và cái giá bộ nhớ của boxing — đo trên JDK 21."
 level: advanced
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, string, unicode, boxing, memory, internals]
 related: [java/review/basics/kieu-du-lieu-va-cu-phap, java/deep-dive/jvm/gc-jit-va-do-hieu-nang]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; đo lại trên JDK 21, compact object headers chuyển thành ghi chú khi nâng cấp."
 ---
 
 ## Tóm tắt nhanh
@@ -18,7 +21,7 @@ related: [java/review/basics/kieu-du-lieu-va-cu-phap, java/deep-dive/jvm/gc-jit-
 
 ## Cấu trúc của String
 
-Đã liệt kê bằng reflection trên JDK 25 — các field không static của `String`:
+Đã liệt kê bằng reflection trên JDK 21 — các field không static của `String`:
 
 ```text
 byte[] value       // dữ liệu
@@ -50,7 +53,7 @@ Pool nằm trong heap (từ Java 7) và được GC dọn. `intern()` hữu ích
 static String greet(String name, int age) { return "Xin chào " + name + ", " + age + " tuổi"; }
 ```
 
-`javap -c` trên JDK 25:
+`javap -c` trên JDK 21:
 
 ```text
 0: aload_0
@@ -61,12 +64,12 @@ static String greet(String name, int age) { return "Xin chào " + name + ", " + 
 
 Từ Java 9 (JEP 280), `javac` không sinh `StringBuilder` nữa mà để `StringConcatFactory` chọn chiến lược lúc chạy — nối một biểu thức `+` là nhanh, không cần tự viết `StringBuilder`.
 
-Nhưng trong **vòng lặp**, mỗi `r += i` tạo một chuỗi mới và chép lại toàn bộ — độ phức tạp O(n²). Đo trên JDK 25 với 50.000 vòng:
+Nhưng trong **vòng lặp**, mỗi `r += i` tạo một chuỗi mới và chép lại toàn bộ — độ phức tạp O(n²). Đo trên JDK 21 với 50.000 vòng:
 
 ```text
-lần 0: += 977 ms, StringBuilder 2 ms
-lần 1: += 902 ms, StringBuilder 1 ms
-lần 2: += 799 ms, StringBuilder 0 ms
+lần 0: += 1121 ms, StringBuilder 3 ms
+lần 1: += 1094 ms, StringBuilder 0 ms
+lần 2: += 967 ms, StringBuilder 0 ms
 ```
 
 (Số đo thô bằng `System.nanoTime`, chỉ để thấy bậc độ lớn. Đo nghiêm túc thì dùng JMH — xem bài *GC, JIT và đo hiệu năng*.)
@@ -102,7 +105,7 @@ Thêm hai điều nên biết:
 
 ## Boxing tốn bao nhiêu
 
-Đo trên JDK 25 (`-Xmx1g`), mảng 5 triệu phần tử:
+Đo trên JDK 21 (`-Xmx1g`), mảng 5 triệu phần tử:
 
 ```text
 Integer[]: ~101 MB, int[]: ~20 MB
@@ -128,7 +131,7 @@ Cache của `Integer` (-128…127) đổi được bằng `-XX:AutoBoxCacheMax=2
 - **Java 9**: compact strings (JEP 254), nối chuỗi qua `invokedynamic` (JEP 280).
 - **Java 11**: `strip`, `isBlank`, `repeat`, `lines`.
 - **Java 15**: text block. **Java 21**: `StringBuilder.repeat`, `String.indexOf(ch, from, to)`.
-- **Java 25**: `UseCompactObjectHeaders` (JEP 519) thành tính năng chính thức, tắt mặc định — header object nhỏ hơn. Đã thử với bài đo trên: vẫn ~101 MB, vì một `Integer` sau khi làm tròn vẫn chiếm 16 byte. Lợi ích rõ hơn với object có nhiều field nhỏ.
+- **Khi nâng lên Java 25**: có cờ `-XX:+UseCompactObjectHeaders` (JEP 519, chính thức nhưng tắt mặc định) làm header object nhỏ hơn. JDK 21 **chưa có** cờ này (đã kiểm tra `PrintFlagsFinal`). Với bài đo trên, cờ này gần như không đổi kết quả (~101 MB), vì một `Integer` sau khi làm tròn vẫn chiếm 16 byte; lợi ích rõ hơn với object có nhiều field nhỏ.
 
 :::senior Góc nhìn senior
 Những "tối ưu" như `intern()` hay tự viết `StringBuilder` cho một phép nối đơn giản thường chỉ làm code khó đọc mà không nhanh hơn. Ưu tiên đúng trước: chuẩn hoá Unicode ở biên, `Locale.ROOT` cho dữ liệu kỹ thuật, `equals` thay vì `==`. Khi nghi ngờ về hiệu năng, đo bằng JMH và xem heap dump — thường thủ phạm là collection của object boxing hoặc chuỗi trùng, không phải phép `+`.

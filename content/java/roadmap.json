@@ -1,6 +1,6 @@
 {
   "title": "Lộ trình 6 tuần: Java từ cơ bản đến nâng cao cho dự án enterprise",
-  "description": "Sáu tuần, khoảng 1–2 giờ mỗi ngày, đi từ cú pháp và kiểu dữ liệu tới concurrency và JVM trên Java 25 LTS. Mỗi chặng kết thúc bằng một sản phẩm chạy được trong dự án Maven của bạn, có test — cuối lộ trình bạn đủ nền để học Spring Boot và trả lời phỏng vấn Java core ở mức middle/senior.",
+  "description": "Sáu tuần, khoảng 1–2 giờ mỗi ngày, đi từ cú pháp và kiểu dữ liệu tới concurrency và JVM trên Java 21 LTS. Mỗi chặng kết thúc bằng một sản phẩm chạy được trong dự án Maven của bạn, có test — cuối lộ trình bạn đủ nền để học Spring Boot và trả lời phỏng vấn Java core ở mức middle/senior.",
   "stages": [
     {
       "id": "tuan-1-nen-tang-va-oop",
@@ -48,7 +48,7 @@
       ],
       "practice": [
         "Viết báo cáo doanh thu theo tỉnh, top sản phẩm và khách VIP từ một danh sách đơn hàng",
-        "Viết lại một vòng lặp chia lô bằng Gatherers.windowFixed"
+        "Viết hàm chiaLo dùng subList và gọi API song song tối đa N việc bằng virtual thread + Semaphore"
       ],
       "milestone": "Báo cáo cho kết quả giống truy vấn GROUP BY tương ứng trong SQL."
     },
@@ -81,12 +81,12 @@
       "id": "tuan-4-concurrency",
       "title": "Tuần 4–5 — Concurrency và virtual thread",
       "duration": "1–2 tuần",
-      "goal": "Viết code đa luồng đúng, gọi nhiều dịch vụ song song có timeout, và dùng virtual thread đúng cách trên Java 21/25.",
+      "goal": "Viết code đa luồng đúng, gọi nhiều dịch vụ song song có timeout, và dùng virtual thread đúng cách trên Java 21.",
       "outcomes": [
         "Nhận ra race condition, check-then-act, deadlock và lỗi visibility",
         "Dùng ExecutorService, ConcurrentHashMap, LongAdder, CompletableFuture có timeout",
-        "Hiểu mount/unmount của virtual thread và lỗi pinning trên JDK 21",
-        "Biết structured concurrency (preview) và ScopedValue (Java 25)"
+        "Hiểu mount/unmount của virtual thread, tìm và sửa lỗi pinning trên JDK 21 (ReentrantLock)",
+        "Gọi song song có huỷ khi lỗi; biết structured concurrency (preview) và ScopedValue khi nâng lên Java 25"
       ],
       "items": [
         "java/review/concurrency/thread-executor-va-dong-bo",

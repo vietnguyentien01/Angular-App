@@ -2,10 +2,13 @@
 title: "Xử lý lỗi và thời gian đúng cách — mất cause, suppressed exception, YYYY, giờ mùa hè và Clock"
 summary: "Chạy thử các lỗi tốn nhiều giờ debug: bọc exception làm mất cause, try/finally che lỗi gốc, YYYY thay vì yyyy, mm thay vì MM, parse 30/02 thành 28/02, cắt ngày theo UTC, giờ mùa hè ở múi giờ khác; rồi viết hàm tính tuổi test được nhờ Clock."
 level: intermediate
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, exception, java-time, timezone, pitfalls]
 related: [java/review/exceptions/exception-file-va-java-time, java/consolidate/build-test/viet-test-voi-junit]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại các ví dụ trên JDK 21."
 ---
 
 ## Tóm tắt nhanh
@@ -22,7 +25,7 @@ related: [java/review/exceptions/exception-file-va-java-time, java/consolidate/b
 
 **Thời gian:** `Instant` là một điểm trên trục thời gian (UTC). "Ngày", "giờ" chỉ có nghĩa **khi gắn với múi giờ**. `ZoneId` chứa luật múi giờ (từ dữ liệu tzdb trong JDK), kể cả giờ mùa hè; `ZoneOffset` chỉ là một độ lệch cố định.
 
-Mọi kết quả dưới đây đã chạy trên JDK 25.
+Mọi kết quả dưới đây đã chạy trên JDK 21.
 
 ## Exception
 

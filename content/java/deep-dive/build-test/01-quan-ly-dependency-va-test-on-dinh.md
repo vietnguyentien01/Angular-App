@@ -1,11 +1,14 @@
 ---
 title: "Quản lý dependency và test ổn định — nearest wins, BOM, enforcer, vòng đời instance và test chập chờn"
-summary: "Tái hiện việc Maven âm thầm hạ version một thư viện vì quy tắc nearest wins, sửa bằng dependencyManagement và chặn bằng enforcer (có bẫy mặc định bỏ qua scope test); rồi quan sát vòng đời instance của JUnit và tạo một test chập chờn do state static. Chạy trên Maven 3.9.11, JDK 25."
+summary: "Tái hiện việc Maven âm thầm hạ version một thư viện vì quy tắc nearest wins, sửa bằng dependencyManagement và chặn bằng enforcer (có bẫy mặc định bỏ qua scope test); rồi quan sát vòng đời instance của JUnit và tạo một test chập chờn do state static. Chạy trên Maven 3.9.11, JDK 21."
 level: advanced
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, maven, dependency, junit, flaky-test, ci]
 related: [java/consolidate/build-test/viet-test-voi-junit, java/review/build-test/maven-va-junit-co-ban]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại dependency:tree trên JDK 21, kết quả không đổi."
 ---
 
 ## Tóm tắt nhanh

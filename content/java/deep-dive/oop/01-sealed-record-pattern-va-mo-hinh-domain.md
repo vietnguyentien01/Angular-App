@@ -1,20 +1,23 @@
 ---
-title: "Sealed, record pattern và mô hình hoá domain — data-oriented programming trong Java 21–25"
-summary: "Dùng sealed interface + record để mô hình 'một trong vài dạng', switch có kiểm tra đủ trường hợp, record pattern lồng nhau và biến _, guard when; so sánh với cây kế thừa có method ảo; flexible constructor body của Java 25 và primitive pattern (preview). Mọi ví dụ đã chạy trên JDK 25."
+title: "Sealed, record pattern và mô hình hoá domain — data-oriented programming trong Java 21"
+summary: "Sealed interface + record để mô hình 'một trong vài dạng', switch kiểm tra đủ trường hợp, record pattern lồng nhau, guard when; so sánh với method ảo; kiểm tra tham số trước super(...) trên Java 21; biến _ và flexible constructor body khi nâng cấp. Đã chạy trên JDK 21."
 level: advanced
-version: 25
-lastReviewed: 2026-11-16
-tags: [java, sealed, record, pattern-matching, domain-modeling, java-25]
+version: 21
+lastReviewed: 2026-11-18
+tags: [java, sealed, record, pattern-matching, domain-modeling, java-21]
 related: [java/review/oop/class-interface-record-enum, java/consolidate/oop/equals-hashcode-va-ke-thua]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS: mọi ví dụ viết theo Java 21 (không dùng biến _), constructor kiểm tra tham số qua static method; biến _, flexible constructor body và primitive pattern chuyển thành phần nâng cấp."
 ---
 
 ## Tóm tắt nhanh
 
 - **Sealed interface** liệt kê đóng các dạng có thể có (`permits`). Kết hợp với **record** cho mỗi dạng, ta có kiểu "tổng" (sum type) giống union trong TypeScript.
 - `switch` trên kiểu sealed **không cần `default`**: compiler kiểm tra đủ trường hợp. Thêm một dạng mới → mọi `switch` chưa xử lý báo lỗi biên dịch.
-- **Record pattern** tách thành phần ngay trong `case`, lồng được nhiều tầng. `_` bỏ qua thành phần không dùng (Java 22+). `when` thêm điều kiện.
+- **Record pattern** (chính thức ở **Java 21**) tách thành phần ngay trong `case`, lồng được nhiều tầng. `when` thêm điều kiện. Trên Java 21 mọi thành phần phải có tên (`var dc`) — biến không tên `_` chỉ có từ Java 22.
 - Chọn **method ảo** khi các dạng thay đổi nhiều nhưng thao tác ít đổi; chọn **sealed + switch** khi các dạng ổn định nhưng thao tác hay thêm.
-- Java 25: được viết code **trước `super(...)`** trong constructor (JEP 513).
+- Trên Java 21, `super(...)` phải là câu lệnh đầu tiên của constructor: kiểm tra/chuẩn hoá tham số bằng static method gọi **bên trong** `super(...)`.
 
 ## Cơ chế: sealed + record + switch
 
@@ -29,17 +32,17 @@ record HoSo(String ma, DiaChi diaChi, KetQuaXet ketQua) {}
 
 static String thongBao(HoSo h) {
     return switch (h) {
-        case HoSo(var ma, DiaChi(var tinh, _), Duyet(var han))
+        case HoSo(var ma, DiaChi(var tinh, var phuong), Duyet(var han))
                 when han.compareTo(new BigDecimal("500000000")) >= 0
             -> ma + " (" + tinh + "): duyệt hạn mức lớn " + han + ", cần cấp phó duyệt lại";
-        case HoSo(var ma, _, Duyet(var han))    -> ma + ": duyệt " + han;
-        case HoSo(var ma, _, TuChoi(var lyDo))  -> ma + ": từ chối — " + lyDo;
-        case HoSo(var ma, _, CanBoSung(var ds)) -> ma + ": bổ sung " + String.join(", ", ds);
+        case HoSo(var ma, var dc, Duyet(var han))    -> ma + ": duyệt " + han;
+        case HoSo(var ma, var dc, TuChoi(var lyDo))  -> ma + ": từ chối — " + lyDo;
+        case HoSo(var ma, var dc, CanBoSung(var ds)) -> ma + ": bổ sung " + String.join(", ", ds);
     };
 }
 ```
 
-Đã chạy thử:
+Đã chạy thử trên JDK 21:
 
 ```text
 HS-01 (Hà Nội): duyệt hạn mức lớn 800000000, cần cấp phó duyệt lại
@@ -101,17 +104,18 @@ record QuocTe(BigDecimal soTien, String tienTe) implements GiaoDich {}
 
 static BigDecimal phi(GiaoDich g) {
     return switch (g) {
-        case NoiBo _ -> BigDecimal.ZERO;
+        case NoiBo n -> BigDecimal.ZERO;
         case LienNganHang(var tien, var nhanh) -> {
             BigDecimal p = tien.multiply(new BigDecimal(nhanh ? "0.0003" : "0.0002"))
                                .setScale(0, RoundingMode.HALF_UP);
             yield p.max(MIN).min(MAX);
         }
-        case QuocTe(var tien, var tt) when tt.equals("USD") -> new BigDecimal("150000");
-        case QuocTe(var tien, _) -> new BigDecimal("250000");
+        case QuocTe q when q.tienTe().equals("USD") -> new BigDecimal("150000");
+        case QuocTe q -> new BigDecimal("250000");
     };
 }
 // 5.000.000 nội bộ → 0; liên NH → 2000 (1000 < min); 500.000.000 Napas → 50000 (max); USD → 150000; EUR → 250000
+// (đã chạy trên JDK 21 kèm 8 test JUnit, xem bài *Viết test với JUnit*)
 ```
 
 ## Tính năng mới theo phiên bản
@@ -121,42 +125,52 @@ static BigDecimal phi(GiaoDich g) {
 | 16 | `record`, `instanceof` có biến | chính thức |
 | 17 | `sealed` | chính thức |
 | 21 | pattern trong `switch`, record pattern | chính thức |
-| 22 | biến không tên `_` | chính thức |
-| 25 | flexible constructor body (JEP 513) | chính thức |
-| 25 | primitive pattern (`case int d when d >= 80`) | **preview** (JEP 507) |
 
-Đã kiểm tra: ví dụ `HoSo` với `--source 21` báo *unnamed variables are not supported in -source 21*. Với Java 21, thay `_` bằng tên biến bất kỳ.
+Đó là bộ tính năng của **Java 21** — đủ để làm toàn bộ bài này.
 
-### Flexible constructor body (Java 25)
+### Kiểm tra tham số trước `super(...)` (Java 21)
 
-Trước Java 25, `super(...)` phải là câu lệnh đầu tiên, nên kiểm tra tham số phải nhét vào một static method. Giờ có thể kiểm tra và chuẩn hoá trước:
+Trên Java 21, `super(...)` phải là câu lệnh đầu tiên của constructor (viết `if` trước nó → lỗi *call to super must be first statement in constructor*, đã thử). Cách làm chuẩn: đưa việc kiểm tra và chuẩn hoá vào **static method** gọi bên trong lời gọi `super`:
 
 ```java
 class QuanTri extends NguoiDung {
     final int capDo;
     QuanTri(String email, int capDo) {
-        if (capDo < 1 || capDo > 3) throw new IllegalArgumentException("capDo 1..3");
-        String chuan = email.strip().toLowerCase();
-        super(chuan);               // không còn bắt buộc là dòng đầu
-        this.capDo = capDo;
+        super(chuanHoa(email));                 // static method chạy trước khi NguoiDung được tạo
+        this.capDo = kiemTraCapDo(capDo);
+    }
+    private static String chuanHoa(String email) { return email.strip().toLowerCase(); }
+    private static int kiemTraCapDo(int c) {
+        if (c < 1 || c > 3) throw new IllegalArgumentException("capDo 1..3");
+        return c;
     }
 }
-new QuanTri("  Admin@Bank.VN ", 2).email;   // "admin@bank.vn"
+new QuanTri("  Admin@Bank.VN ", 2).email;   // "admin@bank.vn" (đã chạy trên JDK 21)
 ```
 
-Trước `super(...)` vẫn **không** được đọc field hay gọi method của `this`. Đã thử `--release 21` và `24`: *flexible constructors is not supported*.
+Với record thì không có vấn đề này: compact constructor (`KhachHang { … }`) đã cho kiểm tra và chuẩn hoá trước khi gán field.
 
-### Primitive pattern (preview trong Java 25)
+### Rẽ nhánh theo khoảng số (Java 21)
+
+Pattern trong `switch` của Java 21 chỉ áp dụng cho kiểu **tham chiếu**: `case int d` báo lỗi *unexpected type* (đã thử). Xếp loại theo điểm dùng `if`/toán tử ba ngôi, hoặc `case Integer d when …` nếu giá trị là `Object`:
 
 ```java
-String xepLoai = switch (diem) {
-    case int d when d >= 80 -> "giỏi";
-    case int d when d >= 65 -> "khá";
-    case int d -> "khác";
-};
+String xepLoai = diem >= 80 ? "giỏi" : diem >= 65 ? "khá" : "khác";   // diem = 72 → "khá"
 ```
 
-Chạy không có cờ → lỗi *primitive patterns are a preview feature*. Với `--enable-preview --source 25` chạy được. Tính năng preview **có thể đổi** ở bản sau — không dùng trong code production.
+:::version 22+ Khi nâng lên Java 22 / 25
+| Phiên bản | Tính năng | Trạng thái |
+|---|---|---|
+| 22 | biến không tên `_` (JEP 456) | chính thức |
+| 25 | flexible constructor body (JEP 513) | chính thức |
+| 25 | primitive pattern (`case int d when d >= 80`, JEP 507) | **preview** |
+
+- **Biến `_`**: `case HoSo(var ma, _, Duyet(var han))`, `case NoiBo _` — bỏ qua thành phần không dùng, code gọn hơn. Trên Java 21 báo lỗi *unnamed variables are a preview feature and are disabled by default* (đã thử).
+- **Flexible constructor body** (Java 25): được viết code **trước** `super(...)`, nên `QuanTri` ở trên viết thẳng được `if (capDo < 1 || capDo > 3) throw …; String chuan = email.strip().toLowerCase(); super(chuan);`. Trước `super(...)` vẫn **không** được đọc field hay gọi method của `this`.
+- **Primitive pattern** (preview ở Java 25): `switch (diem) { case int d when d >= 80 -> "giỏi"; … }`. Preview **có thể đổi** ở bản sau — không dùng trong production.
+
+Các ví dụ trong bài viết theo Java 21 vẫn biên dịch bình thường trên Java 25, nên không cần sửa gì khi nâng cấp.
+:::
 
 :::senior Góc nhìn senior
 Đừng biến mọi thứ thành sealed hierarchy. Câu hỏi thiết kế: *tập các dạng có đóng và ổn định không, và ai sẽ thêm thao tác mới?* Một `sealed interface KetQua` cho kết quả xét duyệt là ranh giới nghiệp vụ rõ ràng, compiler bảo vệ. Còn danh sách loại sản phẩm do bộ phận kinh doanh thêm mỗi quý thì nên là dữ liệu (bảng cấu hình), không phải kiểu. Khi trả sealed type qua REST/JSON, nhớ cấu hình serializer (vd Jackson `@JsonTypeInfo` + `@JsonSubTypes`) để client biết dạng nào.
@@ -165,13 +179,13 @@ Chạy không có cờ → lỗi *primitive patterns are a preview feature*. V�
 :::quiz Thêm `record Huy(String nguoiHuy) implements KetQuaXet` và khai báo nó trong `permits`. Điều gì xảy ra với hàm `thongBao` ở trên?
 - [ ] Vẫn chạy, `Huy` rơi vào case cuối
 - [ ] Chạy được, gặp `Huy` thì ném `MatchException`
-- [x] Lỗi biên dịch: switch không phủ hết giá trị — phải thêm `case HoSo(var ma, _, Huy(var ai))`
+- [x] Lỗi biên dịch: switch không phủ hết giá trị — phải thêm `case HoSo(var ma, var dc, Huy(var ai))`
 - [ ] Cảnh báo, không lỗi
 
 Đây là lợi ích chính của sealed: mọi nơi cần cập nhật đều bị compiler chỉ ra.
 :::
 
-:::quiz Trong một `switch` trên `HoSo`, `case HoSo h -> …` đứng **trước** `case HoSo(var ma, _, Duyet(var han)) -> …`. Kết quả?
+:::quiz Trong một `switch` trên `HoSo`, `case HoSo h -> …` đứng **trước** `case HoSo(var ma, var dc, Duyet(var han)) -> …`. Kết quả?
 - [ ] Chạy bình thường, case sau không bao giờ chạy
 - [x] Lỗi biên dịch: case sau bị case trước "dominate"
 - [ ] Case cụ thể hơn được ưu tiên dù đứng sau
@@ -187,7 +201,7 @@ Thêm `record ViDienTu(BigDecimal soTien, String nhaCungCap) implements GiaoDich
 2. Thêm nhánh vào `phi`:
 
 ```java
-case ViDienTu _ -> new BigDecimal("1100");
+case ViDienTu v -> new BigDecimal("1100");
 ```
 
 Nếu quên bước 2, `phi` báo *the switch expression does not cover all possible input values*. Không có `default` nên không có chuyện "lặng lẽ" tính phí 0 cho loại mới — đó là lý do không nên thêm `default` vào switch trên sealed type.

@@ -1,11 +1,14 @@
 ---
 title: "Viết test với JUnit và AssertJ — test tham số, giá trị biên, Clock và fake"
-summary: "Luyện viết test cho code nghiệp vụ: cấu trúc Arrange–Act–Assert, test tham số với @CsvSource cho giá trị biên, kiểm tra exception kèm cause, so sánh BigDecimal đúng cách, tiêm Clock và viết fake thay cho mock. Mọi test đã chạy bằng Maven trên JDK 25 (32 test xanh)."
+summary: "Luyện viết test cho code nghiệp vụ: cấu trúc Arrange–Act–Assert, test tham số với @CsvSource cho giá trị biên, kiểm tra exception kèm cause, so sánh BigDecimal đúng cách, tiêm Clock và viết fake thay cho mock. Các test trong bài đã chạy bằng Maven trên JDK 21."
 level: intermediate
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, junit, assertj, testing, parameterized-test]
 related: [java/review/build-test/maven-va-junit-co-ban, java/consolidate/exceptions/xu-ly-loi-va-thoi-gian-dung-cach]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS: chạy lại các test trong bài bằng Maven trên JDK 21 (release 21)."
 ---
 
 ## Tóm tắt nhanh
@@ -20,7 +23,7 @@ related: [java/review/build-test/maven-va-junit-co-ban, java/consolidate/excepti
 
 Với mỗi method `@Test`, JUnit (mặc định) tạo **một instance mới** của class test, chạy `@BeforeEach`, chạy test, rồi `@AfterEach`. Vì vậy field trong class test không bị dùng lại giữa các test — field `static` thì có (bài chuyên sâu có số đo). Thứ tự giữa các test **không** theo thứ tự khai báo và không nên phụ thuộc vào nó.
 
-Mọi test dưới đây nằm trong dự án Maven mẫu `so-chi-tieu`, đã chạy với `mvn test` trên JDK 25: *Tests run: 32, Failures: 0*.
+Mọi test dưới đây nằm trong dự án Maven mẫu `so-chi-tieu`, đã chạy với `mvn test` trên JDK 21 (`maven.compiler.release` = 21). Riêng các test in trong bài (`PhiTest`, `ChiaHoaDonTest`, `HanMucServiceTest`) cho *Tests run: 16, Failures: 0*.
 
 ## So sánh BigDecimal
 

@@ -1,12 +1,15 @@
 ---
 title: "Thread, ExecutorService và đồng bộ — nền tảng concurrency trong Java"
-summary: "Nhắc nhanh thread và virtual thread, ExecutorService với try-with-resources, Future và timeout, synchronized, AtomicInteger/LongAdder, ConcurrentHashMap, CompletableFuture, và cách xử lý InterruptedException. Mọi output đã chạy trên JDK 25."
+summary: "Nhắc nhanh thread và virtual thread, ExecutorService với try-with-resources, Future và timeout, synchronized, AtomicInteger/LongAdder, ConcurrentHashMap, CompletableFuture, và cách xử lý InterruptedException. Mọi output đã chạy trên JDK 21."
 type: card
 level: core
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, concurrency, thread, executor, completablefuture]
 related: [java/consolidate/concurrency/race-condition-deadlock-va-completablefuture, java/deep-dive/concurrency/virtual-thread-va-structured-concurrency]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; thêm lưu ý pinning của virtual thread trên Java 21."
 ---
 
 ## Tóm tắt nhanh
@@ -16,8 +19,9 @@ related: [java/consolidate/concurrency/race-condition-deadlock-va-completablefut
 - Biến dùng chung giữa nhiều thread mà có ghi → phải đồng bộ: `synchronized`, `AtomicInteger`/`LongAdder`, hoặc collection concurrent.
 - `Future.get` ném `ExecutionException` (bọc lỗi của task); `CompletableFuture.join` ném `CompletionException`.
 - Bắt `InterruptedException` thì **khôi phục cờ**: `Thread.currentThread().interrupt()`.
+- Trên **Java 21**, virtual thread chặn I/O bên trong `synchronized` sẽ bị **pin** (giữ chặt carrier thread). Chỗ có I/O dùng `ReentrantLock` thay cho `synchronized`.
 
-## Ví dụ nhanh (đã chạy trên JDK 25)
+## Ví dụ nhanh (đã chạy trên JDK 21)
 
 ```java title="Bộ đếm dùng chung"
 int dem = 0;
@@ -101,7 +105,7 @@ catch (InterruptedException e) {
 :::version Java 17 / 21 / 25
 - `CompletableFuture`: Java 8; `orTimeout`, `completeOnTimeout`: Java 9.
 - **Virtual thread** (JEP 444) và `ExecutorService` là `AutoCloseable`: **Java 21** (tính năng thứ hai có từ Java 19). Trên Java 17 phải gọi `shutdown()` + `awaitTermination()` trong `finally`.
-- Java 24 sửa lỗi virtual thread bị "pin" khi gặp `synchronized` (JEP 491) — xem bài chuyên sâu.
+- **Khi nâng lên Java 24+**: virtual thread không còn bị "pin" khi chặn trong `synchronized` (JEP 491). Trên Java 21 vẫn bị — xem bài chuyên sâu *Virtual thread*.
 :::
 
 :::interview `synchronized`, `volatile` và `AtomicInteger` khác nhau thế nào?

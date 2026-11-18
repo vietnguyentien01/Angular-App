@@ -1,12 +1,15 @@
 ---
 title: "Bộ nhớ JVM và công cụ chẩn đoán — heap, stack, GC mặc định, heap trong container, jcmd"
-summary: "Nhắc nhanh heap, stack và metaspace, StackOverflowError so với OutOfMemoryError, JVM tự chọn kích thước heap và GC thế nào (kể cả trong container), các cờ nên đặt khi chạy production, và bộ công cụ jcmd, jstack, JFR. Mọi số liệu đo trên JDK 25."
+summary: "Nhắc nhanh heap, stack và metaspace, StackOverflowError so với OutOfMemoryError, JVM tự chọn kích thước heap và GC thế nào (kể cả trong container), các cờ nên đặt khi chạy production, và bộ công cụ jcmd, jstack, JFR. Mọi số liệu đo trên JDK 21."
 type: card
 level: core
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, jvm, memory, gc, tooling]
 related: [java/consolidate/jvm/chan-doan-memory-leak-va-oom, java/deep-dive/jvm/gc-jit-va-do-hieu-nang]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; đo lại trên JDK 21, thêm lưu ý ZGC trên Java 21 cần -XX:+ZGenerational."
 ---
 
 ## Tóm tắt nhanh
@@ -14,7 +17,7 @@ related: [java/consolidate/jvm/chan-doan-memory-leak-va-oom, java/deep-dive/jvm/
 - **Heap**: mọi object. **Stack**: mỗi thread một stack, chứa biến local và lời gọi hàm. **Metaspace**: thông tin class.
 - Đệ quy quá sâu → `StackOverflowError`. Giữ quá nhiều object → `OutOfMemoryError: Java heap space`.
 - Không đặt `-Xmx` thì heap tối đa = **25% RAM** mà JVM thấy (`MaxRAMPercentage=25`). Trong container 1 GB, heap chỉ được **256 MB**.
-- JDK 25 chọn **G1** làm GC mặc định; máy chỉ có **1 CPU** thì dùng **Serial**.
+- JDK 21 chọn **G1** làm GC mặc định; máy chỉ có **1 CPU** thì dùng **Serial**.
 - Công cụ đi kèm JDK: `jcmd` (mọi thứ), `jstack` (thread dump), JFR (ghi sự kiện hiệu năng, chi phí thấp).
 
 ## Các vùng nhớ
@@ -30,16 +33,18 @@ related: [java/consolidate/jvm/chan-doan-memory-leak-va-oom, java/deep-dive/jvm/
 metaspace (class đã nạp) · code cache (code JIT đã biên dịch) · bộ nhớ native (thread, NIO buffer)
 ```
 
-## Ví dụ nhanh (đã chạy trên JDK 25, máy 4 CPU, 16 GB RAM)
+## Ví dụ nhanh (đã chạy trên JDK 21, máy 4 CPU, 16 GB RAM)
 
 ```text
 -Xmx256m:  CPU=4 maxHeap=256 MB
            GC: [G1 Young Generation, G1 Concurrent GC, G1 Old Generation]
 
-Đệ quy vô hạn trên thread main:           StackOverflowError ở độ sâu ~14520
-Cùng code với -Xss256k:                     StackOverflowError ở độ sâu ~1782
-Thread tạo với stack 64 MB:                 độ sâu ~4187788
-Giữ khối 10 MB trong List tới khi hết heap: OutOfMemoryError: Java heap space sau 22 khối
+Đệ quy vô hạn trên thread main:           StackOverflowError ở độ sâu ~21000
+Cùng code với -Xss256k:                     StackOverflowError ở độ sâu ~1795
+Thread tạo với stack 64 MB:                 độ sâu 2,6–4,2 triệu
+Giữ khối 10 MB trong List tới khi hết heap: OutOfMemoryError: Java heap space sau 23 khối
+
+(độ sâu dao động giữa các lần chạy vì JIT làm frame nhỏ lại)
 ```
 
 Heap tối đa khi **không** đặt `-Xmx` (`-XX:+PrintFlagsFinal`):
@@ -92,7 +97,9 @@ java -XX:MaxRAMPercentage=75 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/d
 
 :::version Java 17 / 21 / 25
 - Nhận biết giới hạn container: Java 10+ (và 8u191+). `MaxRAMPercentage`: Java 10+ (trước đó là các cờ `-XX:MaxRAMFraction` khó dùng).
-- G1 là GC mặc định từ **Java 9**. ZGC có thế hệ (generational) là mặc định của ZGC từ Java 23; cờ `ZGenerational` đã bị gỡ (đã kiểm tra trên JDK 25: không còn trong `PrintFlagsFinal`).
+- G1 là GC mặc định từ **Java 9**.
+- **Trên Java 21**, `-XX:+UseZGC` vẫn chạy ZGC **không thế hệ**; muốn ZGC có thế hệ (generational, JEP 439) phải thêm `-XX:+ZGenerational` (đã kiểm tra trên JDK 21: `ZGenerational = false` mặc định).
+- **Khi nâng lên Java 23+**: generational là mặc định của ZGC; Java 24 gỡ hẳn chế độ không thế hệ và cờ `ZGenerational`.
 - JFR miễn phí trong OpenJDK từ Java 11.
 :::
 
@@ -109,7 +116,7 @@ java -XX:MaxRAMPercentage=75 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/d
 `MaxRAMPercentage` mặc định 25%. Đã đo với `-XX:MaxRAM=1g`: `MaxHeapSize = 268435456`.
 :::
 
-:::quiz Dịch vụ chạy trong container giới hạn **1 CPU**. JDK 25 chọn GC nào?
+:::quiz Dịch vụ chạy trong container giới hạn **1 CPU**. JDK 21 chọn GC nào?
 - [ ] G1
 - [x] Serial
 - [ ] ZGC

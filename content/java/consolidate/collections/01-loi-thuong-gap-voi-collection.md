@@ -2,10 +2,13 @@
 title: "Lỗi thường gặp với Collection — ConcurrentModificationException, xoá khi lặp, null và kiểu key"
 summary: "Chạy thử: xoá trong for-each khi nào ném ConcurrentModificationException (và khi nào thì không — tệ hơn), xoá theo index bỏ sót phần tử, removeIf và Iterator.remove, view so với bản sao, get(1) trên Map<Long,…> luôn trả null, null trong HashMap; rồi viết báo cáo top khách hàng."
 level: intermediate
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, collections, pitfalls, concurrentmodification]
 related: [java/review/collections/list-set-map-va-comparator, java/consolidate/functional/viet-bao-cao-bang-stream]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại các ví dụ trên JDK 21."
 ---
 
 ## Tóm tắt nhanh
@@ -20,7 +23,7 @@ related: [java/review/collections/list-set-map-va-comparator, java/consolidate/f
 
 `ArrayList` có bộ đếm `modCount`, tăng mỗi lần thay đổi cấu trúc. Iterator nhớ giá trị lúc tạo; mỗi lần `next()` nó so lại, khác thì ném `ConcurrentModificationException` (CME). For-each chính là `iterator()` + `hasNext()` + `next()`.
 
-Mọi kết quả dưới đây đã chạy trên JDK 25.
+Mọi kết quả dưới đây đã chạy trên JDK 21.
 
 ## Xoá trong vòng lặp
 

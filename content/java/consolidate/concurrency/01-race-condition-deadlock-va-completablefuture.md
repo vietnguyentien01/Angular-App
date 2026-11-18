@@ -2,10 +2,13 @@
 title: "Race condition, deadlock, visibility và gọi song song có timeout"
 summary: "Chạy thử: dem++ mất cập nhật chỉ thỉnh thoảng, check-then-act trên HashMap làm mất dữ liệu, deadlock phát hiện bằng ThreadMXBean, vòng lặp không bao giờ dừng vì thiếu volatile, JVM không thoát vì quên shutdown; rồi gọi ba dịch vụ song song với timeout và giá trị dự phòng."
 level: intermediate
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, concurrency, race-condition, deadlock, completablefuture, pitfalls]
 related: [java/review/concurrency/thread-executor-va-dong-bo, java/deep-dive/concurrency/virtual-thread-va-structured-concurrency]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; đo lại race condition trên JDK 21, bỏ IO.println (chỉ có từ Java 25)."
 ---
 
 ## Tóm tắt nhanh
@@ -20,21 +23,21 @@ related: [java/review/concurrency/thread-executor-va-dong-bo, java/deep-dive/con
 
 `dem++` là ba bước: đọc `dem` vào thanh ghi, cộng 1, ghi lại. Hai thread cùng đọc 10, cùng ghi 11 → mất một lần cộng.
 
-Đã chạy 5 lần trên JDK 25 (4 thread × 1.000.000 lần):
+Đã chạy 5 lần trên JDK 21 (4 thread × 1.000.000 lần):
 
 ```text
-lần 0: 3970351
-lần 1: 4000000
+lần 0: 1082562
+lần 1: 2018692
 lần 2: 4000000
 lần 3: 4000000
 lần 4: 4000000
 ```
 
-Bốn lần "đúng" một phần vì JIT có thể biến cả vòng lặp thành một phép cộng lớn, nên các thread ít khi chen vào nhau. Code thật (cập nhật số dư giữa các lời gọi DB, gửi tin…) không được tối ưu như vậy và lỗi lộ ra thường xuyên hơn — thường chỉ dưới tải thật trên production.
+Hai lần đầu sai nặng; ba lần sau "đúng" một phần vì JIT có thể biến cả vòng lặp thành một phép cộng lớn, nên các thread ít khi chen vào nhau. Code thật (cập nhật số dư giữa các lời gọi DB, gửi tin…) không được tối ưu như vậy và lỗi lộ ra thường xuyên hơn — thường chỉ dưới tải thật trên production.
 
 **Java Memory Model** quy định: chỉ khi có quan hệ *happens-before* (cùng khoá `synchronized`, ghi/đọc biến `volatile`, `Thread.start`/`join`, các collection và executor của `java.util.concurrent`…) thì thao tác ghi của thread này mới chắc chắn được thread kia nhìn thấy.
 
-Mọi kết quả dưới đây đã chạy trên JDK 25.
+Mọi kết quả dưới đây đã chạy trên JDK 21.
 
 ## Check-then-act
 
@@ -99,8 +102,8 @@ JIT được phép đọc `dung` một lần rồi giữ trong thanh ghi, vì th
 
 ```java bad
 var ex = Executors.newFixedThreadPool(1);
-ex.submit(() -> IO.println("task chạy"));
-IO.println("main xong");
+ex.submit(() -> System.out.println("task chạy"));
+System.out.println("main xong");
 // in hai dòng rồi treo: chạy với `timeout 5 java …` thì bị giết, exit code 124
 ```
 

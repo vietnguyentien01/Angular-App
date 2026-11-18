@@ -1,12 +1,15 @@
 ---
 title: "Lambda, method reference và Stream cơ bản"
-summary: "Nhắc nhanh cú pháp lambda, bốn dạng method reference, các functional interface có sẵn (Predicate, Function, Supplier, Consumer…), pipeline Stream filter → map → sorted → toList, reduce, flatMap và Optional. Mọi output đã chạy trên JDK 25."
+summary: "Nhắc nhanh cú pháp lambda, bốn dạng method reference, các functional interface có sẵn (Predicate, Function, Supplier, Consumer…), pipeline Stream filter → map → sorted → toList, reduce, flatMap và Optional. Mọi output đã chạy trên JDK 21."
 type: card
 level: core
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, lambda, stream, optional, functional]
 related: [java/consolidate/functional/viet-bao-cao-bang-stream, java/deep-dive/functional/ben-trong-stream-parallel-va-gatherers]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; Gatherers ghi rõ là tính năng của Java 24+, chưa có trên Java 21."
 ---
 
 ## Tóm tắt nhanh
@@ -17,7 +20,7 @@ related: [java/consolidate/functional/viet-bao-cao-bang-stream, java/deep-dive/f
 - `Optional` là kiểu trả về cho "có thể không có". Dùng `map`/`orElse`/`orElseThrow`, tránh `get()`.
 - Biến bên ngoài dùng trong lambda phải là **effectively final** (không bị gán lại).
 
-## Ví dụ nhanh (đã chạy trên JDK 25)
+## Ví dụ nhanh (đã chạy trên JDK 21)
 
 ```java
 record Don(String ma, String khach, String tinh, String trangThai, BigDecimal tien, List<String> sanPham) {}
@@ -98,7 +101,7 @@ Lambda có thể chạy sau này, hoặc trên thread khác; Java cấm sửa bi
 :::version Java 17 / 21 / 25
 - Lambda, Stream, `Optional`: Java 8. `Stream.iterate(seed, hasNext, next)`, `takeWhile`/`dropWhile`: Java 9.
 - `Collectors.teeing`: Java 12. **`Stream.toList()`: Java 16** — trên Java 11 dùng `collect(Collectors.toList())`. `mapMulti`: Java 16.
-- `Stream.gather` + `Gatherers`: preview ở Java 22–23, chính thức **Java 24** (xem bài chuyên sâu).
+- **Khi nâng lên Java 24+**: `Stream.gather` + `Gatherers` (chia lô, tích luỹ chạy dần) — preview ở Java 22–23, chính thức Java 24. Java 21 **chưa có**, dùng vòng lặp hoặc `Collectors` (xem bài chuyên sâu).
 :::
 
 :::interview Stream khác vòng lặp for thế nào? Khi nào không nên dùng Stream?

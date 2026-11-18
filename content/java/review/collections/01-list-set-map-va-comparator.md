@@ -1,12 +1,15 @@
 ---
 title: "List, Set, Map và Comparator — chọn đúng collection"
-summary: "Nhắc nhanh ArrayList/HashSet/HashMap và các biến thể giữ thứ tự, collection bất biến List.of, các method Map hay dùng (merge, computeIfAbsent), Comparator nhiều tiêu chí, sắp xếp tiếng Việt bằng Collator và SequencedCollection (Java 21). Output đã chạy trên JDK 25."
+summary: "Nhắc nhanh ArrayList/HashSet/HashMap và các biến thể giữ thứ tự, collection bất biến List.of, các method Map hay dùng (merge, computeIfAbsent), Comparator nhiều tiêu chí, sắp xếp tiếng Việt bằng Collator và SequencedCollection (Java 21). Output đã chạy trên JDK 21."
 type: card
 level: core
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, collections, list, map, comparator]
 related: [java/consolidate/collections/loi-thuong-gap-voi-collection, java/deep-dive/collections/ben-trong-hashmap-va-generics]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại ví dụ trên JDK 21 và sửa thứ tự in của HashMap cho đúng output thật."
 ---
 
 ## Tóm tắt nhanh
@@ -16,7 +19,7 @@ related: [java/consolidate/collections/loi-thuong-gap-voi-collection, java/deep-
 - Đếm/gom nhóm bằng `merge` và `computeIfAbsent` thay vì `if (map.containsKey…)`.
 - Sắp xếp: `Comparator.comparing(...).thenComparing(...)`. Chuỗi tiếng Việt cần `Collator`.
 
-## Ví dụ nhanh (đã chạy trên JDK 25)
+## Ví dụ nhanh (đã chạy trên JDK 21)
 
 ```java
 record SP(String ten, String loai, int gia) {}
@@ -32,7 +35,7 @@ sx.sort(Comparator.comparing(SP::loai)
 // Gia dụng: Máy lọc, Nồi chiên, Ấm điện → Phụ kiện: Lõi lọc → Sức khoẻ: Máy đo HA
 
 Map<String, Integer> dem = new HashMap<>();
-for (var s : ds) dem.merge(s.loai(), 1, Integer::sum);          // {Gia dụng=3, Phụ kiện=1, Sức khoẻ=1}
+for (var s : ds) dem.merge(s.loai(), 1, Integer::sum);          // {Gia dụng=3, Sức khoẻ=1, Phụ kiện=1} (thứ tự của HashMap)
 
 Map<String, List<String>> theoLoai = new LinkedHashMap<>();
 for (var s : ds) theoLoai.computeIfAbsent(s.loai(), k -> new ArrayList<>()).add(s.ten());

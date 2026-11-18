@@ -1,12 +1,15 @@
 ---
 title: "Kiểu dữ liệu và cú pháp Java — primitive, wrapper, String, switch expression"
-summary: "Nhắc nhanh 8 kiểu primitive và wrapper, vì sao == trên Integer và String là bẫy, phép chia và tràn số, var, switch expression, text block và chương trình Java 25 tối giản. Mọi output đã chạy trên JDK 25."
+summary: "Nhắc nhanh 8 kiểu primitive và wrapper, vì sao == trên Integer và String là bẫy, phép chia và tràn số, var, switch expression, text block, chương trình đầu tiên trên Java 21 và bản rút gọn của Java 25. Mọi output đã chạy trên JDK 21."
 type: card
 level: core
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, basics, primitive, string, switch]
 related: [java/consolidate/basics/tinh-tien-voi-bigdecimal, java/deep-dive/basics/ben-trong-string-va-boxing]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chương trình đầu tiên viết theo Java 21, bản rút gọn của Java 25 chuyển vào ghi chú phiên bản."
 ---
 
 ## Tóm tắt nhanh
@@ -16,24 +19,28 @@ related: [java/consolidate/basics/tinh-tien-voi-bigdecimal, java/deep-dive/basic
 - `int / int` là **chia nguyên**; `int` tràn số **lặng lẽ** (không báo lỗi). Cần báo lỗi thì dùng `Math.addExact`.
 - `double` không biểu diễn chính xác `0.1` → **không dùng cho tiền**.
 
-## Chương trình đầu tiên (Java 25)
+## Chương trình đầu tiên (Java 21)
 
-Từ Java 25, một file chỉ cần method `main` — không cần `public class`, `static`, `String[] args`. Lớp `IO` có sẵn để in và đọc:
+Khóa học lấy **Java 21 LTS** làm mốc vì đây là bản phổ biến nhất trong dự án enterprise hiện nay. Trên Java 21, chương trình cần một `public class` có method `public static void main(String[] args)`:
 
 ```java title="Hello.java"
-void main() {
-    String ten = IO.readln("Tên bạn: ");
-    IO.println("Xin chào, " + ten + "!");
+import java.util.Scanner;
+
+public class Hello {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Tên bạn: ");
+        String ten = sc.nextLine();
+        System.out.println("Xin chào, " + ten + "!");
+    }
 }
 ```
 
 ```bash
-java Hello.java      # chạy thẳng file nguồn, không cần javac
+java Hello.java      # chạy thẳng file nguồn, không cần javac (có từ Java 11)
 ```
 
-Dự án thật (Maven, Spring…) vẫn viết đầy đủ `public class … { public static void main(String[] args) }`.
-
-## Ví dụ nhanh (đã chạy trên JDK 25)
+## Ví dụ nhanh (đã chạy trên JDK 21)
 
 ```java
 Integer a = 127, b = 127, c = 128, d = 128;
@@ -103,7 +110,8 @@ int v = Objects.requireNonNullElse(soLuong, 0);
 
 :::version Java 17 / 21 / 25
 - `var`: Java 10. Switch expression `->`: Java 14. Text block: Java 15. Dự án Java 17 dùng được tất cả.
-- `void main()` không cần class và lớp `IO`: **Java 25** (JEP 512). Trên Java 21 phải viết `public class Hello { public static void main(String[] args) }` — đã thử `--source 21`: lỗi *implicitly declared classes are not supported*.
+- `java Hello.java` chạy thẳng file nguồn: Java 11.
+- **Khi nâng lên Java 25**: một file chỉ cần `void main() { … }`, không cần `public class`, `static`, `String[] args`; lớp `IO` có sẵn `IO.println` và `IO.readln("Tên bạn: ")` (JEP 512). Trên Java 21 cách viết này báo lỗi biên dịch *implicitly declared classes are not supported*. Dự án Maven/Spring vẫn viết class đầy đủ như trên.
 :::
 
 :::interview Vì sao `Integer a = 127, b = 127; a == b` là true nhưng với 128 lại false?

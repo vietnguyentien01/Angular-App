@@ -1,11 +1,14 @@
 ---
 title: "Bên trong HashMap và generics — bucket, resize, treeify, PECS và type erasure"
-summary: "Quan sát bảng băm của HashMap bằng reflection: resize khi vượt load factor, treeify khi trùng hash, vì sao key trùng hash mà không Comparable chậm cả nghìn lần; rồi generics: invariance, PECS với ? extends/? super, type erasure và heap pollution. Đo trên JDK 25."
+summary: "Quan sát bảng băm của HashMap bằng reflection: resize khi vượt load factor, treeify khi trùng hash, vì sao key trùng hash mà không Comparable chậm cả nghìn lần; rồi generics: invariance, PECS với ? extends/? super, type erasure và heap pollution. Đo trên JDK 21."
 level: advanced
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, hashmap, generics, type-erasure, internals]
 related: [java/consolidate/oop/equals-hashcode-va-ke-thua, java/consolidate/collections/loi-thuong-gap-voi-collection]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; đo lại resize, treeify và thời gian put trên JDK 21."
 ---
 
 ## Tóm tắt nhanh
@@ -26,7 +29,7 @@ bucket: null | Node → Node → … (danh sách) | TreeNode (cây đỏ-đen)
 
 `hash ^ (hash >>> 16)` trộn 16 bit cao xuống thấp, vì phép `&` với `length - 1` chỉ dùng các bit thấp.
 
-Quan sát field `table` bằng reflection (`--add-opens java.base/java.util=ALL-UNNAMED`), đã chạy trên JDK 25:
+Quan sát field `table` bằng reflection (`--add-opens java.base/java.util=ALL-UNNAMED`), đã chạy trên JDK 21:
 
 ```text
 mới tạo: 0                     ← lazy: chưa cấp phát mảng
@@ -54,12 +57,12 @@ record Xau(int v) { @Override public int hashCode() { return 42; } }
 
 12 key `Xau` → bảng đã lên **64** bucket, và bucket 42 chứa `TreeNode`. Khi một bucket vượt 8 phần tử mà bảng còn < 64 (`MIN_TREEIFY_CAPACITY`), `HashMap` ưu tiên **resize** thay vì treeify.
 
-Đo thời gian `put` (JDK 25, đo thô):
+Đo thời gian `put` (JDK 21, đo thô):
 
 | Số key | Cùng hash, **không** Comparable | Cùng hash, Comparable | Hash tốt |
 |---|---|---|---|
-| 10.000 | 147 ms | 20 ms | 2 ms |
-| 50.000 | **21.348 ms** | 11 ms | 2 ms |
+| 10.000 | 366 ms | 80 ms | 2 ms |
+| 50.000 | **19.953 ms** | 22 ms | 6 ms |
 
 Cây đỏ-đen cần thứ tự để rẽ trái/phải. Key không `Comparable` → mọi key "bằng nhau" về thứ tự, nên khi chèn `HashMap` phải tìm khắp cây xem key đã có chưa: mỗi lần `put` gần như O(n), tổng O(n²). Đây là lý do `hashCode` tệ (vd luôn trả hằng số, hoặc chỉ dùng một field ít giá trị) có thể làm treo cả service — và là dạng tấn công từ chối dịch vụ khi key do người dùng gửi lên.
 
@@ -141,7 +144,7 @@ String s = strs.get(0);      // ClassCastException: Integer cannot be cast to St
 - **Java 8**: bucket treeify (JEP 180).
 - **Java 19**: `HashMap.newHashMap`, `HashSet.newHashSet`, `LinkedHashMap.newLinkedHashMap`.
 - **Java 21**: SequencedCollection/SequencedMap (JEP 431).
-- Generics vẫn bị xoá kiểu ở Java 25. Dự án Valhalla (value class, chuyên biệt hoá generics) đang phát triển, **chưa** có trong bản phát hành chính thức.
+- Generics vẫn bị xoá kiểu ở Java 21 và cả Java 25. Dự án Valhalla (value class, chuyên biệt hoá generics) đang phát triển, **chưa** có trong bản phát hành chính thức.
 
 :::senior Góc nhìn senior
 Hiểu cấu trúc bên trong giúp đọc đúng sự cố: CPU 100% ở `HashMap.putVal`/`TreeNode.find` trong thread dump thường là `hashCode` tệ hoặc key do bên ngoài kiểm soát; GC bận với `Node[]` khổng lồ là map resize liên tục. Với generics, quy tắc thực dụng: tham số dùng wildcard theo PECS, kiểu trả về thì cụ thể, và coi mọi cảnh báo `unchecked` là bug tiềm ẩn cần lý do rõ ràng nếu `@SuppressWarnings`.

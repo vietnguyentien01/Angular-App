@@ -1,12 +1,15 @@
 ---
 title: "Class, interface, record và enum — OOP trong Java hiện đại"
-summary: "Nhắc nhanh đóng gói bằng private + constructor kiểm tra dữ liệu, abstract class vs interface (default method), record cho dữ liệu bất biến, enum có field, sealed interface và switch pattern matching. Mọi output đã chạy trên JDK 25."
+summary: "Nhắc nhanh đóng gói bằng private + constructor kiểm tra dữ liệu, abstract class vs interface (default method), record cho dữ liệu bất biến, enum có field, sealed interface và switch pattern matching. Mọi output đã chạy trên JDK 21."
 type: card
 level: core
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, oop, record, enum, sealed]
 related: [java/consolidate/oop/equals-hashcode-va-ke-thua, java/deep-dive/oop/sealed-record-pattern-va-mo-hinh-domain]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại mọi ví dụ trên JDK 21."
 ---
 
 ## Tóm tắt nhanh
@@ -17,7 +20,7 @@ related: [java/consolidate/oop/equals-hashcode-va-ke-thua, java/deep-dive/oop/se
 - **enum** = tập giá trị cố định, có thể có field và method.
 - **sealed interface** + `switch` pattern matching = compiler kiểm tra bạn đã xử lý **đủ mọi trường hợp**.
 
-## Ví dụ nhanh (đã chạy trên JDK 25)
+## Ví dụ nhanh (đã chạy trên JDK 21)
 
 ```java title="TaiKhoan.java"
 interface CoTen {

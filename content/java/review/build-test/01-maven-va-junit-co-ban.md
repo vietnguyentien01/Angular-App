@@ -1,12 +1,15 @@
 ---
 title: "Maven và JUnit cơ bản — cấu trúc dự án, pom.xml, scope, vòng đời build, test đầu tiên"
-summary: "Nhắc nhanh cấu trúc thư mục Maven, pom.xml tối thiểu cho Java 25 với JUnit 6 và AssertJ, dependency scope, các lệnh mvn hay dùng, viết và đọc kết quả test. Dự án mẫu đã chạy với Maven 3.9 trên JDK 25."
+summary: "Nhắc nhanh cấu trúc thư mục Maven, pom.xml tối thiểu cho Java 21 với JUnit 6 và AssertJ, dependency scope, các lệnh mvn hay dùng, viết và đọc kết quả test. Dự án mẫu đã chạy với Maven 3.9 trên JDK 21."
 type: card
 level: core
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, maven, junit, testing, build]
 related: [java/consolidate/build-test/viet-test-voi-junit, java/deep-dive/build-test/quan-ly-dependency-va-test-on-dinh]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS: pom.xml đặt release 21, chạy lại dự án mẫu trên JDK 21."
 ---
 
 ## Tóm tắt nhanh
@@ -37,7 +40,7 @@ so-chi-tieu/
   <version>1.0.0-SNAPSHOT</version>
 
   <properties>
-    <maven.compiler.release>25</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -160,7 +163,8 @@ class LamTronTest { … }                    // hoặc cấu hình <includes> tr
 :::version Java 17 / 21 / 25
 - **JUnit 6** (2025) yêu cầu Java **17+** (đã kiểm tra: class trong `junit-jupiter-api-6.1.3.jar` có major version 61 = Java 17). Dự án Java 8/11 dùng JUnit 5.x.
 - API Jupiter (`@Test`, `@ParameterizedTest`, `assertThrows`…) giống JUnit 5, nên phần lớn test chỉ cần đổi version trong BOM. JUnit 4 (`org.junit.Test`) là API khác hẳn.
-- `maven.compiler.release` đặt cả mức ngôn ngữ lẫn API của JDK; dùng nó thay cho cặp `source`/`target`.
+- `maven.compiler.release` đặt cả mức ngôn ngữ lẫn API của JDK; dùng nó thay cho cặp `source`/`target`. Đặt `21` thì code dùng tính năng của Java 22+ (vd biến `_`) báo lỗi biên dịch ngay, kể cả khi máy cài JDK mới hơn.
+- **Khi nâng lên Java 25**: chỉ cần đổi `maven.compiler.release` thành `25` và cài JDK 25 cho máy build/CI; JUnit 6, AssertJ và các plugin trong bài chạy được trên cả hai.
 :::
 
 :::interview `mvn package` và `mvn install` khác nhau thế nào?

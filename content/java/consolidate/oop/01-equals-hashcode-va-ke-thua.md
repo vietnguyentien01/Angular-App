@@ -2,10 +2,13 @@
 title: "equals, hashCode và kế thừa — năm bẫy làm HashSet/HashMap chạy sai"
 summary: "Chạy thử năm lỗi kinh điển: thiếu hashCode, key bị sửa sau khi đưa vào HashSet, equals bị overload thay vì override, equals mất tính đối xứng khi kế thừa, và lớp con HashSet đếm sai vì self-use. Sửa bằng record, business key bất biến và composition."
 level: intermediate
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, oop, equals, hashcode, composition, pitfalls]
 related: [java/review/oop/class-interface-record-enum, java/deep-dive/collections/ben-trong-hashmap-va-generics]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại các ví dụ trên JDK 21."
 ---
 
 ## Tóm tắt nhanh
@@ -25,7 +28,7 @@ related: [java/review/oop/class-interface-record-enum, java/deep-dive/collection
 
 Vì vậy `hashCode` sai thì tìm sai bucket — `equals` đúng cũng vô ích. Hợp đồng (Javadoc `Object.equals`): phản xạ, đối xứng, bắc cầu, nhất quán, `x.equals(null) == false`.
 
-Mọi kết quả dưới đây đã chạy trên JDK 25.
+Mọi kết quả dưới đây đã chạy trên JDK 21.
 
 ## Bẫy 1: chỉ override `equals`
 

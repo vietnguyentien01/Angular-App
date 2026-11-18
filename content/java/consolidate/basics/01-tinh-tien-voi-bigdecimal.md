@@ -1,11 +1,14 @@
 ---
 title: "Tính tiền đúng với BigDecimal — làm tròn, chia, so sánh và hiển thị VND"
-summary: "Vì sao double sai với tiền, tạo BigDecimal đúng cách, chọn RoundingMode (HALF_UP vs HALF_EVEN), chia không hết, bẫy equals với scale, chia đều hoá đơn không mất đồng nào và định dạng VND. Mọi kết quả đã chạy trên JDK 25."
+summary: "Vì sao double sai với tiền, tạo BigDecimal đúng cách, chọn RoundingMode (HALF_UP vs HALF_EVEN), chia không hết, bẫy equals với scale, chia đều hoá đơn không mất đồng nào và định dạng VND. Mọi kết quả đã chạy trên JDK 21."
 level: intermediate
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, bigdecimal, money, rounding, pitfalls]
 related: [java/review/basics/kieu-du-lieu-va-cu-phap, java/deep-dive/basics/ben-trong-string-va-boxing]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại mọi ví dụ trên JDK 21."
 ---
 
 ## Tóm tắt nhanh
@@ -138,7 +141,7 @@ vnd.format(new BigDecimal("4856760"));    // "4.856.760 ₫"
 :::
 
 :::version Java 17 / 21 / 25
-API `BigDecimal` và `RoundingMode` gần như không đổi từ Java 8. `Locale.of("vi", "VN")` có từ **Java 19**; Java 17 dùng `new Locale("vi", "VN")` (constructor này đã deprecated từ 19). Ví dụ `void main()` trong bài cần Java 25.
+API `BigDecimal` và `RoundingMode` gần như không đổi từ Java 8. `Locale.of("vi", "VN")` có từ **Java 19**; Java 17 dùng `new Locale("vi", "VN")` (constructor này đã deprecated từ 19).
 :::
 
 :::interview Vì sao không dùng `double` cho tiền? Thay bằng gì?

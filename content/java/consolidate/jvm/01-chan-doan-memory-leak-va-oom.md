@@ -1,11 +1,14 @@
 ---
 title: "Chẩn đoán memory leak và OutOfMemoryError — từ histogram tới heap dump"
-summary: "Tái hiện một memory leak kinh điển (map phiên đăng nhập không bao giờ xoá), chẩn đoán bằng jcmd GC.class_histogram khi ứng dụng đang chạy và heap dump tự động khi OOM, đọc kết quả, rồi sửa bằng cache có giới hạn và đo lại thấy heap ổn định. Chạy trên JDK 25."
+summary: "Tái hiện một memory leak kinh điển (map phiên đăng nhập không bao giờ xoá), chẩn đoán bằng jcmd GC.class_histogram khi ứng dụng đang chạy và heap dump tự động khi OOM, đọc kết quả, rồi sửa bằng cache có giới hạn và đo lại thấy heap ổn định. Chạy trên JDK 21."
 level: intermediate
-version: 25
-lastReviewed: 2026-11-16
+version: 21
+lastReviewed: 2026-11-18
 tags: [java, jvm, memory-leak, heap-dump, troubleshooting]
 related: [java/review/jvm/bo-nho-jvm-va-cong-cu, java/deep-dive/jvm/gc-jit-va-do-hieu-nang]
+changelog:
+  - date: 2026-11-18
+    note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại toàn bộ bài (histogram, heap dump, bản sửa) trên JDK 21; ScopedValue chuyển thành ghi chú khi nâng lên Java 25."
 ---
 
 ## Tóm tắt nhanh
@@ -53,24 +56,24 @@ java -Xmx128m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=dumps \
 
 ## Bước 1: histogram khi ứng dụng đang chạy
 
-Sau 1,5 giây (đã chạy trên JDK 25):
+Sau 1,5 giây (đã chạy trên JDK 21):
 
 ```text
-$ jcmd 9764 GC.class_histogram
+$ jcmd 1456 GC.class_histogram
  num     #instances         #bytes  class name (module)
 -------------------------------------------------------
-   1:        103353       67091248  [B (java.base@25.0.5.0.3)
-   2:         72266        1734384  java.lang.String (java.base@25.0.5.0.3)
-   3:         32178        1029696  java.util.HashMap$Node (java.base@25.0.5.0.3)
-   4:         31001         744024  vn.hoc.Leak$PhienDangNhap
-   5:          4991         696744  [Ljdk.internal.vm.FillerElement; (java.base@25.0.5.0.3)
-   6:           314         291008  [Ljava.util.HashMap$Node; (java.base@25.0.5.0.3)
+   1:        111669       73508896  [B (java.base@21.0.12.1)
+   2:         77585        1862040  java.lang.String (java.base@21.0.12.1)
+   3:         35173        1125536  java.util.HashMap$Node (java.base@21.0.12.1)
+   4:         34001         816024  vn.hoc.Leak$PhienDangNhap
+   5:          4397         671640  [Ljdk.internal.vm.FillerElement; (java.base@21.0.12.1)
+   6:           309         290608  [Ljava.util.HashMap$Node; (java.base@21.0.12.1)
 ```
 
 Cách đọc:
 
 - `[B` là `byte[]` — luôn đứng đầu ở mọi ứng dụng (vì `String` cũng chứa `byte[]`), tự nó chưa nói lên gì.
-- Tìm **class của chính bạn** trong top: `Leak$PhienDangNhap` có 31.001 instance và số `HashMap$Node` (32.178) gần bằng — dấu hiệu chúng nằm trong một `HashMap`.
+- Tìm **class của chính bạn** trong top: `Leak$PhienDangNhap` có 34.001 instance và số `HashMap$Node` (35.173) gần bằng — dấu hiệu chúng nằm trong một `HashMap`.
 - Chạy histogram **hai lần cách nhau vài phút**. Class nào tăng đều mà không giảm là nghi phạm.
 
 `GC.class_histogram` kích hoạt một full GC (chỉ đếm object còn sống), nên trên production hãy chạy lúc tải thấp.
@@ -79,8 +82,8 @@ Cách đọc:
 
 ```text
 java.lang.OutOfMemoryError: Java heap space
-Dumping heap to dumps/java_pid9764.hprof ...
-Heap dump file created [140678516 bytes in 0.185 secs]
+Dumping heap to dumps/java_pid1456.hprof ...
+Heap dump file created [141261710 bytes in 0.082 secs]
 Terminating due to java.lang.OutOfMemoryError: Java heap space
 ```
 
@@ -103,9 +106,9 @@ static final Map<String, PhienDangNhap> PHIEN = Collections.synchronizedMap(
 Cùng `-Xmx128m`, 300.000 lần đăng nhập:
 
 ```text
-100000 lần đăng nhập: 10000 phiên, heap dùng 25 MB
-200000 lần đăng nhập: 10000 phiên, heap dùng 25 MB
-300000 lần đăng nhập: 10000 phiên, heap dùng 24 MB
+100000 lần đăng nhập: 10000 phiên, heap dùng 23 MB
+200000 lần đăng nhập: 10000 phiên, heap dùng 23 MB
+300000 lần đăng nhập: 10000 phiên, heap dùng 23 MB
 ```
 
 Trong ứng dụng thật, phiên đăng nhập cần **hết hạn theo thời gian** và xoá khi đăng xuất — dùng Caffeine (`expireAfterAccess`, `maximumSize`) hoặc lưu ngoài JVM (Redis) nếu chạy nhiều instance.
@@ -130,13 +133,13 @@ Leak hiếm khi lộ trong test vì test chạy ngắn. Hãy có **quan sát** s
 GC chỉ thu hồi object **không còn tham chiếu** từ các GC root. Nếu code vẫn giữ tham chiếu tới object không còn dùng nữa — trong một collection `static`, cache không giới hạn, listener chưa huỷ đăng ký, `ThreadLocal` trên thread pool — thì GC coi chúng là đang dùng. Heap tăng dần tới khi `OutOfMemoryError`. Điều tra bằng histogram (loại object nào tăng) và heap dump (đường tham chiếu tới GC root, xem trong Eclipse MAT).
 :::
 
-:::quiz Histogram cho thấy `[B` đứng đầu với 67 MB. Kết luận đúng là gì?
+:::quiz Histogram cho thấy `[B` đứng đầu với 73 MB. Kết luận đúng là gì?
 - [ ] Leak chắc chắn nằm ở mảng byte
 - [x] Chưa kết luận được — `byte[]` luôn nhiều vì `String` dùng nó; cần tìm class của ứng dụng trong top và so sánh hai lần chụp
 - [ ] Cần tăng `-Xmx`
 - [ ] Do compact strings
 
-Trong ví dụ, manh mối là `Leak$PhienDangNhap` (31.001 instance) đi cùng số `HashMap$Node` tương đương.
+Trong ví dụ, manh mối là `Leak$PhienDangNhap` (34.001 instance) đi cùng số `HashMap$Node` tương đương.
 :::
 
 :::quiz Cờ nào giúp có dữ liệu để phân tích sau khi ứng dụng production gặp OOM? (chọn nhiều)
@@ -162,7 +165,7 @@ try {
 }
 ```
 
-Trên Java 25 có thể thay bằng `ScopedValue` (bài *Virtual thread và structured concurrency*):
+Đó là cách đúng trên Java 21. **Khi nâng lên Java 25** có thể thay bằng `ScopedValue` (bài *Virtual thread và structured concurrency*; trên Java 21 API này còn là preview):
 
 ```java
 ScopedValue.where(NGUOI_DUNG, layNguoiDung(request))
