@@ -1,4 +1,4 @@
-import { Service } from '@angular/core';
+import { Service, signal } from '@angular/core';
 import { type DBSchema, type IDBPDatabase, openDB } from 'idb';
 
 export type ProgressStatus = 'in-progress' | 'done';
@@ -36,6 +36,25 @@ export class StorageService {
     progress: new Map<string, unknown>(),
     kv: new Map<string, unknown>(),
   };
+
+  private readonly _writes = signal(0);
+  private mutedDepth = 0;
+  /** Tăng mỗi lần dữ liệu cá nhân thay đổi (bỏ qua thay đổi do đồng bộ ghi vào). */
+  readonly writes = this._writes.asReadonly();
+
+  /** Chạy `fn` mà không tính là thay đổi của người dùng (dùng khi áp dữ liệu đồng bộ về). */
+  async muted<T>(fn: () => Promise<T>): Promise<T> {
+    this.mutedDepth++;
+    try {
+      return await fn();
+    } finally {
+      this.mutedDepth--;
+    }
+  }
+
+  private changed(): void {
+    if (this.mutedDepth === 0) this._writes.update((n) => n + 1);
+  }
 
   /** true nếu dữ liệu chỉ nằm trong bộ nhớ (sẽ mất khi tải lại trang). */
   readonly volatile = this.db.then((db) => !db);
@@ -78,19 +97,23 @@ export class StorageService {
     const db = await this.db;
     if (!db) {
       this.memory[store].set(key ?? (value as ProgressRecord).key, value);
+      this.changed();
       return;
     }
     if (store === 'progress') await db.put('progress', value as ProgressRecord);
     else await db.put('kv', value, key);
+    this.changed();
   }
 
   async delete(store: StoreName, key: string): Promise<void> {
     const db = await this.db;
     if (!db) {
       this.memory[store].delete(key);
+      this.changed();
       return;
     }
     await db.delete(store, key);
+    this.changed();
   }
 
   async entries(store: 'kv'): Promise<[string, unknown][]> {
@@ -107,8 +130,10 @@ export class StorageService {
     const db = await this.db;
     if (!db) {
       this.memory[store].clear();
+      this.changed();
       return;
     }
     await db.clear(store);
+    this.changed();
   }
 }

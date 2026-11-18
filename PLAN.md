@@ -353,3 +353,10 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ Ghi chú những chỗ bản gốc có vấn đề: tên API MAF khác nhau giữa bài 14 và các bài khác; notebook bài 13 thiếu `search_hotels` trong danh sách tool; ví dụ metacognition viết cứng chiến lược; heuristic rủi ro theo chuỗi con.
 - ✅ Highlight thêm `python`, `py`, `csharp`. Lộ trình 4 chặng phủ đủ 19 bài.
 - ✅ Bổ sung (đợt 2): bài 9 viết đầy đủ theo bản gốc (Corrective RAG từng bước, bootstrap kế hoạch, LLM re-rank, đánh giá độ liên quan, tìm theo ý định, sinh code, SQL làm RAG), kèm số liệu chạy thử chỉ ra lỗi của code gốc; mục "Đọc notebook từng bước" cho bài 2–18 (gồm 4 notebook workflow bài 8, ví dụ MCP chạy lâu và GitHub MCP bài 11, notebook Cognee bài 13, 6 notebook bài 14, notebook chữ ký người duyệt bài 18); hướng dẫn Azure AI Search (bài 0); bộ smoke test `tests/` (bài 16); tài liệu tham khảo cuối bài; bài Phụ lục .NET (chưa chạy thử vì môi trường không có .NET SDK).
+
+## 19. Đồng bộ tiến độ giữa các thiết bị (GitHub Gist)
+
+- ✅ `SyncService` (src/app/core/sync): lưu tiến độ bài học, kết quả quiz, ô đã làm của lộ trình và bản tin đã đọc vào một Gist bí mật của người dùng; tự đồng bộ khi mở app, khi quay lại tab, 4 giây sau mỗi thay đổi và mỗi 5 phút.
+- ✅ Gộp dữ liệu (`sync-merge.ts`, có test): bản ghi đổi sau cùng thắng; lộ trình lưu thêm `roadmap.tasksAt` để gộp đúng; dữ liệu từ Gist được kiểm tra kiểu trước khi dùng.
+- ✅ Token (fine-grained, chỉ quyền Gists) chỉ nằm trong localStorage của từng thiết bị, không vào file sao lưu hay Gist. Kiểm thử end-to-end bằng hai trình duyệt riêng với Gist giả lập.
+- ✅ Sửa: nhập sao lưu giờ tải lại cả kết quả quiz, lộ trình và bản tin đã đọc (trước chỉ tải lại tiến độ bài học).

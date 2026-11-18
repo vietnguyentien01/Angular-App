@@ -19,9 +19,15 @@ const KEY = 'quiz.stats';
 export class QuizStatsService {
   private readonly storage = inject(StorageService);
   private readonly _stats = signal<Record<string, QuizStat>>({});
-  private readonly ready = this.storage
-    .get<Record<string, QuizStat>>('kv', KEY)
-    .then((v) => this._stats.set(v ?? {}));
+  private ready = this.reload();
+
+  /** Đọc lại từ IndexedDB (sau khi nhập sao lưu hoặc đồng bộ). */
+  reload(): Promise<void> {
+    this.ready = this.storage
+      .get<Record<string, QuizStat>>('kv', KEY)
+      .then((v) => this._stats.set(v ?? {}));
+    return this.ready;
+  }
 
   readonly stats = this._stats.asReadonly();
 

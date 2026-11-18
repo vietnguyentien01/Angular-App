@@ -18,7 +18,12 @@ export class UpdatesReadService {
   });
 
   constructor() {
-    void this.storage.get<string>('kv', KEY).then((v) => this.lastSeen.set(v ?? ''));
+    void this.reload();
+  }
+
+  /** Đọc lại từ IndexedDB (sau khi nhập sao lưu hoặc đồng bộ). */
+  async reload(): Promise<void> {
+    this.lastSeen.set((await this.storage.get<string>('kv', KEY)) ?? '');
   }
 
   isUnread(id: string): boolean {

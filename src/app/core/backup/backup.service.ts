@@ -1,5 +1,8 @@
 import { Service, inject } from '@angular/core';
 import { ProgressService } from '../progress/progress.service';
+import { QuizStatsService } from '../quiz/quiz-stats.service';
+import { RoadmapTasksService } from '../roadmap/roadmap-progress';
+import { UpdatesReadService } from '../updates/updates-read.service';
 import { DB_VERSION, type ProgressRecord, StorageService } from '../storage/storage.service';
 
 export interface BackupFile {
@@ -29,6 +32,18 @@ export function isBackupFile(data: unknown): data is BackupFile {
 export class BackupService {
   private readonly storage = inject(StorageService);
   private readonly progress = inject(ProgressService);
+  private readonly quiz = inject(QuizStatsService);
+  private readonly roadmap = inject(RoadmapTasksService);
+  private readonly updatesRead = inject(UpdatesReadService);
+
+  private async reloadAll(): Promise<void> {
+    await Promise.all([
+      this.progress.reload(),
+      this.quiz.reload(),
+      this.roadmap.reload(),
+      this.updatesRead.reload(),
+    ]);
+  }
 
   async export(): Promise<BackupFile> {
     return {
@@ -48,12 +63,12 @@ export class BackupService {
     await this.storage.clear('kv');
     for (const record of data.progress) await this.storage.put('progress', record);
     for (const [key, value] of data.kv) await this.storage.put('kv', value, key);
-    await this.progress.reload();
+    await this.reloadAll();
   }
 
   async reset(): Promise<void> {
     await this.storage.clear('progress');
     await this.storage.clear('kv');
-    await this.progress.reload();
+    await this.reloadAll();
   }
 }

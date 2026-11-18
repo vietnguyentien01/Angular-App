@@ -80,9 +80,11 @@ type Filter = 'all' | UpdateCategory;
               <a [routerLink]="[u.id]" class="card block p-5 transition hover:shadow-md">
                 <div class="flex flex-wrap items-center gap-2 text-xs">
                   <span class="font-mono text-slate-500">{{ u.date | date: 'dd/MM/yyyy' }}</span>
-                  <span class="rounded-full px-2 py-0.5 font-medium" [class]="category[u.category].cls">{{
-                    category[u.category].label
-                  }}</span>
+                  <span
+                    class="rounded-full px-2 py-0.5 font-medium"
+                    [class]="category[u.category].cls"
+                    >{{ category[u.category].label }}</span
+                  >
                   <span
                     class="rounded-full px-2 py-0.5 font-medium"
                     [class]="importance[u.importance].cls"

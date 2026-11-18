@@ -23,8 +23,8 @@ import { ProgressBar } from '../../shared/progress-bar/progress-bar';
             <h2 [id]="headingId()" class="text-lg font-semibold">{{ r.title }}</h2>
             <p class="text-sm text-white/85">
               @if (r.current; as c) {
-                Chặng {{ r.currentIndex + 1 }}/{{ r.stageCount }}:
-                <strong>{{ c.title }}</strong> · {{ r.currentPercent }}%
+                Chặng {{ r.currentIndex + 1 }}/{{ r.stageCount }}: <strong>{{ c.title }}</strong> ·
+                {{ r.currentPercent }}%
               } @else {
                 Đã hoàn thành toàn bộ lộ trình 🎉
               }

@@ -38,21 +38,31 @@ export function computeStageProgress(
 }
 
 const KEY = 'roadmap.tasks';
+/** Thời điểm đổi trạng thái từng ô, để gộp đúng khi đồng bộ nhiều thiết bị. */
+const AT_KEY = 'roadmap.tasksAt';
 
 /** Trạng thái các bài thực hành (checkbox) của lộ trình, lưu trong IndexedDB. */
 @Service()
 export class RoadmapTasksService {
   private readonly storage = inject(StorageService);
   private readonly _tasks = signal<Record<string, boolean>>({});
-  private readonly ready = this.storage
-    .get<Record<string, boolean>>('kv', KEY)
-    .then((v) => this._tasks.set(v ?? {}));
+  private ready = this.reload();
+
+  /** Đọc lại từ IndexedDB (sau khi nhập sao lưu hoặc đồng bộ). */
+  reload(): Promise<void> {
+    this.ready = this.storage
+      .get<Record<string, boolean>>('kv', KEY)
+      .then((v) => this._tasks.set(v ?? {}));
+    return this.ready;
+  }
 
   readonly tasks = this._tasks.asReadonly();
 
   async toggle(key: string): Promise<void> {
     await this.ready;
     this._tasks.update((t) => ({ ...t, [key]: !t[key] }));
+    const at = (await this.storage.get<Record<string, string>>('kv', AT_KEY)) ?? {};
+    await this.storage.put('kv', { ...at, [key]: new Date().toISOString() }, AT_KEY);
     await this.storage.put('kv', this._tasks(), KEY);
   }
 }
