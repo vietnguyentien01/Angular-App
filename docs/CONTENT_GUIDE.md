@@ -107,6 +107,8 @@ const x = 1;
 
 ## 5. Bản tin "Tin tức mới" (cập nhật mỗi 2 ngày)
 
+> **Cho phiên cập nhật tự động:** mục 5 này là quy định mới nhất về phạm vi tin. Nếu prompt của scheduled task chỉ nhắc tới tin frontend hoặc giới hạn 3 tin, hãy theo mục này: tìm tin cả ba nhóm `frontend`, `ai`, `xu-huong`, tối đa ~4 tin, và ghi trường `category` cho mỗi tin.
+
 File: `content/updates/YYYY/MM/YYYY-MM-DD-<slug>.md` (ngày trong tên file = `date`).
 
 Ba nhóm tin (`category`), trang Tin tức mới có bộ lọc theo nhóm:
