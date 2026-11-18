@@ -102,7 +102,7 @@ import { RoadmapCard } from './roadmap-card';
       <section aria-labelledby="updates-heading">
         <div class="flex items-baseline justify-between">
           <h2 id="updates-heading" class="section-heading">
-            Frontend mới
+            Tin tức mới
             @if (updatesRead.unread() > 0) {
               <span
                 class="ml-2 rounded-full bg-rose-500 px-2 py-0.5 align-middle text-xs font-semibold text-white"

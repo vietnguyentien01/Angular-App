@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'updates',
-    title: 'Frontend mới · Learning Hub',
+    title: 'Tin tức mới · Learning Hub',
     loadComponent: () => import('./features/updates/updates-page').then((m) => m.UpdatesPage),
   },
   {

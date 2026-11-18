@@ -30,7 +30,7 @@ import { Icon } from '../shared/icon/icon';
             (click)="navigate.emit()"
           >
             <app-icon name="bell" [size]="18" />
-            <span class="flex-1">Frontend mới</span>
+            <span class="flex-1">Tin tức mới</span>
             @if (updatesRead.unread() > 0) {
               <span
                 class="rounded-full bg-rose-500 px-1.5 text-xs font-semibold text-white"

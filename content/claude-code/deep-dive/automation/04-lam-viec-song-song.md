@@ -93,7 +93,7 @@ Scheduled task (trước gọi là routine) = prompt + repo + connector, đóng 
 /schedule mỗi sáng thứ Hai, chạy npm audit trên repo này, nếu có lỗ hổng high thì mở PR nâng version và tóm tắt
 ```
 
-App Learning Hub này cập nhật bản tin "Frontend mới" bằng đúng cơ chế này.
+App Learning Hub này cập nhật bản tin "Tin tức mới" bằng đúng cơ chế này.
 
 :::warning Trước khi để task chạy dài hạn
 Bảo vệ nhánh chính bằng branch rule mà task không vượt qua được, giới hạn quyền của task, theo dõi vài lần chạy đầu. Năm câu hỏi ở bài *Để Claude chạy một mình* áp dụng cho mọi cơ chế trong bài này.

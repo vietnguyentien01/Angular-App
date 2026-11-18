@@ -3,7 +3,7 @@
 App học tập cá nhân, bắt đầu với **Angular từ Middle lên Senior**, thiết kế để thêm nhiều môn học khác.
 
 - **3 phần cho mỗi môn**: Ôn lại Core → Củng cố → Chuyên sâu & Cập nhật
-- **Frontend mới**: bản tin kiến thức frontend cập nhật tự động mỗi 2 ngày
+- **Tin tức mới**: bản tin frontend, AI và xu hướng công nghệ, cập nhật tự động mỗi 2 ngày
 - Không backend: nội dung là Markdown build thành JSON tĩnh, tiến độ lưu trong IndexedDB
 - Deploy GitHub Pages: https://vietnguyentien01.github.io/Angular-App/
 

@@ -17,7 +17,7 @@ content/
     subject.json                     # thông tin môn + danh sách phần (sections)
     topics.json                      # danh sách chủ đề (thứ tự = thứ tự hiển thị)
     <section>/<topic>/NN-<slug>.md   # một bài; NN = số thứ tự trong chủ đề
-  updates/YYYY/MM/YYYY-MM-DD-<slug>.md   # bản tin "Frontend mới"
+  updates/YYYY/MM/YYYY-MM-DD-<slug>.md   # bản tin "Tin tức mới"
 ```
 
 - `id`, `slug`: chữ thường không dấu, số và `-` (vd `effect-dung-cach`).
@@ -105,9 +105,17 @@ const x = 1;
 - **Không dùng từ viết tắt tiếng Anh không giải thích.** Mục tóm tắt đầu bài đặt tiêu đề `## Tóm tắt nhanh` (không dùng "TL;DR"). Từ viết tắt chuyên ngành (vd RAG, MCP, SLM) phải được viết đầy đủ hoặc giải thích ở lần xuất hiện đầu tiên trong bài.
 - Ngôn ngữ code hỗ trợ: `ts, js, html, css, scss, json, bash, yaml, diff, sql, tsx, jsx, dockerfile, java, xml, python, py, csharp, text`.
 
-## 5. Bản tin "Frontend mới" (cập nhật mỗi 2 ngày)
+## 5. Bản tin "Tin tức mới" (cập nhật mỗi 2 ngày)
 
 File: `content/updates/YYYY/MM/YYYY-MM-DD-<slug>.md` (ngày trong tên file = `date`).
+
+Ba nhóm tin (`category`), trang Tin tức mới có bộ lọc theo nhóm:
+
+| `category` | Nội dung | Nguồn ưu tiên |
+|---|---|---|
+| `frontend` | Angular, TypeScript, RxJS, React, trình duyệt, công cụ build, bảo mật frontend, Node.js | Blog, release notes, GitHub release, advisory chính thức |
+| `ai` | Model mới, API và SDK của các hãng AI (Anthropic, OpenAI, Google, Microsoft, Meta, Mistral…), Claude Code và công cụ lập trình bằng AI, giao thức agent (MCP, A2A), framework agent | Trang tin, model card, release notes, changelog, tài liệu chính thức của chính hãng |
+| `xu-huong` | Xu hướng công nghệ có số liệu: khảo sát developer (Stack Overflow, JetBrains, GitHub Octoverse…), báo cáo thị trường và việc làm, thay đổi cách làm việc của dev do AI | Báo cáo gốc của đơn vị khảo sát; ghi rõ cỡ mẫu, thời gian khảo sát, số liệu tự báo cáo |
 
 ```yaml
 ---
@@ -115,6 +123,7 @@ title: Angular 23 ra mắt signal-based router guards
 date: 2026-11-13
 summary: Tóm tắt 1–2 câu (≤ 400 ký tự).
 importance: high          # high | medium | low
+category: frontend        # frontend | ai | xu-huong (mặc định frontend)
 tags: [angular, router]
 relatedTopics: [angular/signals]    # dạng subject/topic, phải tồn tại
 sources:                  # bắt buộc ≥ 1, chỉ https, ưu tiên nguồn chính thống
@@ -126,7 +135,7 @@ sources:                  # bắt buộc ≥ 1, chỉ https, ưu tiên nguồn c
 Khung nội dung bản tin:
 
 1. `## Có gì mới` — mô tả ngắn gọn, chính xác.
-2. `## Vì sao quan trọng` — ảnh hưởng thực tế với dev Angular / dự án enterprise.
+2. `## Vì sao quan trọng` — ảnh hưởng thực tế với dev Angular / dự án enterprise (với tin AI và xu hướng: ảnh hưởng tới cách dev làm việc, chọn công cụ, chi phí, kỹ năng cần học).
 3. `## Ví dụ` — code trước/sau nếu có.
 4. `## Việc nên làm` — áp dụng ngay / theo dõi / chưa cần quan tâm.
 5. Tuỳ chọn: một `:::quiz` ngắn để tự kiểm tra đã hiểu tin.
@@ -135,7 +144,9 @@ Quy tắc:
 
 - **Chỉ viết điều có nguồn kiểm chứng**; không suy đoán, không bịa số phiên bản hay ngày phát hành.
 - Ưu tiên nguồn chính thống: blog/release notes/changelog chính thức, GitHub release, RFC, TC39, web.dev, MDN, Chrome/Firefox/Safari release notes.
-- Mỗi lần chạy tối đa ~3 bản tin; gộp tin nhỏ cùng chủ đề. Nếu không có gì đáng kể: **không tạo file**.
+- Mỗi lần chạy tối đa ~4 bản tin, cân đối giữa các nhóm (thường 1–2 frontend, 1–2 AI hoặc xu hướng); gộp tin nhỏ cùng chủ đề. Nếu không có gì đáng kể: **không tạo file**.
+- Tin AI: số liệu benchmark là **số do hãng tự công bố**, phải ghi rõ như vậy; không so sánh model của hai hãng bằng benchmark khác nhau. Tin đồn, rò rỉ, bài của trang tổng hợp (aggregator) không phải nguồn; chỉ đưa tin khi có trang chính thức của hãng.
+- Tin xu hướng: trích từ báo cáo gốc; ghi cỡ mẫu và thời gian khảo sát; không suy diễn quá số liệu.
 - Không trùng tin đã có (tìm trong `content/updates/` trước khi viết).
 - Nếu tin làm một bài học cũ bị lỗi thời: sửa bài đó (cập nhật `lastReviewed`, `changelog`) trong cùng lần chạy.
 
@@ -146,7 +157,7 @@ Môn `claude-code` bám tài liệu chính thức, và Claude Code thay đổi r
 1. Đọc `https://code.claude.com/docs/en/changelog.md` cho các phiên bản phát hành trong khoảng thời gian đang xét (cùng khoảng với bản tin).
 2. Đối chiếu với `content/claude-code/`, nhất là phần `commands/` (slash command, lệnh `claude`, flag, biến môi trường, phím tắt) và các bài có bảng hành vi mặc định (permission mode, auto mode, settings).
 3. Lệnh/flag/hành vi bị gỡ, đổi tên, đổi mặc định, hoặc tính năng mới quan trọng → sửa đúng bài (cập nhật `lastReviewed`, thêm dòng `changelog`). Chỉ ghi điều đã xác minh trên trang tài liệu tương ứng ở `code.claude.com/docs/en/<trang>.md`.
-4. Thay đổi lớn nhất (nếu có) có thể thành một bản tin, `relatedTopics` lấy từ `content/claude-code/topics.json`. Không có gì ảnh hưởng tới bài → không sửa.
+4. Thay đổi lớn nhất (nếu có) có thể thành một bản tin, `category: ai`, `relatedTopics` lấy từ `content/claude-code/topics.json`. Không có gì ảnh hưởng tới bài → không sửa.
 5. Báo lại trong câu trả lời cuối: bài Claude Code nào đã sửa và vì sao.
 
 ## 5b. Lộ trình (roadmap.json)

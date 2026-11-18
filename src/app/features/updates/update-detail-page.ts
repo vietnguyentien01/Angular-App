@@ -8,7 +8,7 @@ import { ContentService, contentUrl } from '../../core/content/content.service';
 import { ContentBlocks } from '../../shared/content/content-blocks';
 import { Icon } from '../../shared/icon/icon';
 import { PageState } from '../../shared/page-state/page-state';
-import { IMPORTANCE } from './updates-page';
+import { CATEGORY, IMPORTANCE } from './updates-page';
 
 @Component({
   selector: 'app-update-detail-page',
@@ -21,11 +21,14 @@ import { IMPORTANCE } from './updates-page';
           routerLink="/updates"
           class="inline-flex items-center gap-1 text-sm text-slate-500 hover:underline"
         >
-          <app-icon name="chevron-left" [size]="14" /> Frontend mới
+          <app-icon name="chevron-left" [size]="14" /> Tin tức mới
         </a>
         <header class="mt-4 border-b border-slate-200 pb-6 dark:border-slate-800">
           <div class="flex flex-wrap items-center gap-2 text-xs">
             <span class="font-mono text-slate-500">{{ u.date | date: 'dd/MM/yyyy' }}</span>
+            <span class="rounded-full px-2 py-0.5 font-medium" [class]="category[u.category].cls">{{
+              category[u.category].label
+            }}</span>
             <span
               class="rounded-full px-2 py-0.5 font-medium"
               [class]="importance[u.importance].cls"
@@ -86,6 +89,7 @@ export class UpdateDetailPage {
   private readonly content = inject(ContentService);
   private readonly title = inject(Title);
   protected readonly importance = IMPORTANCE;
+  protected readonly category = CATEGORY;
 
   readonly id = input.required<string>();
   protected readonly detail = httpResource<UpdateDetail>(() => contentUrl.update(this.id()));

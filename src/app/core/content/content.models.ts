@@ -7,6 +7,8 @@
 export type ItemType = 'lesson' | 'card' | 'cheatsheet';
 export type Level = 'core' | 'intermediate' | 'advanced';
 export type Importance = 'high' | 'medium' | 'low';
+/** Nhóm bản tin trong mục "Tin tức mới". */
+export type UpdateCategory = 'frontend' | 'ai' | 'xu-huong';
 
 export interface SectionMeta {
   id: string;
@@ -134,6 +136,7 @@ export interface UpdateSummary {
   title: string;
   summary: string;
   importance: Importance;
+  category: UpdateCategory;
   tags: string[];
   /** Tham chiếu dạng `subject/topic`, vd `angular/signals`. */
   relatedTopics: string[];

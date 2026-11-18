@@ -44,7 +44,7 @@ done
 
 ## Case study: phiên cập nhật bản tin của Learning Hub
 
-App này có một scheduled task chạy mỗi 2 ngày để viết bản tin "Frontend mới". Đối chiếu với năm câu hỏi:
+App này có một scheduled task chạy mỗi 2 ngày để viết bản tin "Tin tức mới". Đối chiếu với năm câu hỏi:
 
 | Câu hỏi | Hiện tại | Đánh giá |
 |---|---|---|

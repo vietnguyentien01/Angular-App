@@ -4,7 +4,7 @@ import { StorageService } from '../storage/storage.service';
 
 const KEY = 'updates.lastSeen';
 
-/** Theo dõi bản tin "Frontend mới" đã đọc tới đâu. */
+/** Theo dõi bản tin "Tin tức mới" đã đọc tới đâu. */
 @Service()
 export class UpdatesReadService {
   private readonly storage = inject(StorageService);

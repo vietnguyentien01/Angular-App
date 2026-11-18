@@ -55,6 +55,7 @@ export const updateFrontMatterSchema = z.strictObject({
   date: isoDate,
   summary: z.string().min(1).max(400),
   importance: z.enum(['high', 'medium', 'low']),
+  category: z.enum(['frontend', 'ai', 'xu-huong']).default('frontend'),
   tags: z.array(z.string()).default([]),
   relatedTopics: z
     .array(z.string().regex(/^[a-z0-9-]+\/[a-z0-9-]+$/, 'dạng "subject/topic"'))

@@ -3,9 +3,12 @@ title: Chọn model, fast mode và theo dõi usage — làm nhiều hơn với c
 summary: Các alias model (opus, sonnet, haiku, fable, opusplan, [1m]), cách đặt model mặc định, fast mode đổi chi phí lấy tốc độ, đọc /usage và /context, và danh sách biện pháp giảm token theo tài liệu — để chọn đúng công cụ cho đúng việc.
 type: lesson
 level: advanced
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-18
 tags: [claude-code, models, cost, usage, fast-mode]
 related: [claude-code/deep-dive/sessions/chi-phi-va-subagent, claude-code/consolidate/sessions/context-window-va-checkpoint]
+changelog:
+  - date: 2026-11-18
+    note: Thêm mục Fable 5.2 — alias fable trỏ tới Fable 5.2 (cần Claude Code v2.1.321+), không là mặc định, có thể tính vào usage credits.
 ---
 
 ## Tóm tắt nhanh
@@ -34,6 +37,18 @@ Alias trỏ tới bản khuyến nghị của **nhà cung cấp** và thay đổ
 - Khởi động: `claude --model opus`.
 - Settings: `"model": "sonnet"`; biến môi trường `ANTHROPIC_MODEL` thắng khoá `model` trong file.
 - Tổ chức có thể giới hạn danh sách model được dùng.
+
+### Dùng Fable
+
+Theo tài liệu Model configuration (xem 2026-11-18):
+
+- Alias `fable` trỏ tới **Fable 5.2** (trong phiên qua Claude apps gateway thì trỏ tới Fable 5; khi đó chọn `/model claude-fable-5-2`). Đặt `ANTHROPIC_DEFAULT_FABLE_MODEL` để cố định bản khác.
+- **Không gói nào lấy Fable làm mặc định**: phải chọn rõ bằng `/model fable` hoặc `claude --model fable`.
+- Fable 5.2 cần **Claude Code v2.1.321 trở lên** (`claude update` nếu báo lỗi model không hỗ trợ).
+- Tuỳ gói và loại seat, dùng Fable có thể **tính vào usage credits** thay vì hạn mức gói; picker `/model` ghi "Requires usage credits". Ở chế độ `-p` (không tương tác) Claude Code **không hỏi** mà tính luôn — để ý khi chạy trong CI.
+- Yêu cầu bị bộ lọc an toàn của Fable chặn (thường về an ninh mạng, sinh học) sẽ **tự chuyển sang model khác** (automatic model fallback).
+
+Xem bản tin [Claude Fable 5.2 và Mythos 5.2](/updates/2026-11-18-claude-fable-mythos-5-2).
 
 ## Effort (nhắc lại)
 

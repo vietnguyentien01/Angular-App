@@ -116,7 +116,7 @@ Khoảng **4 vCPU, 16 GB RAM, 30 GB đĩa** (có thể thay đổi). Lệnh Bash
 
 ## Case study: environment của Learning Hub
 
-Phiên cập nhật bản tin "Frontend mới" mỗi 2 ngày của app này chạy trong một environment riêng:
+Phiên cập nhật bản tin "Tin tức mới" mỗi 2 ngày của app này chạy trong một environment riêng:
 
 | Thiết lập | Lựa chọn | Lý do |
 |---|---|---|
