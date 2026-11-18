@@ -1,7 +1,7 @@
 import type { QuizStat } from '../quiz/quiz-stats.service';
 import type { ProgressRecord } from '../storage/storage.service';
 
-/** Nội dung file JSON lưu trong GitHub Gist. Không chứa token hay cấu hình đồng bộ. */
+/** Dữ liệu tiến độ của một tài khoản, lưu dạng JSON trong Firestore (`users/{uid}.data`). */
 export interface SyncSnapshot {
   app: 'learning-hub';
   format: 1;
@@ -30,7 +30,7 @@ export function emptySnapshot(): SyncSnapshot {
 const isRecord = (v: unknown): v is Record<string, unknown> =>
   typeof v === 'object' && v !== null && !Array.isArray(v);
 
-/** Đọc file từ Gist một cách phòng thủ: bỏ qua mọi phần sai kiểu thay vì làm hỏng dữ liệu. */
+/** Đọc dữ liệu từ Firestore một cách phòng thủ: bỏ qua mọi phần sai kiểu thay vì làm hỏng dữ liệu. */
 export function parseSnapshot(data: unknown): SyncSnapshot {
   const s = emptySnapshot();
   if (!isRecord(data) || data['app'] !== 'learning-hub') return s;

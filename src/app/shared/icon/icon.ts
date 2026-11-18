@@ -74,6 +74,7 @@ const ICONS: Record<string, string[]> = {
     'M12 6.5 8 16h1.6l.9-2.2h3l.9 2.2H16z',
     'M11 12.3h2l-1-2.5z',
   ],
+  'log-out': ['M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4', 'M16 17l5-5-5-5', 'M21 12H9'],
   sparkles: ['M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z', 'M19 17v4', 'M17 19h4'],
   target: [circle(12, 12, 10), circle(12, 12, 6), circle(12, 12, 2)],
   stream: [

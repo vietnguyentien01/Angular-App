@@ -354,9 +354,10 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ Highlight thêm `python`, `py`, `csharp`. Lộ trình 4 chặng phủ đủ 19 bài.
 - ✅ Bổ sung (đợt 2): bài 9 viết đầy đủ theo bản gốc (Corrective RAG từng bước, bootstrap kế hoạch, LLM re-rank, đánh giá độ liên quan, tìm theo ý định, sinh code, SQL làm RAG), kèm số liệu chạy thử chỉ ra lỗi của code gốc; mục "Đọc notebook từng bước" cho bài 2–18 (gồm 4 notebook workflow bài 8, ví dụ MCP chạy lâu và GitHub MCP bài 11, notebook Cognee bài 13, 6 notebook bài 14, notebook chữ ký người duyệt bài 18); hướng dẫn Azure AI Search (bài 0); bộ smoke test `tests/` (bài 16); tài liệu tham khảo cuối bài; bài Phụ lục .NET (chưa chạy thử vì môi trường không có .NET SDK).
 
-## 19. Đồng bộ tiến độ giữa các thiết bị (GitHub Gist)
+## 19. Đăng nhập Google và lưu tiến độ theo tài khoản (Firebase)
 
-- ✅ `SyncService` (src/app/core/sync): lưu tiến độ bài học, kết quả quiz, ô đã làm của lộ trình và bản tin đã đọc vào một Gist bí mật của người dùng; tự đồng bộ khi mở app, khi quay lại tab, 4 giây sau mỗi thay đổi và mỗi 5 phút.
-- ✅ Gộp dữ liệu (`sync-merge.ts`, có test): bản ghi đổi sau cùng thắng; lộ trình lưu thêm `roadmap.tasksAt` để gộp đúng; dữ liệu từ Gist được kiểm tra kiểu trước khi dùng.
-- ✅ Token (fine-grained, chỉ quyền Gists) chỉ nằm trong localStorage của từng thiết bị, không vào file sao lưu hay Gist. Kiểm thử end-to-end bằng hai trình duyệt riêng với Gist giả lập.
-- ✅ Sửa: nhập sao lưu giờ tải lại cả kết quả quiz, lộ trình và bản tin đã đọc (trước chỉ tải lại tiến độ bài học).
+- ✅ Bỏ đồng bộ thủ công qua GitHub Gist (và mục đồng bộ trong Cài đặt) theo yêu cầu.
+- ✅ `AuthService`: đăng nhập Google bằng Firebase Authentication (SDK nạp trễ); màn đăng nhập bắt buộc khi đã cấu hình `FIREBASE_CONFIG`; avatar, trạng thái lưu và nút đăng xuất trên header.
+- ✅ `CloudSyncService`: document `users/{uid}` trong Firestore, cập nhật thời gian thực giữa các thiết bị; IndexedDB làm bộ nhớ đệm; gộp dữ liệu bằng `sync-merge.ts` (có test); đăng xuất xoá dữ liệu khỏi máy; "Xoá toàn bộ" xoá cả trên tài khoản.
+- ✅ Kiểm thử end-to-end với Firebase Emulator (Auth + Firestore, đúng Security Rules): hai thiết bị cùng tài khoản, cập nhật không cần tải lại, đổi tài khoản không lộ dữ liệu.
+- ⏳ Chờ người dùng tạo project Firebase và điền cấu hình (docs/FIREBASE_SETUP.md).

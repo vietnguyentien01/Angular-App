@@ -12,13 +12,13 @@ import {
   withViewTransitions,
 } from '@angular/router';
 import { routes } from './app.routes';
-import { SyncService } from './core/sync/sync.service';
+import { CloudSyncService } from './core/sync/cloud-sync.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    // Đồng bộ tiến độ qua GitHub Gist (chỉ chạy khi người dùng đã kết nối trong Cài đặt).
-    provideAppInitializer(() => inject(SyncService).start()),
+    // Lưu tiến độ theo tài khoản (Firestore) khi đã cấu hình Firebase.
+    provideAppInitializer(() => inject(CloudSyncService).start()),
     // Angular 22: FetchBackend là mặc định, không cần withFetch() (đã deprecated).
     provideHttpClient(),
     provideRouter(

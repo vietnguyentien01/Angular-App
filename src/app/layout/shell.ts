@@ -1,5 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { AuthService } from '../core/auth/auth.service';
+import { CloudSyncService } from '../core/sync/cloud-sync.service';
 import { ThemeService } from '../core/theme/theme.service';
 import { Icon } from '../shared/icon/icon';
 import { SidebarNav } from './sidebar-nav';
@@ -48,6 +50,33 @@ import { SidebarNav } from './sidebar-nav';
       >
         <app-icon [name]="themeIcon()" />
       </button>
+      @if (auth.user(); as u) {
+        <span class="hidden text-xs text-slate-500 sm:inline" role="status">{{
+          cloudLabel()
+        }}</span>
+        @if (u.photoUrl) {
+          <img
+            [src]="u.photoUrl"
+            alt=""
+            width="28"
+            height="28"
+            referrerpolicy="no-referrer"
+            class="size-7 rounded-full"
+          />
+        }
+        <span class="hidden max-w-40 truncate text-sm font-medium md:inline" [title]="u.email">{{
+          u.name
+        }}</span>
+        <button
+          type="button"
+          class="icon-btn"
+          (click)="signOut()"
+          aria-label="Đăng xuất"
+          title="Đăng xuất"
+        >
+          <app-icon name="log-out" />
+        </button>
+      }
     </header>
 
     <div class="flex">
@@ -79,7 +108,25 @@ import { SidebarNav } from './sidebar-nav';
 })
 export class Shell {
   protected readonly theme = inject(ThemeService);
+  protected readonly auth = inject(AuthService);
+  private readonly cloud = inject(CloudSyncService);
   protected readonly menuOpen = signal(false);
+
+  protected readonly cloudLabel = computed(
+    () =>
+      ({
+        off: '',
+        loading: 'Đang tải…',
+        saving: 'Đang lưu…',
+        saved: 'Đã lưu',
+        error: 'Chưa lưu được (đang offline?)',
+      })[this.cloud.state()],
+  );
+
+  protected async signOut(): Promise<void> {
+    if (!confirm('Đăng xuất? Tiến độ đã được lưu vào tài khoản của bạn.')) return;
+    await this.cloud.signOut();
+  }
 
   /** Trên mobile, menu đóng thì không cho focus vào (inert). Trên desktop luôn hiện. */
   private readonly isDesktop = signal(
