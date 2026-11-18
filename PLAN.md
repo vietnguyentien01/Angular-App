@@ -360,4 +360,4 @@ Mỗi giai đoạn sẽ commit & push để bạn xem.
 - ✅ `AuthService`: đăng nhập Google bằng Firebase Authentication (SDK nạp trễ); màn đăng nhập bắt buộc khi đã cấu hình `FIREBASE_CONFIG`; avatar, trạng thái lưu và nút đăng xuất trên header.
 - ✅ `CloudSyncService`: document `users/{uid}` trong Firestore, cập nhật thời gian thực giữa các thiết bị; IndexedDB làm bộ nhớ đệm; gộp dữ liệu bằng `sync-merge.ts` (có test); đăng xuất xoá dữ liệu khỏi máy; "Xoá toàn bộ" xoá cả trên tài khoản.
 - ✅ Kiểm thử end-to-end với Firebase Emulator (Auth + Firestore, đúng Security Rules): hai thiết bị cùng tài khoản, cập nhật không cần tải lại, đổi tài khoản không lộ dữ liệu.
-- ⏳ Chờ người dùng tạo project Firebase và điền cấu hình (docs/FIREBASE_SETUP.md).
+- ✅ Đã điền cấu hình project `learning-hub-5cf9b` (không dùng Analytics).
