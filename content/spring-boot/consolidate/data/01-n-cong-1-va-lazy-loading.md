@@ -3,9 +3,12 @@ title: "N+1 query và lazy loading — đếm câu SQL rồi sửa bằng fetch 
 summary: "Đếm số câu SQL bằng Hibernate Statistics: 10 đơn hàng sinh 13 câu (N+1), sửa còn 1 câu bằng @EntityGraph hoặc 3 câu bằng batch fetch; tái hiện LazyInitializationException; dùng projection DTO cho màn hình danh sách. Chạy thật trên PostgreSQL 16, Hibernate 7.4."
 level: intermediate
 version: 4
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [spring-boot, jpa, hibernate, n-plus-1, performance]
 related: [spring-boot/review/data/entity-repository-va-flyway, spring-boot/deep-dive/data/persistence-context-va-dirty-checking]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -145,7 +148,7 @@ Lấy N bản ghi cha bằng 1 query, rồi truy cập quan hệ lazy của từ
 1 (đơn) + 10 (dòng của từng đơn) + 2 (sản phẩm, mỗi cái nạp một lần rồi lấy lại từ persistence context). Đã đo.
 :::
 
-:::quiz Bật `hibernate.default_batch_fetch_size: 50` mà không sửa code N+1 ở trên. Còn bao nhiêu câu?
+:::quiz 10 đơn, mỗi đơn 2 dòng, các dòng dùng chung 2 sản phẩm; code duyệt `don → dong → sanPham` với quan hệ lazy (không batch fetch) sinh 13 câu SQL. Bật `hibernate.default_batch_fetch_size: 50` mà không sửa code. Còn bao nhiêu câu?
 - [ ] 1
 - [x] 3
 - [ ] 12

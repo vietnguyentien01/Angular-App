@@ -3,9 +3,12 @@ title: "Viết truy vấn cho bài toán bán hàng — JOIN nhiều bảng, sub
 summary: "Luyện tám câu hỏi nghiệp vụ thật trên cơ sở dữ liệu shop: tổng tiền từng đơn, sản phẩm chưa bán được, giá cao hơn trung bình danh mục, phân loại tồn kho, sản phẩm hay mua cùng. Kèm hai bẫy kinh điển: thứ tự AND/OR và BETWEEN với timestamp. Mọi kết quả đã chạy trên PostgreSQL 16."
 level: intermediate
 version: 16
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [sql, postgresql, join, subquery, exists]
 related: [sql/review/queries/select-where-join, sql/consolidate/aggregation/bao-cao-doanh-thu-va-window]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -113,7 +116,20 @@ Truy vấn dài nên tách bằng `WITH ten AS (…)` (CTE) cho dễ đọc. T�
 Subquery tương quan tham chiếu cột của truy vấn ngoài (`WHERE p2.category_id = p.category_id`), nên về logic được tính lại cho mỗi dòng bên ngoài. Dễ đọc khi diễn đạt "so với nhóm của chính nó" hoặc "tồn tại bản ghi liên quan" (`EXISTS`). Nếu EXPLAIN cho thấy nó chạy lặp tốn kém, viết lại bằng JOIN với một bảng tổng hợp trước (`JOIN (SELECT category_id, avg(price) … GROUP BY category_id) a USING (category_id)`) hoặc window function `avg(price) OVER (PARTITION BY category_id)`.
 :::
 
-:::quiz `SELECT id FROM orders WHERE status = 'paid' OR status = 'shipped' AND customer_id = 2` trên dữ liệu shop trả về?
+:::quiz Với bảng `orders` dưới đây, câu `SELECT id FROM orders WHERE status = 'paid' OR status = 'shipped' AND customer_id = 2` trả về những id nào?
+```text
+orders                                   order_items (order_id, product_id, quantity, unit_price)
+id | customer_id | status    | created_at    1 | 1 | 1 | 1500000
+ 1 | 1           | paid      | 2026-10-01    1 | 5 | 2 |  350000
+ 2 | 1           | shipped   | 2026-10-15    2 | 2 | 1 | 5000000
+ 3 | 2           | paid      | 2026-10-20    3 | 4 | 1 | 1200000
+ 4 | 3           | cancelled | 2026-10-21    3 | 5 | 4 |  350000
+ 5 | 4           | pending   | 2026-11-02    4 | 1 | 1 | 1500000
+ 6 | 1           | paid      | 2026-11-05    5 | 4 | 2 | 1200000
+                                             6 | 5 | 3 |  350000
+```
+Khách `customer_id = 1` là Nguyễn An.
+
 - [ ] 3
 - [x] 1, 3, 6
 - [ ] 2, 3

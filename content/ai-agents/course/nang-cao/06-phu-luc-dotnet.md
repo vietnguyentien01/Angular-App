@@ -3,9 +3,12 @@ title: "Phụ lục — Code mẫu .NET (C#) của khóa học"
 summary: "Khóa học có bản C# cho nhiều bài: chạy một file .cs bằng dotnet run, tạo agent bằng AsAIAgent, tool bằng AIFunctionFactory, session, output có cấu trúc bằng JSON schema, RAG với FileSearch của Foundry, và workflow tuần tự, fan-out/fan-in trong Microsoft.Agents.AI.Workflows."
 type: lesson
 level: intermediate
-lastReviewed: 2026-11-17
+lastReviewed: 2026-11-19
 tags: [ai-agents, dotnet, csharp, microsoft-agent-framework]
 related: [ai-agents/course/nen-tang/cai-dat-khoa-hoc, ai-agents/course/nang-cao/microsoft-agent-framework, ai-agents/course/ke-hoach-da-agent/multi-agent]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 :::note Nguồn
@@ -200,7 +203,16 @@ File dùng `#:package Azure.Search.Documents@11.*` và `Azure.Identity`, xác th
 `AIFunctionFactory` đọc `[Description]` để sinh schema tool. `ChatClientAgentOptions.Description` là mô tả của **agent**, không phải của tool.
 :::
 
-:::quiz Trong workflow C# của bài 8, vì sao phải gửi `TurnToken` sau khi gửi message?
+:::quiz Trong workflow C# (Microsoft Agent Framework) dưới đây, vì sao phải gửi `TurnToken` sau khi gửi message?
+```csharp
+var workflow = new WorkflowBuilder(frontdeskAgent).AddEdge(frontdeskAgent, reviewerAgent).Build();
+
+StreamingRun run = await InProcessExecution.RunStreamingAsync(workflow, new ChatMessage(ChatRole.User, "I would like to go to Paris."));
+await run.TrySendMessageAsync(new TurnToken(emitEvents: true));
+await foreach (WorkflowEvent evt in run.WatchStreamAsync())
+    if (evt is AgentResponseUpdateEvent update) Console.Write(update.Data);
+```
+
 - [ ] Để xác thực với Azure
 - [x] Agent trong workflow nhận và xếp hàng message, nhưng chỉ bắt đầu xử lý khi nhận turn token
 - [ ] Để giới hạn số token output

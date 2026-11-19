@@ -3,9 +3,12 @@ title: "Builder và static factory đúng cách — tham số bắt buộc, ki�
 summary: "Constructor nhiều tham số cùng kiểu bị gọi nhầm thứ tự mà compiler im lặng. Viết Builder cho record khoản vay: tham số bắt buộc ở điểm vào, giá trị mặc định, kiểm tra trong compact constructor để mọi đường tạo object đều được kiểm, static factory có tên và method with. Đã chạy trên JDK 25."
 level: intermediate
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, builder, static-factory, record, immutability]
 related: [design-patterns/review/creational/factory-builder-singleton, design-patterns/review/modern-java/pattern-voi-lambda-record-sealed]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -122,7 +125,15 @@ Constructor (hoặc record) khi tham số ít và đều bắt buộc. Static fa
 Đã chạy: `new KhoanVay(500_000_000, 6, 24, ...)` bỏ qua builder vẫn bị chặn với "ân hạn phải < kỳ hạn: 24/6".
 :::
 
-:::quiz `kv.voiLaiSuat("0.095")` trả về gì?
+:::quiz `kv` là một `KhoanVay` có lãi suất 0,105. Gọi `kv.voiLaiSuat("0.095")` trả về gì?
+```java
+record KhoanVay(long soTien, int kyHanThang, int anHanThang, BigDecimal laiSuatNam, String taiSanBaoDam) {
+    KhoanVay voiLaiSuat(String nam) {
+        return new KhoanVay(soTien, kyHanThang, anHanThang, new BigDecimal(nam), taiSanBaoDam);
+    }
+}
+```
+
 - [ ] Chính `kv` sau khi đổi lãi suất
 - [x] Một `KhoanVay` mới có lãi suất 0,095; `kv` vẫn giữ 0,105
 - [ ] `null` nếu lãi suất không đổi

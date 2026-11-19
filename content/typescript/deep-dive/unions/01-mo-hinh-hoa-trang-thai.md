@@ -3,9 +3,12 @@ title: Mô hình hoá trạng thái bằng discriminated union
 summary: Làm cho trạng thái sai không thể biểu diễn — state machine của hồ sơ, Result type thay cho throw, và kiểm tra chuyển trạng thái hợp lệ ở tầng kiểu.
 level: advanced
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, discriminated-union, state-machine, result]
 related: [typescript/review/unions/narrowing, typescript/deep-dive/objects/branded-types]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Boolean soup → union
@@ -68,7 +71,15 @@ if (r.ok) save(r.value); else showError(r.error); // bắt buộc xử lý cả 
 
 So với `throw`: lỗi nằm **trong kiểu trả về**, người gọi không thể quên.
 
-:::quiz Với `RequestState<T>` dạng union, đoạn nào lỗi?
+:::quiz Với `RequestState<T>` dạng union dưới đây, dòng nào trong `view` báo lỗi?
+```ts
+type RequestState<T> =
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success'; data: T }
+  | { status: 'error'; error: string };
+```
+
 ```ts
 function view(s: RequestState<string>) {
   if (s.status === 'loading') return s.data; // (1)
@@ -84,7 +95,24 @@ function view(s: RequestState<string>) {
 Trạng thái `loading` không có `data` — chính là điều ta muốn.
 :::
 
-:::quiz `canMove('submitted', 'rejected')` có hợp lệ không?
+:::quiz Với khai báo dưới đây, lời gọi `canMove('submitted', 'rejected')` có hợp lệ không?
+```ts
+type CaseState =
+  | { status: 'draft' }
+  | { status: 'submitted'; submittedAt: string }
+  | { status: 'approved'; approvedBy: string }
+  | { status: 'rejected'; reason: string };
+
+type Transitions = {
+  draft: 'submitted';
+  submitted: 'approved' | 'rejected';
+  approved: never;
+  rejected: 'draft';
+};
+
+function canMove<F extends CaseState['status']>(from: F, to: Transitions[F]) { /* … */ }
+```
+
 - [x] Có — `Transitions['submitted']` là `'approved' | 'rejected'`
 - [ ] Không
 - [ ] Chỉ khi F được truyền tường minh

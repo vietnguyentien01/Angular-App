@@ -3,9 +3,12 @@ title: "Pipeline CI cho API — test với PostgreSQL trong service container, a
 summary: "Workflow GitHub Actions hai job: test chạy npm ci, npm audit và bộ test với PostgreSQL dạng service container; image chỉ chạy trên main, build bằng Buildx có cache và đẩy lên GHCR với tag theo commit. Đã qua actionlint và chạy lại các bước test ở local (10/10 xanh)."
 level: intermediate
 version: 29
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [cicd, github-actions, docker, postgresql, testing]
 related: [docker/review/cicd/ci-cd-va-github-actions, docker/consolidate/dockerfile/dockerfile-cho-node-api]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -138,7 +141,23 @@ Ví dụ dùng `actions/checkout@v7`, `setup-node@v5`, `docker/build-push-action
 PR: cài `npm ci` có cache → lint/type check → `npm audit` mức high → unit test và integration test với PostgreSQL chạy dạng service container cùng phiên bản production → (tuỳ chọn) build image để kiểm Dockerfile. Merge vào `main`: build image một lần, tag theo commit SHA, quét lỗ hổng, đẩy lên registry → deploy staging (chạy migration, smoke test) → deploy production có duyệt (environment protection) → theo dõi lỗi và sẵn sàng rollback về SHA trước. Secret nằm trong secret store của CI/hệ thống deploy; quyền token tối thiểu.
 :::
 
-:::quiz Với workflow ở trên, mở một PR thì job nào chạy?
+:::quiz Với workflow CI dưới đây, mở một pull request thì job nào chạy?
+```yaml
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # … npm ci, npm test với service postgres
+  image:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # … build và push image lên GHCR
+```
+
 - [x] Chỉ `test`; `image` bị bỏ qua vì điều kiện `if` yêu cầu push lên `main`
 - [ ] Cả `test` và `image`
 - [ ] Chỉ `image`

@@ -3,9 +3,12 @@ title: Tự viết structural directive — *appHasRole
 summary: TemplateRef + ViewContainerRef, cú pháp * và microsyntax, phản ứng theo signal, và khi nào nên dùng control flow thay vì directive.
 level: intermediate
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [directive, structural, templateref]
 related: [angular/review/directives-pipes/tu-viet-directive, angular/deep-dive/directives-pipes/host-directives-composition]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Ý tưởng
@@ -66,7 +69,18 @@ Nhiều trường hợp chỉ cần `@if (auth.hasRole('approver')) { … }`. Vi
 `ViewContainerRef.createEmbeddedView(tpl)` mới thực sự tạo DOM từ template đó.
 :::
 
-:::quiz Vì sao gọi `this.vcr.clear()` trước khi tạo view mới trong effect?
+:::quiz Trong structural directive `*appHasRole` dưới đây, vì sao gọi `this.vcr.clear()` trước khi tạo view mới trong effect?
+```ts
+constructor() {
+  effect(() => {
+    const ok = [this.appHasRole()].flat().some((r) => this.auth.roles().includes(r));
+    this.vcr.clear();
+    const tpl = ok ? this.tpl : this.appHasRoleElse();
+    if (tpl) this.vcr.createEmbeddedView(tpl);
+  });
+}
+```
+
 - [ ] Không cần
 - [x] Mỗi lần roles đổi, effect chạy lại; không clear sẽ render chồng thêm bản sao
 - [ ] Để giải phóng TemplateRef

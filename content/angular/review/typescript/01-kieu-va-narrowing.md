@@ -4,9 +4,12 @@ summary: interface vs type, union type, type guard, unknown vs any, strict null 
 type: card
 level: core
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, union, narrowing]
 related: [angular/review/typescript/generics-utility-types]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -70,7 +73,22 @@ Sửa: `return s?.length ?? 0;` hoặc kiểm tra `if (!s) return 0;` trước.
 `unknown` là "any an toàn": nhận mọi giá trị nhưng không cho dùng khi chưa kiểm tra. Hợp cho dữ liệu từ API, `JSON.parse`, `catch`.
 :::
 
-:::quiz Trong `switch (s.status)` ở trên, thêm trạng thái `{ status: 'idle' }` vào union. Làm sao để TS báo chỗ quên xử lý?
+:::quiz Với code dưới đây, bạn thêm trạng thái `{ status: 'idle' }` vào union `LoadState`. Làm sao để TypeScript báo lỗi ở chỗ quên xử lý `idle`?
+```ts
+type LoadState<T> =
+  | { status: 'loading' }
+  | { status: 'success'; data: T }
+  | { status: 'error'; message: string };
+
+function render(s: LoadState<User>) {
+  switch (s.status) {
+    case 'loading': return 'Đang tải…';
+    case 'success': return s.data.name;
+    case 'error':   return s.message;
+  }
+}
+```
+
 - [ ] Không có cách
 - [x] Thêm nhánh `default` gán `const _exhaustive: never = s;`
 - [ ] Dùng `any`

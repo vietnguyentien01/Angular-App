@@ -3,9 +3,12 @@ title: Control flow analysis — TypeScript "đọc" code của bạn thế nào
 summary: Kiểu của một biến thay đổi theo từng dòng code; gán lại, return sớm, throw, hàm never và assertion function đều ảnh hưởng tới kiểu ở các dòng sau.
 level: advanced
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, control-flow, narrowing]
 related: [typescript/consolidate/basics/doan-kieu-suy-luan, typescript/review/unions/narrowing]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Kiểu "khai báo" và kiểu "tại chỗ"
@@ -70,7 +73,14 @@ id; // ?
 Sau phép gán, kiểu tại chỗ là kiểu của giá trị gán (bị nới về `number` vì khai báo là `string | number`).
 :::
 
-:::quiz `const isText = typeof v === 'string'; if (isText) v.toUpperCase();` — có lỗi không (TS 6)?
+:::quiz Đoạn sau có lỗi biên dịch không (TypeScript 6)?
+```ts
+function show(v: string | number) {
+  const isText = typeof v === 'string';
+  if (isText) v.toUpperCase();
+}
+```
+
 - [ ] Có, narrowing không qua được biến
 - [x] Không — TypeScript hiểu điều kiện được lưu trong `const` (aliased condition)
 - [ ] Chỉ khi dùng `let`

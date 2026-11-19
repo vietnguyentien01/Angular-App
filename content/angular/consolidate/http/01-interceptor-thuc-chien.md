@@ -3,9 +3,12 @@ title: Interceptor thực chiến — chuẩn hoá lỗi, loading, retry, thứ 
 summary: Bộ interceptor điển hình cho app enterprise, HttpContext để tắt/bật theo request, và vì sao thứ tự khai báo quan trọng.
 level: intermediate
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [http, interceptor, error-handling]
 related: [angular/review/http/httpclient-co-ban, angular/consolidate/security/token-va-xsrf, rxjs/consolidate/errors/xu-ly-loi-dung-cho]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Bộ interceptor điển hình
@@ -81,7 +84,15 @@ Dùng **bộ đếm** chứ không phải boolean — 3 request song song, reque
 Đây là ưu điểm lớn so với class interceptor cũ: không cần constructor.
 :::
 
-:::quiz `loadingInterceptor` dùng `finalize` thay vì `tap({ complete })` vì?
+:::quiz Interceptor dưới đây tăng/giảm bộ đếm request đang chạy để hiện spinner. Vì sao dùng `finalize` thay vì `tap({ complete })`?
+```ts
+export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
+  const loading = inject(LoadingService); // pending = signal(0)
+  loading.pending.update((n) => n + 1);
+  return next(req).pipe(finalize(() => loading.pending.update((n) => n - 1)));
+};
+```
+
 - [ ] `tap` không có `complete`
 - [x] `finalize` chạy cả khi thành công, lỗi **và khi request bị huỷ** (unsubscribe) — bộ đếm không bị kẹt
 - [ ] `finalize` nhanh hơn
@@ -90,7 +101,21 @@ Dùng **bộ đếm** chứ không phải boolean — 3 request song song, reque
 Request bị `switchMap` huỷ không complete cũng không error — chỉ `finalize` bắt được.
 :::
 
-:::quiz Một request không muốn hiện toast lỗi chung. Cách gọn nhất?
+:::quiz `errorInterceptor` dưới đây hiện toast cho mọi lỗi HTTP. Một request cụ thể không muốn hiện toast lỗi chung. Cách gọn nhất?
+```ts
+export const SILENT_ERROR = new HttpContextToken(() => false);
+
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const toast = inject(Toast);
+  return next(req).pipe(
+    catchError((err: HttpErrorResponse) => {
+      if (!req.context.get(SILENT_ERROR)) toast.error(err.error?.message ?? 'Có lỗi xảy ra');
+      return throwError(() => err);
+    }),
+  );
+};
+```
+
 - [ ] Viết interceptor riêng
 - [x] Truyền `context: new HttpContext().set(SILENT_ERROR, true)` cho request đó
 - [ ] Thêm header tuỳ chỉnh

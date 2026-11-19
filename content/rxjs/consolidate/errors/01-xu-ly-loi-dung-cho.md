@@ -3,9 +3,12 @@ title: Đặt catchError đúng chỗ để luồng không chết
 summary: catchError ở ngoài hay trong switchMap quyết định ô tìm kiếm còn hoạt động sau lỗi đầu tiên hay không.
 level: intermediate
 version: 7
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [rxjs, error, catchError]
 related: [rxjs/review/errors/catcherror-retry-co-ban, rxjs/consolidate/flattening/chon-dung-flattening]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -48,7 +51,14 @@ this.api.load().pipe(
 );
 ```
 
-:::quiz Với "bad example" ở trên, API lỗi ở lần tìm kiếm thứ 2. Lần gõ thứ 3 thì sao?
+:::quiz Ô tìm kiếm viết như dưới đây. API lỗi ở lần tìm kiếm thứ 2. Người dùng gõ lần thứ 3 thì sao?
+```ts
+this.query$.pipe(
+  switchMap((q) => this.api.search(q)),
+  catchError(() => of([])),
+);
+```
+
 - [ ] Gọi API bình thường
 - [x] Không gì xảy ra — luồng đã complete sau khi `catchError` thay bằng `of([])`
 - [ ] Hiện lỗi lần nữa

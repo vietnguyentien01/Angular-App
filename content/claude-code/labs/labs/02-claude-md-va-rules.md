@@ -3,9 +3,12 @@ title: "Lab 02 — Viết CLAUDE.md, rules theo đường dẫn và kiểm tra C
 summary: "Tạo CLAUDE.md bằng /init rồi rút gọn còn những gì Claude không tự thấy, thêm .claude/rules có paths cho module tasks, xác minh bằng /context all, rồi giao một task để kiểm tra Claude theo đúng quy ước — và phân biệt CLAUDE.md với auto memory."
 type: lesson
 level: core
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [claude-code, lab, claude-md, rules, memory]
 related: [claude-code/consolidate/memory/cau-truc-bo-nho, claude-code/labs/labs/tinh-nang-voi-plan-mode]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Mục tiêu
@@ -140,7 +143,7 @@ Thấy *Saved … memory* → điều này vào **auto memory** (chỉ máy bạ
 - [ ] Phải viết IN HOA
 - [ ] Claude bỏ qua CLAUDE.md
 
-Đó là lý do Bước 4 yêu cầu `/clear` trước khi kiểm tra.
+Vì vậy cần `/clear` (hoặc mở phiên mới) rồi mới kiểm tra lại.
 :::
 
 :::quiz "Nhớ giúp mình: dùng Conventional Commits" được lưu ở đâu theo mặc định?

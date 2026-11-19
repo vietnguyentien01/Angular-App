@@ -3,9 +3,12 @@ title: "Trang sản phẩm với TanStack Query và form có validation — kèm
 summary: "Danh sách dùng useQuery, form thêm sản phẩm dùng useMutation và tự làm mới danh sách bằng invalidateQueries, validation bằng Zod có thông báo lỗi gắn aria-describedby, xử lý lỗi 409 từ server, nút Lưu khoá khi đang gửi. Bốn test Testing Library với fetch giả lập đều xanh."
 level: intermediate
 version: 19
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [react, tanstack-query, forms, zod, testing, accessibility]
 related: [react/review/data-forms/goi-api-va-form, nodejs/consolidate/rest-api/viet-api-co-test]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -211,10 +214,10 @@ Render component trong môi trường jsdom bằng Testing Library, bọc trong 
 - [ ] Tự retry rồi báo lỗi
 - [ ] Treo ở trạng thái loading
 
-Hàm `api()` trong bài ném lỗi kèm `status` và body.
+Cách đúng: viết hàm bọc `fetch` kiểm `r.ok`, nếu không thì ném lỗi kèm `status` và body để `useQuery` vào trạng thái `error`.
 :::
 
-:::quiz Trong test "validation", nhập giá `-5` và để trống tên rồi bấm Lưu. Kết quả đã kiểm?
+:::quiz Form tạo sản phẩm (`<form noValidate>`) tự validate trước khi gọi `useMutation`: tên bắt buộc ("Nhập tên sản phẩm"), giá phải lớn hơn 0 ("Giá phải lớn hơn 0"); ô lỗi được gắn `aria-invalid`. Test nhập giá `-5`, để trống tên rồi bấm Lưu. Kết quả đúng là gì?
 - [ ] Gửi POST và server báo lỗi
 - [x] Hai thông báo "Nhập tên sản phẩm" và "Giá phải lớn hơn 0", ô tên có `aria-invalid="true"`, không có request POST nào
 - [ ] Chỉ báo lỗi đầu tiên

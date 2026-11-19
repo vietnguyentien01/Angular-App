@@ -3,9 +3,12 @@ title: Composition bằng hostDirectives — xây hành vi cho design system
 summary: Ghép các hành vi nhỏ (focus ring, tooltip, disabled, ripple) vào component bằng hostDirectives thay vì kế thừa class, và cách thiết kế directive dễ tái sử dụng.
 level: advanced
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [directive, host-directives, composition, design-system]
 related: [angular/consolidate/directives-pipes/structural-directive-tu-viet, angular/consolidate/components-templates/thiet-ke-component-tai-su-dung]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Vấn đề với kế thừa
@@ -74,7 +77,16 @@ export class IconButton {
 Điều này giúp component kiểm soát chính xác API công khai.
 :::
 
-:::quiz Component `IconButton` muốn biết `disabled` hiện tại để đổi icon. Cách đúng?
+:::quiz Component `IconButton` dùng host directive `DisabledBehavior` (có input `disabled`, chặn click khi bị vô hiệu). `IconButton` muốn biết `disabled` hiện tại để đổi icon. Cách đúng?
+```ts
+@Component({
+  selector: 'app-icon-button',
+  hostDirectives: [{ directive: DisabledBehavior, inputs: ['appDisabled: disabled'] }],
+  template: `<ng-content />`,
+})
+export class IconButton { /* cần đọc disabled ở đây */ }
+```
+
 - [ ] Khai báo lại input `disabled` trong component
 - [x] `inject(DisabledBehavior).disabled()` — host directive nằm cùng injector của element
 - [ ] Đọc DOM `aria-disabled`

@@ -3,9 +3,12 @@ title: resource() và httpResource() bên trong
 summary: Vòng đời params → loader → trạng thái, abort request, cập nhật lạc quan (optimistic) và khi nào nên chọn RxJS hay TanStack Query.
 level: advanced
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [signals, resource, httpResource, server-state]
 related: [angular/review/signals/linkedsignal-resource-co-ban, rxjs/deep-dive/subjects/rxjs-va-signals-kien-truc]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -59,7 +62,17 @@ toggleDone(todo: Todo) {
 Với ứng dụng enterprise nhiều màn hình cùng đọc một dữ liệu (danh mục, hồ sơ người dùng), `httpResource` đặt trong component sẽ **gọi lại API ở mỗi màn hình**. Hoặc đặt resource trong một service dùng chung, hoặc dùng thư viện server state có cache (TanStack Query). Hãy chọn và ghi lại quyết định (ADR) cho cả team.
 :::
 
-:::quiz `params` trả về `undefined` khi `userId()` rỗng. Trạng thái resource là?
+:::quiz Với resource dưới đây, khi `userId()` rỗng thì `params` trả về `undefined`. Trạng thái resource là?
+```ts
+const user = resource({
+  params: () => (this.userId() ? { id: this.userId() } : undefined),
+  loader: async ({ params, abortSignal }) => {
+    const res = await fetch(`/api/users/${params.id}`, { signal: abortSignal });
+    return (await res.json()) as User;
+  },
+});
+```
+
 - [ ] `loading`
 - [x] `idle` và loader không được gọi
 - [ ] `error`
@@ -77,7 +90,7 @@ Với ứng dụng enterprise nhiều màn hình cùng đọc một dữ liệu 
 Resource bỏ qua kết quả của loader cũ, nhưng chỉ `abortSignal` mới dừng request mạng thật.
 :::
 
-:::quiz Sau khi gọi `todos.update(...)` thủ công, `todos.status()` là?
+:::quiz `todos` là một `httpResource<Todo[]>` đã tải xong từ server. Sau khi gọi `todos.update(...)` để sửa giá trị tại chỗ, `todos.status()` là?
 - [ ] `resolved`
 - [ ] `reloading`
 - [x] `local`

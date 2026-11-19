@@ -4,9 +4,12 @@ summary: "compose.yaml mô tả nhiều dịch vụ, mạng chung (gọi nhau b�
 type: card
 level: core
 version: 29
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [docker, compose, postgresql, volume]
 related: [docker/consolidate/compose/compose-api-va-postgres, docker/deep-dive/compose/moi-truong-dev-test-prod]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -83,7 +86,7 @@ Tên file khuyến nghị là `compose.yaml` (vẫn nhận `docker-compose.yml`)
 Mặc định không: `depends_on` chỉ đảm bảo container DB được **khởi động** trước, mà PostgreSQL cần vài giây nữa mới nhận kết nối. Cần `healthcheck` (vd `pg_isready`) trên dịch vụ DB và `depends_on: db: condition: service_healthy` ở API. Dù vậy, app vẫn nên **tự thử lại** kết nối, vì DB có thể khởi động lại giữa chừng — trên Kubernetes cũng không có `depends_on`.
 :::
 
-:::quiz Chạy `docker compose down` rồi `docker compose up -d`. Sản phẩm bạn vừa thêm qua API còn không?
+:::quiz Dịch vụ `db` trong compose lưu dữ liệu vào **named volume** (`db-data:/var/lib/postgresql/data`, khai báo ở mục `volumes:` cấp cao nhất). Chạy `docker compose down` (không có `-v`) rồi `docker compose up -d`. Sản phẩm bạn vừa thêm qua API còn không?
 - [x] Còn — `down` xoá container và network nhưng giữ volume có tên
 - [ ] Mất — `down` xoá mọi thứ
 - [ ] Chỉ còn nếu dùng `--build`

@@ -3,9 +3,12 @@ title: Viết một REST API có test — Express 5, Zod, Vitest và supertest
 summary: "Dựng API sản phẩm đầy đủ CRUD có phân trang và tìm kiếm, tiêm repository qua buildApp để test không cần DB, viết 8 test supertest cho các trường hợp thành công và lỗi. Toàn bộ code và test đã chạy xanh."
 level: intermediate
 version: 26
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [nodejs, rest, testing, vitest, supertest]
 related: [nodejs/review/rest-api/thiet-ke-rest, nodejs/consolidate/express/xu-ly-loi-va-validation]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -239,7 +242,17 @@ Unit test kiểm một đơn vị (hàm, class) cô lập, phụ thuộc đượ
 supertest nhận trực tiếp app Express và tự gọi qua một cổng tạm.
 :::
 
-:::quiz `GET /api/products?page=2&limit=2` với 3 sản phẩm. Body trả gì (theo code trên)?
+:::quiz Kho có 3 sản phẩm (id 1, 2, 3). Route và repo viết như dưới đây. `GET /api/products?page=2&limit=2` trả body gì?
+```js
+// repo
+async list({ page, limit }) {
+  return { items: products.slice((page - 1) * limit, page * limit), total: products.length };
+}
+// route
+const { items, total } = await productRepo.list(q.data);
+res.json({ data: items, page: q.data.page, limit: q.data.limit, total });
+```
+
 - [ ] `data` có 2 phần tử id 1, 2
 - [x] `data` có 1 phần tử id 3, cùng `page: 2, limit: 2, total: 3`
 - [ ] `data` rỗng

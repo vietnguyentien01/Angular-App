@@ -4,9 +4,12 @@ summary: "State đặt ở component chung gần nhất cần nó; context để
 type: card
 level: core
 version: 19
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [react, state-management, context, usereducer]
 related: [react/consolidate/architecture/to-chuc-state-gio-hang, react/deep-dive/architecture/hieu-nang-va-react-compiler]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -97,7 +100,21 @@ React 19 cho dùng `<CartContext value={…}>` trực tiếp (thay cho `<CartCon
 Context là cơ chế **truyền** giá trị xuống cây, không phải công cụ tối ưu: mọi component dùng context render lại khi giá trị đổi. Hợp với dữ liệu ít đổi, nhiều nơi đọc (user, theme, quyền). Khi client state lớn, đổi thường xuyên, nhiều component chỉ cần một phần (giỏ hàng lớn, editor, bảng lọc phức tạp), dùng Zustand/Redux Toolkit để đọc theo selector và chỉ render lại nơi cần. Dữ liệu server thì dùng TanStack Query, không nhét vào Redux.
 :::
 
-:::quiz `cartReducer([], { type: 'add', product: X })` rồi `add` X lần nữa. Kết quả?
+:::quiz Với reducer dưới đây, gọi `cartReducer([], { type: 'add', product: X })`, rồi đưa kết quả vào `cartReducer` với `add` X lần nữa. Kết quả cuối?
+```ts
+export function cartReducer(lines: Line[], action: Action): Line[] {
+  switch (action.type) {
+    case 'add': {
+      const found = lines.find((l) => l.productId === action.product.productId);
+      return found
+        ? lines.map((l) => (l === found ? { ...l, qty: l.qty + 1 } : l))
+        : [...lines, { ...action.product, qty: 1 }];
+    }
+    // … 'remove', 'setQty'
+  }
+}
+```
+
 - [ ] Hai dòng X, mỗi dòng qty 1
 - [x] Một dòng X với qty 2
 - [ ] Lỗi vì trùng

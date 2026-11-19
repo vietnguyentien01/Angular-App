@@ -4,9 +4,12 @@ summary: "Năm nguyên tắc SOLID mỗi cái một câu và một dấu hiệu 
 type: card
 level: core
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, solid, composition, oop]
 related: [design-patterns/consolidate/principles/tu-code-smell-den-refactor, design-patterns/deep-dive/principles/coupling-cohesion-va-ranh-gioi-module]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -78,7 +81,18 @@ SOLID không phụ thuộc phiên bản, nhưng cách viết thì có: Java 8 c�
 Kế thừa ràng buộc lớp con vào **cách cài đặt** của lớp cha (ví dụ `addAll` gọi lại `add`), phá đóng gói, và cố định quan hệ lúc biên dịch. Composition chỉ phụ thuộc **interface công khai** của object được bọc, đổi được object bên trong lúc chạy, và test dễ hơn. Kế thừa vẫn hợp lý khi có quan hệ "là một" thật, lớp cha được thiết kế để kế thừa (có tài liệu về hook method) hoặc trong một hệ class `sealed` do chính bạn kiểm soát.
 :::
 
-:::quiz Vì sao `DemSet` (kế thừa `HashSet`) đếm ra 6 khi `addAll` 3 phần tử?
+:::quiz Vì sao `DemSet` dưới đây đếm ra `soLanThem = 6` sau khi `addAll` 3 phần tử?
+```java
+class DemSet<E> extends HashSet<E> {
+    int soLanThem = 0;
+    @Override public boolean add(E e) { soLanThem++; return super.add(e); }
+    @Override public boolean addAll(Collection<? extends E> c) { soLanThem += c.size(); return super.addAll(c); }
+}
+
+var s = new DemSet<String>();
+s.addAll(List.of("a", "b", "c"));   // soLanThem=6, size=3
+```
+
 - [ ] `HashSet` cho phép phần tử trùng
 - [x] `HashSet.addAll` bên trong gọi `add` cho từng phần tử, mà `add` đã được ghi đè để đếm thêm
 - [ ] Do `List.of` tạo 6 phần tử

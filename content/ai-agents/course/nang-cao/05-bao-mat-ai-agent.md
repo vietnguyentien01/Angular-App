@@ -3,12 +3,14 @@ title: "Bài 18 — Bảo mật AI Agent bằng biên nhận mật mã (cryptogr
 summary: "Audit trail mà kiểm toán viên kiểm được mà không phải tin bạn: receipt JSON ký Ed25519 trên JSON chuẩn hoá (RFC 8785), xác minh offline bằng khoá đã ghim, phát hiện sửa và ký lại, chuỗi hash, receipt chứng minh và không chứng minh điều gì, chữ ký người duyệt, checklist production."
 type: lesson
 level: advanced
-lastReviewed: 2026-11-17
+lastReviewed: 2026-11-19
 tags: [ai-agents, security, audit, ed25519, receipts, compliance]
 related: [ai-agents/course/cong-cu-tri-thuc/xay-agent-dang-tin-cay, ai-agents/course/nang-cao/browser-use, claude-code/deep-dive/automation/bao-mat-va-quy-dinh-team]
 changelog:
   - date: 2026-11-17
     note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 :::note Nguồn
@@ -316,7 +318,7 @@ Nó **không** gọi provider, **không** tiêu thụ approval, **không** chứ
 - [ ] Không, cần cả khoá riêng
 - [ ] Được, dùng luôn `public_key` nằm trong receipt
 
-Sau khi đã thiết lập niềm tin khoá, không cần gọi mạng. Dùng khoá nhúng trong receipt là sai lầm (xem bước 4 ở trên).
+Sau khi đã thiết lập niềm tin khoá, không cần gọi mạng. Dùng khoá công khai nhúng sẵn trong receipt để tự xác minh là sai lầm: kẻ giả mạo có thể ký bằng khoá của chính họ rồi nhúng khoá đó vào.
 :::
 
 :::quiz (Knowledge check 3) Vì sao receipt chứa `tool_args_hash` và `result_hash` thay vì nguyên văn tham số và kết quả? (chọn nhiều)

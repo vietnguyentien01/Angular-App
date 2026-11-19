@@ -3,9 +3,12 @@ title: "Transaction không rollback và lost update — self-invocation, lỗi b
 summary: "Tái hiện trên PostgreSQL: gọi nội bộ làm @Transactional mất tác dụng (dữ liệu lỗi vẫn lưu), bắt lỗi bên trong gây UnexpectedRollbackException, 20 request cùng trừ kho chỉ trừ được 1 khi đọc-rồi-ghi; sửa bằng @Version, khoá bi quan hoặc câu UPDATE nguyên tử."
 level: intermediate
 version: 4
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [spring-boot, transaction, concurrency, optimistic-locking, pitfalls]
 related: [spring-boot/review/transactions/transactional-co-ban, spring-boot/deep-dive/transactions/proxy-isolation-va-khoa]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -137,7 +140,7 @@ Hành vi proxy, rollback-only và `UnexpectedRollbackException` giống nhau tr�
 Đã chạy: còn 99, 20 request đều thành công. Đây là lost update.
 :::
 
-:::quiz Cùng tình huống nhưng entity có `@Version`. Kết quả?
+:::quiz 20 request đồng thời cùng đọc entity sản phẩm có tồn kho 100 rồi ghi `ton - 1` qua JPA. Entity có field `@Version`. Kết quả?
 - [ ] 80, tất cả thành công
 - [x] 1 request thành công, các request đọc cùng version còn lại nhận `ObjectOptimisticLockingFailureException`
 - [ ] 99, tất cả thành công

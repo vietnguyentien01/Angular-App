@@ -3,9 +3,12 @@ title: Generic tích luỹ — builder có kiểm tra kiểu từng bước
 summary: Mỗi lời gọi method trả về kiểu mới mang thêm thông tin, nhờ đó builder chỉ cho build() khi đã đủ trường bắt buộc và kết quả có kiểu chính xác.
 level: advanced
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, generics, builder, api-design]
 related: [typescript/consolidate/generics/thiet-ke-api-generic, typescript/deep-dive/advanced/type-level-programming]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Ý tưởng
@@ -54,7 +57,21 @@ new RequestBuilder({}).url('/api').build();               // ✗ lỗi: thiếu 
 
 Mẹo: tham số `this` của `build()` ràng buộc trạng thái của builder tại thời điểm gọi.
 
-:::quiz Vì sao mỗi method trả về **instance mới** (`new FormBuilder(...)`) thay vì `return this`?
+:::quiz Trong builder tích luỹ kiểu dưới đây, vì sao mỗi method trả về **instance mới** (`new FormBuilder(...)`) thay vì `return this`?
+```ts
+class FormBuilder<Fields extends Record<string, unknown> = {}> {
+  private constructor(private readonly fields: Fields) {}
+  static create() { return new FormBuilder({}); }
+
+  text<K extends string>(key: K): FormBuilder<Fields & Record<K, string>> {
+    return new FormBuilder({ ...this.fields, [key]: '' } as Fields & Record<K, string>);
+  }
+  build(): Fields { return this.fields; }
+}
+
+const model = FormBuilder.create().text('fullName').build(); // { fullName: string }
+```
+
 - [ ] Vì nhanh hơn
 - [x] Vì kiểu của builder thay đổi sau mỗi bước — `this` có kiểu cũ, instance mới mang kiểu `Fields & …` mới
 - [ ] Vì `this` không dùng được trong class generic
@@ -63,7 +80,18 @@ Mẹo: tham số `this` của `build()` ràng buộc trạng thái của builder
 Có thể `return this as unknown as FormBuilder<…>` nếu muốn tránh cấp phát, nhưng instance mới bất biến và dễ hiểu hơn.
 :::
 
-:::quiz `new RequestBuilder({}).url('/api').build()` lỗi vì sao?
+:::quiz Với `RequestBuilder` dưới đây, vì sao `new RequestBuilder({}).url('/api').build()` báo lỗi biên dịch?
+```ts
+interface Req { url?: string; method?: 'GET' | 'POST' }
+
+class RequestBuilder<S extends Req = {}> {
+  constructor(private readonly s: S) {}
+  url(u: string) { return new RequestBuilder({ ...this.s, url: u }); }
+  method<M extends 'GET' | 'POST'>(m: M) { return new RequestBuilder({ ...this.s, method: m }); }
+  build(this: RequestBuilder<{ url: string; method: 'GET' | 'POST' }>) { return this.s; }
+}
+```
+
 - [ ] Thiếu `new`
 - [x] `build` yêu cầu `this` có `method`; builder lúc đó chỉ có `{ url: string }`
 - [ ] `url` sai kiểu

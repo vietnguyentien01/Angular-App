@@ -3,9 +3,12 @@ title: Thiết kế API generic đúng mức
 summary: Khi nào cần tham số kiểu, để TypeScript tự suy ra thay vì bắt người dùng truyền, const type parameter và NoInfer.
 level: intermediate
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, generics, api-design]
 related: [typescript/review/generics/generics-va-utility-types, typescript/deep-dive/advanced/type-level-programming]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Quy tắc: tham số kiểu phải xuất hiện ít nhất hai lần
@@ -53,7 +56,12 @@ Không có `NoInfer`, TypeScript sẽ suy ra `S = 'idle' | 'loading' | 'done'` t
 Trả `unknown` rồi validate là cách trung thực.
 :::
 
-:::quiz Bỏ `NoInfer`, gọi `createStore(['idle', 'loading'], 'done')` thì sao?
+:::quiz Hàm `createStore` dưới đây **không** dùng `NoInfer` cho tham số `initial`. Gọi `createStore(['idle', 'loading'], 'done')` thì sao?
+```ts
+function createStore<S extends string>(states: S[], initial: S) { /* … */ }
+createStore(['idle', 'loading'], 'done');
+```
+
 - [ ] Lỗi biên dịch
 - [x] Không lỗi — `S` được suy ra là `'idle' | 'loading' | 'done'`
 - [ ] `S` là `string`
@@ -62,7 +70,12 @@ Trả `unknown` rồi validate là cách trung thực.
 `NoInfer` chặn một vị trí tham gia vào việc suy luận, để nó chỉ được **kiểm tra** theo kết quả suy ra từ vị trí khác.
 :::
 
-:::quiz `defineRoutes<const T …>(['/', '/cases'])` khác gì khi không có `const`?
+:::quiz Hàm dưới đây khai báo type parameter với từ khoá `const`. Gọi `defineRoutes(['/', '/cases'])` thì khác gì so với khi bỏ `const`?
+```ts
+function defineRoutes<const T extends readonly string[]>(paths: T): T { return paths; }
+const r = defineRoutes(['/', '/cases']);
+```
+
 - [ ] Không khác
 - [x] Có `const`, T được suy ra là tuple literal `readonly ['/', '/cases']`; không có thì là `string[]`
 - [ ] `const` khiến hàm chạy nhanh hơn

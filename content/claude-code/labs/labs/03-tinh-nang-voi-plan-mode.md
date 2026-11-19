@@ -3,9 +3,12 @@ title: "Lab 03 — Làm một tính năng bằng plan mode: lọc theo trạng t
 summary: "Dùng plan mode cho một thay đổi nhiều file: viết prompt /plan có phạm vi và phép kiểm tra, đọc và sửa kế hoạch bằng Ctrl+G, duyệt với từng bước sửa, theo dõi phút đầu, xác minh bằng test và chạy app, rồi tự đánh giá kế hoạch so với kết quả."
 type: lesson
 level: intermediate
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [claude-code, lab, plan-mode, feature]
 related: [claude-code/consolidate/workflows/explore-plan-code, claude-code/labs/labs/sua-bug-test-first-va-rewind]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Mục tiêu
@@ -129,16 +132,16 @@ Sửa những phát hiện đúng, rồi commit.
 Duyệt kế hoạch xong phiên mới chuyển sang chế độ được sửa.
 :::
 
-:::quiz Vì sao lab yêu cầu tự phác kế hoạch trên giấy trước (Bước 1)?
+:::quiz Trước khi bật plan mode để Claude lập kế hoạch cho một tính năng, vì sao nên tự phác kế hoạch của mình trên giấy?
 - [ ] Để Claude đọc tờ giấy
 - [x] Để so với kế hoạch của Claude — vừa kiểm tra Claude, vừa giữ kỹ năng thiết kế của chính bạn
 - [ ] Vì plan mode cần đầu vào
 - [ ] Không có lý do
 
-Bảng so sánh ở Bước 6 cho thấy ai bỏ sót điều gì.
+Đặt hai kế hoạch cạnh nhau sẽ thấy bên nào bỏ sót điều gì.
 :::
 
-:::quiz Trong lab này vì sao chọn "Yes, manually approve edits" thay vì auto mode?
+:::quiz Khi luyện tập làm tính năng mới với plan mode, lúc duyệt kế hoạch bạn chọn "Yes, manually approve edits" thay vì auto mode. Vì sao?
 - [ ] Auto mode không dùng được với Angular
 - [x] Để luyện đọc từng thay đổi và đối chiếu với kế hoạch — mục tiêu học, không phải tốc độ
 - [ ] Vì plan mode bắt buộc như vậy

@@ -3,9 +3,12 @@ title: "Thiết kế schema cho tính năng mới và nối API Node.js với Po
 summary: "Từ yêu cầu 'mã giảm giá' và 'sổ địa chỉ' ra bảng, cột, ràng buộc CHECK nhiều cột và unique index một phần (mỗi khách một địa chỉ mặc định), viết migration, rồi thay repo trong bộ nhớ bằng repo PostgreSQL dùng thư viện pg — cùng bộ test API, 10/10 test xanh."
 level: intermediate
 version: 16
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [sql, postgresql, schema-design, migration, nodejs]
 related: [sql/review/design/khoa-rang-buoc-va-kieu-du-lieu, nodejs/consolidate/rest-api/viet-api-co-test, sql/deep-dive/design/chuan-hoa-jsonb-va-migration]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -169,7 +172,17 @@ Bảng `addresses` có `customer_id` là khoá ngoại tới `customers` (quan h
 `<>` giữa hai giá trị boolean nghĩa là "khác nhau" — XOR. Đã kiểm: voucher có cả hai bị từ chối.
 :::
 
-:::quiz Vì sao code repo ghép `${where}` vào câu SQL mà vẫn không bị SQL injection?
+:::quiz Repo dưới đây ghép `${where}` vào câu SQL bằng template string. Vì sao vẫn không bị SQL injection?
+```js
+async list({ page, limit, q }) {
+  const where = q ? 'WHERE name ILIKE $3' : '';
+  const params = q ? [limit, (page - 1) * limit, `%${q}%`] : [limit, (page - 1) * limit];
+  const { rows } = await pool.query(
+    `SELECT id, name, price FROM products ${where} ORDER BY id LIMIT $1 OFFSET $2`, params);
+  return rows;
+}
+```
+
 - [ ] Vì thư viện `pg` tự escape mọi thứ
 - [x] Vì `where` chỉ là một trong hai chuỗi cố định viết trong code; giá trị người dùng (`q`) luôn đi qua tham số `$3`
 - [ ] Vì có `ILIKE`

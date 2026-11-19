@@ -3,9 +3,12 @@ title: "Lab 14 — Workflow nhiều agent: chuỗi subagent explorer → impleme
 summary: "Ba cách cho nhiều agent cùng làm trên cc-lab: phiên chính điều phối chuỗi subagent cho tính năng sắp xếp theo hạn chót, ba subagent điều tra song song một bug cài sẵn theo ba giả thuyết, rồi một agent team chia file và task list làm tính năng thống kê — kèm bảng chọn cơ chế."
 type: lesson
 level: advanced
-lastReviewed: 2026-11-12
+lastReviewed: 2026-11-19
 tags: [claude-code, lab, subagents, agent-teams, multi-agent, workflow]
 related: [claude-code/deep-dive/automation/agent-teams-workflows-channels, claude-code/deep-dive/extending/subagent, claude-code/labs/labs/subagent-reviewer]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Mục tiêu
@@ -303,7 +306,7 @@ Rồi tự điền quy tắc của bạn:
 - [ ] Phần D: bảng điền đủ và bốn quy tắc chọn cơ chế viết bằng lời của bạn
 - [ ] Commit `.claude/agents/task-explorer.md`, `task-implementer.md`; **không** commit `.claude/settings.local.json`
 
-:::quiz Ở Phần A, vì sao phải dừng ở `plan.md` cho bạn duyệt trước khi giao `task-implementer`?
+:::quiz Bạn giao một chuỗi subagent làm tính năng mới: `task-planner` viết `plan.md`, rồi `task-implementer` code theo `plan.md`. Vì sao nên dừng ở `plan.md` để bạn duyệt trước khi giao `task-implementer`?
 - [ ] Vì subagent không đọc được file
 - [x] Vì kế hoạch là điểm rẻ nhất để sửa hướng: implementer làm đúng những gì plan ghi, plan sai thì cả chuỗi sau đều sai
 - [ ] Vì agent teams yêu cầu vậy
@@ -312,7 +315,7 @@ Rồi tự điền quy tắc của bạn:
 Đó cũng là lý do system prompt của implementer bảo nó dừng và báo khi plan không rõ, thay vì tự ứng biến.
 :::
 
-:::quiz Phần B dùng ba subagent song song thay vì một agent điều tra lần lượt. Lợi ích chính là gì?
+:::quiz Một bug chưa rõ nguyên nhân có ba giả thuyết. Bạn giao ba subagent điều tra song song, mỗi subagent một giả thuyết, thay vì một agent điều tra lần lượt. Lợi ích chính là gì?
 - [ ] Luôn rẻ hơn
 - [x] Mỗi giả thuyết được kiểm độc lập trong context riêng, tránh "neo" vào giả thuyết đầu tiên; phiên chính so bằng chứng của cả ba
 - [ ] Subagent song song tự sửa bug nhanh hơn
@@ -321,7 +324,7 @@ Rồi tự điền quy tắc của bạn:
 Ba lần chạy tốn token hơn một lần; đổi lại là kết luận có bằng chứng từ nhiều phía.
 :::
 
-:::quiz Hai teammate trong Phần C cùng sửa `task-store.ts`. Rủi ro và cách phòng là gì?
+:::quiz Bạn dùng agent team (nhiều teammate Claude chạy song song trên cùng thư mục) để làm tính năng "Thống kê task". Hai teammate cùng sửa `task-store.ts`. Rủi ro và cách phòng là gì?
 - [ ] Không rủi ro, Claude tự gộp
 - [x] Ghi đè thay đổi của nhau; chia việc để mỗi teammate sở hữu file riêng, việc nối chung (store, template) để lead làm sau cùng
 - [ ] Phải dùng split pane
@@ -330,7 +333,7 @@ Ba lần chạy tốn token hơn một lần; đổi lại là kết luận có 
 Tài liệu chính thức: hai teammate sửa cùng file dẫn tới overwrite — chia theo file ngay từ spec.
 :::
 
-:::quiz Bạn muốn chạy Phần C mỗi đêm trong CI bằng `claude -p`. Điều gì xảy ra?
+:::quiz Bạn có một agent team (nhiều teammate Claude phối hợp) làm tính năng trong phiên tương tác, và muốn chạy đúng quy trình đó mỗi đêm trong CI bằng `claude -p "spawn 3 teammates …"`. Điều gì xảy ra?
 - [ ] Team chạy bình thường
 - [x] Agent teams chỉ chạy trong phiên tương tác — dùng chuỗi lệnh `-p`, subagent, `/batch` hoặc dynamic workflow cho CI
 - [ ] Teammate chạy trên cloud

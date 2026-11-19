@@ -3,12 +3,14 @@ title: "Bài 0 — Cài đặt khóa học: clone repo, Python, Microsoft Foundr
 summary: "Chuẩn bị môi trường để chạy code mẫu của khóa học: shallow/sparse clone, Python 3.12+ và venv, project Microsoft Foundry có model đã deploy, đăng nhập keyless bằng az login, file .env, các provider thay thế (Foundry Local, MiniMax, Novita) và lỗi SSL trên macOS."
 type: lesson
 level: core
-lastReviewed: 2026-11-17
+lastReviewed: 2026-11-19
 tags: [ai-agents, setup, microsoft-foundry, python, azure]
 related: [ai-agents/course/nen-tang/gioi-thieu-ai-agent]
 changelog:
   - date: 2026-11-17
     note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 :::note Nguồn
@@ -267,7 +269,7 @@ Với trường cần tìm full-text, thư viện có lớp `SearchableField` d�
 Khóa học theo hướng *keyless*: `.env` chỉ chứa endpoint và tên model, còn credential lấy từ phiên Azure CLI.
 :::
 
-:::quiz Bạn chạy notebook bài 16 và chỉ đặt `AZURE_SEARCH_SERVICE_ENDPOINT`. Điều gì xảy ra?
+:::quiz Notebook dùng Azure AI Search trong khóa học (bài 16) chọn nguồn tri thức theo biến môi trường; mặc định nó có sẵn một knowledge base trong bộ nhớ. Bạn chỉ đặt `AZURE_SEARCH_SERVICE_ENDPOINT`, không đặt `AZURE_SEARCH_API_KEY`. Điều gì xảy ra?
 - [ ] Notebook báo lỗi thiếu key
 - [ ] Notebook dùng Entra ID để gọi Azure AI Search
 - [x] Notebook vẫn dùng knowledge base trong bộ nhớ

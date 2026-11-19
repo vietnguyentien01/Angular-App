@@ -4,12 +4,14 @@ summary: "Nhắc nhanh cú pháp lambda, bốn dạng method reference, các fun
 type: card
 level: core
 version: 21
-lastReviewed: 2026-11-18
+lastReviewed: 2026-11-19
 tags: [java, lambda, stream, optional, functional]
 related: [java/consolidate/functional/viet-bao-cao-bang-stream, java/deep-dive/functional/ben-trong-stream-parallel-va-gatherers]
 changelog:
   - date: 2026-11-18
     note: "Chuyển mốc của khóa sang Java 21 LTS; Gatherers ghi rõ là tính năng của Java 24+, chưa có trên Java 21."
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -117,7 +119,13 @@ Stream mô tả **cái cần làm** (lọc, biến đổi, gom nhóm) theo kiể
 `compose` chạy hàm tham số **trước**: p3(5) = 8, rồi x2(8) = 16. `andThen` thì ngược lại: 13. Đã chạy thử.
 :::
 
-:::quiz Đoạn này in gì? `var s = dons.stream().map(Don::ma); s.count(); s.count();`
+:::quiz `dons` là một `List<Don>` có 6 phần tử. Đoạn sau cho kết quả gì?
+```java
+var s = dons.stream().map(Don::ma);
+System.out.println(s.count());
+System.out.println(s.count());
+```
+
 - [ ] 6 rồi 6
 - [ ] 6 rồi 0
 - [x] Lần thứ hai ném `IllegalStateException: stream has already been operated upon or closed`

@@ -3,9 +3,12 @@ title: DI cho kiến trúc — provideX(), injection context và injectAsync
 summary: Thiết kế API cấu hình cho thư viện nội bộ, chạy code cần inject ngoài constructor, và lazy-load service nặng bằng injectAsync (mới ở v22).
 level: advanced
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [di, architecture, library, injectAsync]
 related: [angular/consolidate/dependency-injection/injectiontoken-multi-factory]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## 1. API `provideX()` cho thư viện nội bộ
@@ -76,7 +79,16 @@ export class ReportToolbar {
 DI tốt là thứ giúp team lớn **không giẫm chân nhau**: thư viện chỉ lộ ra `provideX(options)` và vài token; phần cài đặt bên trong đổi thoải mái. Khi review, cảnh giác với service gọi `inject()` ở khắp nơi một cách ẩn (service locator) — dependency nên rõ ràng ở field của class.
 :::
 
-:::quiz Vì sao `provideAudit` trả về `EnvironmentProviders` thay vì `Provider[]`?
+:::quiz Vì sao hàm `provideAudit` dưới đây trả về `EnvironmentProviders` (qua `makeEnvironmentProviders`) thay vì `Provider[]`?
+```ts
+export function provideAudit(options: AuditOptions): EnvironmentProviders {
+  return makeEnvironmentProviders([
+    { provide: AUDIT_OPTIONS, useValue: { batchSize: 20, ...options } },
+    provideAppInitializer(() => inject(AuditService).start()),
+  ]);
+}
+```
+
 - [ ] Để chạy nhanh hơn
 - [x] Để TypeScript chặn việc đặt nó vào `providers` của component — nó chỉ hợp lệ ở app/route
 - [ ] Vì `Provider[]` không hỗ trợ `useValue`

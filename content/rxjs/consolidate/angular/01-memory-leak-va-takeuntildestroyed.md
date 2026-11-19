@@ -3,9 +3,12 @@ title: Tìm và sửa memory leak do subscription
 summary: Các mẫu code gây leak hay gặp trong dự án Angular và cách sửa bằng takeUntilDestroyed, async pipe, toSignal.
 level: intermediate
 version: 7
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [rxjs, memory-leak, angular]
 related: [rxjs/review/angular/async-pipe-va-unsubscribe]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -67,7 +70,14 @@ Chrome DevTools → **Memory** → chụp Heap snapshot trước và sau khi và
 HTTP complete sau khi có response, subscription tự kết thúc. Ba lựa chọn còn lại là nguồn không complete.
 :::
 
-:::quiz Vì sao đoạn code "Mẫu leak #3" vẫn leak?
+:::quiz Component dùng `destroy$` (được `next()` và `complete()` trong `ngOnDestroy`). Vì sao đoạn dưới vẫn leak sau khi component bị huỷ?
+```ts
+this.source$.pipe(
+  takeUntil(this.destroy$),
+  switchMap(() => interval(1000)),
+).subscribe();
+```
+
 - [ ] `takeUntil` không hoạt động với Subject
 - [x] `takeUntil` đứng trước `switchMap` nên chỉ huỷ nguồn ngoài; inner `interval` đã được subscribe vẫn chạy
 - [ ] `destroy$` chưa được complete

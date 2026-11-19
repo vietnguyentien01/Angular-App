@@ -3,9 +3,12 @@ title: "Bên trong một request Spring MVC — filter, DispatcherServlet, inter
 summary: "Theo dấu một request qua filter, DispatcherServlet, HandlerMapping, interceptor, argument resolver, controller và message converter; thử API versioning mới của Spring Framework 7 qua header; và bật virtual thread cho Tomcat bằng một dòng cấu hình. Chạy thật trên Spring Boot 4.1.2."
 level: advanced
 version: 4
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [spring-boot, spring-mvc, internals, api-versioning, virtual-threads]
 related: [spring-boot/consolidate/web/xu-ly-loi-api-voi-problemdetail, spring-boot/deep-dive/security/security-filter-chain-va-cors]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -134,7 +137,16 @@ Hiểu luồng request giúp chọn đúng chỗ cho cross-cutting concern và d
 Filter chưa biết handler. Thực tế Spring Boot Actuator đã đo sẵn metric `http.server.requests` theo `uri` template (bài *Vận hành production*).
 :::
 
-:::quiz Header `API-Version: 3` gửi tới endpoint chỉ có version 1 và 2. Kết quả với cấu hình trong bài?
+:::quiz Ứng dụng Spring Boot 4 bật API versioning bằng header, endpoint `GET /khach-hang/{id}` chỉ có hai method `version = "1"` và `version = "2"`. Client gửi header `API-Version: 3`. Kết quả?
+```yaml
+spring:
+  mvc:
+    apiversion:
+      use:
+        header: API-Version
+      default: "1"
+```
+
 - [ ] 404
 - [ ] Rơi về version mặc định 1
 - [x] 400 — *Invalid API version: '3.0.0'*

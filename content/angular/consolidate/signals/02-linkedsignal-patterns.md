@@ -3,9 +3,12 @@ title: linkedSignal trong tình huống thật
 summary: Giữ lựa chọn khi danh sách đổi, form chỉnh sửa có thể huỷ, và vì sao nó thay thế được effect + set.
 level: intermediate
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [signals, linkedSignal, pattern]
 related: [angular/consolidate/signals/effect-dung-cach, angular/review/signals/linkedsignal-resource-co-ban]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -48,7 +51,17 @@ cancel() { this.draft.set({ ...this.profile() }); }
 // Khi parent truyền profile mới (vd sau khi lưu) → draft tự reset theo
 ```
 
-:::quiz Với Pattern 1, danh sách đổi từ `[A, B, C]` (đang chọn B) sang `[B, D]`. `selected()` là gì?
+:::quiz Với `selected` dưới đây, danh sách đổi từ `[A, B, C]` (đang chọn B) sang `[B, D]`. `selected()` là gì?
+```ts
+readonly users = input.required<User[]>();
+
+readonly selected = linkedSignal<User[], User | undefined>({
+  source: this.users,
+  computation: (users, previous) =>
+    users.find((u) => u.id === previous?.value?.id) ?? users[0],
+});
+```
+
 - [ ] A
 - [x] B
 - [ ] D
@@ -57,7 +70,17 @@ cancel() { this.draft.set({ ...this.profile() }); }
 `previous.value` là B và B vẫn còn trong danh sách mới nên được giữ.
 :::
 
-:::quiz Danh sách đổi từ `[A, B]` (đang chọn B) sang `[C, D]`. `selected()` là gì?
+:::quiz Với `selected` dưới đây, danh sách đổi từ `[A, B]` (đang chọn B) sang `[C, D]`. `selected()` là gì?
+```ts
+readonly users = input.required<User[]>();
+
+readonly selected = linkedSignal<User[], User | undefined>({
+  source: this.users,
+  computation: (users, previous) =>
+    users.find((u) => u.id === previous?.value?.id) ?? users[0],
+});
+```
+
 - [x] C
 - [ ] B
 - [ ] D
@@ -66,7 +89,17 @@ cancel() { this.draft.set({ ...this.profile() }); }
 B không còn → fallback `users[0]` = C.
 :::
 
-:::quiz Người dùng gọi `selected.set(X)` với X không nằm trong danh sách. Sau đó danh sách không đổi. `selected()` là?
+:::quiz Với `selected` dưới đây, code gọi `selected.set(X)` với X không nằm trong danh sách `users`. Sau đó danh sách không đổi. `selected()` là?
+```ts
+readonly users = input.required<User[]>();
+
+readonly selected = linkedSignal<User[], User | undefined>({
+  source: this.users,
+  computation: (users, previous) =>
+    users.find((u) => u.id === previous?.value?.id) ?? users[0],
+});
+```
+
 - [x] X — `set` ghi đè cho tới lần nguồn đổi tiếp theo
 - [ ] Tự reset về `users[0]`
 - [ ] Lỗi

@@ -4,9 +4,12 @@ summary: "Nhắc nhanh thứ tự viết và thứ tự chạy của một câu 
 type: card
 level: core
 version: 16
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [sql, postgresql, join, null-handling]
 related: [sql/consolidate/queries/viet-truy-van-ban-hang, sql/review/aggregation/group-by-having]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -135,7 +138,20 @@ Cú pháp trong bài là SQL chuẩn, chạy được trên PostgreSQL 13–18 (
 `id <> NULL` cho kết quả "không biết", nên cả điều kiện không bao giờ đúng. Đã chạy thử: 0. Subquery trong `NOT IN` mà có một giá trị `NULL` cũng gây ra lỗi này — dùng `NOT EXISTS`.
 :::
 
-:::quiz Join `orders` với `order_items` cho khách Nguyễn An (3 đơn) trả bao nhiêu dòng?
+:::quiz Với dữ liệu dưới đây, `SELECT … FROM orders o JOIN order_items i ON i.order_id = o.id WHERE o.customer_id = 1` (khách Nguyễn An, 3 đơn) trả bao nhiêu dòng?
+```text
+orders                                   order_items (order_id, product_id, quantity, unit_price)
+id | customer_id | status    | created_at    1 | 1 | 1 | 1500000
+ 1 | 1           | paid      | 2026-10-01    1 | 5 | 2 |  350000
+ 2 | 1           | shipped   | 2026-10-15    2 | 2 | 1 | 5000000
+ 3 | 2           | paid      | 2026-10-20    3 | 4 | 1 | 1200000
+ 4 | 3           | cancelled | 2026-10-21    3 | 5 | 4 |  350000
+ 5 | 4           | pending   | 2026-11-02    4 | 1 | 1 | 1500000
+ 6 | 1           | paid      | 2026-11-05    5 | 4 | 2 | 1200000
+                                             6 | 5 | 3 |  350000
+```
+Khách `customer_id = 1` là Nguyễn An.
+
 - [ ] 3
 - [x] 4 — đơn 1 có 2 sản phẩm, đơn 2 và 6 mỗi đơn 1
 - [ ] 1

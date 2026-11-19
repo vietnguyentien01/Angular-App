@@ -3,12 +3,14 @@ title: "Bài 2 — Khám phá AI Agent framework: Microsoft Agent Framework và 
 summary: "Agent framework khác AI framework thường ở chỗ cho agent cộng tác, tự động hoá task nhiều bước và thích nghi theo ngữ cảnh. Ba cách prototype nhanh (component module, cộng tác, học thời gian thực), khái niệm cốt lõi của MAF và Foundry Agent Service (agent, thread, message), và khi nào chọn cái nào."
 type: lesson
 level: core
-lastReviewed: 2026-11-17
+lastReviewed: 2026-11-19
 tags: [ai-agents, framework, microsoft-agent-framework, foundry-agent-service]
 related: [ai-agents/course/nen-tang/gioi-thieu-ai-agent, ai-agents/course/nang-cao/microsoft-agent-framework, claude-code/deep-dive/automation/agent-sdk-nhap-mon]
 changelog:
   - date: 2026-11-17
     note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 :::note Nguồn
@@ -311,7 +313,14 @@ You are FlightAgent, a virtual assistant specialized in handling flight-related 
 - Microsoft Agent Framework: <https://learn.microsoft.com/en-us/agent-framework/overview/>
 - Khóa *Fundamentals of AI agents on Azure*: <https://learn.microsoft.com/en-us/training/modules/ai-agent-fundamentals/>
 
-:::quiz Trong ví dụ `book_flight`, ai tách "January 1, 2025" và "New York" ra khỏi câu người dùng?
+:::quiz Agent có tool dưới đây. Người dùng gõ "I'd like to go to New York on January 1, 2025". Ai tách "January 1, 2025" và "New York" ra khỏi câu để truyền vào `book_flight`?
+```python
+@tool(approval_mode="never_require")
+def book_flight(date: str, location: str) -> str:
+    """Book travel given location and date."""
+    return f"Travel was booked to {location} on {date}"
+```
+
 - [ ] Một regex parser bạn tự viết
 - [x] Model, dựa trên chữ ký và docstring của tool, sinh ra lời gọi tool với đúng tham số
 - [ ] Azure AI Search

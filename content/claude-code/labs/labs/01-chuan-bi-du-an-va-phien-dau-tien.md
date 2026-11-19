@@ -3,9 +3,12 @@ title: "Lab 01 — Chuẩn bị dự án thực hành cc-lab và phiên làm vi�
 summary: "Tạo dự án Angular 22 cc-lab với module Tasks mẫu (đã kiểm chứng chạy được, có cài sẵn hai bug cho các lab sau), mở phiên Claude Code đầu tiên, hỏi về dự án, cho Claude sửa một thay đổi nhỏ, xem diff và commit."
 type: lesson
 level: core
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [claude-code, lab, beginner, setup]
 related: [claude-code/review/getting-started/phien-dau-tien, claude-code/labs/labs/claude-md-va-rules]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Mục tiêu
@@ -254,7 +257,7 @@ Sau đó trên shell: `git log --oneline -3`.
 | Ngày "hôm nay" bị lệch múi giờ | Đó là một quyết định thiết kế thật — hỏi Claude: *"dùng giờ máy hay UTC? Trade-off?"* |
 | Test hỏng vì chữ "Quá hạn" | Đọc test fail, nhờ Claude giải thích trước khi sửa |
 
-:::quiz Ở Bước 4, Claude giải thích luồng dữ liệu của ô tìm kiếm. Cách đúng để biết câu trả lời có chính xác không?
+:::quiz Bạn hỏi Claude về luồng dữ liệu của ô tìm kiếm trong app quản lý task: Claude trả lời rằng `query` (signal trong `task-store.ts`) → `visible` (computed lọc danh sách) → template của `task-list.ts`. Cách đúng để biết câu trả lời có chính xác không?
 - [ ] Hỏi lại Claude "bạn chắc không?"
 - [x] Mở `task-store.ts` và `task-list.ts`, đối chiếu từng bước (`query` → `visible` → template) với code thật
 - [ ] Tin vì Claude đã đọc file
@@ -263,7 +266,7 @@ Sau đó trên shell: `git log --oneline -3`.
 Câu trả lời của model phải được kiểm bằng nguồn thật — đó là thói quen cốt lõi khi học codebase với AI.
 :::
 
-:::quiz Prompt ở Bước 5 có câu "Không sửa file nào khác ngoài task-list.ts". Mục đích?
+:::quiz Bạn nhờ Claude sửa giao diện danh sách task, và prompt có thêm câu "Không sửa file nào khác ngoài task-list.ts". Câu đó có mục đích gì?
 - [ ] Để Claude chạy nhanh hơn
 - [x] Giới hạn phạm vi — mọi file khác bị đụng tới là dấu hiệu lệch hướng, dễ phát hiện khi đọc diff
 - [ ] Vì Claude không sửa được nhiều file
@@ -272,7 +275,7 @@ Câu trả lời của model phải được kiểm bằng nguồn thật — đ
 Ràng buộc phạm vi giúp diff nhỏ, dễ review và dễ phát hiện lệch hướng.
 :::
 
-:::quiz Vì sao lab yêu cầu commit trạng thái seed **trước** khi mở Claude?
+:::quiz Trước khi mở Claude Code trên dự án mẫu vừa tạo, vì sao nên commit trạng thái ban đầu (seed) vào git?
 - [ ] Vì Claude không chạy được khi có thay đổi chưa commit
 - [x] Để luôn có điểm quay về bằng git — checkpoint của Claude không thay thế được git
 - [ ] Để Claude đọc được lịch sử

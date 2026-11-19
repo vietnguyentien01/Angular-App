@@ -3,9 +3,12 @@ title: "Dynamic proxy bên trong — java.lang.reflect.Proxy, self-invocation, e
 summary: "Tự viết proxy ghi nhật ký bằng java.lang.reflect.Proxy để hiểu @Transactional của Spring: self-invocation lọt qua proxy, toString/hashCode/equals cũng đi qua handler, checked exception bị bọc thành UndeclaredThrowableException, JDK proxy chỉ cho interface. Đã chạy trên JDK 25."
 level: advanced
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, proxy, reflection, aop, spring]
 related: [design-patterns/consolidate/structural/decorator-va-proxy-trong-thuc-te, spring-boot/deep-dive/transactions/proxy-isolation-va-khoa]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -96,7 +99,20 @@ proxy cho class: S3$DichVuThat is not an interface
 Mỗi khi thấy annotation "có phép thuật" (`@Transactional`, `@Cacheable`, `@Async`, `@Retryable`, `@PreAuthorize`), hãy nghĩ ngay: "đây là proxy — lời gọi của tôi có đi qua proxy không?". Ba câu hỏi kiểm tra: method có `public` và không `final` không; có được gọi từ **bean khác** không; object có được lấy từ container (không phải `new`) không. Phần lớn bug "annotation không có tác dụng" rơi vào một trong ba câu này.
 :::
 
-:::quiz `datVaThongBao` gọi `datHang` bên trong cùng class. Proxy ghi nhật ký được mấy dòng khi gọi `proxy.datVaThongBao("DH2")`?
+:::quiz Một JDK dynamic proxy bọc `DichVuThat` và ghi tên method vào nhật ký mỗi khi được gọi qua proxy. Gọi `proxy.datVaThongBao("DH2")` thì nhật ký có mấy dòng?
+```java
+class DichVuThat implements DichVuDonHang {
+    public String datHang(String ma) { return "đã đặt " + ma; }
+    public String datVaThongBao(String ma) { return datHang(ma) + " + đã báo"; }   // gọi nội bộ
+}
+
+InvocationHandler h = (proxy, m, args) -> {
+    NHAT_KY.add("→ " + m.getName());
+    return m.invoke(dichVuThat, args);
+};
+DichVuDonHang proxy = (DichVuDonHang) Proxy.newProxyInstance(loader, new Class<?>[]{DichVuDonHang.class}, h);
+```
+
 - [x] 1 — chỉ `datVaThongBao`
 - [ ] 2 — cả hai method
 - [ ] 0

@@ -3,12 +3,14 @@ title: "Bài 5 — Agentic RAG: agent tự lập kế hoạch truy xuất, tự 
 summary: "Agentic RAG là vòng lặp LLM gọi tool truy xuất, tự đánh giá kết quả, viết lại truy vấn và lặp tới khi đủ bằng chứng (kiểu maker-checker). Agent tự làm chủ quá trình suy luận, cơ chế tự sửa lỗi, giới hạn của agency, khi nào đáng dùng, và quản trị, minh bạch. Có ví dụ tool tìm kiếm được chạy thử."
 type: lesson
 level: intermediate
-lastReviewed: 2026-11-17
+lastReviewed: 2026-11-19
 tags: [ai-agents, rag, agentic-rag, retrieval, maker-checker]
 related: [ai-agents/course/cong-cu-tri-thuc/tool-use, ai-agents/course/ke-hoach-da-agent/metacognition, ai-agents/course/production-giao-thuc/context-engineering]
 changelog:
   - date: 2026-11-17
     note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 :::note Nguồn
@@ -217,7 +219,23 @@ Ca cuối kiểm tra agent **không bịa** khi knowledge base không có dữ l
 Khác biệt cốt lõi là *làm chủ quá trình suy luận*: đường đi không bị viết cứng trước, model tự lặp "LLM → tool → LLM".
 :::
 
-:::quiz Với hàm `search_travel_knowledge` ở trên, truy vấn `"April"` trả về gì?
+:::quiz Với knowledge base và hàm `search_travel_knowledge` dưới đây, truy vấn `"April"` trả về gì?
+```python
+TRAVEL_KNOWLEDGE_BASE = {
+    "Barcelona": "... Best visited Mar-May or Sep-Nov. Known for Gaudí architecture, La Rambla, beaches. ...",
+    "Tokyo": "... Best visited Mar-Apr (cherry blossoms) or Oct-Nov. Known for Shibuya, temples, sushi. ...",
+    "Paris": "... Best visited Apr-Jun or Sep-Oct. Known for Eiffel Tower, Louvre, cuisine. ...",
+    "Cape Town": "... Best visited Nov-Mar. Known for Table Mountain, wine regions, wildlife. ...",
+}
+
+def search_travel_knowledge(query: str) -> str:
+    results = []
+    for destination, info in TRAVEL_KNOWLEDGE_BASE.items():
+        if query.lower() in destination.lower() or any(word in info.lower() for word in query.lower().split()):
+            results.append(f"**{destination}**: {info}")
+    return "\n\n".join(results) if results else "No matching destinations found in the knowledge base."
+```
+
 - [ ] Tokyo và Paris
 - [ ] Cả bốn điểm đến
 - [x] Không có kết quả: "No matching destinations found in the knowledge base."

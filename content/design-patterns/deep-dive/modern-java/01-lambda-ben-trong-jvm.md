@@ -3,9 +3,12 @@ title: "Lambda bên trong JVM — invokedynamic, LambdaMetafactory, khi nào lam
 summary: "Strategy viết bằng lambda thực sự là gì: javap cho thấy invokedynamic và LambdaMetafactory thay cho file .class riêng, lambda không bắt biến được dùng lại còn lambda bắt biến tạo object mới mỗi lần, class lambda là hidden class, và lambda chỉ giữ this khi dùng tới nó. Đã chạy trên JDK 25."
 level: advanced
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, lambda, invokedynamic, jvm, bytecode, java-25]
 related: [design-patterns/review/modern-java/pattern-voi-lambda-record-sealed, java/deep-dive/functional/ben-trong-stream-parallel-va-gatherers]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -124,7 +127,13 @@ Với Strategy là **khái niệm nghiệp vụ** (biểu phí, chính sách duy
 Chi phí của lambda không nằm ở lời gọi (JIT inline được như method thường) mà ở **lần chạy đầu** của mỗi call site: sinh hidden class, liên kết. Ứng dụng có hàng nghìn lambda (Spring, stream khắp nơi) tốn một phần thời gian khởi động cho việc này — một lý do AOT cache của JDK 24+ (môn Spring Boot, bài *Đóng gói Docker và khởi động nhanh*) giúp khởi động nhanh hơn. Trong code nghiệp vụ, đừng tối ưu sớm bằng cách tránh lambda; hãy tránh lambda **giữ object lớn** sống lâu.
 :::
 
-:::quiz Lambda `x -> x * heSo` (bắt tham số `heSo`) được biên dịch thành gì?
+:::quiz Lambda trong method dưới đây (bắt tham số `heSo`) được `javac` biên dịch thành gì?
+```java
+public class L {
+    static IntUnaryOperator coBat(int heSo) { return x -> x * heSo; }
+}
+```
+
 - [ ] Một file `.class` riêng như lớp vô danh
 - [x] Một method `private static lambda$coBat$0(int, int)` trong class chứa nó, và `invokedynamic` tại chỗ tạo lambda
 - [ ] Một field `static` kiểu `IntUnaryOperator`

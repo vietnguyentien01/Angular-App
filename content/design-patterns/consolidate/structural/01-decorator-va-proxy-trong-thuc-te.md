@@ -3,9 +3,12 @@ title: "Decorator thực chiến — xếp chồng thử lại, cache, đo đế
 summary: "Bọc client tỷ giá của đối tác bằng các decorator thử lại, cache có hạn, đo đếm và dự phòng. Đo được: không bọc lỗi 4/100, thêm thử lại hết lỗi nhưng gọi đối tác 104 lần, thêm cache còn 8 lần; đặt bộ đếm trong hay ngoài thử lại cho ra hai con số khác nhau. Đã chạy trên JDK 25."
 level: intermediate
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, decorator, proxy, retry, cache, resilience]
 related: [design-patterns/review/structural/adapter-decorator-proxy-facade, design-patterns/deep-dive/structural/dynamic-proxy-va-gioi-han-cua-proxy]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -108,7 +111,11 @@ Trước Java 16, mỗi decorator là một class có field, constructor, method
 Tuỳ câu hỏi metric trả lời. Đặt **trong** retry (sát client thật) để đo sức khoẻ đối tác — mỗi lần thử là một mẫu. Đặt **ngoài** retry để đo trải nghiệm người dùng. Đặt ngoài cache thì cache hit cũng được đếm (tốt cho đo tỷ lệ hit). Thường cần ít nhất hai điểm đo. Đã thử: cùng 4 yêu cầu, đo bên trong thấy 2 lỗi, đo bên ngoài thấy 0.
 :::
 
-:::quiz Chuỗi `new CoCache(new ThuLai(doiTac, 3), 5 phút, clock)`. Một yêu cầu có cache hit thì gọi đối tác bao nhiêu lần?
+:::quiz Client tỷ giá được bọc bằng hai decorator cùng interface `TyGia`: `CoCache` (cache kết quả 5 phút) ở ngoài, `ThuLai` (thử lại tối đa 3 lần khi lỗi) ở trong. Một yêu cầu có cache hit thì gọi đối tác bao nhiêu lần?
+```java
+TyGia tyGia = new CoCache(new ThuLai(doiTac, 3), Duration.ofMinutes(5), clock);
+```
+
 - [x] 0
 - [ ] 1
 - [ ] 3
@@ -117,7 +124,7 @@ Tuỳ câu hỏi metric trả lời. Đặt **trong** retry (sát client thật)
 `CoCache` ở ngoài cùng trả kết quả trước khi tới `ThuLai`.
 :::
 
-:::quiz Đối tác thỉnh thoảng trả 503. Sau khi thêm `ThuLai(3)`, dashboard (đo ở ngoài cùng) báo 0% lỗi. Rủi ro là gì?
+:::quiz Đối tác thỉnh thoảng trả 503. Bạn bọc client bằng decorator thử lại tối đa 3 lần, và bộ đếm lỗi đặt **ngoài** decorator thử lại: `new DoDem(new ThuLai(doiTac, 3))`. Dashboard báo 0% lỗi. Rủi ro là gì?
 - [ ] Không có rủi ro
 - [x] Không thấy tỷ lệ lỗi thật của đối tác đang tăng, cho tới khi vượt quá khả năng thử lại
 - [ ] Thử lại làm sai tỷ giá

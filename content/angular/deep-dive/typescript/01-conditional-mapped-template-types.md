@@ -3,9 +3,12 @@ title: Conditional, mapped và template literal types — viết type cho thư v
 summary: DeepPartial, đường dẫn field dạng 'a.b.c' có kiểm tra kiểu, event bus có type — các kỹ thuật type nâng cao dùng khi xây form engine hay design system.
 level: advanced
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, advanced-types, generics]
 related: [angular/consolidate/typescript/type-an-toan-o-ranh-gioi, angular/deep-dive/forms/dynamic-form-tu-json-schema]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Mapped type
@@ -86,7 +89,12 @@ bus.emit('logout'); // ✓ không cần payload
 bus.emit('case:saved', { id: '1' }); // ✗ thiếu version
 ```
 
-:::quiz `ElementOf<number>` (với định nghĩa ở trên) là gì?
+:::quiz Với định nghĩa dưới đây, `ElementOf<number>` là gì?
+```ts
+type ElementOf<T> = T extends readonly (infer E)[] ? E : never;
+type A = ElementOf<string[]>; // string
+```
+
 - [ ] `number`
 - [x] `never`
 - [ ] `unknown`
@@ -95,7 +103,13 @@ bus.emit('case:saved', { id: '1' }); // ✗ thiếu version
 `number` không khớp `readonly (infer E)[]` nên rơi vào nhánh `never`.
 :::
 
-:::quiz Vì sao `Paths<T>` dùng `keyof T & string`?
+:::quiz Vì sao kiểu `Paths<T>` dưới đây (sinh mọi đường dẫn dạng `"a.b.c"` của object) dùng `keyof T & string`?
+```ts
+type Paths<T> = T extends object
+  ? { [K in keyof T & string]: T[K] extends object ? K | `${K}.${Paths<T[K]>}` : K }[keyof T & string]
+  : never;
+```
+
 - [ ] Để nhanh hơn
 - [x] `keyof` có thể gồm cả `number | symbol`; template literal chỉ ghép được với string-like, nên lọc lấy key dạng chuỗi
 - [ ] Bắt buộc với mọi mapped type

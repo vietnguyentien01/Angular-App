@@ -4,9 +4,12 @@ summary: Ba khái niệm nền của RxJS, vòng đời next/error/complete và 
 type: card
 level: core
 version: 7
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [rxjs, observable]
 related: [rxjs/consolidate/observable/thu-tu-thuc-thi]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -73,7 +76,19 @@ Observable **lười**: hàm producer chỉ chạy khi có `subscribe()`. Ở đ
 Theo hợp đồng Observable, `error` và `complete` là trạng thái kết thúc. Mọi `next` sau đó bị bỏ qua, và hàm teardown (giá trị `return` trong producer) được gọi.
 :::
 
-:::quiz Mỗi lần gọi `numbers$.subscribe()` trong ví dụ trên thì sao?
+:::quiz Với `numbers$` dưới đây, mỗi lần gọi `numbers$.subscribe()` thì sao?
+```ts
+const numbers$ = new Observable<number>((subscriber) => {
+  subscriber.next(1);
+  subscriber.next(2);
+  const id = setTimeout(() => {
+    subscriber.next(3);
+    subscriber.complete();
+  }, 1000);
+  return () => clearTimeout(id);
+});
+```
+
 - [x] Producer chạy lại từ đầu, mỗi subscriber có `setTimeout` riêng
 - [ ] Các subscriber dùng chung một `setTimeout`
 - [ ] Subscriber thứ hai chỉ nhận giá trị `3`

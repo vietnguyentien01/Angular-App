@@ -4,9 +4,12 @@ summary: "Factory giấu class cụ thể sau một method, Builder tạo object
 type: card
 level: core
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, factory, builder, singleton, creational]
 related: [design-patterns/consolidate/creational/builder-va-static-factory-dung-cach, design-patterns/deep-dive/creational/singleton-va-khoi-tao-luoi-thread-safe]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -85,7 +88,20 @@ Java 9 thêm `List.of`, `Set.of`, `Map.of` (static factory bất biến). Java 1
 Bean mặc định có scope **singleton**: container tạo một instance, quản lý vòng đời (khởi tạo, `@PreDestroy`) và tiêm vào nơi cần. Bạn được lợi ích của Singleton (một instance dùng chung) mà không có nhược điểm của Singleton tự viết: trạng thái toàn cục truy cập qua `getInstance()` ở bất cứ đâu, phụ thuộc ẩn, không thay được bằng mock khi test. Lưu ý: "singleton" của Spring là một instance **trong một ApplicationContext**, không phải trong cả JVM.
 :::
 
-:::quiz Lợi ích chính của `KenhThongBao.tu("sms")` so với `new Sms("VNPT")` ở mọi nơi?
+:::quiz Lợi ích chính của việc gọi factory `KenhThongBao.tu("sms")` so với viết `new Sms("VNPT")` ở mọi nơi?
+```java
+sealed interface KenhThongBao permits Sms, Email {
+    void gui(String toi, String noiDung);
+    static KenhThongBao tu(String cauHinh) {
+        return switch (cauHinh) {
+            case "sms" -> new Sms("VNPT");
+            case "email" -> new Email("smtp.congty.vn");
+            default -> throw new IllegalArgumentException("kênh không hỗ trợ: " + cauHinh);
+        };
+    }
+}
+```
+
 - [ ] Chạy nhanh hơn
 - [x] Người gọi chỉ phụ thuộc interface; đổi cách chọn hay thêm kênh mới chỉ sửa một chỗ
 - [ ] Tiết kiệm bộ nhớ

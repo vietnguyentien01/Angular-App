@@ -3,9 +3,12 @@ title: InjectionToken, multi provider và factory — pattern cho code cấu hì
 summary: Cấu hình qua token có giá trị mặc định, plugin bằng multi provider, và factory phụ thuộc môi trường — nền tảng cho form engine hay design system.
 level: intermediate
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [di, injectiontoken, multi, factory, pattern]
 related: [angular/review/dependency-injection/inject-va-providers, angular/deep-dive/dependency-injection/di-cho-kien-truc]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -58,7 +61,7 @@ private readonly renderers = new Map(inject(FIELD_RENDERERS).map((r) => [r.type,
 Với một low-code / dynamic form engine (render form từ JSON Schema), multi provider giúp engine **mở cho mở rộng, đóng cho sửa đổi**: thêm loại field mới = thêm một provider, không đụng vào `switch(type)` khổng lồ. Đây là câu trả lời tốt khi phỏng vấn được hỏi "thiết kế form builder mở rộng được thế nào".
 :::
 
-:::quiz `inject(FIELD_RENDERERS)` khi KHÔNG có provider nào được đăng ký (token không có factory) sẽ?
+:::quiz Token khai báo `export const FIELD_RENDERERS = new InjectionToken<FieldRenderer[]>('FIELD_RENDERERS');` (không có option `factory`), và các renderer được đăng ký bằng provider `multi: true`. Gọi `inject(FIELD_RENDERERS)` khi KHÔNG có provider nào được đăng ký sẽ?
 - [ ] Trả `[]`
 - [x] Lỗi `No provider` — cần `{ optional: true }` hoặc khai báo factory trả `[]`
 - [ ] Trả `undefined`
@@ -76,7 +79,16 @@ Multi provider chỉ gom những gì đã đăng ký. Không có gì → không 
 Angular ném lỗi *"Cannot mix multi providers and regular providers"* khi một token có cả provider multi và non-multi — giúp phát hiện sớm.
 :::
 
-:::quiz Vì sao nên bọc provider trong hàm `provideFieldRenderer()` thay vì để người dùng tự viết object?
+:::quiz Vì sao nên bọc provider trong hàm `provideFieldRenderer()` như dưới đây thay vì để người dùng tự viết object provider?
+```ts
+export function provideFieldRenderer(r: FieldRenderer) {
+  return { provide: FIELD_RENDERERS, useValue: r, multi: true };
+}
+
+// app.config.ts
+providers: [provideFieldRenderer({ type: 'money', component: MoneyField })];
+```
+
 - [ ] Vì Angular bắt buộc
 - [x] Ẩn chi tiết (token, `multi: true`), có type rõ ràng và dễ thay đổi cài đặt bên trong mà không phá code người dùng
 - [ ] Để tăng tốc độ

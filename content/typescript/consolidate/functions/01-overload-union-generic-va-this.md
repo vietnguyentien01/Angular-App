@@ -3,9 +3,12 @@ title: Overload, union hay generic? — và bẫy this khi truyền method làm 
 summary: Chọn cách khai báo hàm phù hợp, tránh overload không cần thiết, và hiểu vì sao method mất this khi được truyền đi.
 level: intermediate
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, functions, overload, this]
 related: [typescript/review/functions/ham-va-overload, typescript/deep-dive/functions/variadic-tuple-va-ham-bac-cao]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Chọn cách khai báo
@@ -55,7 +58,16 @@ f(); // ✗ lỗi biên dịch: ngữ cảnh 'this' kiểu 'void' không gán đ
 
 Trong Angular, template gọi `(click)="inc()"` luôn đúng `this`; bẫy chỉ xuất hiện khi truyền method cho API bên ngoài (`setTimeout`, thư viện chart, `addEventListener`).
 
-:::quiz `setTimeout(c.inc, 0)` với `inc() { this.count++ }` — TypeScript có báo lỗi không?
+:::quiz Với class dưới đây, dòng `setTimeout(c.inc, 0)` — TypeScript có báo lỗi không?
+```ts
+class Counter {
+  count = 0;
+  inc() { this.count++; }
+}
+const c = new Counter();
+setTimeout(c.inc, 0);
+```
+
 - [ ] Có
 - [x] Không — nhưng lúc chạy `this` không trỏ tới `c`
 - [ ] Có nếu bật strict

@@ -3,9 +3,12 @@ title: "Lab 10 — Claude trong script và CI: linter chính tả, cổng review
 summary: "Bốn tự động hoá chạy được ngay trên cc-lab: npm script soát chính tả diff bằng claude -p, script review trả JSON theo schema và chặn khi có lỗi high (đã chạy thử), job sửa lint với --bare + dontAsk + giới hạn lượt, và workflow GitHub Actions chạy review cho mỗi PR."
 type: lesson
 level: advanced
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [claude-code, lab, headless, ci, github-actions]
 related: [claude-code/deep-dive/automation/headless-va-ci, claude-code/labs/labs/worktree-goal-song-song]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Mục tiêu
@@ -170,7 +173,13 @@ Fail-closed: không có bằng chứng thì không cho qua.
 Theo tài liệu GitHub Actions của Claude Code.
 :::
 
-:::quiz Trong Bài 2, vì sao không cấp quyền Bash cho Claude?
+:::quiz Script cổng review trong CI dưới đây không cấp quyền Bash cho Claude. Vì sao?
+```bash
+git diff main...HEAD | claude --bare -p \
+  "Review this Angular diff for correctness bugs and missing cleanup only. Skip style." \
+  --output-format json --json-schema "$SCHEMA" --max-turns 5 > review.json
+```
+
 - [ ] Vì `--bare` cấm Bash
 - [x] Vì diff đã được pipe vào stdin — Claude không cần chạy lệnh nào để đọc nó; ít quyền hơn là an toàn hơn
 - [ ] Vì Bash không chạy trong CI

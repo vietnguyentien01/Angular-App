@@ -3,9 +3,12 @@ title: "Visitor và sealed pattern matching — thêm loại mới, thêm thao t
 summary: "So sánh Visitor cổ điển với sealed interface + switch trên mô hình sản phẩm ngân hàng. Đã thử cả hai khi thêm sản phẩm trả góp: compiler chỉ đúng mọi chỗ cần sửa. Nhưng chỉ cần một nhánh default là trả góp lặng lẽ có lãi 0. Thêm guard when và lỗi case bị che. Đã chạy trên JDK 25."
 level: intermediate
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, visitor, sealed, pattern-matching, java-21, java-25]
 related: [design-patterns/review/modern-java/pattern-voi-lambda-record-sealed, design-patterns/consolidate/behavioral/strategy-va-state-thay-if-else]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -152,7 +155,20 @@ Java 17: `sealed` chính thức, nhưng switch pattern matching còn preview. Ja
 Đa hình khi **tập kiểu mở hoặc hay thêm** và tập thao tác ít đổi: mỗi kiểu tự biết cách làm, thêm kiểu không sửa code cũ. Sealed + switch khi **tập kiểu đóng, ít đổi** và thao tác hay thêm (báo cáo, chuyển đổi, kiểm tra): thêm thao tác chỉ là thêm hàm, thêm kiểu thì compiler chỉ ra mọi switch cần sửa. Điều kiện để sealed phát huy: không có `default`.
 :::
 
-:::quiz Bạn thêm `record TraGop(...) implements SanPham` và thêm vào `permits`. Hàm `laiThang` có `default -> 0`. Kết quả?
+:::quiz Bạn thêm `record TraGop(long conLai, int soKy) implements SanPham` và thêm `TraGop` vào `permits`. Hàm `laiThang` dưới đây có nhánh `default -> 0`. Kết quả?
+```java
+sealed interface SanPham permits TienGui, Vay, The, TraGop {}
+
+static long laiThang(SanPham sp) {
+    return switch (sp) {
+        case TienGui(long soDu, int ls) -> soDu * ls / 10_000 / 12;
+        case Vay(long duNo, int ls) -> -(duNo * ls / 10_000 / 12);
+        case The(long duNo, long hm) -> -(duNo * 2_800 / 10_000 / 12);
+        default -> 0;
+    };
+}
+```
+
 - [ ] Lỗi biên dịch ở `laiThang`
 - [x] Biên dịch được; trả góp được tính lãi 0
 - [ ] Ném `MatchException` khi chạy
@@ -161,7 +177,16 @@ Java 17: `sealed` chính thức, nhưng switch pattern matching còn preview. Ja
 Đã chạy: `khác: 0`. `default` khớp mọi thứ nên compiler không còn lý do báo thiếu `case`.
 :::
 
-:::quiz Vì sao compiler từ chối khi `case TienGui t ->` đứng trước `case TienGui t when t.soDu() >= 1_000_000_000 ->`?
+:::quiz Vì sao compiler từ chối đoạn switch dưới đây (`TienGui` là record trong một sealed interface)?
+```java
+return switch (sp) {
+    case TienGui t -> "tiền gửi";
+    case TienGui t when t.soDu() >= 1_000_000_000 -> "tiền gửi VIP";
+    case Vay v -> "khoản vay";
+    case The t -> "thẻ tín dụng";
+};
+```
+
 - [ ] Không được có hai case cùng kiểu
 - [x] Case đầu khớp mọi `TienGui`, nên case có guard không bao giờ được chạy (dominated)
 - [ ] Guard `when` phải đứng cuối switch

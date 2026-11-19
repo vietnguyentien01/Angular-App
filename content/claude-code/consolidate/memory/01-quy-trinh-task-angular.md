@@ -2,9 +2,12 @@
 title: Quy trình một task Angular với Claude Code — từ spec tới merge
 summary: Ghép các nguyên tắc thành một quy trình lặp lại được, kèm thư viện prompt mẫu cho các việc hay gặp trong dự án Angular enterprise.
 level: intermediate
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [claude-code, workflow, angular, prompts]
 related: [claude-code/review/prompting/viet-prompt-cu-the, claude-code/consolidate/verification/cho-claude-phep-kiem-tra]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -68,7 +71,7 @@ Làm rõ yêu cầu (nhờ Claude phỏng vấn → SPEC.md) → tự đọc ph�
 Quy trình này có giá trị khi cả team dùng **giống nhau**. Ghi nó vào CONTRIBUTING hoặc một skill `/ticket` của repo, đưa prompt mẫu thành skill, và review định kỳ: bước nào bị bỏ qua nhiều nhất (thường là bước 2 — tự đọc code) và vì sao.
 :::
 
-:::quiz Bước nào trong quy trình mà kiến thức nền của bạn quan trọng nhất?
+:::quiz Quy trình làm một task Angular cùng Claude gồm 6 bước: (1) làm rõ yêu cầu, Claude viết `SPEC.md`; (2) hiểu phần code liên quan; (3) triển khai kèm test; (4) review độc lập bằng `/code-review` hoặc subagent; (5) bạn review diff; (6) PR và merge. Ở bước nào kiến thức nền của bạn quan trọng nhất?
 - [ ] Bước 6 — merge
 - [x] Bước 2 và 5 — hiểu phần code liên quan và review được diff
 - [ ] Bước 1 — viết spec

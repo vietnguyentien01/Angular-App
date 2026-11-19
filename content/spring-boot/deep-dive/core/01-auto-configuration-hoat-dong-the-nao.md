@@ -3,9 +3,12 @@ title: "Auto-configuration hoạt động thế nào — điều kiện, báo c�
 summary: "Spring Boot tìm auto-config ở đâu, các @Conditional quyết định bean nào được tạo, đọc báo cáo điều kiện bằng --debug, và tự viết một auto-configuration có @ConditionalOnMissingBean để người dùng ghi đè được. Chạy thật trên Spring Boot 4.1.2."
 level: advanced
 version: 4
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [spring-boot, auto-configuration, conditional, internals]
 related: [spring-boot/review/core/bean-di-va-cau-hinh, spring-boot/consolidate/core/loi-di-va-cau-hinh-thuong-gap]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -117,7 +120,7 @@ Quy tắc khi viết auto-config:
 - [ ] Bean của bạn bị bỏ qua
 - [ ] Boot gộp cấu hình của hai bean
 
-Đây là lý do nên tuỳ biến bằng customizer thay vì thay hẳn bean. Kiểm chứng bằng `--debug`, giống ví dụ `kenhLog` ở trên.
+Đây là lý do nên tuỳ biến bằng customizer thay vì thay hẳn bean. Kiểm chứng bằng `--debug`: condition evaluation report liệt kê auto-config nào bị bỏ qua vì đã có bean của bạn.
 :::
 
 :::quiz Auto-config của bạn đặt trong package `vn.hoc.donhang.thongbao`, cùng package gốc với `@SpringBootApplication` của ứng dụng. Vấn đề gì có thể xảy ra?

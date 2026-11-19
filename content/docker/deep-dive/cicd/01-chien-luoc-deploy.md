@@ -3,9 +3,12 @@ title: "Chiến lược deploy — môi trường có duyệt, migration trong p
 summary: "Workflow deploy chạy sau khi CI xanh hoặc bấm tay với tag cũ để rollback, qua environment production có người duyệt, kéo image theo SHA, migrate rồi đổi phiên bản, smoke test. So sánh recreate, rolling, blue-green, canary, feature flag và quy tắc migration tương thích ngược."
 level: advanced
 version: 29
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [cicd, deployment, rollback, migration, github-actions]
 related: [docker/consolidate/cicd/pipeline-test-va-build-image, sql/deep-dive/design/chuan-hoa-jsonb-va-migration]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -103,7 +106,7 @@ Rollback app về SHA cũ chỉ an toàn khi schema hiện tại **vẫn hợp v
 Tốc độ deploy và độ an toàn không đối nghịch: team deploy nhiều lần mỗi ngày thường an toàn hơn team deploy mỗi tháng, vì mỗi thay đổi nhỏ, dễ hiểu, dễ rollback. Đầu tư theo thứ tự: pipeline tự động hoàn toàn và lặp lại được → rollback một nút bấm → health check và smoke test → theo dõi lỗi sau deploy (error rate, latency) → mới tới blue-green/canary. Và luôn biết **chính xác SHA nào đang chạy** ở mỗi môi trường.
 :::
 
-:::quiz Deploy bản mới làm tăng lỗi 500. Cách rollback nhanh và an toàn nhất trong thiết kế ở trên?
+:::quiz Hệ thống deploy như sau: CI build image một lần ở `main`, tag theo commit SHA và đẩy lên registry; workflow Deploy kéo image theo tag và chạy được bằng tay với input `image_tag`. Deploy bản mới làm tăng lỗi 500. Cách rollback nhanh và an toàn nhất?
 - [ ] Sửa code nóng trên server
 - [ ] `git revert` rồi chờ CI build image mới
 - [x] Chạy workflow Deploy bằng tay với `image_tag` là SHA ổn định trước đó — image đã có sẵn trên registry

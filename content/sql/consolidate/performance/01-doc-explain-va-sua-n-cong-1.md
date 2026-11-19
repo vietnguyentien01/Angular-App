@@ -3,9 +3,12 @@ title: "Đọc EXPLAIN ANALYZE và sửa lỗi N+1 từ Node.js — có số đo
 summary: "API 'đơn hàng của khách kèm chi tiết' chạy 11 truy vấn mất 330 ms. Đo, đọc EXPLAIN, gộp thành 2 truy vấn bằng = ANY($1) (49 ms), thêm index cho khoá ngoại (1 ms). Quy trình tối ưu truy vấn từng bước trên bảng 500.000 đơn và 1,5 triệu dòng chi tiết."
 level: intermediate
 version: 16
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [sql, postgresql, explain, n-plus-one, performance, nodejs]
 related: [sql/review/performance/index-va-transaction, sql/deep-dive/performance/isolation-va-khoa]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -97,7 +100,7 @@ N+1 hay sinh ra từ ORM (`include` lười, getter quan hệ trong vòng lặp)
 Là khi code chạy 1 truy vấn lấy danh sách rồi thêm N truy vấn cho từng phần tử (thường trong vòng lặp hoặc do ORM nạp quan hệ lười). Phát hiện bằng log/đếm số truy vấn mỗi request, APM, hoặc `pg_stat_statements` thấy một truy vấn nhỏ chạy rất nhiều lần. Sửa bằng JOIN, hoặc 2 truy vấn với `IN`/`= ANY($1)` rồi ghép trong code, hoặc eager loading của ORM, DataLoader ở GraphQL. Đồng thời kiểm cột dùng để nối đã có index.
 :::
 
-:::quiz Trong bảng số đo, thay đổi nào giảm thời gian nhiều nhất cho cách N+1 (330 ms)?
+:::quiz API "đơn hàng của khách kèm chi tiết" viết kiểu N+1: 1 truy vấn lấy 10 đơn, rồi 10 truy vấn `SELECT … FROM big_items WHERE order_id = $1`. Bảng `big_items` có 1,5 triệu dòng và **chưa** có index trên `order_id`; tổng thời gian 330 ms. Thay đổi nào giảm thời gian nhiều nhất?
 - [ ] Không đổi gì, chỉ chạy lại cho cache nóng
 - [x] Thêm index cho `big_items(order_id)` — còn 5 ms
 - [ ] Đổi `SELECT *` thành chọn cột

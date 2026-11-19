@@ -3,9 +3,12 @@ title: "Lab 15 — Dự án xuyên suốt: app Sổ chi tiêu, dùng toàn bộ 
 summary: "Kế hoạch 12 giai đoạn tự làm app Sổ chi tiêu (Angular + API Express), dùng lần lượt mọi kỹ năng của môn: CLAUDE.md, quyền, plan mode, test-first, hook, skill, subagent, MCP, PR, worktree, CI, scheduled task, plugin, Agent SDK — mỗi bước có prompt mẫu, dấu hiệu xong và link về bài lý thuyết."
 type: lesson
 level: advanced
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [claude-code, lab, du-an, capstone, ke-hoach]
 related: [claude-code/labs/labs/du-an-tong-hop, claude-code/labs/labs/workflow-nhieu-agent]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Mục tiêu
@@ -309,7 +312,7 @@ claude -w category-chart -n "chart" # terminal 2
 - **Cấp quyền rộng cho nhanh.** `Bash(*)` hay `bypassPermissions` trên repo có `.env` là thói quen nguy hiểm khi sang dự án thật.
 - **Không ghi nhật ký.** Giai đoạn 12 sẽ không có gì để rút kinh nghiệm.
 
-:::quiz Ở giai đoạn 4, vì sao mô tả **triệu chứng** ("khoản chi ngày 01/11 không hiện") thay vì nói luôn nguyên nhân bạn đã cài?
+:::quiz Trong bài luyện tập, bạn tự cài một bug vào app sổ chi tiêu rồi nhờ Claude sửa. Vì sao nên mô tả **triệu chứng** ("khoản chi ngày 01/11 không hiện") thay vì nói luôn nguyên nhân bạn đã cài?
 - [ ] Để Claude làm lâu hơn
 - [x] Để luyện quy trình thật — Claude phải tìm nguyên nhân và viết test tái hiện, giống khi bạn chưa biết bug nằm đâu
 - [ ] Vì Claude không hiểu khi được nói nguyên nhân
@@ -327,7 +330,7 @@ Bạn đánh giá được Claude điều tra có đúng hướng không, và te
 CLAUDE.md là hướng dẫn Claude **nên** theo; hook và permission là hàng rào **bắt buộc**.
 :::
 
-:::quiz Scheduled task ở giai đoạn 10 nên đưa kết quả vào đâu?
+:::quiz Bạn tạo một scheduled task cho Claude chạy không giám sát mỗi tuần (vd nâng dependency và chạy test cho app). Kết quả của nó nên được đưa vào đâu?
 - [ ] Push thẳng vào `main` cho nhanh
 - [x] Mở PR riêng để bạn đọc diff và kết quả test rồi mới merge
 - [ ] Ghi đè file trên máy bạn
