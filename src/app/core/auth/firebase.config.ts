@@ -8,14 +8,11 @@ import type { FirebaseOptions } from 'firebase/app';
  *
  * Để `null` thì app chạy ở chế độ không đăng nhập: tiến độ chỉ lưu trên trình duyệt.
  */
-// TẠM TẮT đăng nhập Firebase để kiểm tra trang Luyện tập không cần đăng nhập.
-// Bật lại: xoá dòng `= null;` bên dưới và bỏ comment khối cấu hình.
-export const FIREBASE_CONFIG: FirebaseOptions | null = null;
-// export const FIREBASE_CONFIG: FirebaseOptions | null = {
-//   apiKey: 'AIzaSyC8v4FYAxfHkxoJnde433BGH8GWx77l8Kc',
-//   authDomain: 'learning-hub-5cf9b.firebaseapp.com',
-//   projectId: 'learning-hub-5cf9b',
-//   storageBucket: 'learning-hub-5cf9b.firebasestorage.app',
-//   messagingSenderId: '119911303637',
-//   appId: '1:119911303637:web:395c3100425d668ba8155c',
-// };
+export const FIREBASE_CONFIG: FirebaseOptions | null = {
+  apiKey: 'AIzaSyC8v4FYAxfHkxoJnde433BGH8GWx77l8Kc',
+  authDomain: 'learning-hub-5cf9b.firebaseapp.com',
+  projectId: 'learning-hub-5cf9b',
+  storageBucket: 'learning-hub-5cf9b.firebasestorage.app',
+  messagingSenderId: '119911303637',
+  appId: '1:119911303637:web:395c3100425d668ba8155c',
+};
