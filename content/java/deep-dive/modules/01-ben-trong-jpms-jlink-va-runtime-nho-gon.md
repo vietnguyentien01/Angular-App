@@ -172,13 +172,13 @@ Giá trị lớn nhất của JPMS với đa số đội enterprise không phả
 Đã chạy trên JDK 21: ServiceLoader tìm được cả MoMo và VNPAY, còn `Class.forName(...).newInstance()` từ shop ném `IllegalAccessException`. Thứ tự không được bảo đảm.
 :::
 
-:::quiz Tạo runtime bằng jlink cho ứng dụng chỉ cần `java.base` và `java.sql`. Theo số đo trong bài, lợi ích chính là gì?
+:::quiz Tạo runtime bằng `jlink` cho ứng dụng chỉ cần `java.base` và `java.sql`, so với chạy bằng JDK đầy đủ. Lợi ích chính là gì?
 - [ ] Khởi động nhanh hơn nhiều lần
 - [x] Kích thước runtime nhỏ hơn nhiều (43 MB so với 286 MB của JDK đầy đủ)
 - [ ] Chạy nhanh hơn nhờ tối ưu toàn chương trình
 - [ ] Không cần JVM nữa
 
-Khởi động đo được 151 ms so với 134 ms — không khác biệt. jlink vẫn dùng HotSpot JVM; muốn bỏ JVM và khởi động cực nhanh thì đó là GraalVM native image, một công nghệ khác.
+Đo trên JDK 21: runtime 43 MB so với JDK 286 MB; khởi động 151 ms so với 134 ms — không khác biệt. jlink vẫn dùng HotSpot JVM; muốn bỏ JVM và khởi động cực nhanh thì đó là GraalVM native image, một công nghệ khác.
 :::
 
 :::exercise Thêm cổng thanh toán mới

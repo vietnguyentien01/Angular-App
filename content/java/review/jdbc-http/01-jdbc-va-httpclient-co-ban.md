@@ -167,7 +167,14 @@ Với `Statement` và nối chuỗi, giá trị người dùng trở thành mộ
 `HttpClient` chỉ ném exception khi không có phản hồi (lỗi mạng, timeout). Mã 4xx/5xx là phản hồi hợp lệ về mặt HTTP — code phải tự kiểm tra. Đã chạy thử với endpoint trả 404.
 :::
 
-:::quiz Trong ví dụ chuyển tiền, vì sao kiểm tra `tru.executeUpdate() != 1`?
+:::quiz Trong transaction chuyển tiền, vì sao phải kiểm tra `tru.executeUpdate() != 1`?
+```java
+PreparedStatement tru = c.prepareStatement("UPDATE tai_khoan SET so_du = so_du - ? WHERE so = ? AND so_du >= ?");
+tru.setBigDecimal(1, tien); tru.setString(2, tu); tru.setBigDecimal(3, tien);
+if (tru.executeUpdate() != 1) throw new SQLException("không đủ số dư hoặc sai tài khoản " + tu);
+// … tiếp theo: UPDATE cộng tiền cho tài khoản nhận, rồi c.commit()
+```
+
 - [ ] Vì `executeUpdate` ném exception nếu không có dòng nào khớp
 - [x] Vì câu UPDATE không khớp dòng nào (sai số tài khoản, hoặc `so_du >= ?` sai) vẫn chạy thành công và trả về 0
 - [ ] Vì PostgreSQL trả -1 khi thành công
