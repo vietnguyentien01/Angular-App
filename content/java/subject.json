@@ -1,7 +1,7 @@
 {
   "id": "java",
   "title": "Java",
-  "description": "Java 21 LTS — bản phổ biến nhất trong dự án hiện nay — từ cơ bản đến nâng cao cho dự án enterprise: kiểu dữ liệu và BigDecimal, OOP với record và sealed, Collections và Stream, exception và java.time, concurrency với virtual thread, Maven và JUnit, bên trong JVM — mọi output đã chạy thử trên JDK 21; mỗi bài có ghi chú khác biệt khi nâng lên Java 25.",
+  "description": "Java 21 LTS — bản phổ biến nhất trong dự án hiện nay — từ cơ bản đến nâng cao cho dự án enterprise: kiểu dữ liệu và BigDecimal, OOP với record và sealed, Collections và Stream, exception và java.time, concurrency với virtual thread, Maven và JUnit, bên trong JVM, nested class và generic method, annotation và reflection, regex, I/O và serialization, JDBC và HttpClient, module — mọi output đã chạy thử trên JDK 21; mỗi bài có ghi chú khác biệt khi nâng lên Java 25.",
   "icon": "code",
   "color": "#e76f00",
   "order": 10,
@@ -10,7 +10,7 @@
     {
       "id": "review",
       "title": "Ôn lại Core",
-      "description": "Kiểu dữ liệu, class và record, Collections, lambda, exception, thread, Maven, JVM — nhắc nhanh kèm câu hỏi kiểm tra.",
+      "description": "Kiểu dữ liệu, class và record, Collections, lambda, exception, thread, Maven, JVM, reflection, regex, I/O, JDBC, module — nhắc nhanh kèm câu hỏi kiểm tra.",
       "icon": "refresh"
     },
     {

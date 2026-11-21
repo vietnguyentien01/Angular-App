@@ -1,6 +1,6 @@
 {
-  "title": "Lộ trình 6 tuần: Java từ cơ bản đến nâng cao cho dự án enterprise",
-  "description": "Sáu tuần, khoảng 1–2 giờ mỗi ngày, đi từ cú pháp và kiểu dữ liệu tới concurrency và JVM trên Java 21 LTS. Mỗi chặng kết thúc bằng một sản phẩm chạy được trong dự án Maven của bạn, có test — cuối lộ trình bạn đủ nền để học Spring Boot và trả lời phỏng vấn Java core ở mức middle/senior.",
+  "title": "Lộ trình 8 tuần: Java từ cơ bản đến nâng cao cho dự án enterprise",
+  "description": "Tám tuần, khoảng 1–2 giờ mỗi ngày, đi từ cú pháp và kiểu dữ liệu tới concurrency và JVM trên Java 21 LTS. Mỗi chặng kết thúc bằng một sản phẩm chạy được trong dự án Maven của bạn, có test — cuối lộ trình bạn đủ nền để học Spring Boot và trả lời phỏng vấn Java core ở mức middle/senior.",
   "stages": [
     {
       "id": "tuan-1-nen-tang-va-oop",
@@ -120,6 +120,65 @@
         "Viết benchmark JMH so sánh int[] và List<Integer> trên dữ liệu của bạn"
       ],
       "milestone": "Giải thích được bằng số đo: vì sao một đoạn code chậm và cách sửa nhanh hơn bao nhiêu."
+    },
+    {
+      "id": "tuan-7-ngon-ngu-nang-cao",
+      "title": "Tuần 7 — Nested class, generic method, annotation, reflection, regex",
+      "duration": "1 tuần",
+      "goal": "Hiểu cơ chế mà Spring, JPA, Jackson dựa vào (annotation, reflection, proxy) và viết xử lý văn bản an toàn.",
+      "outcomes": [
+        "Chọn đúng loại nested class, tránh inner class giữ object ngoài trong bộ nhớ",
+        "Viết generic method với bounded type và wildcard theo PECS",
+        "Tự viết validator bằng annotation + reflection, hiểu vì sao self-invocation mất @Transactional",
+        "Viết regex chặt, tránh backtracking thảm hoạ, dùng Optional đúng chỗ"
+      ],
+      "items": [
+        "java/review/class-nang-cao/nested-class-access-modifier-generic-method",
+        "java/consolidate/class-nang-cao/bay-cua-inner-class-va-generic",
+        "java/deep-dive/class-nang-cao/ben-trong-nested-class-va-generic-method",
+        "java/review/reflection/annotation-va-reflection-co-ban",
+        "java/consolidate/reflection/tu-viet-validator-bang-annotation",
+        "java/deep-dive/reflection/dynamic-proxy-methodhandle-va-hieu-nang",
+        "java/review/text/regex-format-va-optional-co-ban",
+        "java/consolidate/text/xu-ly-van-ban-va-optional-dung-cho",
+        "java/deep-dive/text/regex-backtracking-va-hieu-nang"
+      ],
+      "practice": [
+        "Viết validator @KhongRong/@DoDai/@Email có cache metadata bằng ClassValue",
+        "Viết proxy đo thời gian bằng java.lang.reflect.Proxy",
+        "Phân tích file sao kê bằng regex có nhóm tên và LocalDate STRICT"
+      ],
+      "milestone": "Giải thích được bằng code chạy thử: vì sao một annotation 'không có tác dụng' và vì sao một regex làm treo thread."
+    },
+    {
+      "id": "tuan-8-io-database-va-module",
+      "title": "Tuần 8 — I/O, serialization, JDBC, HttpClient và module",
+      "duration": "1 tuần",
+      "goal": "Gọi file, database và API bên ngoài đúng cách, an toàn khi chạy đồng thời, và sẵn sàng nâng dự án cũ lên Java 21.",
+      "outcomes": [
+        "Đọc ghi file có buffer và charset rõ ràng, hiểu lỗ hổng deserialization",
+        "Dùng JDBC với PreparedStatement, transaction, batch, connection pool",
+        "Chống lost update bằng UPDATE nguyên tử, FOR UPDATE hoặc optimistic lock",
+        "Gọi API bằng HttpClient có timeout, retry và giới hạn đồng thời",
+        "Xử lý InaccessibleObjectException, dùng jdeps và jlink"
+      ],
+      "items": [
+        "java/review/io/inputstream-reader-va-serializable-co-ban",
+        "java/consolidate/io/doc-ghi-file-dung-cach-va-bay-serialization",
+        "java/deep-dive/io/ben-trong-serialization-va-lo-hong-deserialization",
+        "java/review/jdbc-http/jdbc-va-httpclient-co-ban",
+        "java/consolidate/jdbc-http/goi-database-va-api-dung-cach",
+        "java/deep-dive/jdbc-http/connection-pool-lost-update-va-http-song-song",
+        "java/review/modules/module-info-va-module-path-co-ban",
+        "java/consolidate/modules/loi-thuong-gap-khi-dung-module",
+        "java/deep-dive/modules/ben-trong-jpms-jlink-va-runtime-nho-gon"
+      ],
+      "practice": [
+        "Import CSV 200.000 dòng vào PostgreSQL bằng batch, commit theo lô",
+        "Tái hiện lost update với 10 thread rồi sửa bằng cột version",
+        "Chạy jdeps --jdk-internals trên dự án của bạn và lập danh sách việc nâng JDK"
+      ],
+      "milestone": "Một module nhỏ: đọc file → ghi PostgreSQL → gọi API đối tác, có test chạy song song chứng minh không mất dữ liệu."
     }
   ]
 }
