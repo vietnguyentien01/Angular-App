@@ -4,9 +4,12 @@ summary: "Nhiều pattern GoF ra đời để bù cho Java 1.x thiếu hàm bậ
 type: card
 level: core
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, java-25, lambda, record, sealed, functional]
 related: [design-patterns/consolidate/modern-java/visitor-va-sealed-pattern-matching, design-patterns/deep-dive/modern-java/lambda-ben-trong-jvm]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -106,7 +109,17 @@ Cần, vì pattern là **ý tưởng** giải quyết vấn đề thiết kế: 
 Compiler biết đủ các lớp con của sealed interface, nên báo lỗi khi thiếu `case`. Chuỗi `instanceof` và `Map` không được kiểm tra như vậy.
 :::
 
-:::quiz `Tien.vnd(100).equals(new Tien(new BigDecimal("100.4"), VND))` cho kết quả gì?
+:::quiz Với record `Tien` dưới đây, `Tien.vnd(100).equals(new Tien(new BigDecimal("100.4"), Currency.getInstance("VND")))` cho kết quả gì?
+```java
+record Tien(BigDecimal soTien, Currency tienTe) {
+    Tien {
+        Objects.requireNonNull(tienTe);
+        soTien = soTien.setScale(tienTe.getDefaultFractionDigits(), RoundingMode.HALF_UP);   // VND: 0 chữ số lẻ
+    }
+    static Tien vnd(long so) { return new Tien(BigDecimal.valueOf(so), Currency.getInstance("VND")); }
+}
+```
+
 - [ ] `false` vì 100 khác 100.4
 - [x] `true` vì compact constructor làm tròn về 0 chữ số lẻ cho VND trước khi lưu
 - [ ] Ném exception

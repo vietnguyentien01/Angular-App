@@ -3,9 +3,12 @@ title: Bẫy narrowing hay gặp
 summary: Truthiness với 0 và chuỗi rỗng, narrowing bị mất trong callback, filter tự suy ra type predicate (TS 5.5+), và in với thuộc tính tuỳ chọn.
 level: intermediate
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, narrowing, pitfalls]
 related: [typescript/review/unions/narrowing]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## 1. Truthiness nuốt `0` và `''`
@@ -71,7 +74,7 @@ Từ TS 5.5, TypeScript tự suy ra type predicate `x is string` cho callback đ
 - [ ] `boolean[]`
 - [ ] Lỗi
 
-`Boolean` là hàm thường, không phải type predicate — TypeScript không biết nó loại `undefined`. Dùng arrow function như ví dụ trên.
+`Boolean` là hàm thường, không phải type predicate — TypeScript không biết nó loại `undefined`. Dùng arrow function: `.filter((x) => x !== undefined)` (TypeScript 5.5+ tự suy ra type predicate) hoặc `.filter((x): x is string => x !== undefined)`.
 :::
 
 :::exercise Viết type guard cho phản hồi API

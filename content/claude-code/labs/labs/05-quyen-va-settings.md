@@ -3,9 +3,12 @@ title: "Lab 05 — Quyền và settings: allowlist cho lệnh kiểm tra, chặn
 summary: "Tạo .env giả trong cc-lab, viết .claude/settings.json với allow/ask/deny, chứng minh deny chặn được còn lời dặn trong CLAUDE.md thì không, dùng /permissions để đọc rule và nguồn, rồi chạy cùng một task ở Manual, acceptEdits, plan và auto để cảm nhận khác biệt."
 type: lesson
 level: intermediate
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [claude-code, lab, permissions, settings]
 related: [claude-code/consolidate/guardrails/settings-va-permission-rule, claude-code/review/guardrails/che-do-quyen]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Mục tiêu
@@ -139,7 +142,7 @@ Muốn chia sẻ cho team thì chủ động chuyển sang `.claude/settings.jso
 - [ ] Bị từ chối
 - [ ] Chuyển sang auto mode
 
-Allow rule `Bash(npm test *)` từ Bước 3 là thứ giúp không bị hỏi.
+Muốn không bị hỏi, thêm allow rule `Bash(npm test *)` vào settings.
 :::
 
 :::quiz Bạn thêm `allow: ["Bash(git push origin feature/*)"]` vào local settings, còn file team có `ask: ["Bash(git push *)"]`. `git push origin feature/x` sẽ thế nào?

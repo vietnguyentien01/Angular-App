@@ -4,9 +4,12 @@ summary: "Nhắc nhanh @Transactional đặt ở đâu, khi nào rollback (Runti
 type: card
 level: core
 version: 4
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [spring-boot, transaction, jpa, rollback]
 related: [spring-boot/consolidate/transactions/transaction-khong-rollback-va-lost-update, spring-boot/deep-dive/transactions/proxy-isolation-va-khoa]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -108,7 +111,15 @@ Mặc định khi một `RuntimeException` hoặc `Error` thoát ra khỏi metho
 Đã chạy: `checked exception → giá = 777`.
 :::
 
-:::quiz Thanh toán ném exception sau khi publish sự kiện `DaThanhToan`. Listener nào chạy?
+:::quiz Method `@Transactional thanhToan()` publish sự kiện `DaThanhToan`, rồi ở dòng sau ném `RuntimeException` (transaction rollback). Có hai listener cho sự kiện này. Listener nào chạy?
+```java
+@EventListener
+void a(DaThanhToan e) { log.info("[@EventListener]"); }
+
+@TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+void b(DaThanhToan e) { log.info("[AFTER_COMMIT]"); }
+```
+
 - [x] `@EventListener` (chạy ngay khi publish)
 - [ ] `@TransactionalEventListener(phase = AFTER_COMMIT)`
 - [ ] Cả hai

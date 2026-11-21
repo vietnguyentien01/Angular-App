@@ -3,9 +3,12 @@ title: Variadic tuple và kiểu cho hàm bậc cao
 summary: Parameters/ReturnType, tuple có tên, spread trong tuple, và viết kiểu cho debounce, memoize, partial application mà vẫn giữ nguyên chữ ký hàm gốc.
 level: advanced
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, variadic-tuple, higher-order-functions]
 related: [typescript/consolidate/functions/overload-union-generic-va-this, typescript/deep-dive/advanced/type-level-programming]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Giữ nguyên chữ ký khi bọc hàm
@@ -53,7 +56,20 @@ const vi = partial(formatVnd, 'vi-VN'); // (amount: number) => string
 vi(150000);
 ```
 
-:::quiz Với `debounce` ở trên, gọi `save('c1')` (thiếu draft) thì sao?
+:::quiz Với hàm `debounce` dưới đây, gọi `save('c1')` (thiếu đối số `draft`) thì sao?
+```ts
+function debounce<A extends unknown[]>(fn: (...args: A) => void, ms: number): (...args: A) => void {
+  let t: ReturnType<typeof setTimeout> | undefined;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), ms);
+  };
+}
+
+const save = debounce((id: string, draft: Draft) => api.save(id, draft), 500);
+save('c1');
+```
+
 - [ ] Chạy, draft là undefined
 - [x] Lỗi biên dịch — `A` là `[id: string, draft: Draft]`, thiếu đối số
 - [ ] Chỉ cảnh báo

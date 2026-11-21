@@ -3,9 +3,12 @@ title: "Hexagonal thực chiến — use case duyệt vay, adapter bộ nhớ ch
 summary: "Viết use case duyệt vay chỉ phụ thuộc ba port (kho hồ sơ, tra cứu tín dụng, thông báo), chạy cùng một bộ hồ sơ với adapter bộ nhớ (8 ms) và adapter PostgreSQL 16 (131 ms) ra cùng kết quả. Cách lắp trong Spring, cách test và những chỗ hay làm sai. Đã chạy trên JDK 25."
 level: intermediate
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, hexagonal, ports-and-adapters, testing, postgresql, architecture]
 related: [design-patterns/review/architecture/layered-hexagonal-va-repository, design-patterns/deep-dive/principles/coupling-cohesion-va-ranh-gioi-module]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -117,7 +120,7 @@ Record cho `HoSoVay` (Java 16), text block cho SQL trong adapter (Java 15), `sea
 Hai lớp test. (1) **Test use case** với adapter giả (bộ nhớ, stub CIC): nhanh, nhiều ca, tập trung vào quy tắc — DTI biên 50%, nợ nhóm 2/3, hồ sơ đã xử lý. (2) **Test adapter** với hạ tầng thật qua Testcontainers: SQL đúng, mapping đúng, xử lý lỗi kết nối. Thêm một bộ **test hợp đồng** chung chạy với cả adapter giả và adapter thật để chắc chắn adapter giả cư xử giống thật. Cuối cùng vài test end-to-end qua REST cho luồng chính.
 :::
 
-:::quiz Bạn muốn thêm cửa vào "duyệt hàng loạt từ file CSV mỗi đêm". Theo hexagonal, cần sửa gì?
+:::quiz Ứng dụng theo hexagonal: use case `DuyetVay.xuLy(ma)` ở domain; adapter vào hiện có là REST controller; adapter ra là `KhoPostgres` (lưu hồ sơ). Bạn muốn thêm cửa vào "duyệt hàng loạt từ file CSV mỗi đêm". Cần sửa gì?
 - [ ] Sửa `DuyetVay` để đọc CSV
 - [x] Thêm một adapter vào (job batch) đọc CSV và gọi `duyetVay.xuLy(ma)`; use case không đổi
 - [ ] Thêm port ra `DocCsv` vào domain
@@ -126,7 +129,7 @@ Hai lớp test. (1) **Test use case** với adapter giả (bộ nhớ, stub CIC)
 Cửa vào mới là adapter vào. Use case giữ nguyên, nên quy tắc duyệt giống hệt giữa REST và batch.
 :::
 
-:::quiz Vì sao `KhoBoNho` chạy 8 ms còn `KhoPostgres` 131 ms cho cùng ba hồ sơ, và điều đó nói gì về chiến lược test?
+:::quiz Cùng use case duyệt vay chạy với hai adapter của port lưu trữ: `KhoBoNho` (HashMap trong bộ nhớ) xử lý ba hồ sơ trong 8 ms, `KhoPostgres` (JDBC tới PostgreSQL) mất 131 ms, kết quả giống hệt nhau. Điều đó nói gì về chiến lược test?
 - [ ] Postgres sai
 - [x] Adapter thật tốn I/O và kết nối; quy tắc nghiệp vụ nên test bằng adapter giả, adapter thật test riêng với số ca ít hơn
 - [ ] Nên bỏ test với Postgres

@@ -3,9 +3,12 @@ title: "Case: danh sách cuộn vô hạn (news feed / lịch sử xử lý)"
 summary: Phân trang theo cursor, tải thêm khi gần cuối, giữ vị trí cuộn khi quay lại, tránh trùng/mất mục khi dữ liệu thay đổi.
 level: intermediate
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [system-design, infinite-scroll, pagination]
 related: [angular/review/system-design/checklist-yeu-cau-phi-chuc-nang, angular/deep-dive/system-design/case-dashboard-realtime]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Offset hay cursor?
@@ -63,7 +66,18 @@ loadMore() { this.loadMore$.next(); }
 - **Danh sách rất dài** (hàng nghìn mục): kết hợp virtual scroll để DOM không phình.
 - **A11y**: nút "Tải thêm" dự phòng cho người dùng bàn phím; thông báo "đã tải thêm 20 mục" qua live region.
 
-:::quiz Vì sao dùng `exhaustMap` cho `loadMore$`?
+:::quiz Feed cuộn vô hạn: một phần tử "sentinel" ở cuối danh sách gọi `loadMore()` mỗi khi lọt vào viewport (IntersectionObserver). Vì sao dùng `exhaustMap` cho `loadMore$`?
+```ts
+this.loadMore$.pipe(
+  filter(() => !this.loading() && !this.done()),
+  exhaustMap(() => {
+    this.loading.set(true);
+    return this.api.feed(this.cursor).pipe(finalize(() => this.loading.set(false)));
+  }),
+  takeUntilDestroyed(),
+).subscribe((page) => { /* nối thêm items, cập nhật cursor */ });
+```
+
 - [ ] Để huỷ request cũ
 - [x] Sentinel có thể bắn nhiều lần liên tiếp khi cuộn nhanh; `exhaustMap` bỏ qua các lần kích hoạt trong lúc đang tải → không tải trùng trang
 - [ ] Để tải song song
@@ -78,7 +92,7 @@ loadMore() { this.loadMore$.next(); }
 - [ ] Mất 3 bài
 - [ ] Lỗi server
 
-Đó là lý do feed nên dùng cursor; nếu buộc dùng offset, phải lọc trùng theo id (như code ở trên).
+Đó là lý do feed nên dùng cursor; nếu buộc dùng offset, phải lọc trùng theo id (vd bỏ phần tử đã có `id` trong danh sách trước khi nối thêm).
 :::
 
 :::exercise Viết directive `appInViewport`

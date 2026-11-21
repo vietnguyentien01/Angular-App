@@ -3,9 +3,12 @@ title: Chọn đúng flattening operator trong tình huống thật
 summary: Autocomplete, auto-save, nút submit, tải chi tiết theo route — phân tích race condition và chọn operator phù hợp.
 level: intermediate
 version: 7
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [rxjs, flattening, race-condition]
 related: [rxjs/review/flattening/bon-toan-tu-flattening, rxjs/consolidate/errors/xu-ly-loi-dung-cho]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -81,7 +84,15 @@ readonly order = toSignal(
 Tham số thứ 2 của `mergeMap` là `concurrent`: tối đa 3 inner chạy cùng lúc, phần còn lại xếp hàng. `concatMap` chính là `mergeMap(fn, 1)`.
 :::
 
-:::quiz Trong case auto-save, nếu dùng `exhaustMap` thì điều gì xảy ra khi người dùng sửa form trong lúc đang lưu?
+:::quiz Form tự lưu bản nháp như dưới đây, nhưng thay `concatMap` bằng `exhaustMap`. Điều gì xảy ra khi người dùng sửa form trong lúc request lưu trước đó còn đang chạy?
+```ts
+this.form.valueChanges.pipe(
+  debounceTime(1000),
+  exhaustMap((draft) => this.api.saveDraft(draft)),   // thay cho concatMap
+  takeUntilDestroyed(),
+).subscribe();
+```
+
 - [ ] Lần sửa đó được lưu sau khi request hiện tại xong
 - [x] Lần sửa đó bị bỏ qua — server có thể giữ bản nháp cũ
 - [ ] Request hiện tại bị huỷ

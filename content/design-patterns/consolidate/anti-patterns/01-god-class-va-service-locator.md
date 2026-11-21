@@ -3,9 +3,12 @@ title: "God class và Service Locator — phụ thuộc ẩn, test rò trạng t
 summary: "Service Locator giấu phụ thuộc: thiếu đăng ký chỉ lộ ra lúc chạy, và registry toàn cục làm test sau nhận tỷ giá giả của test trước (mong 250.000, nhận 10). Sửa bằng constructor injection, rồi tách God class theo lý do thay đổi qua từng bước nhỏ. Đã chạy trên JDK 25."
 level: intermediate
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, anti-pattern, god-class, service-locator, dependency-injection, refactoring]
 related: [design-patterns/review/anti-patterns/anti-pattern-thuong-gap, design-patterns/consolidate/frameworks/tu-viet-mini-di-container]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -126,7 +129,26 @@ Không phụ thuộc phiên bản Java. Spring từ 4.3 không cần `@Autowired
 Nó tách được cài đặt, nhưng **giấu phụ thuộc**: chữ ký class không cho biết cần gì, thiếu đăng ký chỉ lỗi lúc chạy, registry toàn cục là state chung làm test phụ thuộc thứ tự, và mọi class phụ thuộc vào chính locator. Constructor injection đạt cùng mục tiêu (tách cài đặt) mà phụ thuộc hiện rõ, kiểm tra được khi khởi động, và test chỉ cần `new`.
 :::
 
-:::quiz Test 3 gọi `new BaoCaoLocator().tao(10)` và nhận "đã gửi 10" thay vì 250.000. Nguyên nhân?
+:::quiz Ba test chạy liên tiếp trong cùng JVM, dùng chung Service Locator toàn cục. Test 3 mong nhận 250.000 nhưng nhận "đã gửi 10". Nguyên nhân?
+```java
+// registry toàn cục: static Map<Class<?>, Object>
+class BaoCaoLocator {
+    String tao(long usd) {
+        long vnd = usd * DichVu.lay(TyGia.class).usd();   // tự lấy phụ thuộc từ registry
+        DichVu.lay(Email.class).gui("báo cáo: " + vnd);
+        return "đã gửi " + vnd;
+    }
+}
+
+// test 1
+DichVu.dat(TyGia.class, () -> 25_000);
+// test 2: dùng tỷ giá giả cho một ca đặc biệt
+DichVu.dat(TyGia.class, () -> 1);
+DichVu.dat(Email.class, hopThu::add);
+// test 3: không đăng ký gì, tưởng đang dùng tỷ giá 25.000
+new BaoCaoLocator().tao(10);
+```
+
 - [ ] Lỗi làm tròn
 - [x] Registry toàn cục vẫn giữ tỷ giá giả = 1 mà test 2 đăng ký
 - [ ] JUnit chạy song song
@@ -135,7 +157,7 @@ Nó tách được cài đặt, nhưng **giấu phụ thuộc**: chữ ký class
 Đã chạy: state toàn cục sống qua các test. Chạy test 3 một mình thì lại nhận "chưa đăng ký Email".
 :::
 
-:::quiz Bước đầu tiên an toàn nhất khi tách `tinhGia` ra khỏi God class `DonHangService`?
+:::quiz `DonHangService` là God class 3.000 dòng; method `tinhGia(...)` của nó đang được gọi ở 15 chỗ. Bước đầu tiên an toàn nhất để tách phần tính giá ra?
 - [ ] Xoá `tinhGia` và sửa mọi nơi gọi trong cùng PR
 - [x] Tạo `DinhGia`, chuyển logic sang đó, để `DonHangService.tinhGia` uỷ quyền sang `DinhGia` — nơi gọi chưa cần đổi
 - [ ] Đổi `tinhGia` thành static

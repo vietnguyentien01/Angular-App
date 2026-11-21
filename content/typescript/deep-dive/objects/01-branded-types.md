@@ -3,9 +3,12 @@ title: Branded types — nominal typing trong thế giới structural
 summary: Ngăn truyền nhầm CaseId cho UserId, tiền VND cho số lượng — bằng kiểu "đóng dấu" không tốn chi phí runtime, kèm hàm tạo có kiểm tra.
 level: advanced
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, branded-types, domain]
 related: [typescript/review/objects/interface-type-va-structural-typing, typescript/deep-dive/unions/mo-hinh-hoa-trang-thai]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Vấn đề
@@ -49,7 +52,13 @@ const CaseIdSchema = z.string().regex(/^HS-\d+$/).brand<'CaseId'>(); // zod hỗ
 
 Quy tắc: ép kiểu sang brand **chỉ ở một hàm tạo có kiểm tra** (hoặc schema), không rải `as CaseId` khắp nơi.
 
-:::quiz `const id: CaseId = 'HS-1';` có lỗi không?
+:::quiz Với kiểu `CaseId` dưới đây, dòng `const id: CaseId = 'HS-1';` có lỗi không?
+```ts
+declare const brand: unique symbol;
+type Brand<T, B extends string> = T & { readonly [brand]: B };
+type CaseId = Brand<string, 'CaseId'>;
+```
+
 - [x] Có — `string` không có thuộc tính brand nên không gán được cho `CaseId`
 - [ ] Không
 - [ ] Chỉ lỗi lúc runtime
@@ -58,7 +67,13 @@ Quy tắc: ép kiểu sang brand **chỉ ở một hàm tạo có kiểm tra** (
 Phải đi qua hàm tạo/schema để có giá trị `CaseId`.
 :::
 
-:::quiz Ngược lại, truyền `CaseId` vào hàm nhận `string` thì sao?
+:::quiz Với kiểu `CaseId` dưới đây, truyền một giá trị `CaseId` vào hàm nhận `string` (vd `function log(s: string)`) thì sao?
+```ts
+declare const brand: unique symbol;
+type Brand<T, B extends string> = T & { readonly [brand]: B };
+type CaseId = Brand<string, 'CaseId'>;
+```
+
 - [ ] Lỗi
 - [x] Được — `CaseId` là `string & {...}` nên vẫn là một `string`
 - [ ] Chỉ được khi ép kiểu

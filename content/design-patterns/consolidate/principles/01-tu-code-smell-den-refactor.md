@@ -3,9 +3,12 @@ title: "Từ code smell đến refactor an toàn — viết test đặc tả tr�
 summary: "Hàm tính phí chuyển khoản dài với if-else lồng nhau được refactor thành bảng biểu phí và Strategy. Trước khi sửa, viết test đặc tả so sánh code cũ và mới trên 126 tổ hợp đầu vào; một lỗi lệch biên cố ý bị bắt ngay. Đã chạy trên JDK 25."
 level: intermediate
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, refactoring, code-smell, strategy, testing]
 related: [design-patterns/review/principles/solid-va-composition, design-patterns/consolidate/behavioral/strategy-va-state-thay-if-else]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -140,7 +143,7 @@ Java 8: lambda giúp Strategy gọn như trên. Java 14: switch expression (`cas
 Refactor đổi cấu trúc mà **không đổi hành vi quan sát được**, theo từng bước nhỏ có test xanh sau mỗi bước. Viết lại là thay cả khối, hành vi có thể khác. Với code cũ không có test: viết characterization test ghi lại hành vi hiện tại (kể cả phần có vẻ sai), tập trung vào giá trị biên và tổ hợp đầu vào; giữ code cũ song song để so sánh tự động; refactor; xoá code cũ khi đã ổn định; sửa bug ở commit riêng sau khi hỏi nghiệp vụ.
 :::
 
-:::quiz Bạn đang refactor `phiCu` và thấy khách VIP chuyển quốc tế cuối tuần bị cộng 10.000 đ *sau* khi giảm 30%, có vẻ sai. Nên làm gì?
+:::quiz Bạn đang refactor hàm tính phí chuyển khoản `phiCu` (code production, chưa có test) và thấy khách VIP chuyển quốc tế cuối tuần bị cộng 10.000 đ *sau* khi đã giảm 30% — trông như lỗi. Nên làm gì?
 - [ ] Sửa luôn trong commit refactor cho gọn
 - [x] Giữ nguyên hành vi trong refactor, ghi lại và hỏi nghiệp vụ, nếu cần sửa thì làm ở commit riêng có test
 - [ ] Xoá điều kiện cuối tuần
@@ -149,7 +152,7 @@ Refactor đổi cấu trúc mà **không đổi hành vi quan sát được**, t
 Trộn sửa hành vi vào refactor làm test đặc tả mất ý nghĩa và khiến review không phân biệt được thay đổi nào là cố ý.
 :::
 
-:::quiz Bộ test chỉ dùng số tiền 100.000 và 1.000.000. Lỗi nào có khả năng lọt nhất?
+:::quiz Quy tắc phí liên ngân hàng: dưới 500.000 đ miễn phí, từ 500.000 đ tới dưới 2.000.000 đ phí 2.200 đ, từ 2.000.000 đ phí 3.300 đ. Bộ test chỉ dùng số tiền 100.000 và 1.000.000. Lỗi nào có khả năng lọt nhất?
 - [ ] Sai tên biến
 - [x] Lệch biên `<` thành `<=` ở mốc 500.000 hoặc 2.000.000
 - [ ] Thiếu loại `NOI_BO`

@@ -4,9 +4,12 @@ summary: Tham số tuỳ chọn và mặc định, rest, function overload, vì 
 type: card
 level: core
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, function, overload]
 related: [typescript/review/generics/generics-va-utility-types]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tham số
@@ -59,7 +62,15 @@ function onClick(this: HTMLButtonElement, e: MouseEvent) {
 Tham số tuỳ chọn có thể vắng mặt → `undefined`.
 :::
 
-:::quiz Với hai overload ở trên, gọi `parse(Math.random() > 0.5 ? '1' : ['1'])` thì sao?
+:::quiz Với hai overload dưới đây, gọi `parse(Math.random() > 0.5 ? '1' : ['1'])` thì sao?
+```ts
+function parse(input: string): number;
+function parse(input: string[]): number[];
+function parse(input: string | string[]): number | number[] {
+  return Array.isArray(input) ? input.map(Number) : Number(input);
+}
+```
+
 - [ ] Trả `number | number[]`
 - [x] Lỗi biên dịch — đối số kiểu `string | string[]` không khớp overload nào (implementation signature không được tính)
 - [ ] Trả `number`
@@ -68,7 +79,7 @@ Tham số tuỳ chọn có thể vắng mặt → `undefined`.
 Muốn chấp nhận union thì phải thêm overload thứ ba `parse(input: string | string[]): number | number[]`.
 :::
 
-:::quiz Vì sao `[1,2].forEach((n) => ids.push(n))` không lỗi dù `push` trả `number`?
+:::quiz Với `const ids: number[] = [];`, vì sao `[1, 2].forEach((n) => ids.push(n))` không báo lỗi dù callback của `forEach` khai báo kiểu trả về `void` còn `push` trả `number`?
 - [ ] Vì `forEach` khai báo callback trả `any`
 - [x] Vì callback có kiểu trả về `void` chấp nhận hàm trả về giá trị bất kỳ — giá trị đó bị bỏ qua
 - [ ] Vì TypeScript không kiểm tra arrow function

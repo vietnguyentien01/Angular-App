@@ -3,9 +3,12 @@ title: Custom operator cho codebase enterprise
 summary: Đóng gói các chuỗi operator lặp lại (loading state, retry chuẩn, log) thành operator dùng chung có type rõ ràng.
 level: advanced
 version: 7
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [rxjs, custom-operator, architecture]
 related: [rxjs/deep-dive/observable/tu-viet-mini-observable]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -70,7 +73,17 @@ Custom operator là cách **chuẩn hoá hành vi** trong team lớn: một `ret
 `MonoTypeOperatorFunction<T>` = `OperatorFunction<T, T>` — hợp với operator như `tap`, `filter`, `logLifecycle`.
 :::
 
-:::quiz Trong `withRequestState`, vì sao `startWith` đứng CUỐI?
+:::quiz Trong custom operator `withRequestState` dưới đây, vì sao `startWith` đứng CUỐI?
+```ts
+export function withRequestState<T>(): OperatorFunction<T, RequestState<T>> {
+  return pipe(
+    map((data) => ({ status: 'success', data }) as const),
+    catchError((error) => of({ status: 'error', error } as const)),
+    startWith({ status: 'loading' } as const),
+  );
+}
+```
+
 - [ ] Không quan trọng
 - [x] Để giá trị `loading` được phát trước tiên, và không bị `map` biến đổi
 - [ ] Vì `startWith` phải luôn đứng cuối mọi pipe

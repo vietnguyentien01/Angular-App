@@ -3,9 +3,12 @@ title: "Chịu lỗi nâng cao: backoff có jitter, timeout và circuit breaker"
 summary: Retry đúng cách khi nhiều client cùng lỗi, giới hạn thời gian chờ, và ngừng gọi một dịch vụ đang sập để bảo vệ cả hệ thống.
 level: advanced
 version: 7
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [rxjs, retry, resilience, timeout, circuit-breaker]
 related: [rxjs/consolidate/errors/xu-ly-loi-dung-cho, rxjs/deep-dive/operators/tu-viet-custom-operator]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## 1. Backoff + jitter
@@ -79,7 +82,31 @@ export class CircuitBreaker {
 Backoff giảm tần suất, jitter dàn đều thời điểm.
 :::
 
-:::quiz Vì sao `CircuitBreaker.wrap` dùng `defer`?
+:::quiz Trong circuit breaker dưới đây, vì sao `wrap` bọc logic trong `defer`?
+```ts
+export class CircuitBreaker {
+  private failures = 0;
+  private openedAt = 0;
+  constructor(private readonly threshold = 5, private readonly cooldownMs = 30_000) {}
+
+  wrap<T>(source$: Observable<T>): Observable<T> {
+    return defer(() => {
+      const open = this.failures >= this.threshold;
+      if (open && Date.now() - this.openedAt < this.cooldownMs) {
+        return throwError(() => new Error('Dịch vụ tạm thời không khả dụng'));
+      }
+      return source$.pipe(
+        tap({ next: () => (this.failures = 0) }),
+        catchError((e) => {
+          if (++this.failures >= this.threshold) this.openedAt = Date.now();
+          return throwError(() => e);
+        }),
+      );
+    });
+  }
+}
+```
+
 - [ ] Để lazy-load code
 - [x] Để kiểm tra trạng thái mạch tại thời điểm **subscribe** (mỗi lần gọi), không phải một lần lúc tạo Observable
 - [ ] Để retry

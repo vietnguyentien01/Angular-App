@@ -4,9 +4,12 @@ summary: Lỗi làm luồng chết — ba operator cơ bản để bắt lỗi, 
 type: card
 level: core
 version: 7
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [rxjs, error]
 related: [rxjs/consolidate/errors/xu-ly-loi-dung-cho]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -28,7 +31,18 @@ this.http.get<User[]>('/api/users').pipe(
 );
 ```
 
-:::quiz Thứ tự `retry` và `catchError` trong ví dụ trên có quan trọng không?
+:::quiz Trong đoạn dưới đây, thứ tự `retry` và `catchError` có quan trọng không?
+```ts
+this.http.get<User[]>('/api/users').pipe(
+  retry({ count: 2, delay: 500 }),
+  catchError((err) => {
+    this.error.set('Không tải được danh sách');
+    return of([]);
+  }),
+  finalize(() => this.loading.set(false)),
+);
+```
+
 - [x] Có — `retry` phải đứng trước `catchError`, nếu không lỗi đã bị "nuốt" trước khi kịp retry
 - [ ] Không, operator chạy song song
 - [ ] Có — `catchError` phải đứng trước để retry hoạt động

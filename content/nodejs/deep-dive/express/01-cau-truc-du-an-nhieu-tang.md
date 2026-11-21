@@ -3,9 +3,12 @@ title: Cấu trúc một backend Express thật — tầng route/service/reposit
 summary: "Chia dự án theo module nghiệp vụ và ba tầng có trách nhiệm rõ ràng, nạp và kiểm config từ biến môi trường bằng Zod, log có cấu trúc với request id, health check, và tắt server êm khi container nhận SIGTERM — so sánh với NestJS và với kiến trúc Angular quen thuộc."
 level: advanced
 version: 26
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [nodejs, express, architecture, config, logging]
 related: [nodejs/consolidate/express/xu-ly-loi-va-validation, nodejs/consolidate/rest-api/viet-api-co-test]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -129,7 +132,7 @@ Nền tảng (HTTP, middleware, tầng, test) ở bài này dùng được cho c
 Ranh giới tầng quan trọng hơn tên thư mục: service **không** nhận `req`/`res`, repository **không** ném lỗi HTTP. Giữ được hai điều đó thì đổi framework (Express → Fastify/NestJS), đổi DB, hay thêm một kênh vào khác (job queue, CLI) đều chỉ chạm lớp ngoài. Với dev Angular chuyển sang fullstack, NestJS thường là con đường nhanh nhất — nhưng phỏng vấn sẽ hỏi Express "trần" để kiểm bạn hiểu nền tảng.
 :::
 
-:::quiz Trong kiến trúc ở trên, `throw new AppError(409, 'OUT_OF_STOCK')` nên nằm ở tầng nào?
+:::quiz API Express chia tầng: route (nhận `req`/`res`, validate định dạng bằng Zod) → service (nghiệp vụ) → repository (SQL), cùng một error handler chung chuyển `AppError` thành response. Lỗi "hết hàng" `throw new AppError(409, 'OUT_OF_STOCK')` nên nằm ở tầng nào?
 - [ ] Repository, ngay sau câu SELECT
 - [x] Service — đây là quy tắc nghiệp vụ; route chỉ chuyển lỗi cho error handler
 - [ ] Error handler

@@ -4,9 +4,12 @@ summary: "Thêm spring-boot-starter-security thì điều gì xảy ra, viết S
 type: card
 level: core
 version: 4
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [spring-boot, spring-security, authentication, authorization]
 related: [spring-boot/consolidate/security/jwt-va-phan-quyen-theo-chu-so-huu, spring-boot/deep-dive/security/security-filter-chain-va-cors]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -136,7 +139,7 @@ thời gian kiểm tra: 74 ms
 Đã chạy. 401 dành cho không có hoặc sai token.
 :::
 
-:::quiz Vì sao `passwordEncoder.encode("matkhau-an")` gọi hai lần cho hai chuỗi khác nhau?
+:::quiz Gọi `passwordEncoder.encode("matkhau-an")` hai lần (encoder mặc định là BCrypt) cho ra hai chuỗi hash khác nhau. Vì sao?
 - [ ] Do lỗi của BCrypt
 - [x] Mỗi lần dùng một salt ngẫu nhiên, salt được lưu ngay trong chuỗi kết quả
 - [ ] Do thời gian hệ thống khác nhau

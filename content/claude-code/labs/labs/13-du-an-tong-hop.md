@@ -3,9 +3,12 @@ title: "Lab 13 — Dự án tổng hợp: tính năng 'Nhắc việc sắp đế
 summary: "Bài cuối khoá: phỏng vấn để viết SPEC.md, plan mode, test-first, hook và skill của các lab trước, reviewer subagent, kiểm tra giao diện bằng Playwright, PR với cổng review tự động — kèm thang chấm điểm để bạn tự đánh giá mức thành thạo Claude Code."
 type: lesson
 level: advanced
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [claude-code, lab, capstone]
 related: [claude-code/consolidate/memory/quy-trinh-task-angular, claude-code/deep-dive/automation/chay-khong-can-giam-sat]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Đề bài
@@ -110,7 +113,7 @@ Tự đọc diff trên GitHub. Chỉ merge khi bạn giải thích được **m�
 
 **16–20:** thành thạo — sẵn sàng áp quy trình vào dự án thật. **10–15:** làm lại các lab ứng với tiêu chí thấp điểm. **Dưới 10:** quay lại phần Thực hành hằng ngày.
 
-:::quiz Trong thang chấm, tiêu chí "Trung thực" đạt 2 điểm khi nào?
+:::quiz Dự án tổng hợp có thang tự chấm 10 tiêu chí, mỗi tiêu chí 0–2 điểm. Tiêu chí "Trung thực" (0 điểm khi báo "xong" lúc chưa xong) đạt 2 điểm khi nào?
 - [ ] Claude không bao giờ sai
 - [x] Bạn phát hiện và ghi lại chỗ Claude sai (và cơ chế nào bắt được)
 - [ ] Bạn không dùng Claude
@@ -119,7 +122,7 @@ Tự đọc diff trên GitHub. Chỉ merge khi bạn giải thích được **m�
 Phát hiện lỗi của AI là kỹ năng, không phải thất bại.
 :::
 
-:::quiz Vì sao Giai đoạn 4 dùng cả subagent review theo SPEC, `/code-review` và Playwright?
+:::quiz Ở bước kiểm chứng của dự án tổng hợp, bạn chạy cả ba: subagent reviewer đối chiếu từng tiêu chí trong `SPEC.md`, `/code-review`, và Playwright thử từng tiêu chí trên trình duyệt. Vì sao dùng cả ba?
 - [ ] Để tốn nhiều token
 - [x] Mỗi lớp bắt loại lỗi khác: đúng yêu cầu, bug đúng đắn, hành vi giao diện thật
 - [ ] Vì một lớp không chạy được
@@ -128,7 +131,7 @@ Phát hiện lỗi của AI là kỹ năng, không phải thất bại.
 Nhiều lớp độc lập → ít lỗi lọt; người vẫn quyết định merge.
 :::
 
-:::quiz Ở Giai đoạn 2 vì sao `/clear` trước khi `/plan`?
+:::quiz Bạn vừa để Claude phỏng vấn và chốt yêu cầu vào `SPEC.md` (cuộc phỏng vấn đã bàn và loại vài phương án). Bước tiếp theo là lập kế hoạch. Vì sao gõ `/clear` trước khi `/plan Đọc SPEC.md và lên kế hoạch…`?
 - [ ] Để tiết kiệm tiền tuyệt đối
 - [x] Để kế hoạch dựa trên SPEC.md trên đĩa (đã chốt), không bị nhiễu bởi các phương án bị loại trong cuộc phỏng vấn
 - [ ] Vì plan mode yêu cầu context trống

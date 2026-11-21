@@ -4,9 +4,12 @@ summary: Ôn nhanh 3 API cốt lõi của Signals, khi nào dùng cái nào và 
 type: card
 level: core
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [signals, reactivity]
 related: [angular/consolidate/signals/effect-dung-cach]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -76,7 +79,7 @@ Getter chạy lại **mỗi lần** được đọc (mỗi lần change detectio
 - [ ] Chỉ template chạy lại
 - [ ] Lỗi
 
-Thử nút "set(cùng giá trị)" trong demo phía trên: không có gì chạy lại. Có thể đổi cách so sánh bằng option `equal`.
+Gọi `set` với cùng giá trị thì `computed` và template không chạy lại. Có thể đổi cách so sánh bằng option `equal`.
 :::
 
 :::quiz `items = signal<string[]>([])`. Đoạn nào làm UI cập nhật đúng?

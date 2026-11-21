@@ -3,9 +3,12 @@ title: "Compose cho API + PostgreSQL — healthcheck, chờ DB sẵn sàng, dữ
 summary: "Chạy API sản phẩm và PostgreSQL bằng một lệnh docker compose up: DB có healthcheck pg_isready, API chỉ khởi động khi DB healthy, dữ liệu mẫu nạp từ init.sql, mật khẩu lấy từ .env. Đã chạy thật và kiểm từng bước: (healthy), dữ liệu còn sau down, mất sau down -v, dừng êm khi nhận SIGTERM."
 level: intermediate
 version: 29
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [docker, compose, postgresql, healthcheck, nodejs]
 related: [docker/review/compose/compose-nhieu-dich-vu, docker/consolidate/dockerfile/dockerfile-cho-node-api]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -110,7 +113,24 @@ Compose là công cụ cho **dev và test** (và cho server nhỏ một máy). G
 Một `compose.yaml` trong repo mô tả API (build từ Dockerfile) và PostgreSQL ghim phiên bản (`postgres:16-alpine`), DB có healthcheck và API chờ DB healthy, dữ liệu mẫu nạp bằng script init hoặc migration + seed, cấu hình qua biến môi trường với `.env.example` liệt kê tên biến (file `.env` thật không commit). Kèm README một dòng: `cp .env.example .env && docker compose up -d --build`. Test tích hợp trong CI dùng cùng image PostgreSQL để môi trường CI giống local.
 :::
 
-:::quiz Bạn chạy `docker compose down -v` rồi `up -d`. Bảng `products` có gì?
+:::quiz Với compose dưới đây, bạn đã thêm vài sản phẩm qua API, rồi chạy `docker compose down -v` và `docker compose up -d`. Bảng `products` có gì?
+```yaml
+services:
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro   # tạo bảng products + 3 sản phẩm mẫu
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgres://shop:${DB_PASSWORD}@db:5432/shop
+    ports:
+      - "3000:3000"
+volumes:
+  db-data:
+```
+
 - [ ] Dữ liệu cũ kèm sản phẩm vừa thêm
 - [x] Chỉ 3 sản phẩm mẫu — volume mới trống nên `init.sql` chạy lại
 - [ ] Bảng không tồn tại
@@ -119,7 +139,24 @@ Một `compose.yaml` trong repo mô tả API (build từ Dockerfile) và Postgre
 Đã kiểm: tìm sản phẩm "Quạt" trả `data: []`, đếm trong DB được 3.
 :::
 
-:::quiz Trong compose ở trên, vì sao dịch vụ `db` không khai `ports`?
+:::quiz Trong compose dưới đây, vì sao dịch vụ `db` không khai `ports`?
+```yaml
+services:
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro   # tạo bảng products + 3 sản phẩm mẫu
+  api:
+    build: .
+    environment:
+      DATABASE_URL: postgres://shop:${DB_PASSWORD}@db:5432/shop
+    ports:
+      - "3000:3000"
+volumes:
+  db-data:
+```
+
 - [ ] Quên khai
 - [x] API truy cập DB qua network nội bộ của compose bằng tên `db`; không mở cổng ra máy chủ thì DB không bị truy cập từ bên ngoài
 - [ ] PostgreSQL không chạy được khi có `ports`

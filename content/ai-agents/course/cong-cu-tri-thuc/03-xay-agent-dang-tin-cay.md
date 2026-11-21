@@ -3,12 +3,14 @@ title: "Bài 6 — Xây AI Agent đáng tin cậy: system message framework, m�
 summary: "An toàn là agent làm đúng như thiết kế. System message framework bốn bước, năm mối đe doạ (đổi chỉ dẫn, truy cập hệ thống nhạy cảm, quá tải, đầu độc knowledge base, lỗi lan truyền) kèm cách giảm thiểu, và cổng duyệt human-in-the-loop theo mức rủi ro."
 type: lesson
 level: intermediate
-lastReviewed: 2026-11-17
+lastReviewed: 2026-11-19
 tags: [ai-agents, safety, security, system-prompt, human-in-the-loop]
 related: [ai-agents/course/nen-tang/nguyen-tac-thiet-ke-agent, ai-agents/course/nang-cao/bao-mat-ai-agent, claude-code/deep-dive/guardrails/sandbox-va-prompt-injection]
 changelog:
   - date: 2026-11-17
     note: Bổ sung phần đọc notebook từng bước, file phụ của bài và tài liệu tham khảo.
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 :::note Nguồn
@@ -258,7 +260,23 @@ Sau đó in audit log. Vì tầng được tính từ **câu đề xuất do LLM
 Tấn công kiểu này thường cần nhiều lượt tương tác, nên lọc input và giới hạn số lượt đều hiệu quả.
 :::
 
-:::quiz Với `classify_risk` ở trên, `classify_risk("Target audience analysis")` trả về gì?
+:::quiz Với hàm `classify_risk` dưới đây, `classify_risk("Target audience analysis")` trả về gì?
+```python
+LOW_RISK_KEYWORDS = {"look", "lookup", "search", "fetch", "read", "query", "view", "get", "list", "weather", "summarize"}
+HIGH_RISK_KEYWORDS = {"send", "email", "post", "publish", "charge", "pay", "transfer", "delete", "drop", "cancel", "refund"}
+MEDIUM_RISK_KEYWORDS = {"cache", "schedule", "reminder", "book", "reserve", "update", "increment", "log"}
+
+def classify_risk(action: str) -> str:
+    text = action.lower()
+    if any(kw in text for kw in HIGH_RISK_KEYWORDS):
+        return "high"
+    if any(kw in text for kw in LOW_RISK_KEYWORDS):
+        return "low"
+    if any(kw in text for kw in MEDIUM_RISK_KEYWORDS):
+        return "medium"
+    return "medium"
+```
+
 - [ ] `"medium"`, vì không khớp từ khoá nào
 - [x] `"low"`, vì `"get"` là chuỗi con của `"target"`
 - [ ] `"high"`

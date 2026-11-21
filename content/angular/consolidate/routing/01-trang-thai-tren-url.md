@@ -3,9 +3,12 @@ title: Lưu trạng thái màn hình lên URL — bộ lọc, phân trang, tab
 summary: Đồng bộ bộ lọc với query params bằng signal input, queryParamsHandling, replaceUrl — để F5, chia sẻ link và nút Back hoạt động đúng.
 level: intermediate
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [routing, query-params, state]
 related: [angular/review/routing/route-co-ban, angular/consolidate/routing/loi-thuong-gap-routing]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Vì sao đưa state lên URL?
@@ -57,7 +60,7 @@ Một nguồn sự thật duy nhất: **URL**. Component không giữ bản sao 
 - [ ] `?q=abc&page=3`
 - [ ] Không đổi
 
-`merge` giữ param cũ và thêm/ghi đè param mới. (Ví dụ `setFilter` ở trên còn chủ động đặt `page: 1`.)
+`merge` giữ param cũ và thêm/ghi đè param mới. (Khi đổi bộ lọc, nên chủ động đặt thêm `page: 1` để không kẹt ở trang cũ.)
 :::
 
 :::quiz Vì sao dùng `replaceUrl` khi người dùng gõ ô tìm kiếm?

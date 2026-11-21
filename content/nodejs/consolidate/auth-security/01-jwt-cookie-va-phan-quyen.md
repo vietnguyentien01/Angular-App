@@ -3,9 +3,12 @@ title: Đăng nhập bằng JWT trong cookie httpOnly, phân quyền theo vai tr
 summary: "Cài đặt luồng login/logout/me với bcrypt và JWT đặt trong cookie httpOnly, middleware requireAuth và requireRole, kiểm quyền theo chủ sở hữu (chống IDOR), chặn token giả và alg none. Toàn bộ đã chạy bằng supertest, kèm bẫy cookie Secure trên HTTP."
 level: intermediate
 version: 26
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [nodejs, auth, jwt, cookie, authorization]
 related: [nodejs/review/auth-security/xac-thuc-va-bao-mat-co-ban, nodejs/deep-dive/auth-security/owasp-cho-backend-node]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -133,7 +136,21 @@ JWT tự chứa thông tin nên server không "xoá" được nó. Các cách: (
 Đây là kiểm quyền theo chủ sở hữu; thiếu nó là lỗi IDOR.
 :::
 
-:::quiz Kẻ tấn công tự ký token `{ role: 'admin' }` bằng secret đoán mò rồi gắn vào cookie. `requireAuth` ở trên trả gì?
+:::quiz Kẻ tấn công tự ký token `{ role: 'admin' }` bằng một secret đoán mò rồi gắn vào cookie `access_token`. Middleware `requireAuth` dưới đây trả gì?
+```js
+export function requireAuth(req, res, next) {
+  const token = req.cookies.access_token;
+  if (!token) return res.status(401).json({ error: 'UNAUTHENTICATED' });
+  try {
+    const p = jwt.verify(token, JWT_SECRET, { algorithms: ['HS256'] });
+    req.user = { id: Number(p.sub), role: p.role };
+    next();
+  } catch {
+    res.status(401).json({ error: 'INVALID_TOKEN' });
+  }
+}
+```
+
 - [ ] Cho qua vì payload hợp lệ
 - [x] 401 — `jwt.verify` kiểm chữ ký bằng secret của server và thất bại
 - [ ] 403

@@ -3,12 +3,14 @@ title: "Sealed, record pattern và mô hình hoá domain — data-oriented progr
 summary: "Sealed interface + record để mô hình 'một trong vài dạng', switch kiểm tra đủ trường hợp, record pattern lồng nhau, guard when; so sánh với method ảo; kiểm tra tham số trước super(...) trên Java 21; biến _ và flexible constructor body khi nâng cấp. Đã chạy trên JDK 21."
 level: advanced
 version: 21
-lastReviewed: 2026-11-18
+lastReviewed: 2026-11-19
 tags: [java, sealed, record, pattern-matching, domain-modeling, java-21]
 related: [java/review/oop/class-interface-record-enum, java/consolidate/oop/equals-hashcode-va-ke-thua]
 changelog:
   - date: 2026-11-18
     note: "Chuyển mốc của khóa sang Java 21 LTS: mọi ví dụ viết theo Java 21 (không dùng biến _), constructor kiểm tra tham số qua static method; biến _, flexible constructor body và primitive pattern chuyển thành phần nâng cấp."
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -176,7 +178,20 @@ Các ví dụ trong bài viết theo Java 21 vẫn biên dịch bình thường 
 Đừng biến mọi thứ thành sealed hierarchy. Câu hỏi thiết kế: *tập các dạng có đóng và ổn định không, và ai sẽ thêm thao tác mới?* Một `sealed interface KetQua` cho kết quả xét duyệt là ranh giới nghiệp vụ rõ ràng, compiler bảo vệ. Còn danh sách loại sản phẩm do bộ phận kinh doanh thêm mỗi quý thì nên là dữ liệu (bảng cấu hình), không phải kiểu. Khi trả sealed type qua REST/JSON, nhớ cấu hình serializer (vd Jackson `@JsonTypeInfo` + `@JsonSubTypes`) để client biết dạng nào.
 :::
 
-:::quiz Thêm `record Huy(String nguoiHuy) implements KetQuaXet` và khai báo nó trong `permits`. Điều gì xảy ra với hàm `thongBao` ở trên?
+:::quiz Thêm `record Huy(String nguoiHuy) implements KetQuaXet` và khai báo `Huy` trong `permits` của `KetQuaXet`. Điều gì xảy ra với hàm `thongBao` dưới đây?
+```java
+sealed interface KetQuaXet permits Duyet, TuChoi, CanBoSung, Huy {}
+record HoSo(String ma, DiaChi diaChi, KetQuaXet ketQua) {}
+
+static String thongBao(HoSo h) {
+    return switch (h) {
+        case HoSo(var ma, var dc, Duyet(var han))    -> ma + ": duyệt " + han;
+        case HoSo(var ma, var dc, TuChoi(var lyDo))  -> ma + ": từ chối — " + lyDo;
+        case HoSo(var ma, var dc, CanBoSung(var ds)) -> ma + ": bổ sung " + String.join(", ", ds);
+    };
+}
+```
+
 - [ ] Vẫn chạy, `Huy` rơi vào case cuối
 - [ ] Chạy được, gặp `Huy` thì ném `MatchException`
 - [x] Lỗi biên dịch: switch không phủ hết giá trị — phải thêm `case HoSo(var ma, var dc, Huy(var ai))`
@@ -185,7 +200,14 @@ Các ví dụ trong bài viết theo Java 21 vẫn biên dịch bình thường 
 Đây là lợi ích chính của sealed: mọi nơi cần cập nhật đều bị compiler chỉ ra.
 :::
 
-:::quiz Trong một `switch` trên `HoSo`, `case HoSo h -> …` đứng **trước** `case HoSo(var ma, var dc, Duyet(var han)) -> …`. Kết quả?
+:::quiz `HoSo` là record `HoSo(String ma, DiaChi diaChi, KetQuaXet ketQua)`, `Duyet(BigDecimal han)` là một loại `KetQuaXet`. Switch dưới đây cho kết quả gì?
+```java
+return switch (h) {
+    case HoSo h2 -> "hồ sơ " + h2.ma();
+    case HoSo(var ma, var dc, Duyet(var han)) -> ma + ": duyệt " + han;
+};
+```
+
 - [ ] Chạy bình thường, case sau không bao giờ chạy
 - [x] Lỗi biên dịch: case sau bị case trước "dominate"
 - [ ] Case cụ thể hơn được ưu tiên dù đứng sau

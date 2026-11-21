@@ -4,9 +4,12 @@ summary: "Mỗi lệnh trong Dockerfile tạo một layer được cache; layer 
 type: card
 level: core
 version: 29
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [docker, dockerfile, cache, nodejs]
 related: [docker/consolidate/dockerfile/dockerfile-cho-node-api, docker/deep-dive/dockerfile/toi-uu-va-bao-mat-image]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -76,7 +79,19 @@ Docker hiện dùng BuildKit mặc định: build song song các stage, `--mount
 Docker cache từng layer theo nội dung đầu vào. Dependency ít đổi, code đổi liên tục. Nếu copy toàn bộ source trước `npm ci`, mỗi lần sửa code layer `COPY` đổi và `npm ci` chạy lại (vài phút). Copy riêng `package.json` + lockfile, chạy `npm ci`, rồi mới copy source thì sửa code chỉ build lại layer cuối — đã đo: bước `npm ci` báo `CACHED`, chỉ `COPY src` chạy lại.
 :::
 
-:::quiz Bạn chỉ sửa một file trong `src/`. Với Dockerfile tối thiểu ở trên, bước nào chạy lại khi build?
+:::quiz Với Dockerfile dưới đây, bạn chỉ sửa một file trong `src/` rồi build lại. Bước nào chạy lại (không lấy từ cache)?
+```dockerfile
+FROM node:24-alpine
+ENV NODE_ENV=production
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+COPY src ./src
+USER node
+EXPOSE 3000
+CMD ["node", "src/server.js"]
+```
+
 - [ ] Tất cả các bước
 - [ ] `npm ci` và `COPY src`
 - [x] Chỉ `COPY src ./src` và các bước sau nó

@@ -3,12 +3,14 @@ title: "Viết báo cáo bằng Stream — groupingBy, toMap, partitioningBy và
 summary: "Luyện viết báo cáo bán hàng bằng Collectors: đếm theo trạng thái, doanh thu BigDecimal theo tỉnh, gom mã đơn theo khách, chia hai nhóm, top sản phẩm. Chạy thử các bẫy: toMap trùng key, stream dùng hai lần, peek và tính lazy, side effect, toList() bất biến, orElse luôn chạy."
 level: intermediate
 version: 21
-lastReviewed: 2026-11-18
+lastReviewed: 2026-11-19
 tags: [java, stream, collectors, groupingby, pitfalls]
 related: [java/review/functional/lambda-va-stream-co-ban, java/consolidate/collections/loi-thuong-gap-voi-collection]
 changelog:
   - date: 2026-11-18
     note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại các ví dụ trên JDK 21."
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -155,7 +157,25 @@ Stream tốt cho báo cáo trong bộ nhớ với dữ liệu vừa phải. Khi 
 Khi hai phần tử cho cùng key mà không có hàm merge, `toMap` ném `IllegalStateException: Duplicate key …`. Xử lý: truyền tham số thứ ba để gộp (`BigDecimal::add`, `(a, b) -> a` giữ cái đầu), hoặc dùng `groupingBy` nếu muốn giữ mọi giá trị. Ngoài ra `toMap` ném `NullPointerException` nếu value là `null` (vì nó dùng `Map.merge`). Tham số thứ tư chọn loại map, vd `TreeMap::new` hoặc `LinkedHashMap::new` để giữ thứ tự.
 :::
 
-:::quiz `var log = …; var s = dons.stream().peek(d -> log.add(d.ma())).filter(d -> d.khach().equals("Bình")); s.findFirst();` — `log` chứa gì?
+:::quiz Với danh sách `dons` dưới đây, sau khi chạy đoạn cuối, `log` chứa gì?
+```java
+record Don(String ma, String khach, String tinh, String trangThai, BigDecimal tien, List<String> sanPham) {}
+
+var dons = List.of(
+    new Don("D1", "An",   "Hà Nội",  "PAID",      new BigDecimal("2200000"), List.of("Nồi chiên", "Lõi lọc")),
+    new Don("D2", "Bình", "Hà Nội",  "PAID",      new BigDecimal("1200000"), List.of("Máy đo HA")),
+    new Don("D3", "Chi",  "Đà Nẵng", "CANCELLED", new BigDecimal("1500000"), List.of("Nồi chiên")),
+    new Don("D4", "An",   "Hà Nội",  "SHIPPED",   new BigDecimal("5000000"), List.of("Máy lọc")),
+    new Don("D5", "Dũng", "TP.HCM",  "PENDING",   new BigDecimal("2400000"), List.of("Máy đo HA", "Máy đo HA")),
+    new Don("D6", "An",   "Hà Nội",  "PAID",      new BigDecimal("1050000"), List.of("Lõi lọc")));
+
+var log = new ArrayList<String>();
+var s = dons.stream()
+            .peek(d -> log.add(d.ma()))
+            .filter(d -> d.khach().equals("Bình"));
+s.findFirst();
+```
+
 - [ ] [] — peek không chạy với findFirst
 - [x] [D1, D2]
 - [ ] [D1, D2, D3, D4, D5, D6]
@@ -164,7 +184,19 @@ Khi hai phần tử cho cùng key mà không có hàm merge, `toMap` ném `Illeg
 Stream xử lý từng phần tử qua toàn bộ pipeline. `findFirst` dừng ngay sau D2. Đã chạy thử.
 :::
 
-:::quiz Có 3 đơn của "An". `dons.stream().collect(toMap(Don::khach, Don::ma))` cho gì?
+:::quiz Với danh sách `dons` dưới đây (khách "An" có 3 đơn: D1, D4, D6), `dons.stream().collect(Collectors.toMap(Don::khach, Don::ma))` cho kết quả gì?
+```java
+record Don(String ma, String khach, String tinh, String trangThai, BigDecimal tien, List<String> sanPham) {}
+
+var dons = List.of(
+    new Don("D1", "An",   "Hà Nội",  "PAID",      new BigDecimal("2200000"), List.of("Nồi chiên", "Lõi lọc")),
+    new Don("D2", "Bình", "Hà Nội",  "PAID",      new BigDecimal("1200000"), List.of("Máy đo HA")),
+    new Don("D3", "Chi",  "Đà Nẵng", "CANCELLED", new BigDecimal("1500000"), List.of("Nồi chiên")),
+    new Don("D4", "An",   "Hà Nội",  "SHIPPED",   new BigDecimal("5000000"), List.of("Máy lọc")),
+    new Don("D5", "Dũng", "TP.HCM",  "PENDING",   new BigDecimal("2400000"), List.of("Máy đo HA", "Máy đo HA")),
+    new Don("D6", "An",   "Hà Nội",  "PAID",      new BigDecimal("1050000"), List.of("Lõi lọc")));
+```
+
 - [ ] `{An=D6, …}` — giữ giá trị cuối
 - [ ] `{An=D1, …}` — giữ giá trị đầu
 - [x] Ném `IllegalStateException: Duplicate key An`

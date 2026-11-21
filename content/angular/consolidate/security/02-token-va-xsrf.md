@@ -3,9 +3,12 @@ title: Lưu token ở đâu, gắn token cho ai, và XSRF trong HttpClient
 summary: localStorage hay cookie httpOnly, interceptor gắn token đúng domain, cơ chế XSRF tích hợp của Angular và vì sao guard không phải là bảo mật.
 level: intermediate
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [security, auth, token, xsrf, interceptor]
 related: [angular/consolidate/security/bypass-csp-trusted-types, angular/deep-dive/security/oidc-pkce-spa]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Lưu token ở đâu?
@@ -47,7 +50,12 @@ Khi dùng cookie, server đặt cookie `XSRF-TOKEN`; `HttpClient` tự đọc v�
 
 `canActivate` chỉ ẩn màn hình — người dùng vẫn gọi API trực tiếp được. **Mọi kiểm tra quyền phải ở server**; guard chỉ để UX tốt hơn.
 
-:::quiz Vì sao interceptor "bad" ở trên nguy hiểm?
+:::quiz Vì sao interceptor dưới đây nguy hiểm?
+```ts
+export const authInterceptor: HttpInterceptorFn = (req, next) =>
+  next(req.clone({ setHeaders: { Authorization: `Bearer ${inject(Auth).token()}` } }));
+```
+
 - [ ] Vì chậm
 - [x] Token bị gửi kèm cả request tới domain bên thứ ba (CDN, analytics, API ngoài) — họ có thể thu được token
 - [ ] Vì không chạy với GET

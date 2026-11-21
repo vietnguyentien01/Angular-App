@@ -3,9 +3,12 @@ title: Đoán thứ tự chạy và các lỗi async hay gặp trong Node.js
 summary: "Luyện đoán output với nextTick, Promise, setTimeout, setImmediate (khác nhau giữa CommonJS và ESM), rồi sửa bốn lỗi async kinh điển — forEach với async, quên await, Promise.all làm sập cả lô, unhandled rejection làm process thoát."
 level: intermediate
 version: 26
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [nodejs, event-loop, async, pitfalls]
 related: [nodejs/review/runtime/event-loop-va-async, nodejs/deep-dive/runtime/ben-trong-event-loop-va-stream]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -127,7 +130,15 @@ process.nextTick(() => console.log('tick'));
 Đã chạy thử. Hàng nextTick được xả trước; trong lúc xả hàng Promise, `then2` (đã sẵn sàng) chạy trước khi Node quay lại nextTick.
 :::
 
-:::quiz Cùng đoạn `A, setTimeout B, Promise C, nextTick D, E` — chạy dưới dạng `.cjs` và `.mjs` cho kết quả gì?
+:::quiz Đoạn code dưới đây chạy dưới dạng `.cjs` (CommonJS) và dạng `.mjs` (ESM) cho kết quả gì?
+```js
+console.log('A');
+setTimeout(() => console.log('B'), 0);
+Promise.resolve().then(() => console.log('C'));
+process.nextTick(() => console.log('D'));
+console.log('E');
+```
+
 - [ ] Cả hai: A E D C B
 - [ ] Cả hai: A E C D B
 - [x] `.cjs`: A E D C B — `.mjs`: A E C D B

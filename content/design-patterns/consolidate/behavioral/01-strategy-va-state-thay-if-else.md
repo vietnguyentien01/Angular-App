@@ -3,9 +3,12 @@ title: "Strategy và State thay if-else — máy trạng thái đơn hàng và p
 summary: "Ba cờ boolean cho phép đơn hàng vừa giao vừa huỷ. Thay bằng State dùng enum với tập chuyển hợp lệ: chuyển sai bị chặn kèm thông báo rõ, có lịch sử. Phí ship nhiều hãng thành Strategy trong một Map, thêm hãng không sửa code cũ. Đã chạy trên JDK 25."
 level: intermediate
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, state, strategy, state-machine, enum, refactoring]
 related: [design-patterns/review/behavioral/strategy-observer-template-chain-state, design-patterns/consolidate/principles/tu-code-smell-den-refactor]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -111,7 +114,26 @@ Enum có method riêng cho từng hằng có từ Java 5. Khi mỗi trạng thá
 Một field trạng thái (enum hoặc sealed interface), không dùng nhiều cờ boolean. Bảng chuyển hợp lệ khai báo ở một chỗ; đổi trạng thái chỉ qua một method kiểm tra chuyển hợp lệ, ghi lịch sử, phát sự kiện. Trong DB lưu tên trạng thái (không lưu ordinal), có `@Version` hoặc điều kiện trạng thái trong câu `UPDATE` để chặn hai người duyệt cùng lúc. Test: mỗi chuyển hợp lệ và một vài chuyển không hợp lệ quan trọng.
 :::
 
-:::quiz Đơn `DA_GIAO` và khách gọi API huỷ đơn. Với thiết kế enum ở trên, chuyện gì xảy ra?
+:::quiz Với thiết kế State bằng enum dưới đây, đơn đang ở `DA_GIAO` và khách gọi API huỷ đơn (`chuyen(DA_HUY)`). Chuyện gì xảy ra?
+```java
+enum TrangThai {
+    MOI           { Set<TrangThai> tiepTheo() { return EnumSet.of(DA_THANH_TOAN, DA_HUY); } },
+    DA_THANH_TOAN { Set<TrangThai> tiepTheo() { return EnumSet.of(DANG_GIAO, DA_HUY); } },
+    DANG_GIAO     { Set<TrangThai> tiepTheo() { return EnumSet.of(DA_GIAO, GIAO_THAT_BAI); } },
+    GIAO_THAT_BAI { Set<TrangThai> tiepTheo() { return EnumSet.of(DANG_GIAO, DA_HUY); } },
+    DA_GIAO       { Set<TrangThai> tiepTheo() { return EnumSet.noneOf(TrangThai.class); } },
+    DA_HUY        { Set<TrangThai> tiepTheo() { return EnumSet.noneOf(TrangThai.class); } };
+    abstract Set<TrangThai> tiepTheo();
+}
+
+void chuyen(TrangThai moi) {
+    if (!trangThai.tiepTheo().contains(moi))
+        throw new IllegalStateException(ma + ": không thể chuyển " + trangThai + " → " + moi
+                                        + ", cho phép " + trangThai.tiepTheo());
+    trangThai = moi;
+}
+```
+
 - [ ] Đơn chuyển sang `DA_HUY`
 - [x] `IllegalStateException`: không thể chuyển DA_GIAO → DA_HUY, cho phép []
 - [ ] Không có gì xảy ra

@@ -3,9 +3,12 @@ title: Khi buộc phải bypass sanitizer — và cách làm an toàn (case stud
 summary: Learning Hub cần hiển thị HTML có style của code highlight; cách thiết kế để bypass vẫn an toàn, kèm CSP, autoCsp và Trusted Types.
 level: intermediate
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [security, sanitization, csp, trusted-types, case-study]
 related: [angular/review/security/xss-va-sanitization, angular/consolidate/security/token-va-xsrf]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Bài toán thật
@@ -56,7 +59,7 @@ Bỏ `angular#unsafe-bypass` khỏi danh sách → mọi chỗ dùng `bypassSecu
 Mỗi `bypassSecurityTrust*` trong codebase nên được coi như một "lỗ hổng tiềm năng có giấy phép": cần lý do, phạm vi hẹp, test, và người review hiểu rủi ro. Có thể thêm rule ESLint cấm gọi trực tiếp, chỉ cho phép qua một pipe/service được review.
 :::
 
-:::quiz Điều gì khiến việc bypass trong app này chấp nhận được?
+:::quiz Learning Hub hiển thị HTML bài học (code được tô màu bằng `style` inline) qua `[innerHTML]` và phải gọi `bypassSecurityTrustHtml`, vì sanitizer của Angular xoá `style`. HTML này do script build sinh từ Markdown. Điều gì khiến việc bypass này chấp nhận được?
 - [ ] Vì app chỉ có một người dùng
 - [x] Vì nguồn HTML bị giới hạn ở output của script build, và script đó escape mọi HTML thô + có test chứng minh
 - [ ] Vì Shiki an toàn tuyệt đối

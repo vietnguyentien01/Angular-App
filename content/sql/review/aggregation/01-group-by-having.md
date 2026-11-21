@@ -4,9 +4,12 @@ summary: "Nhắc nhanh count/sum/avg/min/max, quy tắc cột trong SELECT phả
 type: card
 level: core
 version: 16
-lastReviewed: 2026-11-13
+lastReviewed: 2026-11-19
 tags: [sql, postgresql, group-by, aggregate]
 related: [sql/review/queries/select-where-join, sql/consolidate/aggregation/bao-cao-doanh-thu-va-window]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -92,7 +95,20 @@ MySQL cũ (tắt `ONLY_FULL_GROUP_BY`) cho phép câu sai ở trên và trả **
 Đã chạy: `NULL` bị bỏ qua trong `count(x)`, `sum`, `avg` — trung bình là 4/2 chứ không phải 4/3.
 :::
 
-:::quiz Doanh thu tháng 10/2026 (bỏ đơn huỷ) của dữ liệu shop là bao nhiêu?
+:::quiz Với dữ liệu dưới đây, doanh thu tháng 10/2026 (tổng `quantity * unit_price` của các đơn tạo trong tháng 10, bỏ đơn `cancelled`) là bao nhiêu?
+```text
+orders                                   order_items (order_id, product_id, quantity, unit_price)
+id | customer_id | status    | created_at    1 | 1 | 1 | 1500000
+ 1 | 1           | paid      | 2026-10-01    1 | 5 | 2 |  350000
+ 2 | 1           | shipped   | 2026-10-15    2 | 2 | 1 | 5000000
+ 3 | 2           | paid      | 2026-10-20    3 | 4 | 1 | 1200000
+ 4 | 3           | cancelled | 2026-10-21    3 | 5 | 4 |  350000
+ 5 | 4           | pending   | 2026-11-02    4 | 1 | 1 | 1500000
+ 6 | 1           | paid      | 2026-11-05    5 | 4 | 2 | 1200000
+                                             6 | 5 | 3 |  350000
+```
+Khách `customer_id = 1` là Nguyễn An.
+
 - [ ] 11.300.000
 - [x] 9.800.000
 - [ ] 2.200.000

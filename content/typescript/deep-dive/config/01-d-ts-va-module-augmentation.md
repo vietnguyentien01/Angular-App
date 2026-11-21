@@ -3,9 +3,12 @@ title: Viết .d.ts, declare module và mở rộng kiểu có sẵn
 summary: Khai báo kiểu cho thư viện JS không có type, mở rộng kiểu toàn cục (Window), mở rộng module của thư viện, và khi nào cần skipLibCheck.
 level: advanced
 version: 6
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [typescript, d-ts, declaration-merging, augmentation]
 related: [typescript/review/config/tsconfig-va-typescript-6, typescript/review/objects/interface-type-va-structural-typing]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Thư viện JS không có kiểu
@@ -62,7 +65,17 @@ Nguyên tắc: `declare module '…'` phải dùng **đúng** đường dẫn/t�
 
 `skipLibCheck: true` bỏ qua kiểm tra lỗi **bên trong** các file `.d.ts` (của thư viện và của bạn). Tăng tốc biên dịch và tránh lỗi do xung đột kiểu giữa các thư viện, nhưng có thể che lỗi trong `.d.ts` tự viết — nên có một lần CI chạy không bật cờ này để kiểm tra file khai báo của dự án.
 
-:::quiz Vì sao file `global.d.ts` ở trên cần `export {}`?
+:::quiz Vì sao file `src/types/global.d.ts` dưới đây cần dòng `export {}`?
+```ts
+export {};
+
+declare global {
+  interface Window {
+    __APP_CONFIG__?: { apiBaseUrl: string };
+  }
+}
+```
+
 - [ ] Để export kiểu Window
 - [x] `declare global` chỉ hợp lệ trong một **module**; `export {}` biến file thành module
 - [ ] Để tree-shaking

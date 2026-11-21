@@ -3,9 +3,12 @@ title: Custom form control — ControlValueAccessor và FormValueControl
 summary: Viết ô nhập tiền VND dùng được với cả Reactive Forms (CVA) và Signal Forms (FormValueControl) — kỹ năng cốt lõi khi xây thư viện component dùng chung.
 level: intermediate
 version: 22
-lastReviewed: 2026-11-11
+lastReviewed: 2026-11-19
 tags: [forms, cva, custom-control, signal-forms]
 related: [angular/review/forms/reactive-forms-co-type, angular/review/forms/signal-forms-co-ban, angular/consolidate/forms/validator-tu-viet]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -112,7 +115,16 @@ Trong design system dùng chung giữa nhiều micro frontend, custom control n�
 Bug rất hay gặp với custom control: validate đúng nhưng người dùng không thấy lỗi.
 :::
 
-:::quiz Vì sao provider dùng `forwardRef(() => MoneyInput)`?
+:::quiz Vì sao provider trong decorator dưới đây dùng `forwardRef(() => MoneyInput)`?
+```ts
+@Component({
+  selector: 'app-money-input',
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MoneyInput), multi: true }],
+  template: `…`,
+})
+export class MoneyInput implements ControlValueAccessor { /* … */ }
+```
+
 - [ ] Để lazy-load component
 - [x] Vì class `MoneyInput` được tham chiếu trong decorator của chính nó, lúc đó class chưa được định nghĩa xong
 - [ ] Để tạo nhiều instance

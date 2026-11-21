@@ -3,12 +3,14 @@ title: "equals, hashCode và kế thừa — năm bẫy làm HashSet/HashMap ch�
 summary: "Chạy thử năm lỗi kinh điển: thiếu hashCode, key bị sửa sau khi đưa vào HashSet, equals bị overload thay vì override, equals mất tính đối xứng khi kế thừa, và lớp con HashSet đếm sai vì self-use. Sửa bằng record, business key bất biến và composition."
 level: intermediate
 version: 21
-lastReviewed: 2026-11-18
+lastReviewed: 2026-11-19
 tags: [java, oop, equals, hashcode, composition, pitfalls]
 related: [java/review/oop/class-interface-record-enum, java/deep-dive/collections/ben-trong-hashmap-va-generics]
 changelog:
   - date: 2026-11-18
     note: "Chuyển mốc của khóa sang Java 21 LTS; chạy lại các ví dụ trên JDK 21."
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -142,7 +144,15 @@ Phần lớn class trong code nghiệp vụ nên là `record` (value object, DTO
 Các collection dựa trên hash (`HashMap`, `HashSet`) dùng `hashCode` để chọn bucket rồi mới gọi `equals` trong bucket đó. Nếu hai object `equals` nhau nhưng `hashCode` khác nhau, chúng nằm ở hai bucket, nên `contains`/`get` không tìm thấy và set có thể chứa hai phần tử "bằng nhau". Hợp đồng của `Object` yêu cầu: `a.equals(b)` ⇒ `a.hashCode() == b.hashCode()`. Chiều ngược lại không bắt buộc — trùng hash là bình thường.
 :::
 
-:::quiz Đưa `d = new Diem(1)` vào `HashSet`, rồi `d.x = 2`. `set.contains(d)` trả gì?
+:::quiz `Diem` có field `x` **không final**, `equals`/`hashCode` tính theo `x`. Chạy đoạn sau, `set.contains(d)` trả gì?
+```java
+var set = new HashSet<Diem>();
+var d = new Diem(1);
+set.add(d);
+d.x = 2;
+set.contains(d);   // ?
+```
+
 - [ ] true
 - [x] false
 - [ ] Ném `ConcurrentModificationException`

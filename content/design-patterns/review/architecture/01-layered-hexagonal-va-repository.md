@@ -4,9 +4,12 @@ summary: "Kiến trúc nhiều tầng (controller → service → repository) v�
 type: card
 level: core
 version: 25
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-19
 tags: [design-patterns, architecture, hexagonal, layered, repository, ports-and-adapters]
 related: [design-patterns/consolidate/architecture/hexagonal-port-adapter-thuc-chien, design-patterns/deep-dive/architecture/unit-of-work-outbox-va-saga]
+changelog:
+  - date: 2026-11-19
+    note: "Viết lại câu hỏi trắc nghiệm cho đủ dữ kiện khi xem riêng ở trang Luyện tập (kèm code/dữ liệu cần thiết, bỏ tham chiếu kiểu ở trên, Bước N)."
 ---
 
 ## Tóm tắt nhanh
@@ -78,7 +81,7 @@ Record (Java 16) làm model domain bất biến và DTO gọn; sealed (Java 17) 
 Trong layered, tầng nghiệp vụ phụ thuộc tầng truy cập dữ liệu, nên chi tiết kỹ thuật (ORM, SQL, client HTTP) dần lọt vào quy tắc nghiệp vụ, và test nghiệp vụ cần DB. Hexagonal đảo chiều: nghiệp vụ định nghĩa port (interface) cho thứ nó cần, adapter kỹ thuật implement port. Kết quả: nghiệp vụ test được bằng adapter giả trong vài mili giây, đổi công nghệ chỉ thay adapter, và có nhiều cửa vào (REST, batch, message) cho cùng use case. Cái giá: thêm interface, thêm lớp chuyển đổi.
 :::
 
-:::quiz Trong hexagonal, interface `KhoHoSo` (port lưu trữ) nên nằm ở đâu?
+:::quiz Ứng dụng duyệt vay chia ba package: `domain` (quy tắc nghiệp vụ, use case), `adapter` (`KhoPostgres` dùng JDBC), `app` (lắp ráp). Theo hexagonal, interface `KhoHoSo` (port lưu trữ hồ sơ mà use case cần) nên nằm ở đâu?
 - [ ] Trong package adapter, cạnh `KhoPostgres`
 - [x] Trong package domain — nghiệp vụ sở hữu port, adapter implement nó
 - [ ] Trong package app
