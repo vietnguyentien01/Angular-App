@@ -1,6 +1,6 @@
 {
   "title": "Lộ trình 6 tuần: Spring Boot 4 cho dự án enterprise",
-  "description": "Sáu tuần, khoảng 1–2 giờ mỗi ngày, xây dần một API đặt hàng thật trên Spring Boot 4.1 và Java 25: từ bean và cấu hình tới JPA, transaction, bảo mật JWT, test với Testcontainers, gọi dịch vụ ngoài an toàn và đóng gói Docker. Mỗi tuần kết thúc bằng một phần chạy được, có test. Nên học xong lộ trình Java trước.",
+  "description": "Sáu tuần, khoảng 1–2 giờ mỗi ngày, xây dần một API đặt hàng thật trên Spring Boot 4.1 và Java 21 LTS: từ bean và cấu hình tới JPA, transaction, bảo mật JWT, test với Testcontainers, gọi dịch vụ ngoài an toàn và đóng gói Docker. Mỗi tuần kết thúc bằng một phần chạy được, có test. Nên học xong lộ trình Java trước.",
   "stages": [
     {
       "id": "tuan-1-core-va-web",
@@ -127,7 +127,7 @@
         "Cấu hình actuator health liveness/readiness và bảo vệ endpoint",
         "Bật structured logging và viết metric nghiệp vụ bằng Micrometer",
         "Kiểm chứng graceful shutdown với request đang chạy",
-        "Đóng gói Docker nhiều layer, non-root, đặt bộ nhớ theo container và dùng AOT cache"
+        "Đóng gói Docker nhiều layer, non-root, đặt bộ nhớ theo container và tăng tốc khởi động bằng CDS"
       ],
       "items": [
         "spring-boot/review/production/actuator-health-va-metric",
@@ -135,7 +135,7 @@
         "spring-boot/deep-dive/production/dong-goi-docker-va-khoi-dong-nhanh"
       ],
       "practice": [
-        "Viết Dockerfile multi-stage cho don-hang-api, đo thời gian khởi động fat jar, extract và AOT cache",
+        "Viết Dockerfile multi-stage cho don-hang-api, đo thời gian khởi động fat jar, extract và CDS",
         "Thêm metric đếm đơn hàng theo trạng thái và xem trên /actuator/metrics"
       ],
       "milestone": "docker stop dừng ứng dụng sạch trong vài giây, health UP, log JSON, image chạy bằng user không phải root."

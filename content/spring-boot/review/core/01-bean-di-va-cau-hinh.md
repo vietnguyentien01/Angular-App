@@ -1,12 +1,15 @@
 ---
 title: "Bean, dependency injection và cấu hình — nền tảng của mọi ứng dụng Spring Boot"
-summary: "Nhắc nhanh IoC container, @Component/@Service, constructor injection, @Configuration và @Bean, @ConfigurationProperties có validate, profile và thứ tự ưu tiên cấu hình. Mọi output chạy trên Spring Boot 4.1.2, Java 25."
+summary: "Nhắc nhanh IoC container, @Component/@Service, constructor injection, @Configuration và @Bean, @ConfigurationProperties có validate, profile và thứ tự ưu tiên cấu hình. Mọi output chạy trên Spring Boot 4.1.2, Java 21."
 type: card
 level: core
 version: 4
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-21
 tags: [spring-boot, dependency-injection, configuration, profiles]
 related: [spring-boot/consolidate/core/loi-di-va-cau-hinh-thuong-gap, spring-boot/deep-dive/core/auto-configuration-hoat-dong-the-nao]
+changelog:
+  - date: 2026-11-21
+    note: "Chuyển dự án mẫu sang Java 21; chạy lại các ví dụ cấu hình (mặc định, profile dev, biến môi trường, validate) trên JDK 21, kết quả không đổi."
 ---
 
 ## Tóm tắt nhanh
@@ -109,7 +112,7 @@ public class DonHangService {
 Constructor injection làm phụ thuộc hiện rõ, cho phép field `final`, và test đơn vị chỉ cần `new DonHangService(fake)` mà không cần Spring.
 
 :::version Spring Boot 3 và 4
-- Spring Boot **4.0** (11/2025) dựa trên Spring Framework 7, Jakarta EE 11, yêu cầu Java **17+** (dự án mẫu dùng Java 25). Spring Boot 3.x dùng Spring Framework 6.
+- Spring Boot **4.0** (11/2025) dựa trên Spring Framework 7, Jakarta EE 11, yêu cầu Java **17+**. Dự án mẫu dùng **Java 21 LTS** (`<java.version>21</java.version>`) — bản LTS phổ biến nhất, có virtual thread cho `spring.threads.virtual.enabled=true`. Spring Boot 3.x dùng Spring Framework 6.
 - Boot 4 tách starter theo module: `spring-boot-starter-webmvc` (tên cũ `spring-boot-starter-web` vẫn còn), starter test riêng như `spring-boot-starter-webmvc-test`.
 - `@ConfigurationProperties` với `record` (constructor binding) dùng được từ Boot 2.6; Boot 3+ không cần `@ConstructorBinding`.
 :::

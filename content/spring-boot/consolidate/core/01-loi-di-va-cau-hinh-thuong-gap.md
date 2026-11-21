@@ -3,9 +3,12 @@ title: "Lỗi DI và cấu hình thường gặp — đọc thông báo lỗi kh
 summary: "Tái hiện và đọc các lỗi khởi động: hai bean cùng kiểu, phụ thuộc vòng tròn, placeholder viết sai, cấu hình sai kiểu; rồi hai lỗi không báo gì: prototype bị inject một lần vào singleton và object tự new bỏ qua injection. Chạy trên Spring Boot 4.1.2."
 level: intermediate
 version: 4
-lastReviewed: 2026-11-16
+lastReviewed: 2026-11-21
 tags: [spring-boot, dependency-injection, troubleshooting, pitfalls]
 related: [spring-boot/review/core/bean-di-va-cau-hinh, spring-boot/deep-dive/core/auto-configuration-hoat-dong-the-nao]
+changelog:
+  - date: 2026-11-21
+    note: "Chuyển dự án mẫu sang Java 21; chạy lại các lỗi khởi động (hai bean, vòng phụ thuộc, placeholder, Duration, ghi đè bean) và prototype trên JDK 21, thông báo không đổi."
 ---
 
 ## Tóm tắt nhanh
@@ -25,7 +28,7 @@ related: [spring-boot/review/core/bean-di-va-cau-hinh, spring-boot/deep-dive/cor
 
 Không tìm được đúng **một** bean phù hợp cho một tham số → khởi động thất bại.
 
-Mọi output dưới đây đã chạy với dự án `di-lab` (Spring Boot 4.1.2, Java 25). Đường dẫn file trong output đã được rút gọn.
+Mọi output dưới đây đã chạy với dự án `di-lab` (Spring Boot 4.1.2, Java 21). Đường dẫn file trong output đã được rút gọn.
 
 ## Hai bean cùng kiểu
 
@@ -106,12 +109,12 @@ Khi viết dự án mẫu, profile `dev` đặt `phi-van-chuyen: 0` trong khi fi
     private final GioHang gioHang;                    // inject MỘT lần khi tạo Dung
     Dung(GioHang g) { this.gioHang = g; }
 }
-// inject trực tiếp: 40668027 40668027   ← luôn cùng một giỏ hàng
+// inject trực tiếp: 5c089b2f 5c089b2f   ← luôn cùng một giỏ hàng
 ```
 
 ```java good
 private final ObjectProvider<GioHang> provider;
-// provider.getObject() mỗi lần gọi → ObjectProvider: c7282742 939c399f
+// provider.getObject() mỗi lần gọi → ObjectProvider: 2532b351 b967222
 ```
 
 Thực tế, dữ liệu theo người dùng (giỏ hàng, ngữ cảnh request) hiếm khi nên là bean. Truyền nó như tham số, hoặc lưu ở DB/Redis.
@@ -152,7 +155,7 @@ Có bốn cách: `@Qualifier("tenBean")` ở chỗ inject để chọn đích da
 - [ ] Lỗi khởi động
 - [ ] `null` ở lần thứ hai
 
-Đã chạy thử: `40668027 40668027`. Dùng `ObjectProvider<GioHang>.getObject()` để lấy instance mới mỗi lần.
+Đã chạy thử: `5c089b2f 5c089b2f`. Dùng `ObjectProvider<GioHang>.getObject()` để lấy instance mới mỗi lần.
 :::
 
 :::quiz Trong yaml gõ sai `cua-hang.mien-phi-tuu: 500000` (thừa chữ `u`), record `@ConfigurationProperties` **không** có `@NotNull` cho `mienPhiTu`. Chuyện gì xảy ra?
