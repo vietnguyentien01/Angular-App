@@ -1,10 +1,16 @@
 [
-  { "id": "basics", "title": "Cú pháp & kiểu dữ liệu", "description": "Primitive và wrapper, String, var, switch expression, text block, tràn số, BigDecimal cho tiền tệ, chương trình đầu tiên trên Java 21." },
-  { "id": "oop", "title": "OOP, record & sealed", "description": "Class, interface, kế thừa và composition, equals/hashCode, record, enum, sealed interface và pattern matching." },
-  { "id": "collections", "title": "Collections & Generics", "description": "List, Set, Map, collection bất biến, Comparator, SequencedCollection, generics, wildcard và type erasure." },
-  { "id": "functional", "title": "Lambda & Stream", "description": "Lambda, method reference, functional interface, Stream API, Collectors, Optional, parallel stream, chia lô trên Java 21 (Gatherers khi nâng lên Java 24+)." },
-  { "id": "exceptions", "title": "Exception, I/O & thời gian", "description": "Checked và unchecked, try-with-resources, thiết kế exception, java.time và múi giờ, đọc ghi file bằng NIO." },
-  { "id": "concurrency", "title": "Concurrency", "description": "Thread, ExecutorService, race condition, synchronized và atomic, CompletableFuture, virtual thread và pinning trên Java 21, structured concurrency (preview)." },
-  { "id": "build-test", "title": "Maven & JUnit", "description": "Cấu trúc dự án Maven, dependency, scope và BOM, vòng đời build, JUnit (Jupiter), AssertJ, test tham số, test ổn định với thời gian và state." },
-  { "id": "jvm", "title": "JVM & hiệu năng", "description": "Heap và stack, class loading, garbage collector, JIT, đo hiệu năng đúng cách, memory leak, JFR." }
+  {"id": "basics", "title": "Cú pháp & kiểu dữ liệu", "description": "Primitive và wrapper, String, var, switch expression, text block, tràn số, BigDecimal cho tiền tệ, chương trình đầu tiên trên Java 21."},
+  {"id": "oop", "title": "OOP, record & sealed", "description": "Class, interface, kế thừa và composition, equals/hashCode, record, enum, sealed interface và pattern matching."},
+  {"id": "collections", "title": "Collections & Generics", "description": "List, Set, Map, collection bất biến, Comparator, SequencedCollection, generics, wildcard và type erasure."},
+  {"id": "functional", "title": "Lambda & Stream", "description": "Lambda, method reference, functional interface, Stream API, Collectors, Optional, parallel stream, chia lô trên Java 21 (Gatherers khi nâng lên Java 24+)."},
+  {"id": "exceptions", "title": "Exception, I/O & thời gian", "description": "Checked và unchecked, try-with-resources, thiết kế exception, java.time và múi giờ, đọc ghi file bằng NIO."},
+  {"id": "concurrency", "title": "Concurrency", "description": "Thread, ExecutorService, race condition, synchronized và atomic, CompletableFuture, virtual thread và pinning trên Java 21, structured concurrency (preview)."},
+  {"id": "build-test", "title": "Maven & JUnit", "description": "Cấu trúc dự án Maven, dependency, scope và BOM, vòng đời build, JUnit (Jupiter), AssertJ, test tham số, test ổn định với thời gian và state."},
+  {"id": "jvm", "title": "JVM & hiệu năng", "description": "Heap và stack, class loading, garbage collector, JIT, đo hiệu năng đúng cách, memory leak, JFR."},
+  {"id": "class-nang-cao", "title": "Nested class, access modifier & generic method", "description": "Static nested, inner, local và anonymous class, bốn mức truy cập, generic method với bounded type và wildcard, bridge method, nestmates, builder kế thừa."},
+  {"id": "reflection", "title": "Annotation & Reflection", "description": "Khai báo và đọc annotation, retention và target, reflection đọc/gọi field và method, dynamic proxy, MethodHandle — nền để hiểu Spring, JPA, Jackson."},
+  {"id": "text", "title": "Regex, định dạng chuỗi & Optional", "description": "Pattern và Matcher, nhóm và lookahead, backtracking thảm hoạ, String.format và Formatter, text block, Optional dùng đúng chỗ."},
+  {"id": "io", "title": "I/O cổ điển & serialization", "description": "InputStream/OutputStream, Reader/Writer, buffer, try-with-resources, Serializable và lỗ hổng deserialization, serialVersionUID, thay thế bằng JSON."},
+  {"id": "jdbc-http", "title": "JDBC & HttpClient", "description": "Connection, PreparedStatement, transaction, batch, connection pool; java.net.http.HttpClient đồng bộ và bất đồng bộ, timeout, retry."},
+  {"id": "modules", "title": "Module (JPMS)", "description": "module-info.java, requires/exports/opens, classpath so với module path, jdeps, jlink tạo runtime nhỏ, lỗi InaccessibleObjectException."}
 ]
